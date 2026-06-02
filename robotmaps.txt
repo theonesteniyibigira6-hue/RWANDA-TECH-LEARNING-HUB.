@@ -1,0 +1,165 @@
+robots.txt
+# ============================================
+# ROBOTS.TXT - RWANDA TECH LEARNING HUB
+# Version: 1.0 | Last updated: 2026-06-02
+# Purpose: Guide search engines for optimal SEO
+# ============================================
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /backup/
+Disallow: /includes/
+Disallow: /logs/
+Disallow: /cache/
+Disallow: /config/
+Disallow: /api/private/
+Disallow: /user/delete-account
+Disallow: /user/logout
+Disallow: /*?logout=true
+Disallow: /*?delete=true
+Disallow: /modal/
+Disallow: /chatbot-iframe
+
+# Crawl delay to prevent server overload
+Crawl-delay: 1
+
+# Sitemap location (update with your actual domain)
+Sitemap: https://rwandatechlearninghub.com/sitemap.xml
+
+# ============================================
+# SPECIFIC BOT RULES
+# ============================================
+
+# Google Bot - extended access
+User-agent: Googlebot
+Allow: /
+Allow: /courses/
+Allow: /about/
+Allow: /contact/
+Allow: /dashboard/
+Allow: /certificates/
+Disallow: /admin/
+Disallow: /logout
+Crawl-delay: 0.5
+
+# Bing Bot
+User-agent: bingbot
+Allow: /
+Disallow: /admin/
+Crawl-delay: 1
+
+# Yandex Bot
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Crawl-delay: 1
+
+# DuckDuckGo Bot
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Crawl-delay: 1
+
+# Baidu Spider
+User-agent: Baiduspider
+Allow: /
+Disallow: /admin/
+Crawl-delay: 2
+
+# ============================================
+# BLOCK MALICIOUS / USELESS BOTS
+# ============================================
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# ============================================
+# ALLOW ESSENTIAL PAGES FOR SEO
+# ============================================
+
+User-agent: *
+Allow: /$
+Allow: /home$
+Allow: /index.html$
+Allow: /courses$
+Allow: /course/*$
+Allow: /ece$
+Allow: /opportunities$
+Allow: /elibrary$
+Allow: /dashboard$
+Allow: /certificates$
+Allow: /privacy$
+Allow: /terms$
+Allow: /contact$
+Allow: /about$
+
+# ============================================
+# DISALLOW SENSITIVE PATHS
+# ============================================
+
+User-agent: *
+Disallow: /admin-panel
+Disallow: /api/
+Disallow: /auth/
+Disallow: /firebase/
+Disallow: /database/
+Disallow: /storage/
+Disallow: /session/
+Disallow: /token/
+Disallow: /debug/
+Disallow: /test/
+Disallow: /staging/
+Disallow: /dev/
+Disallow: /tmp/
+Disallow: /vendor/
+Disallow: /node_modules/
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /cgi-bin/
+
+# ============================================
+# RATE LIMITING INSTRUCTIONS
+# ============================================
+
+# For crawlers that respect crawl-delay
+User-agent: *
+Crawl-delay: 1
+
+# Google specific
+User-agent: Googlebot
+Crawl-delay: 0.5
+
+# ============================================
+# HOST DIRECTIVE (Optional - helps search engines)
+# ============================================
+
+Host: https://rwandatechlearninghub.com
+
+# ============================================
+# NOARCHIVE FOR SENSITIVE PAGES
+# ============================================
+
+User-agent: *
+Noarchive: /dashboard/
+Noarchive: /admin/
+Noarchive: /user/
+Noarchive: /private/
+
+# ============================================
+# END OF ROBOTS.TXT
+# ============================================
