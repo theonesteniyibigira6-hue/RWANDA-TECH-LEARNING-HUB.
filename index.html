@@ -28,6 +28,7 @@
     .nav-item-3d a:hover, .nav-btn:hover { background: rgba(0,161,222,0.25); border-color: #00A1DE; transform: translateY(-2px); }
     .nav-btn.theo-btn { background: linear-gradient(135deg, #00A1DE, #20603D); animation: pulse-glow 2s infinite; border: none; }
     .nav-btn.admin-btn { background: linear-gradient(135deg, #FAD201, #ef4444); border: none; }
+    .nav-btn.register-nav-btn { background: linear-gradient(135deg, #10b981, #059669); border: none; animation: pulse-glow 2s infinite; }
     @keyframes pulse-glow { 0%,100%{box-shadow:0 4px 15px rgba(0,161,222,0.4);} 50%{box-shadow:0 8px 30px rgba(250,210,1,0.6);} }
     .main-content-area { flex: 1; padding: 40px 0; min-height: 70vh; }
     .content-card { background: var(--content-bg); backdrop-filter: blur(25px); border-radius: 24px; padding: 40px 35px; border: 1px solid rgba(255,255,255,0.15); margin-bottom: 30px; transition: all 0.3s; }
@@ -62,6 +63,11 @@
     .admin-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
     .admin-tab { padding: 10px 22px; border-radius: 25px; background: rgba(255,255,255,0.05); color: #ccc; cursor: pointer; }
     .admin-tab.active, .admin-tab:hover { background: #ef4444; color: #fff; }
+    .status-toast { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; border-radius: 8px; z-index: 10000; animation: slideIn 0.3s ease; }
+    .status-success { background: #10b981; color: white; }
+    .status-error { background: #ef4444; color: white; }
+    .status-loading { background: #3b82f6; color: white; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     @media (max-width:768px){ .container{padding:0 15px;} .contact-item, .social-item { padding: 8px 16px; font-size: 0.8rem; } }
   </style>
 </head>
@@ -95,6 +101,103 @@
   <div class="modal-overlay" id="genericModal"><div class="modal-content" id="genericModalContent"></div></div>
 
   <script>
+    // ============ GOOGLE SHEETS DATABASE CONNECTION ============
+    // 🔴 IMPORTANT: REPLACE THIS URL WITH YOUR ACTUAL GOOGLE APPS SCRIPT WEB APP URL 🔴
+    const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbz_tjCyPzkkfJVtWxmN8coHtETzgoA108iem5V1nEgC2wdhq-9TQcBgJBl7HOhlyqxJeg/exec';
+    
+    // Function to show status messages
+    function showToast(message, type) {
+      let toast = document.getElementById('db-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'db-toast';
+        document.body.appendChild(toast);
+      }
+      toast.className = `status-toast status-${type}`;
+      toast.innerHTML = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 4000);
+    }
+    
+    // Save user to Google Sheets
+    async function saveUserToGoogleSheets(userData) {
+      try {
+        const record = {
+          timestamp: new Date().toISOString(),
+          name: userData.name || 'Unknown',
+          email: userData.email || 'unknown@email.com',
+          phone: userData.phone || '',
+          country: userData.country || 'Rwanda',
+          chatHistory: '',
+          lastActive: new Date().toISOString(),
+          completedCourses: JSON.stringify(userData.completedCourses || []),
+          certificates: JSON.stringify(userData.certificates || [])
+        };
+        
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Users`, {
+          method: 'POST',
+          body: JSON.stringify(record)
+        });
+        const result = await response.json();
+        if (result.success) {
+          showToast('✅ User saved to Google Sheets database!', 'success');
+          return true;
+        } else {
+          showToast('⚠️ Google Sheets save failed, but local save works', 'error');
+          return false;
+        }
+      } catch (error) {
+        console.error('Google Sheets error:', error);
+        showToast('⚠️ Cannot connect to Google Sheets - check API URL', 'error');
+        return false;
+      }
+    }
+    
+    // Save progress to Google Sheets
+    async function saveProgressToGoogleSheets(email, courseName, progress) {
+      try {
+        await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Progress`, {
+          method: 'POST',
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            email: email,
+            courseName: courseName,
+            progress: progress,
+            lastUpdated: new Date().toISOString()
+          })
+        });
+      } catch (error) { console.error('Progress save error:', error); }
+    }
+    
+    // Save chat to Google Sheets
+    async function saveChatToGoogleSheets(userEmail, userName, message, direction) {
+      try {
+        await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Conversations`, {
+          method: 'POST',
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            userEmail: userEmail,
+            userName: userName,
+            message: message,
+            direction: direction,
+            conversationId: Date.now().toString()
+          })
+        });
+      } catch (error) { console.error('Chat save error:', error); }
+    }
+    
+    // Load all users from Google Sheets for admin
+    async function loadUsersFromGoogleSheets() {
+      try {
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Users`);
+        const users = await response.json();
+        return users;
+      } catch (error) {
+        console.error('Load users error:', error);
+        return [];
+      }
+    }
+    
     // ============ LOCAL AUTH (WORKING) ============
     const ADMIN_PASSWORD = "TheoAdmin2026@RTLH";
     let isAdmin = false, currentUser = null, currentCourse = null, completedCourses = [], certificates = [], examAnswers = {}, userProgress = {}, allUsers = {};
@@ -102,14 +205,17 @@
     function loadAllUsersData() { let stored = localStorage.getItem('rtlh_all_users'); if(stored) allUsers = JSON.parse(stored); else { allUsers = { "demo@rtlh.com": { name: "Demo Student", email: "demo@rtlh.com", password: "demo123", phone: "+250780000000", country: "Rwanda", completedCourses: [], certificates: [], progress: {} } }; localStorage.setItem('rtlh_all_users', JSON.stringify(allUsers)); } }
     function saveAllUsers() { localStorage.setItem('rtlh_all_users', JSON.stringify(allUsers)); }
     function loadCurrentUser() { let stored = localStorage.getItem('rtlh_current_user'); if(stored) { currentUser = JSON.parse(stored); completedCourses = currentUser.completedCourses || []; certificates = currentUser.certificates || []; userProgress = currentUser.progress || {}; } else { currentUser = null; completedCourses = []; certificates = []; userProgress = {}; } }
-    function saveCurrentUser() { if(currentUser) { if(allUsers[currentUser.email]) allUsers[currentUser.email] = { ...allUsers[currentUser.email], ...currentUser }; saveAllUsers(); localStorage.setItem('rtlh_current_user', JSON.stringify(currentUser)); } else localStorage.removeItem('rtlh_current_user'); }
-    function signUp(email, password, name, phone, country) { if(allUsers[email]) return { success: false, message: "Email already registered!" }; allUsers[email] = { name, email, password, phone, country, completedCourses: [], certificates: [], progress: {} }; saveAllUsers(); currentUser = allUsers[email]; completedCourses = []; certificates = []; userProgress = {}; saveCurrentUser(); return { success: true, message: "Account created!" }; }
+    function saveCurrentUser() { if(currentUser) { if(allUsers[currentUser.email]) allUsers[currentUser.email] = { ...allUsers[currentUser.email], ...currentUser }; saveAllUsers(); localStorage.setItem('rtlh_current_user', JSON.stringify(currentUser)); saveUserToGoogleSheets(currentUser); } else localStorage.removeItem('rtlh_current_user'); }
+    function signUp(email, password, name, phone, country) { if(allUsers[email]) return { success: false, message: "Email already registered!" }; allUsers[email] = { name, email, password, phone, country, completedCourses: [], certificates: [], progress: {} }; saveAllUsers(); currentUser = allUsers[email]; completedCourses = []; certificates = []; userProgress = {}; saveCurrentUser(); saveUserToGoogleSheets(currentUser); return { success: true, message: "Account created! Saved to Google Sheets." }; }
     function login(email, password) { let user = allUsers[email]; if(user && user.password === password) { currentUser = { ...user }; completedCourses = currentUser.completedCourses || []; certificates = currentUser.certificates || []; userProgress = currentUser.progress || {}; saveCurrentUser(); return { success: true }; } return { success: false, message: "Invalid email/password!" }; }
     function logout() { currentUser = null; completedCourses = []; certificates = []; userProgress = {}; localStorage.removeItem('rtlh_current_user'); navigateTo('home'); }
-    function saveCompletedCourse(courseName) { if(!completedCourses.includes(courseName)) { completedCourses.push(courseName); if(currentUser) { currentUser.completedCourses = completedCourses; saveCurrentUser(); } } }
+    function saveCompletedCourse(courseName) { if(!completedCourses.includes(courseName)) { completedCourses.push(courseName); if(currentUser) { currentUser.completedCourses = completedCourses; saveCurrentUser(); saveProgressToGoogleSheets(currentUser.email, courseName, 'completed'); } } }
     function saveCertificate(courseName) { let cert = { course: courseName, student: currentUser?.name || "Learner", date: new Date().toISOString() }; certificates.push(cert); if(currentUser) { currentUser.certificates = certificates; saveCurrentUser(); } }
-    function saveProgress(courseName, unitIndex) { userProgress[courseName] = unitIndex + 1; if(currentUser) { currentUser.progress = userProgress; saveCurrentUser(); } }
+    function saveProgress(courseName, unitIndex) { userProgress[courseName] = unitIndex + 1; if(currentUser) { currentUser.progress = userProgress; saveCurrentUser(); saveProgressToGoogleSheets(currentUser.email, courseName, `unit_${unitIndex + 1}`); } }
     loadAllUsersData(); loadCurrentUser();
+    
+    // Test Google Sheets connection on page load
+    setTimeout(() => { fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Users`).then(r=>r.json()).then(()=>showToast('✅ Connected to Google Sheets database!', 'success')).catch(()=>showToast('⚠️ Google Sheets not connected - check API URL', 'error')); }, 1000);
 
     // ============ COURSES DATA ============
     const courses = [
@@ -181,7 +287,6 @@
               <a href="https://twitter.com" target="_blank" class="social-item"><i class="fab fa-twitter" style="color:#1DA1F2;"></i> Twitter (X)</a>
               <a href="https://linkedin.com" target="_blank" class="social-item"><i class="fab fa-linkedin" style="color:#0077B5;"></i> LinkedIn</a>
               <a href="https://tiktok.com" target="_blank" class="social-item"><i class="fab fa-tiktok" style="color:#000000;"></i> TikTok</a>
-              <a href="https://messenger.com"target="blank"class=".social-item"><class="fab fa-messenger" style="color:#0000FF;><i> Messenger<a>
               <a href="https://m.me" target="_blank" class="social-item"><i class="fab fa-facebook-messenger" style="color:#0084FF;"></i> Messenger</a>
             </div>
             <p class="text-center mt-20" style="color:#aaa;">Follow us for updates, tips, and new course announcements! <strong>@RwandaTechLearningHub</strong> on all platforms</p>
@@ -240,7 +345,18 @@
     function showCertificatesList() { let html = certificates.map(c=>`<div class="certificate-card">${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML = `<div><h3>My Certificates</h3>${html||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
     function renderECE() { let ece = courses.find(c=>c.name==="ECE"); currentCourse = ece; let unitsHtml = ece.units.map((u,i)=>`<div class="topic-card"><h4>${u}</h4><button class="btn btn-outline btn-sm" onclick="openFullLesson('ECE','${u}',${i})">Start</button></div>`).join(''); document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Early Childhood Education (ECE)</h2><div class="grid-2">${unitsHtml}</div><button class="btn btn-primary mt-30" onclick="openExam()">Take ECE Exam</button></div></div>`; }
     function renderELibrary() { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>E-Library</h2><div class="grid-4"><div class="info-card"><h3>📚 Education</h3><p>Full books accessible</p></div><div class="info-card"><h3>💻 Technology</h3><p>Digital resources</p></div></div></div></div>`; }
-    function renderAdmin() { if(!isAdmin && ADMIN_PASSWORD) { document.getElementById('adminLoginModal').classList.add('active'); return; } document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active">Users</span></div><div id="adminContentArea">${Object.keys(allUsers).map(u=>`<p>${u} - ${allUsers[u].name}</p>`).join('')}</div><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit</button></div></div>`; }
+    
+    async function renderAdmin() { 
+      if(!isAdmin && ADMIN_PASSWORD) { document.getElementById('adminLoginModal').classList.add('active'); return; } 
+      let gsUsers = await loadUsersFromGoogleSheets();
+      let usersHtml = `<h3>📊 Users from Google Sheets (${gsUsers.length} records)</h3><table style="width:100%;border-collapse:collapse;"><tr style="background:#00A1DE;"><th>Name</th><th>Email</th><th>Phone</th><th>Country</th><th>Registered</th></tr>`;
+      gsUsers.forEach(u => {
+        usersHtml += `<tr><td>${u.name || '-'}</td><td>${u.email || '-'}</td><td>${u.phone || '-'}</td><td>${u.country || '-'}</td><td>${u.timestamp ? new Date(u.timestamp).toLocaleDateString() : '-'}</td></tr>`;
+      });
+      usersHtml += `</table><hr><h3>💾 Local Storage Users (${Object.keys(allUsers).length})</h3>${Object.keys(allUsers).map(u=>`<p>${u} - ${allUsers[u].name}</p>`).join('')}`;
+      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active">Users</span></div><div id="adminContentArea">${usersHtml}</div><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit</button></div></div>`;
+    }
+    
     function loginAsAdmin() { if(document.getElementById('adminPassword').value === ADMIN_PASSWORD) { isAdmin = true; closeModal('adminLoginModal'); navigateTo('admin'); } else document.getElementById('adminError').innerText = 'Wrong password!'; }
     function navigateTo(page) { if(page === 'admin' && !isAdmin) { document.getElementById('adminLoginModal').classList.add('active'); return; } document.getElementById('mainContent').innerHTML = ''; if(page === 'home') renderHome(); else if(page === 'courses') renderCourses(); else if(page === 'account') renderAccount(); else if(page === 'dashboard') renderDashboard(); else if(page === 'ece') renderECE(); else if(page === 'elibrary') renderELibrary(); else if(page === 'admin') renderAdmin(); else renderHome(); }
     function closeGenericModal() { document.getElementById('genericModal').classList.remove('active'); }
@@ -248,7 +364,20 @@
     function openChatbot() { document.getElementById('chatbot-modal').classList.add('active'); }
     function closeChatbot() { document.getElementById('chatbot-modal').classList.remove('active'); }
     function answerAI() { let q = document.getElementById('aiQuestion')?.value; document.getElementById('aiResponse').innerHTML = `🤖 Thanks for asking! Our AI assistant is learning. Please email rwandatechlearninghub@gmail.com for detailed help.`; }
-    function renderNav() { document.getElementById('mainNav').innerHTML = `<div class="nav-item-3d"><a onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</a></div><div class="nav-item-3d"><a onclick="navigateTo('courses')"><i class="fas fa-book"></i> Courses</a></div><div class="nav-item-3d"><a onclick="navigateTo('account')"><i class="fas fa-user"></i> Account</a></div><div class="nav-item-3d"><a onclick="navigateTo('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></div><div class="nav-item-3d"><a onclick="navigateTo('ece')"><i class="fas fa-child"></i> ECE</a></div><div class="nav-item-3d"><a onclick="navigateTo('elibrary')"><i class="fas fa-book-open"></i> E-Library</a></div><button class="nav-btn theo-btn" onclick="openChatbot()"><i class="fas fa-robot"></i> Theo AI</button><button class="nav-btn admin-btn" onclick="navigateTo('admin')"><i class="fas fa-shield-alt"></i> Admin</button>`; }
+    function renderNav() { 
+      document.getElementById('mainNav').innerHTML = `
+        <div class="nav-item-3d"><a onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('courses')"><i class="fas fa-book"></i> Courses</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('account')"><i class="fas fa-user"></i> Account</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('ece')"><i class="fas fa-child"></i> ECE</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('elibrary')"><i class="fas fa-book-open"></i> E-Library</a></div>
+        <button class="nav-btn register-nav-btn" onclick="navigateTo('account')"><i class="fas fa-user-plus"></i> Register</button>
+        <button class="nav-btn theo-btn" onclick="openChatbot()"><i class="fas fa-robot"></i> Theo AI</button>
+        <button class="nav-btn admin-btn" onclick="navigateTo('admin')"><i class="fas fa-shield-alt"></i> Admin</button>
+      `; 
+    }
+    
     const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(75,innerWidth/innerHeight,0.1,1000), renderer = new THREE.WebGLRenderer({canvas:document.querySelector('#bg-canvas'),alpha:true}); renderer.setSize(innerWidth,innerHeight); camera.position.set(0,2,22); const stars = new THREE.Group(); for(let i=0;i<200;i++){ let s = new THREE.Mesh(new THREE.SphereGeometry(0.08,4,4), new THREE.MeshStandardMaterial({color:0x00A1DE})); s.position.set((Math.random()-0.5)*50,(Math.random()-0.5)*30,(Math.random()-0.5)*40); stars.add(s); } scene.add(stars); scene.add(new THREE.AmbientLight(0x404060)); scene.add(new THREE.DirectionalLight(0xffffff,1)); function animate(){ requestAnimationFrame(animate); stars.rotation.y += 0.0005; renderer.render(scene,camera); } animate(); window.addEventListener('resize',()=>{ camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
     renderNav(); navigateTo('home');
   </script>
