@@ -15,7 +15,7 @@
 
 <script>
 // 🔴 REPLACE THIS URL WITH YOUR ACTUAL WEB APP URL 🔴
-const API_URL = 'https://script.google.com/macros/s/YOUR_ID_HERE/exec';
+https://script.google.com/macros/s/AKfycbz_tjCyPzkkfJVtWxmN8coHtETzgoA108iem5V1nEgC2wdhq-9TQcBgJBl7HOhlyqxJeg/exec
 
 // Get the form element
 const form = document.getElementById('userForm');
