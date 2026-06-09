@@ -1,0 +1,77 @@
+<!-- Your user registration form -->
+<form id="userForm">
+  <input type="text" name="name" placeholder="Full Name" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="tel" name="phone" placeholder="Phone Number">
+  <input type="text" name="country" placeholder="Country">
+  <button type="submit">Register</button>
+</form>
+
+<!-- Where your dynamic content will appear -->
+<div id="announcements"></div>
+
+<script>
+// YOUR WEB APP URL FROM STEP 2
+const API_URL = 'https://script.google.com/macros/s/YOUR_ID/exec';
+
+// === FUNCTION 1: Save user data when they register ===
+document.getElementById('userForm')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const userData = {};
+  formData.forEach((value, key) => userData[key] = value);
+  
+  const response = await fetch(`${API_URL}?sheet=Users`, {
+    method: 'POST',
+    body: JSON.stringify(userData)
+  });
+  
+  const result = await response.json();
+  if (result.success) {
+    alert('Registration successful!');
+    e.target.reset();
+  } else {
+    alert('Error saving data');
+  }
+});
+
+// === FUNCTION 2: Display website content from your sheet ===
+async function loadWebsiteContent() {
+  const response = await fetch(`${API_URL}?sheet=WebsiteContent`);
+  const contentItems = await response.json();
+  
+  const container = document.getElementById('announcements');
+  if (container) {
+    container.innerHTML = contentItems.map(item => `
+      <div class="content-card">
+        <h3>${item.title}</h3>
+        <p>${item.body}</p>
+        <small>Last updated: ${item.lastUpdated}</small>
+      </div>
+    `).join('');
+  }
+}
+
+// === FUNCTION 3: Save chat conversations ===
+async function saveChatMessage(userId, userName, message, direction) {
+  const chatData = {
+    userId: userId,
+    userName: userName,
+    message: message,
+    direction: direction, // 'incoming' or 'outgoing'
+    conversationId: Date.now().toString()
+  };
+  
+  await fetch(`${API_URL}?sheet=Conversations`, {
+    method: 'POST',
+    body: JSON.stringify(chatData)
+  });
+}
+
+// Load content when page loads
+loadWebsiteContent();
+
+// Refresh content every 30 seconds (optional - for real-time updates)
+setInterval(loadWebsiteContent, 30000);
+</script>
