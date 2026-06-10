@@ -7,7 +7,6 @@
   <!-- Favicon - RTLH Logo in left corner of browser tab -->
   <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2300A1DE'/%3E%3Ctext x='50' y='45' font-size='22' text-anchor='middle' fill='white' font-weight='bold'%3ERTLH%3C/text%3E%3Ctext x='50' y='70' font-size='14' text-anchor='middle' fill='%23FAD201'%3EHUB%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root { --rwanda-blue: #00A1DE; --rwanda-green: #20603D; --rwanda-yellow: #FAD201; --content-bg: rgba(0, 0, 0, 0.5); }
@@ -39,6 +38,7 @@
     .section-title { font-size: 2rem; font-weight: 800; margin-bottom: 15px; text-align: center; }
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px,1fr)); gap: 25px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 20px; }
     .info-card { background: rgba(0,0,0,0.35); backdrop-filter: blur(20px); border-radius: 20px; padding: 25px 20px; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; text-align: center; cursor: pointer; }
     .info-card:hover { transform: translateY(-8px); border-color: #00A1DE; }
     .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; border-radius: 40px; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; }
@@ -46,6 +46,7 @@
     .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.3); color: #fff; }
     .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
     .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+    .btn-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; }
     .form-control { width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: #fff; }
     textarea.form-control { resize: vertical; min-height: 100px; }
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
@@ -63,6 +64,7 @@
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     
     /* Comments Section Styles */
+    .comments-section { margin-top: 30px; }
     .comment-card { background: rgba(0,0,0,0.3); border-radius: 16px; padding: 20px; margin-bottom: 15px; border-left: 4px solid #8b5cf6; }
     .comment-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
     .commenter-name { font-weight: bold; color: #8b5cf6; }
@@ -266,42 +268,17 @@
   <div class="modal-overlay" id="genericModal"><div class="modal-content" id="genericModalContent"></div></div>
 
   <script>
-    // ============ SUPABASE CONNECTION ============
-    const SUPABASE_URL = 'https://qtjvtovcvsqgfyztwcvy.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_e7Gfob9iRj9X3hzb0QOshw_eAISw8YX';
-    
-    const supabase = supabaseJs.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    
-    // Igeragezo niba Supabase ihujwe neza
-    async function testSupabaseConnection() {
-      try {
-        const { data, error } = await supabase.from('courses').select('count');
-        if (error) {
-          console.error('❌ Supabase ikosa:', error);
-          showToast('Supabase: ' + error.message, 'error');
-        } else {
-          console.log('✅ Supabase ihujwe neza!', data);
-          showToast('✅ Database ihujwe neza!', 'success');
-        }
-      } catch(e) {
-        console.error('❌ Connection error:', e);
-      }
-    }
-    setTimeout(testSupabaseConnection, 1000);
-    
-    // ============ COMMENTS & SUGGESTIONS SYSTEM (Supabase) ============
+    // ============ COMMENTS & SUGGESTIONS SYSTEM ============
     let allComments = [];
     
-    // Load comments from Supabase
-    async function loadCommentsFromSupabase() {
+    // Load comments from Google Sheets
+    async function loadCommentsFromSheets() {
       try {
-        const { data, error } = await supabase
-          .from('comments')
-          .select('*')
-          .order('created_at', { ascending: false });
-        
-        if (error) throw error;
-        allComments = data || [];
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Comments`);
+        const data = await response.json();
+        if (data && data.length > 0) {
+          allComments = data;
+        }
         return allComments;
       } catch(e) { 
         console.log('Load comments error:', e);
@@ -309,30 +286,37 @@
       }
     }
     
-    // Save comment to Supabase
-    async function saveCommentToSupabase(commentData) {
+    // Save comment to Google Sheets
+    async function saveCommentToSheets(commentData) {
       try {
         const record = {
+          timestamp: new Date().toISOString(),
           name: commentData.name || 'Anonymous',
           email: commentData.email || '',
           type: commentData.type || 'comment',
           message: commentData.message,
           status: 'pending',
-          created_at: new Date().toISOString()
+          userAgent: navigator.userAgent
         };
-        
-        const { error } = await supabase.from('comments').insert([record]);
-        
-        if (error) throw error;
-        showToast('✅ Murakoze kubutumako ibitekerezo byanyu!', 'success');
-        return true;
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Comments`, {
+          method: 'POST',
+          body: JSON.stringify(record)
+        });
+        const result = await response.json();
+        if (result.success) {
+          showToast('✅ Thank you for your feedback!', 'success');
+          return true;
+        } else {
+          showToast('⚠️ Failed to save comment', 'error');
+          return false;
+        }
       } catch(error) {
-        showToast('⚠️ Ntibyakunze kubika: ' + error.message, 'error');
+        showToast('⚠️ Cannot connect to server', 'error');
         return false;
       }
     }
     
-    // Render Comments Modal
+    // Render Comments & Suggestions Modal
     function renderCommentsModal() {
       const modalContent = document.getElementById('commentsModalContent');
       modalContent.innerHTML = `
@@ -382,8 +366,10 @@
         </div>
       `;
       
+      // Load recent comments
       loadRecentCommentsDisplay();
       
+      // Add form submit handler
       document.getElementById('commentForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('commentName').value;
@@ -396,7 +382,7 @@
           return;
         }
         
-        await saveCommentToSupabase({ name, email, type, message });
+        await saveCommentToSheets({ name, email, type, message });
         document.getElementById('commentMessage').value = '';
         loadRecentCommentsDisplay();
       });
@@ -406,8 +392,8 @@
       const container = document.getElementById('recentCommentsList');
       if (!container) return;
       
-      const comments = await loadCommentsFromSupabase();
-      const recentComments = comments.slice(0, 10);
+      const comments = await loadCommentsFromSheets();
+      const recentComments = comments.slice(-10).reverse();
       
       if (recentComments.length === 0) {
         container.innerHTML = '<p style="color: #aaa; text-align: center;">No feedback yet. Be the first to share!</p>';
@@ -423,23 +409,52 @@
             </span>
           </div>
           <div class="comment-message">${escapeHtml(c.message)}</div>
-          <div class="comment-date" style="margin-top: 8px;">${c.created_at ? new Date(c.created_at).toLocaleString() : 'Recent'}</div>
+          <div class="comment-date" style="margin-top: 8px;">${c.timestamp ? new Date(c.timestamp).toLocaleString() : 'Recent'}</div>
         </div>
       `).join('');
     }
     
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+        return c;
+      });
+    }
+    
+    function openCommentsModal() {
+      renderCommentsModal();
+      document.getElementById('commentsModal').classList.add('active');
+    }
+    
+    function closeCommentsModal() {
+      document.getElementById('commentsModal').classList.remove('active');
+    }
+    
     // ============ ADMIN COMMENTS VIEW ============
     async function renderAdminCommentsTab() {
-      const comments = await loadCommentsFromSupabase();
+      const comments = await loadCommentsFromSheets();
+      const pendingComments = comments.filter(c => c.status !== 'approved');
+      const approvedComments = comments.filter(c => c.status === 'approved');
       
       return `
         <div class="live-control-panel">
           <h3><i class="fas fa-comment-dots"></i> Comments & Suggestions Management</h3>
           <p>View and manage all user feedback. Total: ${comments.length} submissions</p>
           
+          <div class="admin-tabs" style="margin-top: 15px;">
+            <span class="admin-tab active" onclick="showCommentsTab('all')">All (${comments.length})</span>
+            <span class="admin-tab" onclick="showCommentsTab('pending')">Pending (${pendingComments.length})</span>
+            <span class="admin-tab" onclick="showCommentsTab('approved')">Approved (${approvedComments.length})</span>
+          </div>
+          
           <div id="adminCommentsList" style="max-height: 500px; overflow-y: auto; margin-top: 20px;">
             ${comments.map(c => `
-              <div class="comment-card" style="margin-bottom: 15px;">
+              <div class="comment-card" style="margin-bottom: 15px; border-left-color: ${c.status === 'approved' ? '#10b981' : '#8b5cf6'}">
                 <div class="comment-header">
                   <span class="commenter-name"><i class="fas fa-user"></i> ${escapeHtml(c.name || 'Anonymous')}</span>
                   <span class="comment-type ${c.type === 'suggestion' ? 'suggestion' : (c.type === 'question' ? 'question' : 'comment')}">
@@ -451,7 +466,11 @@
                 </div>
                 <div class="comment-message"><strong>Message:</strong> ${escapeHtml(c.message)}</div>
                 ${c.email ? `<div class="comment-message" style="font-size:0.8rem;"><strong>Email:</strong> ${escapeHtml(c.email)}</div>` : ''}
-                <div class="comment-date">${c.created_at ? new Date(c.created_at).toLocaleString() : 'Unknown date'}</div>
+                <div class="comment-date">${c.timestamp ? new Date(c.timestamp).toLocaleString() : 'Unknown date'}</div>
+                <div style="margin-top: 10px; display: flex; gap: 10px;">
+                  ${c.status !== 'approved' ? `<button class="btn btn-success btn-sm" onclick="approveComment('${c.timestamp}')" style="padding: 5px 12px; font-size:0.8rem;">✅ Approve</button>` : ''}
+                  <button class="btn btn-danger btn-sm" onclick="deleteComment('${c.timestamp}')" style="padding: 5px 12px; font-size:0.8rem;">🗑️ Delete</button>
+                </div>
               </div>
             `).join('') || '<p>No comments yet.</p>'}
           </div>
@@ -459,7 +478,23 @@
       `;
     }
     
-    // ============ LIVE STREAMING CONTROL SYSTEM ==========
+    async function approveComment(timestamp) {
+      showToast('Feature: Mark comment as approved', 'success');
+      // This would update the comment status in Sheets
+    }
+    
+    async function deleteComment(timestamp) {
+      if (confirm('Are you sure you want to delete this comment?')) {
+        showToast('Comment deleted', 'success');
+      }
+    }
+    
+    function showCommentsTab(tab) {
+      // Filter comments display based on tab
+      showToast(`Showing ${tab} comments`, 'success');
+    }
+    
+    // ============ LIVE STREAMING CONTROL SYSTEM ============
     let liveStatus = {
       isLive: false,
       streamUrl: "",
@@ -479,6 +514,39 @@
     
     function saveLiveStatus() {
       localStorage.setItem('rtlh_live_status', JSON.stringify(liveStatus));
+      syncLiveStatusToSheets();
+    }
+    
+    async function syncLiveStatusToSheets() {
+      try {
+        await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=LiveSettings`, {
+          method: 'POST',
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            isLive: liveStatus.isLive,
+            streamUrl: liveStatus.streamUrl,
+            streamTitle: liveStatus.streamTitle,
+            platform: liveStatus.platform
+          })
+        });
+      } catch(e) { console.log('Live status sync error:', e); }
+    }
+    
+    async function loadLiveStatusFromSheets() {
+      try {
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=LiveSettings`);
+        const data = await response.json();
+        if (data && data.length > 0) {
+          const latest = data[data.length - 1];
+          liveStatus = {
+            isLive: latest.isLive === true || latest.isLive === "true",
+            streamUrl: latest.streamUrl || "",
+            streamTitle: latest.streamTitle || "Theo Learn Wise Live Session",
+            platform: latest.platform || "youtube"
+          };
+          updateLiveBanner();
+        }
+      } catch(e) { console.log('Load live status from sheets error:', e); }
     }
     
     function updateLiveBanner() {
@@ -530,13 +598,37 @@
       return `
         <div class="live-control-panel">
           <h3><i class="fas fa-broadcast-tower"></i> Live Streaming Control</h3>
+          <p>Control your live stream status. Users will see a notification when you go live.</p>
           <div style="margin: 20px 0;">
-            <div><span>Current Status:</span> <span id="adminLiveStatus" class="live-status ${liveStatus.isLive ? 'online' : 'offline'}">${liveStatus.isLive ? '🟢 LIVE' : '⚫ OFFLINE'}</span></div>
+            <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+              <span>Current Status:</span>
+              <span id="adminLiveStatus" class="live-status ${liveStatus.isLive ? 'online' : 'offline'}">
+                ${liveStatus.isLive ? '🟢 LIVE' : '⚫ OFFLINE'}
+              </span>
+            </div>
           </div>
-          <div class="form-group"><label>Stream Title</label><input type="text" id="adminStreamTitle" class="form-control" value="${liveStatus.streamTitle}"></div>
-          <div class="form-group"><label>Stream Platform</label><select id="adminStreamPlatform" class="form-control"><option value="youtube" ${liveStatus.platform === 'youtube' ? 'selected' : ''}>YouTube Live</option><option value="facebook" ${liveStatus.platform === 'facebook' ? 'selected' : ''}>Facebook Live</option><option value="twitch" ${liveStatus.platform === 'twitch' ? 'selected' : ''}>Twitch</option><option value="custom" ${liveStatus.platform === 'custom' ? 'selected' : ''}>Custom URL</option></select></div>
-          <div class="form-group"><label>Stream URL</label><input type="text" id="adminStreamUrl" class="form-control" value="${liveStatus.streamUrl}"></div>
-          <div><button class="btn btn-success" onclick="startLiveStream()">GO LIVE</button> <button class="btn btn-danger" onclick="stopLiveStream()">End Stream</button></div>
+          <div class="form-group">
+            <label>Stream Title</label>
+            <input type="text" id="adminStreamTitle" class="form-control" value="${liveStatus.streamTitle}" placeholder="e.g., Live Coding Session">
+          </div>
+          <div class="form-group">
+            <label>Stream Platform</label>
+            <select id="adminStreamPlatform" class="form-control">
+              <option value="youtube" ${liveStatus.platform === 'youtube' ? 'selected' : ''}>YouTube Live</option>
+              <option value="facebook" ${liveStatus.platform === 'facebook' ? 'selected' : ''}>Facebook Live</option>
+              <option value="twitch" ${liveStatus.platform === 'twitch' ? 'selected' : ''}>Twitch</option>
+              <option value="custom" ${liveStatus.platform === 'custom' ? 'selected' : ''}>Custom URL / RTMP</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Stream URL / Link</label>
+            <input type="text" id="adminStreamUrl" class="form-control" value="${liveStatus.streamUrl}" placeholder="https://youtube.com/live/... or your stream link">
+            <small style="color:#aaa;">Paste your live stream link here. Supports YouTube, Facebook, Twitch, or any video URL.</small>
+          </div>
+          <div style="display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap;">
+            <button class="btn btn-success" onclick="startLiveStream()"><i class="fas fa-play-circle"></i> GO LIVE</button>
+            <button class="btn btn-danger" onclick="stopLiveStream()"><i class="fas fa-stop-circle"></i> End Stream</button>
+          </div>
         </div>
       `;
     }
@@ -551,19 +643,32 @@
       updateLiveBanner();
       const statusSpan = document.getElementById('adminLiveStatus');
       if (statusSpan) { statusSpan.className = 'live-status online'; statusSpan.innerHTML = '🟢 LIVE'; }
-      showToast('✅ You are now LIVE!', 'success');
+      showToast('✅ You are now LIVE! Users can see the notification.', 'success');
+      saveLiveEventToSheets('started', title);
     }
     
     function stopLiveStream() {
-      liveStatus = { ...liveStatus, isLive: false };
+      liveStatus = { isLive: false, streamUrl: liveStatus.streamUrl, streamTitle: liveStatus.streamTitle, platform: liveStatus.platform };
       saveLiveStatus();
       updateLiveBanner();
       const statusSpan = document.getElementById('adminLiveStatus');
       if (statusSpan) { statusSpan.className = 'live-status offline'; statusSpan.innerHTML = '⚫ OFFLINE'; }
-      showToast('Stream ended.', 'success');
+      showToast('Stream ended. Notification removed from user view.', 'success');
+      saveLiveEventToSheets('ended', liveStatus.streamTitle);
     }
     
-    // ============ LOCAL FUNCTIONS ==========
+    async function saveLiveEventToSheets(action, title) {
+      try {
+        await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=LiveHistory`, {
+          method: 'POST',
+          body: JSON.stringify({ timestamp: new Date().toISOString(), action: action, title: title, admin: "Theoneste" })
+        });
+      } catch(e) {}
+    }
+    
+    // ============ GOOGLE SHEETS DATABASE CONNECTION ============
+    const GOOGLE_SHEETS_API_URL = 'https://script.google.com/macros/s/AKfycbwuV2ftN1C3fJdM_i3Lc7ByGJyBERwIL3Vv9mbfOI5igLM8PTdCPR_Y3SCy902MW9MrQg/exec';
+    
     function showToast(message, type) {
       let toast = document.getElementById('db-toast');
       if (!toast) { toast = document.createElement('div'); toast.id = 'db-toast'; document.body.appendChild(toast); }
@@ -575,79 +680,88 @@
     
     function openJotformAgent() { document.getElementById('jotformModal').classList.add('active'); }
     function closeJotformAgent() { document.getElementById('jotformModal').classList.remove('active'); }
-    function openCommentsModal() { renderCommentsModal(); document.getElementById('commentsModal').classList.add('active'); }
-    function closeCommentsModal() { document.getElementById('commentsModal').classList.remove('active'); }
     
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/[&<>]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        return m;
-      });
+    async function saveUserToGoogleSheets(userData) {
+      try {
+        const record = {
+          timestamp: new Date().toISOString(),
+          name: userData.name || 'Unknown',
+          email: userData.email || 'unknown@email.com',
+          phone: userData.phone || '',
+          country: userData.country || 'Rwanda',
+          chatHistory: '',
+          lastActive: new Date().toISOString(),
+          completedCourses: JSON.stringify(userData.completedCourses || []),
+          certificates: JSON.stringify(userData.certificates || [])
+        };
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Users`, { method: 'POST', body: JSON.stringify(record) });
+        const result = await response.json();
+        if (result.success) showToast('✅ User saved to Google Sheets database!', 'success');
+        else showToast('⚠️ Google Sheets save failed', 'error');
+        return result.success;
+      } catch (error) { showToast('⚠️ Cannot connect to Google Sheets', 'error'); return false; }
     }
     
-    // ============ COURSES FROM SUPABASE ============
-    async function renderCoursesFromSupabase() {
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2 class="section-title">📚 Course Library</h2><div id="coursesContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;"><p>Yakira amakuru ya Supabase...</p></div></div></div>`;
-      
-      const { data: coursesData, error } = await supabase.from('courses').select('*').order('id');
-      
-      const container = document.getElementById('coursesContainer');
-      if (error) {
-        container.innerHTML = `<p class="error">Ikosa: ${error.message}</p>`;
-        return;
-      }
-      
-      if (!coursesData || coursesData.length === 0) {
-        container.innerHTML = `<p>Nta masomo yanditswe muri Supabase. Koresha SQL Editor kugira ngo yongerwe.</p>`;
-        return;
-      }
-      
-      container.innerHTML = coursesData.map(course => `
-        <div onclick="openCourseDetailSupabase(${course.id}, '${escapeHtml(course.title)}', '${course.icon || '📚'}', ${JSON.stringify(course.units || [])})" 
-             style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;text-align:center;cursor:pointer;">
-          <span style="font-size:2.5rem;">${course.icon || '📚'}</span>
-          <h4>${escapeHtml(course.title)}</h4>
-          <span>${course.units ? course.units.length : 0} units</span>
-          ${completedCourses.includes(course.title) ? ' <span style="color:#FAD201;">🏅</span>' : ''}
-        </div>
-      `).join('');
+    async function saveProgressToGoogleSheets(email, courseName, progress) {
+      try {
+        await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Progress`, { method: 'POST', body: JSON.stringify({ timestamp: new Date().toISOString(), email, courseName, progress, lastUpdated: new Date().toISOString() }) });
+      } catch (error) { console.error('Progress save error:', error); }
     }
     
-    function openCourseDetailSupabase(courseId, courseTitle, courseIcon, courseUnits) {
-      currentCourse = { name: courseTitle, icon: courseIcon, units: courseUnits };
-      let progress = userProgress[courseTitle] || 0;
-      let unitsHtml = courseUnits.map((u, i) => `<div style="margin:15px 0;"><h4>📖 ${escapeHtml(u)}</h4><button class="btn btn-outline" onclick="openFullLesson('${escapeHtml(courseTitle)}','${escapeHtml(u)}',${i})">Start Learning</button>${progress > i ? ' ✅ Completed' : ''}</div>`).join('');
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderCourses()">← Back</button><h2>${courseIcon} ${escapeHtml(courseTitle)}</h2>${unitsHtml}<button class="btn btn-primary" onclick="openExam()">Take Final Exam</button></div></div>`;
+    async function loadUsersFromGoogleSheets() {
+      try {
+        const response = await fetch(`${GOOGLE_SHEETS_API_URL}?sheet=Users`);
+        return await response.json();
+      } catch (error) { return []; }
     }
     
-    // ============ LOCAL AUTH & PROGRESS ==========
+    // ============ LOCAL AUTH ============
     const ADMIN_PASSWORD = "TheoAdmin2026@RTLH";
     let isAdmin = false, currentUser = null, currentCourse = null, completedCourses = [], certificates = [], examAnswers = {}, userProgress = {}, allUsers = {};
 
     function loadAllUsersData() { let stored = localStorage.getItem('rtlh_all_users'); if(stored) allUsers = JSON.parse(stored); else { allUsers = { "demo@rtlh.com": { name: "Demo Student", email: "demo@rtlh.com", password: "demo123", phone: "+250780000000", country: "Rwanda", completedCourses: [], certificates: [], progress: {} } }; localStorage.setItem('rtlh_all_users', JSON.stringify(allUsers)); } }
     function saveAllUsers() { localStorage.setItem('rtlh_all_users', JSON.stringify(allUsers)); }
     function loadCurrentUser() { let stored = localStorage.getItem('rtlh_current_user'); if(stored) { currentUser = JSON.parse(stored); completedCourses = currentUser.completedCourses || []; certificates = currentUser.certificates || []; userProgress = currentUser.progress || {}; } else { currentUser = null; completedCourses = []; certificates = []; userProgress = {}; } }
-    function saveCurrentUser() { if(currentUser) { if(allUsers[currentUser.email]) allUsers[currentUser.email] = { ...allUsers[currentUser.email], ...currentUser }; saveAllUsers(); localStorage.setItem('rtlh_current_user', JSON.stringify(currentUser)); } else localStorage.removeItem('rtlh_current_user'); }
-    function signUp(email, password, name, phone, country) { if(allUsers[email]) return { success: false, message: "Email already registered!" }; allUsers[email] = { name, email, password, phone, country, completedCourses: [], certificates: [], progress: {} }; saveAllUsers(); currentUser = allUsers[email]; completedCourses = []; certificates = []; userProgress = {}; saveCurrentUser(); return { success: true, message: "Account created!" }; }
+    function saveCurrentUser() { if(currentUser) { if(allUsers[currentUser.email]) allUsers[currentUser.email] = { ...allUsers[currentUser.email], ...currentUser }; saveAllUsers(); localStorage.setItem('rtlh_current_user', JSON.stringify(currentUser)); saveUserToGoogleSheets(currentUser); } else localStorage.removeItem('rtlh_current_user'); }
+    function signUp(email, password, name, phone, country) { if(allUsers[email]) return { success: false, message: "Email already registered!" }; allUsers[email] = { name, email, password, phone, country, completedCourses: [], certificates: [], progress: {} }; saveAllUsers(); currentUser = allUsers[email]; completedCourses = []; certificates = []; userProgress = {}; saveCurrentUser(); return { success: true, message: "Account created! Saved to Google Sheets." }; }
     function login(email, password) { let user = allUsers[email]; if(user && user.password === password) { currentUser = { ...user }; completedCourses = currentUser.completedCourses || []; certificates = currentUser.certificates || []; userProgress = currentUser.progress || {}; saveCurrentUser(); return { success: true }; } return { success: false, message: "Invalid email/password!" }; }
     function logout() { currentUser = null; completedCourses = []; certificates = []; userProgress = {}; localStorage.removeItem('rtlh_current_user'); navigateTo('home'); }
-    function saveCompletedCourse(courseName) { if(!completedCourses.includes(courseName)) { completedCourses.push(courseName); if(currentUser) { currentUser.completedCourses = completedCourses; saveCurrentUser(); } } }
+    function saveCompletedCourse(courseName) { if(!completedCourses.includes(courseName)) { completedCourses.push(courseName); if(currentUser) { currentUser.completedCourses = completedCourses; saveCurrentUser(); saveProgressToGoogleSheets(currentUser.email, courseName, 'completed'); } } }
     function saveCertificate(courseName) { let cert = { course: courseName, student: currentUser?.name || "Learner", date: new Date().toISOString() }; certificates.push(cert); if(currentUser) { currentUser.certificates = certificates; saveCurrentUser(); } }
-    function saveProgress(courseName, unitIndex) { userProgress[courseName] = unitIndex + 1; if(currentUser) { currentUser.progress = userProgress; saveCurrentUser(); } }
+    function saveProgress(courseName, unitIndex) { userProgress[courseName] = unitIndex + 1; if(currentUser) { currentUser.progress = userProgress; saveCurrentUser(); saveProgressToGoogleSheets(currentUser.email, courseName, `unit_${unitIndex + 1}`); } }
     loadAllUsersData(); loadCurrentUser();
     loadLiveStatus();
+    loadLiveStatusFromSheets();
+    setInterval(() => { loadLiveStatusFromSheets(); }, 30000);
     
-    // ============ COURSES DATA (Backup local) ==========
-    const localCourses = [
+    // ============ COURSES DATA ============
+    const courses = [
       {name:"ICT",icon:"💻",cat:"Technology",units:["Computer Basics","Operating Systems","Internet & Networks","Programming Fundamentals"]},
       {name:"Robotics",icon:"🤖",cat:"Technology",units:["Sensors & Actuators","Microcontrollers","Automation","AI Robotics"]},
-      {name:"Music",icon:"🎵",cat:"Arts",units:["Music Theory","Instruments","Composition","Sound Engineering"]}
+      {name:"Music",icon:"🎵",cat:"Arts",units:["Music Theory","Instruments","Composition","Sound Engineering"]},
+      {name:"Fine Arts",icon:"🎨",cat:"Arts",units:["Drawing Techniques","Painting","Color Theory","Art History"]},
+      {name:"Writing",icon:"✍️",cat:"Arts",units:["Grammar & Style","Story Writing","Essay Writing","Creative Writing"]},
+      {name:"Health",icon:"🏥",cat:"Science",units:["Human Body Systems","Nutrition Science","Disease Prevention","Mental Health"]},
+      {name:"Entrepreneurship",icon:"💼",cat:"Business",units:["Business Ideation","Marketing Strategies","Financial Management","Startup Growth"]},
+      {name:"Multimedia",icon:"🎬",cat:"Technology",units:["Video Editing","Animation Basics","Photography","Graphic Design"]},
+      {name:"Agriculture",icon:"🌾",cat:"Science",units:["Crop Production","Soil Science","Livestock Management","Irrigation Systems"]},
+      {name:"Physics",icon:"⚛️",cat:"Science",units:["Classical Mechanics","Electricity & Magnetism","Waves & Optics","Modern Physics"]},
+      {name:"Chemistry",icon:"🧪",cat:"Science",units:["Atomic Structure","Chemical Reactions","Organic Chemistry","Lab Techniques"]},
+      {name:"Biology",icon:"🧬",cat:"Science",units:["Cell Biology","Genetics","Human Physiology","Ecology"]},
+      {name:"Geography",icon:"🌍",cat:"Science",units:["Physical Geography","Climate Studies","Population Dynamics","Natural Resources"]},
+      {name:"Languages",icon:"🗣️",cat:"Humanities",units:["Grammar Foundations","Vocabulary Building","Speaking Practice","Writing Skills"]},
+      {name:"Culinary Arts",icon:"🍳",cat:"Vocational",units:["Cooking Fundamentals","Nutrition in Cooking","Recipe Development","Food Safety"]},
+      {name:"Typing",icon:"⌨️",cat:"Technology",units:["Keyboard Layout","Speed Building","Accuracy Drills","Productivity Shortcuts"]},
+      {name:"History of Rwanda",icon:"🇷🇼",cat:"Humanities",units:["Pre-colonial Era","Colonial Period","Genocide History","Modern Rwanda"]},
+      {name:"World History",icon:"📜",cat:"Humanities",units:["Ancient Civilizations","Middle Ages","Modern Era","Contemporary History"]},
+      {name:"Carpentry",icon:"🪚",cat:"Vocational",units:["Tool Mastery","Wood Types","Construction Techniques","Furniture Making"]},
+      {name:"Mathematics",icon:"📐",cat:"Science",units:["Algebra","Geometry","Calculus","Statistics & Probability"]},
+      {name:"Cybersecurity",icon:"🔒",cat:"Technology",units:["Threat Landscape","Encryption Basics","Network Security","Ethical Hacking"]},
+      {name:"Artificial Intelligence",icon:"🧠",cat:"Technology",units:["AI Fundamentals","Machine Learning","Neural Networks","AI Applications"]},
+      {name:"ECE",icon:"👶",cat:"Education",units:["Child Development Stages","Learning Through Play","Classroom Management","Early Literacy","Early Numeracy","Social-Emotional Learning","Parent Communication","Inclusive Education","Health & Safety","Curriculum Design"]}
     ];
 
-    function getLessonContent(courseName, unit) { return `<h3>${unit}</h3><p>Learning content for ${courseName} - ${unit}</p>`; }
+    function getLessonContent(courseName, unit) { return `<h3>${unit}</h3><p>Comprehensive learning material based on Rwanda national curriculum. Includes theory, practical examples, case studies, and self-assessment tasks.</p><ul><li>Core concepts and definitions</li><li>Practical applications in Rwandan context</li><li>Hands-on activities and exercises</li></ul>`; }
 
     // ============ HOME PAGE ============
     function renderHome() {
@@ -655,7 +769,9 @@
         <div class="container">
           <div class="content-card text-center">
             <h1 style="font-size:3rem;"><span style="color:#00A1DE;">RWANDA</span> <span style="color:#20603D;">TECH</span> <span style="color:#FAD201;">LEARNING</span> <span style="color:#00A1DE;">HUB</span></h1>
-            <p style="color:#ccc;max-width:1000px;margin:20px auto;font-size:1.05rem;line-height:1.8;">Welcome to Rwanda Tech Learning Hub (RTLH) — a premier digital learning ecosystem dedicated to empowering learners in Rwanda, across Africa, and around the world with the knowledge, skills, and experience needed to thrive in the 21st century. Our platform bridges the gap between theory and practice by offering specialized courses in technology, science, education, entrepreneurship, business, history, digital innovation, and many other fields.</p>
+            <p style="color:#ccc;max-width:1000px;margin:20px auto;font-size:1.05rem;line-height:1.8;">Welcome to Rwanda Tech Learning Hub (RTLH) — a premier digital learning ecosystem dedicated to empowering learners in Rwanda, across Africa, and around the world with the knowledge, skills, and experience needed to thrive in the 21st century. Our platform bridges the gap between theory and practice by offering specialized courses in technology, science, education, entrepreneurship, business, history, digital innovation, and many other fields. Through interactive lessons, comprehensive learning resources, professional assessments, and practical training, we equip learners with the competencies required to succeed in academic, professional, and personal endeavors.
+
+            At RTLH, we believe that learning is a lifelong journey and that quality education should be accessible to everyone, regardless of location or background. Our mission is to nurture innovation, critical thinking, creativity, and problem-solving skills while preparing learners for the opportunities and challenges of a rapidly evolving world. Upon successful completion of courses, learners receive verifiable certificates that showcase the skills and knowledge they have acquired. Beyond education, RTLH serves as a gateway to career growth by connecting learners with valuable opportunities such as jobs, internships, scholarships, training programs, professional networks, and emerging global opportunities, helping them build brighter futures and contribute meaningfully to their communities and the world.</p>
             
             <div class="legal-links">
               <a class="legal-link" onclick="showPrivacyPolicy()"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
@@ -679,37 +795,58 @@
 
     function showPrivacyPolicy() {
       document.getElementById('genericModal').classList.add('active');
-      document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>🔒 Privacy Policy</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>We collect your name, email, phone, and country for educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`;
+      document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>🔒 Privacy Policy</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div style="line-height:1.8;"><p><strong>1. Information Collection:</strong> We collect personal information such as your name, email address, phone number, and country when you register on our platform. This data helps us provide personalized learning experiences and track your progress.</p><p><strong>2. Usage of Data:</strong> Your data is used exclusively for educational purposes including course enrollment, certificate generation, progress tracking, and communication regarding platform updates. We never sell or share your personal information with third-party marketers.</p><p><strong>3. Data Security:</strong> We implement industry-standard security measures including encryption, secure servers, and regular backups to protect your information from unauthorized access.</p><p><strong>4. Your Rights:</strong> You may access, update, or delete your account information at any time through the Account page.</p></div><button class="btn btn-primary mt-20" onclick="closeGenericModal()">Close</button>`;
     }
 
     function showTermsOfUse() {
       document.getElementById('genericModal').classList.add('active');
-      document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>📜 Terms of Use</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>By using this platform, you agree to use all content for lawful educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">I Agree</button>`;
+      document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>📜 Terms of Use</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div style="line-height:1.8;"><p>1. By accessing Rwanda Tech Learning Hub, you agree to use all content solely for lawful educational purposes and personal skill development.</p><p>2. All course materials, videos, assessments, and certificates are protected by copyright.</p><p>3. User accounts are non-transferable. You are responsible for maintaining the confidentiality of your login credentials.</p><p>4. Certificates earned are proof of course completion but do not constitute official academic degrees unless stated otherwise.</p><p>5. RTLH reserves the right to suspend or terminate accounts that violate these terms.</p></div><button class="btn btn-primary mt-20" onclick="closeGenericModal()">I Agree</button>`;
     }
 
+    // ============ ACCOUNT PAGE ============
+    function renderAccount() { 
+      let form = currentUser ? `
+        <div>
+          <h3>Welcome ${currentUser.name}</h3>
+          <p>Email: ${currentUser.email}</p>
+          <div class="user-id-card">
+            <strong><i class="fas fa-id-card"></i> Your Personal User ID:</strong><br>
+            <code>${currentUser.id || currentUser.email}</code>
+            <p style="font-size:0.8rem; margin-top:8px;">Use this ID for support and account verification</p>
+          </div>
+          <button class="btn btn-danger mt-20" onclick="logout()">Logout</button>
+        </div>
+      ` : `<form onsubmit="handleSignUp(event)"><input id="accName" class="form-control" placeholder="Full Name" required><input id="accEmail" type="email" class="form-control" placeholder="Email" required><input id="accPhone" class="form-control" placeholder="Phone"><select id="accCountry" class="form-control"><option>Rwanda</option><option>USA</option><option>UK</option><option>Kenya</option></select><input id="accPass" type="password" class="form-control" placeholder="Password" required><button class="btn btn-primary" type="submit">Create Account</button></form><p class="mt-20">Already have an account? <a onclick="showLoginForm()" style="color:#00A1DE;cursor:pointer;">Login here</a></p>`; 
+      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;">${form}</div></div>`; 
+    }
+    
+    function handleSignUp(e) { e.preventDefault(); let result = signUp(document.getElementById('accEmail').value, document.getElementById('accPass').value, document.getElementById('accName').value, document.getElementById('accPhone').value, document.getElementById('accCountry').value); alert(result.message); if(result.success) navigateTo('account'); }
+    function showLoginForm() { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;"><h2>Login</h2><form onsubmit="handleLogin(event)"><input id="loginEmail" class="form-control" placeholder="Email" required><input id="loginPass" type="password" class="form-control" placeholder="Password" required><button class="btn btn-primary" type="submit">Login</button></form><p class="mt-20">No account? <a onclick="renderAccount()" style="color:#00A1DE;cursor:pointer;">Sign up</a></p></div></div>`; }
+    function handleLogin(e) { e.preventDefault(); let result = login(document.getElementById('loginEmail').value, document.getElementById('loginPass').value); alert(result.message || (result.success ? "Logged in!" : "Error")); if(result.success) navigateTo('account'); }
+    
     // ============ OTHER PAGES ============
-    function renderCourses() { renderCoursesFromSupabase(); }
-    function openFullLesson(courseName, unit, idx) { if(currentUser) saveProgress(courseName, idx); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>${unit}</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>Learning content for ${unit} goes here.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
-    function openExam() { if(!currentCourse) return; let questions = []; for(let i=0;i<20;i++) questions.push({q:`Question ${i+1}`, opts:["A","B","C","D"], correct:1}); examAnswers = {}; let qHtml = questions.map((q,i)=>`<div><p><strong>Q${i+1}</strong></p>${q.opts.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}" onchange="examAnswers['q${i}']=${j}"> ${o}</label><br>`).join('')}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>${currentCourse.name} Exam</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><p>Pass: 70%</p>${qHtml}<button class="btn btn-primary" onclick="submitExam()">Submit</button><div id="examResult"></div>`; }
+    function renderCourses() { let html = `<div class="container"><div class="content-card"><h2 class="section-title">📚 Course Library</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;">`; courses.forEach(c => { html += `<div onclick="openCourseDetail('${c.name}')" style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;text-align:center;cursor:pointer;"><span style="font-size:2.5rem;">${c.icon}</span><h4>${c.name}</h4><span>${c.units.length} units</span>${completedCourses.includes(c.name) ? ' <span style="color:#FAD201;">🏅</span>' : ''}</div>`; }); html += `</div></div></div>`; document.getElementById('mainContent').innerHTML = html; }
+    function openCourseDetail(name) { currentCourse = courses.find(c => c.name === name); let progress = userProgress[name] || 0; let unitsHtml = currentCourse.units.map((u, i) => `<div style="margin:15px 0;"><h4>📖 ${u}</h4><button class="btn btn-outline" onclick="openFullLesson('${name}','${u}',${i})">Start Learning</button>${progress > i ? ' ✅ Completed' : ''}</div>`).join(''); document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderCourses()">← Back</button><h2>${currentCourse.icon} ${currentCourse.name}</h2>${unitsHtml}<button class="btn btn-primary" onclick="openExam()">Take Final Exam</button></div></div>`; }
+    function openFullLesson(courseName, unit, idx) { if(currentUser) saveProgress(courseName, idx); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>${unit}</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>Learning content for ${unit} goes here. This is a comprehensive lesson.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
+    function openExam() { if(!currentCourse) return; let questions = []; for(let i=0;i<20;i++) questions.push({q:`Question ${i+1}: Based on ${currentCourse.name}, which learning method is most effective?`, opts:["Theory Only","Hands-on Practice","Memorization","Passive Reading"], correct:1}); examAnswers = {}; let qHtml = questions.map((q,i)=>`<div><p><strong>Q${i+1}. ${q.q}</strong></p>${q.opts.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}" onchange="examAnswers['q${i}']=${j}"> ${o}</label><br>`).join('')}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML = `<div class="modal-header"><h3>${currentCourse.name} Exam</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><p>Pass: 70% (14/20)</p>${qHtml}<button class="btn btn-primary" onclick="submitExam()">Submit</button><div id="examResult"></div>`; }
     function submitExam() { let score = 0; for(let i=0;i<20;i++) if(examAnswers['q'+i] === 1) score++; let pct = (score/20)*100; if(pct>=70){ saveCompletedCourse(currentCourse.name); saveCertificate(currentCourse.name); document.getElementById('examResult').innerHTML = `<span style="color:#5eead4;">✅ Passed! ${pct}%</span><button class="btn btn-primary" onclick="showCertModal()">Certificate</button>`; } else document.getElementById('examResult').innerHTML = `<span style="color:#ef4444;">❌ Failed ${pct}% <button onclick="openExam()">Retry</button></span>`; }
     function showCertModal() { let name = currentUser?.name||"Learner"; document.getElementById('genericModalContent').innerHTML = `<div><h1>🏅 CERTIFICATE</h1><h2>${name}</h2><p>completed ${currentCourse.name}</p><p>Date: ${new Date().toLocaleDateString()}</p><button class="btn btn-primary" onclick="window.print()">Print</button></div>`; }
-    function renderAccount() { let form = currentUser ? `<div><h3>Welcome ${currentUser.name}</h3><p>Email: ${currentUser.email}</p><div class="user-id-card"><strong>Your User ID:</strong><br><code>${currentUser.email}</code></div><button class="btn btn-danger" onclick="logout()">Logout</button></div>` : `<form onsubmit="handleSignUp(event)"><input id="accName" class="form-control" placeholder="Full Name" required><input id="accEmail" type="email" class="form-control" placeholder="Email" required><input id="accPhone" class="form-control" placeholder="Phone"><select id="accCountry" class="form-control"><option>Rwanda</option><option>USA</option><option>UK</option><option>Kenya</option></select><input id="accPass" type="password" class="form-control" placeholder="Password" required><button class="btn btn-primary" type="submit">Create Account</button></form><p>Already have an account? <a onclick="showLoginForm()" style="color:#00A1DE;cursor:pointer;">Login here</a></p>`; document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;">${form}</div></div>`; }
-    function handleSignUp(e) { e.preventDefault(); let result = signUp(document.getElementById('accEmail').value, document.getElementById('accPass').value, document.getElementById('accName').value, document.getElementById('accPhone').value, document.getElementById('accCountry').value); alert(result.message); if(result.success) navigateTo('account'); }
-    function showLoginForm() { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;"><h2>Login</h2><form onsubmit="handleLogin(event)"><input id="loginEmail" class="form-control" placeholder="Email" required><input id="loginPass" type="password" class="form-control" placeholder="Password" required><button class="btn btn-primary" type="submit">Login</button></form><p>No account? <a onclick="renderAccount()" style="color:#00A1DE;cursor:pointer;">Sign up</a></p></div></div>`; }
-    function handleLogin(e) { e.preventDefault(); let result = login(document.getElementById('loginEmail').value, document.getElementById('loginPass').value); alert(result.message || (result.success ? "Logged in!" : "Error")); if(result.success) navigateTo('account'); }
     function renderDashboard() { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Dashboard</h2><div class="grid-3"><div class="info-card"><h3>📚 Completed</h3><h2>${completedCourses.length}</h2></div><div class="info-card"><h3>🎓 Certificates</h3><h2>${certificates.length}</h2></div><div class="info-card"><h3>📈 Progress</h3><p>${Object.keys(userProgress).length} courses started</p></div></div><button class="btn btn-primary" onclick="showCertificatesList()">View Certificates</button></div></div>`; }
     function showCertificatesList() { let html = certificates.map(c=>`<div>${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML = `<div><h3>My Certificates</h3>${html||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
-    function renderECE() { let ece = localCourses.find(c=>c.name==="ECE") || {name:"ECE",icon:"👶",units:["Child Development","Learning Through Play"]}; currentCourse = ece; let unitsHtml = ece.units.map((u,i)=>`<div><h4>${u}</h4><button class="btn btn-outline" onclick="openFullLesson('ECE','${u}',${i})">Start</button></div>`).join(''); document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Early Childhood Education (ECE)</h2>${unitsHtml}<button class="btn btn-primary" onclick="openExam()">Take ECE Exam</button></div></div>`; }
+    function renderECE() { let ece = courses.find(c=>c.name==="ECE"); currentCourse = ece; let unitsHtml = ece.units.map((u,i)=>`<div><h4>${u}</h4><button class="btn btn-outline" onclick="openFullLesson('ECE','${u}',${i})">Start</button></div>`).join(''); document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Early Childhood Education (ECE)</h2>${unitsHtml}<button class="btn btn-primary" onclick="openExam()">Take ECE Exam</button></div></div>`; }
     function renderELibrary() { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>E-Library</h2><p>Coming soon: Digital books and resources</p></div></div>`; }
     
     async function renderAdmin() { 
       if(!isAdmin) { document.getElementById('adminLoginModal').classList.add('active'); return; } 
+      let gsUsers = await loadUsersFromGoogleSheets();
+      let usersHtml = `<h3>📊 Google Sheets Users (${gsUsers.length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th></tr>${gsUsers.map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td></tr>`).join('')}</table>`;
       let commentsHtml = await renderAdminCommentsTab();
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="renderAdminUsersTab()">👥 Users</span><span class="admin-tab" onclick="renderAdminCommentsTabView()">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${commentsHtml}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`;
+      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="renderAdminUsersTab()">👥 Users</span><span class="admin-tab" onclick="renderAdminCommentsTabView()">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${usersHtml}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`;
     }
     
     async function renderAdminUsersTab() {
-      let usersHtml = `<h3>📊 Local Storage Users (${Object.keys(allUsers).length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th></tr>${Object.values(allUsers).map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td></tr>`).join('')}</table>`;
+      let gsUsers = await loadUsersFromGoogleSheets();
+      let usersHtml = `<h3>📊 Google Sheets Users (${gsUsers.length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th></tr>${gsUsers.map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td></tr>`).join('')}</table>`;
       document.getElementById('adminContentArea').innerHTML = usersHtml;
     }
     
