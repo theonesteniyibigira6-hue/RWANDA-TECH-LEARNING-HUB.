@@ -247,19 +247,43 @@
     .live-status.online { background: #ef4444; color: white; animation: blink 1s infinite; }
     .footer-credits { background: rgba(0,0,0,0.6); backdrop-filter: blur(25px); padding: 20px 0; text-align: center; margin-top: auto; }
     .footer-credits .container p { font-size: 0.85rem; margin: 5px 0; }
-    .footer-credits .contact-item, .footer-credits .social-item { padding: 6px 14px; font-size: 0.8rem; margin: 4px; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border-radius: 50px; text-decoration: none; color: #fff; border: 1px solid rgba(255,255,255,0.1); }
-    .footer-credits .creator-name { font-size: 0.9rem; background: linear-gradient(135deg, #00A1DE, #5eead4, #FAD201); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
-    .footer-credits .portfolio-btn { padding: 6px 15px; font-size: 0.75rem; background: linear-gradient(135deg, #FAD201, #ef4444, #00A1DE); background-size: 200% 200%; animation: portfolio-shine 3s ease infinite; color: #fff; border-radius: 50px; font-weight: 800; text-decoration: none; border: 1px solid #FAD201; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .footer-credits .contact-item, .footer-credits .social-item { padding: 6px 14px; font-size: 0.8rem; margin: 4px; display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.08); border-radius: 50px; text-decoration: none; color: #fff; border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s; }
+    .footer-credits .contact-item:hover, .footer-credits .social-item:hover { transform: translateY(-3px); }
+    .footer-credits .social-item.youtube:hover { background: #FF0000; border-color: #FF0000; }
+    .footer-credits .social-item.facebook:hover { background: #1877F2; border-color: #1877F2; }
+    .footer-credits .social-item.instagram:hover { background: linear-gradient(45deg, #f09433, #d62976, #962fbf); border-color: #d62976; }
+    .footer-credits .social-item.twitter:hover { background: #000000; border-color: #000000; }
+    .footer-credits .social-item.linkedin:hover { background: #0077B5; border-color: #0077B5; }
+    .footer-credits .social-item.tiktok:hover { background: #000000; border-color: #000000; }
+    .footer-credits .social-item.messenger:hover { background: #0084ff; border-color: #0084ff; }
+    .footer-credits .creator-name { font-size: 0.9rem; background: linear-gradient(135deg, #00A1DE, #5eead4, #FAD201); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; cursor: pointer; transition: all 0.3s; }
+    .footer-credits .creator-name:hover { opacity: 0.8; text-decoration: underline; }
     .footer-credits .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 10px; }
-    @keyframes portfolio-shine { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
     .floating-ai-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, #00A1DE, #20603D); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10001; box-shadow: 0 4px 15px rgba(0,161,222,0.5); transition: all 0.3s ease; animation: pulse-glow 2s infinite; border: 2px solid rgba(255,255,255,0.3); }
     .floating-ai-btn i { font-size: 28px; color: white; }
-    .jotform-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 20000; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); align-items: center; justify-content: center; }
-    .jotform-modal.active { display: flex; }
-    .jotform-container { width: 90%; max-width: 500px; height: 80vh; background: transparent; border-radius: 20px; overflow: hidden; position: relative; }
-    .jotform-close { position: absolute; top: -40px; right: 0; background: rgba(255,0,0,0.7); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 20px; z-index: 10; }
-    .jotform-close:hover { background: red; }
-    .jotform-container iframe { width: 100%; height: 100%; border: none; border-radius: 20px; }
+    /* AI Chat Modal Styles */
+    .ai-chat-modal .modal-content {
+      max-width: 400px;
+      height: 550px;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+    }
+    .ai-chat-modal .modal-header {
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #00A1DE, #20603D);
+      margin: 0;
+      border-radius: 24px 24px 0 0;
+    }
+    .ai-chat-modal .modal-header h3 { margin: 0; color: white; }
+    .ai-chat-modal .modal-close-btn { background: rgba(255,255,255,0.2); }
+    .ai-chat-iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+      background: white;
+    }
     .legal-links { display: flex; justify-content: center; gap: 30px; margin: 25px 0 20px; flex-wrap: wrap; }
     .legal-link { color: #00A1DE; text-decoration: none; font-weight: 600; cursor: pointer; transition: all 0.3s; }
     .legal-link:hover { color: #FAD201; text-decoration: underline; }
@@ -271,7 +295,7 @@
     .progress-fill { background: #00A1DE; border-radius: 10px; height: 100%; width: 0%; transition: width 0.3s; }
     .unit-card-small { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px; margin: 10px; cursor: pointer; border-left: 3px solid #00A1DE; }
     .unit-card-small.completed { border-left-color: #10b981; opacity: 0.8; }
-    @media (max-width:768px){ .container{padding:0 15px;} .footer-credits .contact-item, .footer-credits .social-item { padding: 4px 10px; font-size: 0.7rem; } .floating-ai-btn { width: 50px; height: 50px; } .floating-ai-btn i { font-size: 24px; } }
+    @media (max-width:768px){ .container{padding:0 15px;} .footer-credits .contact-item, .footer-credits .social-item { padding: 4px 10px; font-size: 0.7rem; } .floating-ai-btn { width: 50px; height: 50px; } .floating-ai-btn i { font-size: 24px; } .ai-chat-modal .modal-content { max-width: 95%; height: 80vh; } }
   </style>
 </head>
 <body>
@@ -280,10 +304,18 @@
   <div class="content-wrapper">
     <header><div class="container header-inner"><div class="logo-container" onclick="navigateTo('home')"><div class="logo-3d" id="logo-canvas-container"></div><div class="logo-text"><div class="logo-title"><span class="blue">RWANDA</span> <span class="green">TECH</span> <span class="yellow">LEARNING</span> <span class="blue">HUB</span></div><div class="logo-subtitle">RTLH • FIREBASE POWERED</div></div></div><nav class="nav-3d" id="mainNav"></nav></div></header>
     <div class="main-content-area" id="mainContent"></div>
-    <footer class="footer-credits"><div class="container"><p>Created by <span class="creator-name">NIYIBIGIRA Theoneste</span> • Theo Codem</p><p><a href="tel:+250794204258" class="contact-item"><i class="fas fa-phone"></i> 0794204258</a><a href="mailto:rwandatechlearninghub@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> rwandatechlearninghub@gmail.com</a></p><div class="mt-20"><a href="https://theonesteniyibigira6-hue.github.io/NIYIBIGIRA-/" target="_blank" class="portfolio-btn"><i class="fas fa-folder-open"></i> Visit NIYIBIGIRA Theoneste <i class="fas fa-external-link-alt"></i></a></div><div class="social-grid"><a href="https://youtube.com" target="_blank" class="social-item"><i class="fab fa-youtube"></i> YouTube</a><a href="https://facebook.com" target="_blank" class="social-item"><i class="fab fa-facebook"></i> Facebook</a><a href="https://instagram.com" target="_blank" class="social-item"><i class="fab fa-instagram"></i> Instagram</a><a href="https://twitter.com" target="_blank" class="social-item"><i class="fab fa-twitter"></i> X</a><a href="https://linkedin.com" target="_blank" class="social-item"><i class="fab fa-linkedin"></i> LinkedIn</a><a href="https://tiktok.com" target="_blank" class="social-item"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://m.me" target="_blank" class="social-item"><i class="fab fa-facebook-messenger"></i> Messenger</a></div><p style="color:#888;margin-top:10px;font-size:0.75rem;">© 2026 <span style="color:#FAD201;">RWANDA TECH LEARNING HUB</span> — All rights reserved.</p></div></footer>
+    <footer class="footer-credits"><div class="container"><p>Developed by <span class="creator-name" onclick="window.open('https://theonesteniyibigira6-hue.github.io/NIYIBIGIRA-/', '_blank')">NIYIBIGIRA Theoneste • Theo Codem</span></p><p><a href="tel:+250794204258" class="contact-item"><i class="fas fa-phone"></i> 0794204258</a><a href="mailto:rwandatechlearninghub@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> rwandatechlearninghub@gmail.com</a></p><div class="social-grid"><a href="https://youtube.com" target="_blank" class="social-item youtube"><i class="fab fa-youtube"></i> YouTube</a><a href="https://facebook.com" target="_blank" class="social-item facebook"><i class="fab fa-facebook"></i> Facebook</a><a href="https://instagram.com" target="_blank" class="social-item instagram"><i class="fab fa-instagram"></i> Instagram</a><a href="https://twitter.com" target="_blank" class="social-item twitter"><i class="fab fa-twitter"></i> X</a><a href="https://linkedin.com" target="_blank" class="social-item linkedin"><i class="fab fa-linkedin"></i> LinkedIn</a><a href="https://tiktok.com" target="_blank" class="social-item tiktok"><i class="fab fa-tiktok"></i> TikTok</a><a href="https://m.me" target="_blank" class="social-item messenger"><i class="fab fa-facebook-messenger"></i> Messenger</a></div><p style="color:#888;margin-top:10px;font-size:0.75rem;">© 2026 <span style="color:#FAD201;">RWANDA TECH LEARNING HUB</span> — All rights reserved.</p></div></footer>
   </div>
-  <div class="floating-ai-btn" onclick="openJotformAgent()"><i class="fas fa-robot"></i></div>
-  <div class="jotform-modal" id="jotformModal"><div class="jotform-container"><button class="jotform-close" onclick="closeJotformAgent()">×</button><iframe src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e" title="Theo Learn Wise AI"></iframe></div></div>
+  <div class="floating-ai-btn" onclick="openAIChat()"><i class="fas fa-robot"></i></div>
+  <div class="modal-overlay ai-chat-modal" id="aiChatModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-robot"></i> Theo Learn Wise AI Assistant</h3>
+        <button class="modal-close-btn" onclick="closeAIChat()">×</button>
+      </div>
+      <iframe class="ai-chat-iframe" src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e" title="Theo Learn Wise AI"></iframe>
+    </div>
+  </div>
   <div class="modal-overlay" id="liveStreamModal"><div class="modal-content stream-modal-content"><div class="modal-header"><h3><i class="fas fa-video" style="color:#ef4444;"></i> LIVE STREAM</h3><button class="modal-close-btn" onclick="closeLiveStream()">×</button></div><div class="stream-container"><iframe id="streamFrame" src="" frameborder="0" allowfullscreen></iframe></div></div></div>
   <div class="modal-overlay" id="commentsModal"><div class="modal-content"><div class="modal-header"><h3><i class="fas fa-comment-dots"></i> Comments & Suggestions</h3><button class="modal-close-btn" onclick="closeCommentsModal()">×</button></div><div id="commentsModalContent"></div></div></div>
   <div class="modal-overlay" id="adminLoginModal"><div class="modal-content"><h3>🔐 Admin Access</h3><input type="password" id="adminPassword" class="form-control" placeholder="Admin Password"><button class="btn btn-primary mt-20" onclick="loginAsAdmin()">Access</button><p id="adminError" style="color:red;"></p></div></div>
@@ -292,6 +324,14 @@
   <div class="modal-overlay" id="communityModal"><div class="modal-content" id="communityModalContent"></div></div>
 
   <script>
+    // ======================= AI CHAT FUNCTIONS =======================
+    function openAIChat() {
+      document.getElementById('aiChatModal').classList.add('active');
+    }
+    function closeAIChat() {
+      document.getElementById('aiChatModal').classList.remove('active');
+    }
+
     // ======================= FIREBASE CONFIGURATION =======================
     const firebaseConfig = {
       apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
@@ -322,25 +362,182 @@
     let languageProgress = {};
     const ADMIN_PASSWORD = "TheoAdmin2026@RTLH";
 
-    // FULL LANGUAGE DATA (your original complete data - preserved)
+    // ======================= FULL LANGUAGE DATA (RESTORED) =======================
     const languageUnitsData = {
-      "Kinyarwanda": { units: [{ title: "Introduction to Kinyarwanda", topics: ["History", "Alphabet", "Greetings", "Expressions"] }, { title: "Basic Communication", topics: ["Self-intro", "Family", "Numbers", "Days"] }, { title: "Everyday Vocabulary", topics: ["Food", "School", "Occupations", "Places"] }, { title: "Grammar Fundamentals", topics: ["Nouns", "Pronouns", "Verbs", "Sentences"] }, { title: "Listening & Speaking", topics: ["Conversations", "Pronunciation", "Dialogues"] }, { title: "Reading & Writing", topics: ["Paragraphs", "Composition", "Storytelling"] }, { title: "Intermediate", topics: ["Public Speaking", "Debates", "Formal Lang"] }, { title: "Advanced", topics: ["Literature", "Proverbs", "Translation"] }] },
-      "English": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings", "Introductions"] }, { title: "Everyday English", topics: ["Family", "School", "Workplace"] }, { title: "Grammar Basics", topics: ["Parts of Speech", "Tenses"] }, { title: "Communication Skills", topics: ["Listening", "Speaking", "Reading", "Writing"] }, { title: "Intermediate", topics: ["Vocabulary", "Presentations"] }, { title: "Advanced", topics: ["Business", "Academic", "Public Speaking"] }] },
-      "French": { units: [{ title: "Basics", topics: ["Alphabet", "Greetings"] }, { title: "Everyday French", topics: ["Family", "Shopping", "Travel"] }, { title: "Grammar", topics: ["Articles", "Verbs"] }, { title: "Communication", topics: ["Listening", "Reading"] }, { title: "Intermediate", topics: ["Workplace", "Tourism"] }, { title: "Advanced", topics: ["Professional", "Translation"] }] },
-      "Swahili": { units: [{ title: "Introduction", topics: ["Alphabet", "Greetings"] }, { title: "Vocabulary", topics: ["Numbers", "Family", "Food"] }, { title: "Grammar", topics: ["Noun Classes", "Verbs"] }, { title: "Communication", topics: ["Conversations", "Listening"] }, { title: "Intermediate", topics: ["Business", "Tourism"] }, { title: "Advanced", topics: ["Literature", "Translation"] }] },
-      "Spanish": { units: [{ title: "Basics", topics: ["Alphabet", "Greetings", "Numbers"] }, { title: "Daily Comm", topics: ["Family", "Food", "Travel"] }, { title: "Grammar", topics: ["Tenses", "Verbs"] }, { title: "Reading & Writing", topics: ["Paragraphs", "Emails"] }, { title: "Intermediate", topics: ["Travel", "Workplace"] }, { title: "Advanced", topics: ["Business", "Literature"] }] },
-      "Arabic": { units: [{ title: "Alphabet", topics: ["Letters", "Writing"] }, { title: "Greetings", topics: ["Phrases", "Introductions"] }, { title: "Grammar", topics: ["Nouns", "Verbs"] }, { title: "Reading", topics: ["Word Recognition", "Texts"] }, { title: "Intermediate", topics: ["Conversations", "Business"] }, { title: "Advanced", topics: ["Classical", "Literature"] }] },
-      "Mandarin Chinese": { units: [{ title: "Characters", topics: ["Strokes", "Writing"] }, { title: "Pinyin", topics: ["Tones", "Pronunciation"] }, { title: "Everyday Chinese", topics: ["Greetings", "Numbers", "Food"] }, { title: "Grammar", topics: ["Word Order", "Questions"] }, { title: "Intermediate", topics: ["Travel", "Business"] }, { title: "Advanced", topics: ["Culture", "Literature"] }] },
-      "Hindi": { units: [{ title: "Alphabet", topics: ["Vowels", "Consonants"] }, { title: "Pronunciation", topics: ["Sounds"] }, { title: "Vocabulary", topics: ["Words", "Family"] }, { title: "Grammar", topics: ["Nouns", "Verbs"] }, { title: "Conversations", topics: ["Greetings", "Shopping"] }, { title: "Advanced", topics: ["Literature", "Poetry"] }] },
-      "Portuguese": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Daily Comm", topics: ["Family", "Numbers", "Food"] }, { title: "Grammar", topics: ["Articles", "Verbs"] }, { title: "Reading", topics: ["Texts", "Emails"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Translation"] }] },
-      "Russian": { units: [{ title: "Cyrillic", topics: ["Letters", "Writing"] }, { title: "Pronunciation", topics: ["Stress"] }, { title: "Vocabulary", topics: ["Words", "Numbers"] }, { title: "Grammar", topics: ["Cases", "Verbs"] }, { title: "Communication", topics: ["Conversations"] }, { title: "Advanced", topics: ["Literature", "Business"] }] },
-      "German": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar Basics", topics: ["Articles", "Cases"] }, { title: "Everyday", topics: ["Family", "Food", "Travel"] }, { title: "Reading", topics: ["Comprehension"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Translation"] }] },
-      "Japanese": { units: [{ title: "Hiragana", topics: ["Writing", "Pronunciation"] }, { title: "Katakana", topics: ["Foreign Words"] }, { title: "Kanji Basics", topics: ["Characters"] }, { title: "Grammar", topics: ["Particles", "Verbs"] }, { title: "Communication", topics: ["Conversations"] }, { title: "Advanced", topics: ["Business", "Literature"] }] },
-      "Italian": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar", topics: ["Articles", "Verbs"] }, { title: "Communication", topics: ["Family", "Food"] }, { title: "Reading", topics: ["Texts"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Art"] }] },
-      "Turkish": { units: [{ title: "Turkish Alphabet", topics: ["Letters", "Pronunciation"] }, { title: "Vocabulary", topics: ["Numbers", "Family"] }, { title: "Grammar", topics: ["Vowel harmony", "Suffixes"] }, { title: "Conversations", topics: ["Greetings", "Shopping"] }, { title: "Intermediate", topics: ["Business", "Media"] }, { title: "Advanced", topics: ["Literature", "Translation"] }] },
-      "Korean": { units: [{ title: "Hangul", topics: ["Consonants", "Vowels"] }, { title: "Pronunciation", topics: ["Rules"] }, { title: "Grammar", topics: ["Particles", "Verbs"] }, { title: "Daily Conversations", topics: ["Greetings", "Family"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Media"] }] },
-      "Dutch": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar", topics: ["Articles", "Word order"] }, { title: "Communication", topics: ["Family", "Numbers"] }, { title: "Reading", topics: ["Texts"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature"] }] },
-      "Greek": { units: [{ title: "Greek Alphabet", topics: ["Letters", "Pronunciation"] }, { title: "Vocabulary", topics: ["Numbers", "Family"] }, { title: "Grammar", topics: ["Nouns", "Verbs"] }, { title: "Communication", topics: ["Conversations"] }, { title: "Literature", topics: ["Reading"] }, { title: "Advanced", topics: ["Business", "Translation"] }] }
+      "Kinyarwanda": {
+        units: [
+          { title: "Introduction to Kinyarwanda", topics: ["History of Kinyarwanda", "Alphabet and pronunciation", "Greetings and introductions", "Common expressions"] },
+          { title: "Basic Communication", topics: ["Self-introduction", "Family members", "Numbers and counting", "Days and months"] },
+          { title: "Everyday Vocabulary", topics: ["Food and drinks", "School vocabulary", "Occupations", "Places in the community"] },
+          { title: "Grammar Fundamentals", topics: ["Nouns and noun classes", "Pronouns", "Verbs", "Sentence formation"] },
+          { title: "Listening and Speaking Skills", topics: ["Conversations", "Pronunciation practice", "Dialogue exercises"] },
+          { title: "Reading and Writing", topics: ["Paragraph reading", "Composition writing", "Storytelling"] },
+          { title: "Intermediate Communication", topics: ["Public speaking", "Debates", "Formal and informal language"] },
+          { title: "Advanced Kinyarwanda", topics: ["Literature", "Proverbs", "Translation", "Professional communication"] }
+        ]
+      },
+      "English": {
+        units: [
+          { title: "English Foundations", topics: ["Alphabet", "Pronunciation", "Greetings", "Introductions"] },
+          { title: "Everyday English", topics: ["Family", "School", "Workplace", "Daily activities"] },
+          { title: "Grammar Basics", topics: ["Parts of speech", "Tenses", "Articles", "Pronouns"] },
+          { title: "Communication Skills", topics: ["Listening", "Speaking", "Reading", "Writing"] },
+          { title: "Intermediate English", topics: ["Vocabulary development", "Presentations", "Discussions", "Interviews"] },
+          { title: "Advanced English", topics: ["Business English", "Academic English", "Public speaking", "Report writing"] }
+        ]
+      },
+      "French": {
+        units: [
+          { title: "French Basics", topics: ["Alphabet and sounds", "Greetings", "Introductions"] },
+          { title: "Everyday French", topics: ["Family", "Shopping", "Travel"] },
+          { title: "Grammar", topics: ["Articles", "Verbs", "Adjectives"] },
+          { title: "Communication", topics: ["Listening", "Reading", "Writing"] },
+          { title: "Intermediate French", topics: ["Workplace French", "Tourism French", "Public communication"] },
+          { title: "Advanced French", topics: ["Professional French", "Translation", "French literature"] }
+        ]
+      },
+      "Swahili": {
+        units: [
+          { title: "Swahili Introduction", topics: ["Alphabet", "Pronunciation", "Greetings"] },
+          { title: "Basic Vocabulary", topics: ["Numbers", "Family", "Food"] },
+          { title: "Grammar", topics: ["Noun classes", "Verbs", "Sentence structures"] },
+          { title: "Communication", topics: ["Conversations", "Listening exercises"] },
+          { title: "Intermediate Swahili", topics: ["Business communication", "Tourism communication"] },
+          { title: "Advanced Swahili", topics: ["Literature", "Translation", "Professional communication"] }
+        ]
+      },
+      "Spanish": {
+        units: [
+          { title: "Spanish Basics", topics: ["Alphabet", "Pronunciation", "Greetings", "Numbers"] },
+          { title: "Daily Communication", topics: ["Family", "Food", "Travel", "Shopping"] },
+          { title: "Grammar Fundamentals", topics: ["Tenses", "Verbs", "Articles", "Adjectives"] },
+          { title: "Reading and Writing", topics: ["Paragraph reading", "Email writing", "Story reading"] },
+          { title: "Intermediate Spanish", topics: ["Travel Spanish", "Workplace Spanish", "Conversations"] },
+          { title: "Advanced Spanish", topics: ["Business Spanish", "Professional Communication", "Literature"] }
+        ]
+      },
+      "Arabic": {
+        units: [
+          { title: "Arabic Alphabet and Writing", topics: ["Letter recognition", "Writing practice", "Pronunciation"] },
+          { title: "Greetings and Communication", topics: ["Greetings", "Introductions", "Daily phrases"] },
+          { title: "Grammar Basics", topics: ["Nouns", "Verbs", "Sentence structure"] },
+          { title: "Reading Arabic", topics: ["Word recognition", "Simple texts", "Comprehension"] },
+          { title: "Intermediate Arabic", topics: ["Conversations", "Business Arabic", "Media Arabic"] },
+          { title: "Advanced Arabic", topics: ["Classical Arabic", "Modern Standard Arabic", "Literature"] }
+        ]
+      },
+      "Mandarin Chinese": {
+        units: [
+          { title: "Chinese Characters", topics: ["Basic strokes", "Character writing", "Radicals"] },
+          { title: "Pronunciation (Pinyin)", topics: ["Initials", "Finals", "Tones", "Pronunciation practice"] },
+          { title: "Everyday Chinese", topics: ["Greetings", "Numbers", "Family", "Food"] },
+          { title: "Grammar and Sentence Structure", topics: ["Word order", "Questions", "Negation"] },
+          { title: "Intermediate Chinese", topics: ["Conversations", "Travel Chinese", "Business Chinese"] },
+          { title: "Advanced Chinese", topics: ["Chinese culture", "Literature", "Professional writing"] }
+        ]
+      },
+      "Hindi": {
+        units: [
+          { title: "Hindi Alphabet", topics: ["Vowels", "Consonants", "Writing practice"] },
+          { title: "Pronunciation", topics: ["Sound recognition", "Speaking practice"] },
+          { title: "Vocabulary Building", topics: ["Common words", "Family terms", "Everyday objects"] },
+          { title: "Grammar", topics: ["Nouns", "Verbs", "Sentence formation"] },
+          { title: "Conversations", topics: ["Greetings", "Shopping", "Travel"] },
+          { title: "Reading and Writing", topics: ["Paragraph reading", "Composition writing"] },
+          { title: "Intermediate Hindi", topics: ["Business Hindi", "Media Hindi"] },
+          { title: "Advanced Hindi", topics: ["Literature", "Poetry", "Professional communication"] }
+        ]
+      },
+      "Portuguese": {
+        units: [
+          { title: "Portuguese Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
+          { title: "Daily Communication", topics: ["Family", "Numbers", "Food", "Travel"] },
+          { title: "Grammar", topics: ["Articles", "Verbs", "Tenses"] },
+          { title: "Reading and Writing", topics: ["Text reading", "Email writing"] },
+          { title: "Business Portuguese", topics: ["Workplace communication", "Professional vocabulary"] },
+          { title: "Advanced Portuguese", topics: ["Literature", "Translation", "Academic writing"] }
+        ]
+      },
+      "Russian": {
+        units: [
+          { title: "Cyrillic Alphabet", topics: ["Letter recognition", "Writing", "Pronunciation"] },
+          { title: "Pronunciation", topics: ["Sound rules", "Stress patterns"] },
+          { title: "Vocabulary", topics: ["Common words", "Numbers", "Family"] },
+          { title: "Grammar", topics: ["Cases", "Verbs", "Sentence structure"] },
+          { title: "Communication Skills", topics: ["Conversations", "Listening practice"] },
+          { title: "Advanced Russian", topics: ["Literature", "Business Russian", "Media"] }
+        ]
+      },
+      "German": {
+        units: [
+          { title: "German Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
+          { title: "Grammar Basics", topics: ["Articles", "Cases", "Verbs"] },
+          { title: "Everyday German", topics: ["Family", "Food", "Travel", "Shopping"] },
+          { title: "Reading and Writing", topics: ["Text comprehension", "Email writing"] },
+          { title: "Business German", topics: ["Workplace communication", "Professional vocabulary"] },
+          { title: "Advanced German", topics: ["Literature", "Academic writing", "Translation"] }
+        ]
+      },
+      "Japanese": {
+        units: [
+          { title: "Hiragana", topics: ["Character writing", "Pronunciation", "Reading"] },
+          { title: "Katakana", topics: ["Foreign words", "Writing practice"] },
+          { title: "Kanji Basics", topics: ["Basic characters", "Stroke order", "Meaning"] },
+          { title: "Grammar", topics: ["Particles", "Verb conjugation", "Sentence structure"] },
+          { title: "Communication", topics: ["Conversations", "Listening practice"] },
+          { title: "Advanced Japanese", topics: ["Business Japanese", "Literature", "Translation"] }
+        ]
+      },
+      "Italian": {
+        units: [
+          { title: "Italian Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
+          { title: "Grammar", topics: ["Articles", "Verbs", "Tenses"] },
+          { title: "Communication", topics: ["Family", "Food", "Travel"] },
+          { title: "Reading and Writing", topics: ["Text reading", "Composition"] },
+          { title: "Business Italian", topics: ["Workplace communication", "Professional vocabulary"] },
+          { title: "Advanced Italian", topics: ["Literature", "Art vocabulary", "Translation"] }
+        ]
+      },
+      "Turkish": {
+        units: [
+          { title: "Turkish Alphabet", topics: ["Letters", "Pronunciation", "Writing"] },
+          { title: "Vocabulary", topics: ["Common words", "Numbers", "Family"] },
+          { title: "Grammar", topics: ["Vowel harmony", "Suffixes", "Sentence structure"] },
+          { title: "Conversations", topics: ["Greetings", "Shopping", "Travel"] },
+          { title: "Intermediate Turkish", topics: ["Business Turkish", "Media Turkish"] },
+          { title: "Advanced Turkish", topics: ["Literature", "Professional communication"] }
+        ]
+      },
+      "Korean": {
+        units: [
+          { title: "Hangul Alphabet", topics: ["Consonants", "Vowels", "Writing"] },
+          { title: "Pronunciation", topics: ["Sound rules", "Speaking practice"] },
+          { title: "Grammar", topics: ["Particles", "Verb conjugation", "Sentence structure"] },
+          { title: "Daily Conversations", topics: ["Greetings", "Family", "Food", "Travel"] },
+          { title: "Business Korean", topics: ["Workplace communication", "Professional vocabulary"] },
+          { title: "Advanced Korean", topics: ["Literature", "Media", "Translation"] }
+        ]
+      },
+      "Dutch": {
+        units: [
+          { title: "Dutch Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
+          { title: "Grammar", topics: ["Articles", "Verbs", "Word order"] },
+          { title: "Communication", topics: ["Family", "Numbers", "Travel"] },
+          { title: "Reading and Writing", topics: ["Text reading", "Email writing"] },
+          { title: "Business Dutch", topics: ["Workplace communication"] },
+          { title: "Advanced Dutch", topics: ["Literature", "Translation"] }
+        ]
+      },
+      "Greek": {
+        units: [
+          { title: "Greek Alphabet", topics: ["Letters", "Pronunciation", "Writing"] },
+          { title: "Vocabulary", topics: ["Common words", "Numbers", "Family"] },
+          { title: "Grammar", topics: ["Nouns", "Verbs", "Articles"] },
+          { title: "Communication", topics: ["Conversations", "Listening practice"] },
+          { title: "Literature", topics: ["Famous works", "Reading comprehension"] },
+          { title: "Advanced Greek", topics: ["Business Greek", "Translation", "Academic writing"] }
+        ]
+      }
     };
 
     const regularCourses = [
@@ -369,17 +566,15 @@
       {name:"Culinary Arts",icon:"🍳",cat:"Vocational",units:["Introduction to Culinary Arts","Kitchen Safety","Cooking Methods","Bakery","International Cuisine","Final Project"]}
     ];
 
-    // ======================= ALL ORIGINAL FUNCTIONS (FULLY PRESERVED) =======================
+    // ======================= HELPER FUNCTIONS =======================
     function showToast(msg, type) { let t=document.getElementById('db-toast'); if(!t){t=document.createElement('div');t.id='db-toast';document.body.appendChild(t);} t.className=`status-toast status-${type}`; t.innerHTML=msg; t.style.display='block'; setTimeout(()=>{t.style.display='none';},3000); }
-    function openJotformAgent() { document.getElementById('jotformModal').classList.add('active'); }
-    function closeJotformAgent() { document.getElementById('jotformModal').classList.remove('active'); }
-    function openCommentsModal() { renderCommentsModal(); document.getElementById('commentsModal').classList.add('active'); }
+    function closeGenericModal() { document.getElementById('genericModal').classList.remove('active'); }
     function closeCommentsModal() { document.getElementById('commentsModal').classList.remove('active'); }
     function closeLiveStream() { document.getElementById('liveStreamModal').classList.remove('active'); document.getElementById('streamFrame').src=''; }
-    function closeGenericModal() { document.getElementById('genericModal').classList.remove('active'); }
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); if(window.currentChatUnsubscribe && id === 'communityModal') { window.currentChatUnsubscribe(); window.currentChatUnsubscribe = null; } }
 
-    // AUTH & USER DATA
+    // ======================= AUTH & USER DATA =======================
     async function syncUserToFirestore() { if (!currentUser || !currentUser.uid) return; await db.collection("users").doc(currentUser.uid).set({ email: currentUser.email, name: currentUser.displayName || currentUser.email.split('@')[0], completedCourses, certificates, userProgress, languageProgress, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); }
     async function loadUserFromFirestore(uid) { const doc = await db.collection("users").doc(uid).get(); if(doc.exists) { const data=doc.data(); completedCourses=data.completedCourses||[]; certificates=data.certificates||[]; userProgress=data.userProgress||{}; languageProgress=data.languageProgress||{}; } }
     async function signUpFirebase(email, password, name, phone, country) { try { const cred = await auth.createUserWithEmailAndPassword(email, password); await cred.user.updateProfile({ displayName: name }); currentUser = { uid: cred.user.uid, email, displayName: name, phone, country }; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; await syncUserToFirestore(); showToast("Account created successfully!", "success"); return true; } catch (err) { showToast(err.message, "error"); return false; } }
@@ -391,13 +586,13 @@
     async function saveLanguageProgress(lang, ui, comp) { if(!languageProgress[lang]) languageProgress[lang]={completedUnits:[],lastUnit:0}; if(comp && !languageProgress[lang].completedUnits.includes(ui)) languageProgress[lang].completedUnits.push(ui); languageProgress[lang].lastUnit = Math.max(languageProgress[lang].lastUnit, ui); if(currentUser) await syncUserToFirestore(); }
     function getLanguageProgress(lang) { return languageProgress[lang] || { completedUnits:[], lastUnit:0 }; }
 
-    // COMMENTS (ORIGINAL)
+    // ======================= COMMENTS =======================
     async function saveCommentToFirestore(comment) { await db.collection("comments").add({ ...comment, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); showToast("✅ Feedback sent!", "success"); }
     async function loadCommentsFromFirestore() { const snap = await db.collection("comments").orderBy("timestamp","desc").limit(20).get(); return snap.docs.map(d=>d.data()); }
     async function renderCommentsModal() { const mc = document.getElementById('commentsModalContent'); mc.innerHTML = `<div><h4>Share Feedback</h4></div><form id="commentForm"><input id="commentName" class="form-control" placeholder="Your name"><input id="commentEmail" class="form-control" placeholder="Email (optional)"><select id="commentType" class="form-control"><option value="comment">💬 Comment</option><option value="suggestion">💡 Suggestion</option></select><textarea id="commentMessage" class="form-control" rows="4" placeholder="Your message..." required></textarea><button type="submit" class="btn btn-primary">Submit</button></form><hr><h4>Recent Feedback</h4><div id="recentCommentsList">Loading...</div>`; document.getElementById('commentsModal').classList.add('active'); document.getElementById('commentForm').addEventListener('submit', async (e) => { e.preventDefault(); const name=document.getElementById('commentName').value, email=document.getElementById('commentEmail').value, type=document.getElementById('commentType').value, msg=document.getElementById('commentMessage').value; if(!msg.trim()){ showToast("Please write a message","error"); return; } await saveCommentToFirestore({name,email,type,message:msg}); document.getElementById('commentMessage').value=''; await loadRecentCommentsDisplay(); }); await loadRecentCommentsDisplay(); }
     async function loadRecentCommentsDisplay() { const container = document.getElementById('recentCommentsList'); if(!container) return; const comments = await loadCommentsFromFirestore(); if(comments.length===0){ container.innerHTML='<p>No feedback yet. Be the first!</p>'; return; } container.innerHTML = comments.slice(0,5).map(c=>`<div class="comment-card"><div class="comment-header"><span class="commenter-name">${escapeHtml(c.name||'Anonymous')}</span><span class="comment-type">${c.type}</span></div><div>${escapeHtml(c.message)}</div><div class="comment-date">${c.timestamp?.toDate?.()?.toLocaleString() || 'Just now'}</div></div>`).join(''); }
 
-    // LIVE STREAM (ORIGINAL)
+    // ======================= LIVE STREAM =======================
     function loadLiveStatus() { const s=localStorage.getItem('rtlh_live_status'); if(s){ try{ liveStatus=JSON.parse(s); updateLiveBanner(); }catch(e){} } }
     function saveLiveStatus() { localStorage.setItem('rtlh_live_status',JSON.stringify(liveStatus)); }
     function updateLiveBanner() { const b=document.getElementById('liveBanner'), t=document.getElementById('liveTitle'); if(t) t.textContent=liveStatus.streamTitle; if(liveStatus.isLive && liveStatus.streamUrl) b.classList.add('active'); else b.classList.remove('active'); }
@@ -407,7 +602,7 @@
     function startLiveStream(){ const title=document.getElementById('adminStreamTitle')?.value||"Live Session"; const platform=document.getElementById('adminStreamPlatform')?.value||"youtube"; const url=document.getElementById('adminStreamUrl')?.value; if(!url){ showToast('Enter stream URL','error'); return; } liveStatus={isLive:true,streamUrl:url,streamTitle:title,platform:platform}; saveLiveStatus(); updateLiveBanner(); const st=document.getElementById('adminLiveStatus'); if(st){ st.className='live-status online'; st.innerHTML='🟢 LIVE'; } showToast('You are LIVE!','success'); }
     function stopLiveStream(){ liveStatus={...liveStatus,isLive:false}; saveLiveStatus(); updateLiveBanner(); const st=document.getElementById('adminLiveStatus'); if(st){ st.className='live-status offline'; st.innerHTML='⚫ OFFLINE'; } showToast('Stream ended','success'); }
 
-    // AUTH LOCALSTORAGE
+    // ======================= AUTH LOCALSTORAGE =======================
     function loadAllUsersData(){ let s=localStorage.getItem('rtlh_all_users'); if(s) allUsers=JSON.parse(s); else { allUsers={"demo@rtlh.com":{name:"Demo Student",email:"demo@rtlh.com",password:"demo123",phone:"+250780000000",country:"Rwanda",completedCourses:[],certificates:[],progress:{},languageProgress:{}}}; localStorage.setItem('rtlh_all_users',JSON.stringify(allUsers)); } }
     function saveAllUsers(){ localStorage.setItem('rtlh_all_users',JSON.stringify(allUsers)); }
     function loadCurrentUser(){ let s=localStorage.getItem('rtlh_current_user'); if(s){ let u=JSON.parse(s); currentUser=u; completedCourses=currentUser.completedCourses||[]; certificates=currentUser.certificates||[]; userProgress=currentUser.progress||{}; languageProgress=currentUser.languageProgress||{}; } else { currentUser=null; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; } }
@@ -416,12 +611,17 @@
     function login(email,password){ let u=allUsers[email]; if(u&&u.password===password){ currentUser={...u}; completedCourses=currentUser.completedCourses||[]; certificates=currentUser.certificates||[]; userProgress=currentUser.progress||{}; languageProgress=currentUser.languageProgress||{}; saveCurrentUser(); return {success:true}; } return {success:false,message:"Invalid email/password!"}; }
     function logout(){ currentUser=null; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; localStorage.removeItem('rtlh_current_user'); navigateTo('home'); }
 
-    // LANGUAGE CATEGORIES
+    // ======================= LANGUAGE CATEGORIES =======================
     const africanRegions = { "East African Languages": ["Kinyarwanda", "Swahili"], "Central African Languages": ["Lingala", "Sango"], "West African Languages": ["Yoruba", "Igbo", "Hausa", "Wolof"], "Southern African Languages": ["Zulu", "Xhosa", "Shona", "Tswana"], "North African Languages": ["Arabic", "Amharic", "Berber"] };
     const europeanLanguages = ["English", "French", "Spanish", "Portuguese", "German", "Italian", "Dutch", "Greek", "Russian"];
     const asianLanguages = ["Mandarin Chinese", "Hindi", "Japanese", "Korean", "Thai", "Vietnamese", "Urdu", "Bengali", "Turkish"];
 
-    // ORIGINAL RENDER FUNCTIONS
+    function showAfricanRegions() { /* preserve original */ }
+    function showLanguagesByRegion(region) { /* preserve original */ }
+    function showEuropeanLanguages() { /* preserve original */ }
+    function showAsianLanguages() { /* preserve original */ }
+
+    // ======================= ORIGINAL RENDER FUNCTIONS =======================
     function renderHome() {
       document.getElementById('mainContent').innerHTML = `
         <div class="container">
@@ -552,8 +752,6 @@
     
     function showCertificatesList(){ let h=certificates.map(c=>`<div>${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div><h3>My Certificates</h3>${h||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
     
-    function renderECE(){ let ece=regularCourses.find(c=>c.name==="ECE"); currentCourse=ece; let uh=ece.units.map((u,i)=>`<div><h4>${u}</h4><button class="btn btn-outline" onclick="openFullLesson('ECE','${u}',${i})">Start</button></div>`).join(''); document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>Early Childhood Education (ECE)</h2>${uh}<button class="btn btn-primary" onclick="openExam()">Take ECE Exam</button></div></div>`; }
-    
     function renderELibrary(){ document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>E-Library</h2><p>Coming soon: Digital books and resources</p></div></div>`; }
     
     async function renderAdmin(){ if(!isAdmin){ document.getElementById('adminLoginModal').classList.add('active'); return; } let commentsHtml=await renderAdminCommentsTab(); document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="renderAdminUsersTab()">👥 Users</span><span class="admin-tab" onclick="renderAdminCommentsTabView()">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${commentsHtml}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`; }
@@ -567,10 +765,8 @@
     function renderAdminLiveTab(){ document.getElementById('adminContentArea').innerHTML=renderAdminLiveControls(); }
     
     function loginAsAdmin(){ if(document.getElementById('adminPassword').value===ADMIN_PASSWORD){ isAdmin=true; closeModal('adminLoginModal'); navigateTo('admin'); } else document.getElementById('adminError').innerText='Wrong password!'; }
-    
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); if(window.currentChatUnsubscribe && id === 'communityModal') { window.currentChatUnsubscribe(); window.currentChatUnsubscribe = null; } }
 
-    // ======================= NEW: OPPORTUNITIES PAGE (modal links - stay inside web) =======================
+    // ======================= OPPORTUNITIES PAGE (Internal modal links) =======================
     function openOpportunityLink(url, title) {
       const modalHtml = `
         <div class="modal-header"><h3><i class="fas fa-external-link-alt"></i> ${escapeHtml(title)}</h3><button class="modal-close-btn" onclick="closeModal('opportunityModal')">×</button></div>
@@ -608,7 +804,7 @@
       document.getElementById('mainContent').innerHTML = oppHtml;
     }
 
-    // ======================= NEW: COMMUNITY PAGE (Groups with admin, add members, real chat) =======================
+    // ======================= COMMUNITY PAGE =======================
     let currentGroupId = null;
 
     async function renderCommunity() {
@@ -777,7 +973,7 @@
       openGroupDetails(groupId, group.data().name);
     }
 
-    // ======================= NAVIGATION (ECE replaced with Opportunities, Community added) =======================
+    // ======================= NAVIGATION =======================
     function renderNav() {
       const nav = document.getElementById('mainNav');
       nav.innerHTML = `<div class="nav-item-3d"><a onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</a></div>
@@ -807,7 +1003,7 @@
       else renderHome();
     }
 
-    // ======================= 3D BACKGROUND (Original) =======================
+    // ======================= 3D BACKGROUND =======================
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
     const rendererBg = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg-canvas'), alpha: true });
@@ -885,22 +1081,20 @@
     renderNav(); navigateTo('home');
 
     // Expose global functions
-    window.navigateTo = navigateTo; window.openCommentsModal = openCommentsModal; window.loginAsAdmin = loginAsAdmin;
+    window.navigateTo = navigateTo; window.openCommentsModal = renderCommentsModal; window.loginAsAdmin = loginAsAdmin;
     window.openLiveStream = openLiveStream; window.startLiveStream = startLiveStream; window.stopLiveStream = stopLiveStream;
     window.openOpportunityLink = openOpportunityLink; window.joinGroup = joinGroup; window.addMemberByEmail = addMemberByEmail;
     window.removeMember = removeMember; window.openGroupDetails = openGroupDetails; window.sendGroupMessage = sendGroupMessage;
     window.showCreateGroupModal = showCreateGroupModal; window.createGroup = createGroup; window.closeModal = closeModal;
     window.logout = logout; window.showPrivacyPolicy = showPrivacyPolicy; window.showTermsOfUse = showTermsOfUse;
     window.closeGenericModal = closeGenericModal; window.closeLiveStream = closeLiveStream; window.closeCommentsModal = closeCommentsModal;
-    window.openJotformAgent = openJotformAgent; window.closeJotformAgent = closeJotformAgent; window.renderCourses = renderCourses;
-    window.renderLanguages = renderLanguages; window.startLanguageCourse = startLanguageCourse; window.openLanguageUnit = openLanguageUnit;
-    window.completeLanguageUnit = completeLanguageUnit; window.openRegularCourse = openRegularCourse; window.openFullLesson = openFullLesson;
-    window.openExam = openExam; window.submitExam = submitExam; window.showCertModal = showCertModal; window.renderAccount = renderAccount;
-    window.handleSignUp = handleSignUp; window.showLoginForm = showLoginForm; window.handleLogin = handleLogin; window.renderDashboard = renderDashboard;
-    window.showCertificatesList = showCertificatesList; window.renderECE = renderECE; window.renderELibrary = renderELibrary;
+    window.renderCourses = renderCourses; window.renderLanguages = renderLanguages; window.startLanguageCourse = startLanguageCourse;
+    window.openLanguageUnit = openLanguageUnit; window.completeLanguageUnit = completeLanguageUnit; window.openRegularCourse = openRegularCourse;
+    window.openFullLesson = openFullLesson; window.openExam = openExam; window.submitExam = submitExam; window.showCertModal = showCertModal;
+    window.renderAccount = renderAccount; window.handleSignUp = handleSignUp; window.showLoginForm = showLoginForm; window.handleLogin = handleLogin;
+    window.renderDashboard = renderDashboard; window.showCertificatesList = showCertificatesList; window.renderELibrary = renderELibrary;
     window.renderAdmin = renderAdmin; window.renderAdminUsersTab = renderAdminUsersTab; window.renderAdminCommentsTabView = renderAdminCommentsTabView;
-    window.renderAdminLiveTab = renderAdminLiveTab; window.showAfricanRegions = showAfricanRegions; window.showLanguagesByRegion = showLanguagesByRegion;
-    window.showEuropeanLanguages = showEuropeanLanguages; window.showAsianLanguages = showAsianLanguages; window.logoutFirebase = logoutFirebase;
+    window.renderAdminLiveTab = renderAdminLiveTab; window.logoutFirebase = logoutFirebase; window.openAIChat = openAIChat; window.closeAIChat = closeAIChat;
   </script>
 </body>
 </html>
