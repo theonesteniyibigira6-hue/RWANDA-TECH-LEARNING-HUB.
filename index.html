@@ -72,6 +72,76 @@
       50% { transform: translateY(-8px) rotateX(2deg); }
       100% { transform: translateY(0px) rotateX(0deg); }
     }
+    /* Legal cards styles */
+    .legal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    .legal-card {
+      background: linear-gradient(135deg, rgba(0,161,222,0.2), rgba(32,96,61,0.2));
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      transform: translateY(0);
+    }
+    .legal-card:hover {
+      transform: translateY(-8px);
+      border-color: #FAD201;
+      box-shadow: 0 15px 30px rgba(0,161,222,0.3);
+    }
+    .legal-card-header {
+      background: linear-gradient(135deg, #00A1DE, #20603D);
+      padding: 18px 20px;
+      text-align: center;
+      transform: skewY(-1deg) scale(1.02);
+      margin-bottom: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .legal-card-header h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 0;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      letter-spacing: 1px;
+    }
+    .legal-card-content {
+      padding: 20px;
+      max-height: 350px;
+      overflow-y: auto;
+      color: #f0f0f0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .legal-card-content p {
+      margin-bottom: 12px;
+    }
+    .legal-card-content ul, .legal-card-content ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+    .legal-card-content li {
+      margin: 5px 0;
+    }
+    .legal-card-content strong {
+      color: #FAD201;
+    }
+    /* Custom scrollbar for legal cards */
+    .legal-card-content::-webkit-scrollbar {
+      width: 5px;
+    }
+    .legal-card-content::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.3);
+      border-radius: 10px;
+    }
+    .legal-card-content::-webkit-scrollbar-thumb {
+      background: #00A1DE;
+      border-radius: 10px;
+    }
     .form-control { width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: #fff; }
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
     .modal-overlay.active { display: flex; }
@@ -420,7 +490,7 @@
       else renderHome();
     }
     
-    // ======================= NEW HOME PAGE WITH CUSTOM INTRODUCTION AND 3D BUTTON =======================
+    // ======================= HOME PAGE WITH INTRO + LEGAL CARDS =======================
     function renderHome() {
       document.getElementById('mainContent').innerHTML = `
         <div class="container">
@@ -444,6 +514,115 @@
               <button class="btn-3d" onclick="navigateTo('courses')">
                 <i class="fas fa-rocket"></i> Start Learning Now
               </button>
+            </div>
+          </div>
+          
+          <!-- NEW LEGAL CENTER SECTION -->
+          <div class="content-card">
+            <h2 class="section-title" style="color:#FAD201;">⚖️ RTLH LEGAL CENTER</h2>
+            <div class="legal-grid">
+              <!-- Privacy Policy Card -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-shield-alt"></i> Privacy Policy</h3></div>
+                <div class="legal-card-content">
+                  <p>At Rwanda Tech Learning Hub (RTLH), we respect and protect your privacy. We collect only the information necessary to provide educational services, including account registration, course enrollment, certification, academic progress tracking, customer support, and platform improvement.</p>
+                  <p>Your personal information is securely stored and protected through industry-standard security measures. RTLH does not sell personal information to third parties. Information may only be shared with trusted service providers, educational verification partners, or legal authorities when required by law.</p>
+                  <p>Users have the right to access, correct, update, or request deletion of their personal information, subject to applicable laws. By using RTLH, you consent to the collection and processing of information as described in our full Privacy Policy.</p>
+                </div>
+              </div>
+              <!-- Terms and Conditions Card -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-file-contract"></i> Terms & Conditions</h3></div>
+                <div class="legal-card-content">
+                  <p>By accessing or using RTLH, you agree to comply with all applicable laws, platform rules, and educational standards.</p>
+                  <p>Users must provide accurate information, maintain account security, respect intellectual property rights, and use the platform responsibly. Unauthorized copying, redistribution, hacking, cheating, plagiarism, or misuse of certificates is strictly prohibited.</p>
+                  <p>RTLH reserves the right to suspend or terminate accounts that violate these terms. Continued use of the platform constitutes acceptance of all applicable policies and updates.</p>
+                </div>
+              </div>
+              <!-- Cookie Policy Card -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-cookie-bite"></i> Cookie Policy</h3></div>
+                <div class="legal-card-content">
+                  <p>RTLH uses cookies and similar technologies to improve website functionality, personalize user experiences, remember user preferences, analyze traffic, and enhance platform performance.</p>
+                  <p>Cookies may include:</p>
+                  <ul>
+                    <li><strong>Essential Cookies</strong> – Required for website functionality and account access.</li>
+                    <li><strong>Performance Cookies</strong> – Help improve website speed and performance.</li>
+                    <li><strong>Analytics Cookies</strong> – Provide anonymous usage statistics.</li>
+                    <li><strong>Preference Cookies</strong> – Remember language and user settings.</li>
+                  </ul>
+                  <p>Users may disable cookies through browser settings; however, certain platform features may not function properly. By continuing to use RTLH, you consent to the use of cookies in accordance with this policy.</p>
+                </div>
+              </div>
+              <!-- Certificate Verification Policy -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-certificate"></i> Certificate Verification</h3></div>
+                <div class="legal-card-content">
+                  <p>RTLH certificates are issued only to learners who successfully complete course requirements, assessments, and verification procedures.</p>
+                  <p>Each certificate may contain:</p>
+                  <ul>
+                    <li>Unique Certificate ID</li>
+                    <li>Learner Name</li>
+                    <li>Course Title</li>
+                    <li>Completion Date</li>
+                    <li>Verification Information</li>
+                  </ul>
+                  <p>RTLH reserves the right to verify, suspend, revoke, or invalidate certificates obtained through fraud, plagiarism, cheating, identity misrepresentation, or violation of platform policies. Employers, institutions, scholarship providers, and other authorized organizations may verify certificate authenticity through the RTLH verification system.</p>
+                </div>
+              </div>
+              <!-- Refund Policy -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-money-bill-wave"></i> Refund Policy</h3></div>
+                <div class="legal-card-content">
+                  <p>Where paid courses or services are offered, learners may request a refund within the specified refund period stated during purchase.</p>
+                  <p>Refunds may be granted when:</p>
+                  <ul>
+                    <li>Payment errors occur.</li>
+                    <li>Duplicate transactions occur.</li>
+                    <li>Services cannot reasonably be delivered.</li>
+                  </ul>
+                  <p>Refunds may not be granted when:</p>
+                  <ul>
+                    <li>Significant portions of course content have already been accessed.</li>
+                    <li>Certificates have already been issued.</li>
+                    <li>Violations of platform policies occur.</li>
+                  </ul>
+                  <p>Approved refunds will be processed using the original payment method whenever possible. RTLH reserves the right to review all refund requests individually and in accordance with applicable consumer protection laws.</p>
+                </div>
+              </div>
+              <!-- Community Guidelines & Code of Conduct -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-users"></i> Community Guidelines</h3></div>
+                <div class="legal-card-content">
+                  <p>RTLH is committed to maintaining a respectful, inclusive, and professional learning environment.</p>
+                  <p><strong>All users must:</strong></p>
+                  <ul>
+                    <li>✓ Treat others with respect and dignity.</li>
+                    <li>✓ Communicate professionally.</li>
+                    <li>✓ Submit original work.</li>
+                    <li>✓ Respect intellectual property rights.</li>
+                    <li>✓ Support a positive learning environment.</li>
+                  </ul>
+                  <p><strong>Users must not:</strong></p>
+                  <ul>
+                    <li>✗ Harass, threaten, or discriminate against others.</li>
+                    <li>✗ Share offensive, harmful, or illegal content.</li>
+                    <li>✗ Engage in cheating or plagiarism.</li>
+                    <li>✗ Attempt unauthorized access to systems.</li>
+                    <li>✗ Distribute spam, malware, or misleading information.</li>
+                  </ul>
+                  <p>Violations may result in warnings, suspension, certificate revocation, account termination, or legal action where applicable.</p>
+                </div>
+              </div>
+              <!-- International Compliance Statement -->
+              <div class="legal-card">
+                <div class="legal-card-header"><h3><i class="fas fa-globe"></i> International Compliance</h3></div>
+                <div class="legal-card-content">
+                  <p>RTLH is committed to operating in accordance with internationally recognized principles of privacy, data protection, cybersecurity, consumer protection, digital learning, academic integrity, and responsible technology use.</p>
+                  <p>By using RTLH, users acknowledge that they have read, understood, and agreed to all applicable policies, terms, and guidelines governing the platform.</p>
+                  <p>© 2026 Rwanda Tech Learning Hub (RTLH). All Rights Reserved.</p>
+                </div>
+              </div>
             </div>
           </div>
           
@@ -545,7 +724,7 @@
       if (!isAdmin) { document.getElementById('adminLoginModal').classList.add('active'); return; }
       const usersSnap = await db.collection("users").get();
       let usersTable = `<h3>Users (${usersSnap.size})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Courses</th><th>Languages</th></tr>`;
-      usersSnap.forEach(doc => { const u = doc.data(); usersTable += `<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td><tr>`; });
+      usersSnap.forEach(doc => { const u = doc.data(); usersTable += `<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`; });
       usersTable += `</table>`;
       const comments = await loadCommentsFromFirestore();
       let commentsHtml = `<h3>Comments (${comments.length})</h3>` + comments.map(c => `<div class="comment-card"><strong>${c.name||'Anonymous'}</strong> (${c.type}): ${c.message}<br><small>${c.timestamp?.toDate?.()?.toLocaleString()}</small></div>`).join('');
