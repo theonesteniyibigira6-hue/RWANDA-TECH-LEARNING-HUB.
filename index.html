@@ -130,18 +130,85 @@
     .legal-card-content strong {
       color: #FAD201;
     }
-    /* Custom scrollbar for legal cards */
-    .legal-card-content::-webkit-scrollbar {
-      width: 5px;
+    .legal-card-content::-webkit-scrollbar { width: 5px; }
+    .legal-card-content::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 10px; }
+    .legal-card-content::-webkit-scrollbar-thumb { background: #00A1DE; border-radius: 10px; }
+    /* Opportunities cards styles */
+    .opportunity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
     }
-    .legal-card-content::-webkit-scrollbar-track {
-      background: rgba(0,0,0,0.3);
-      border-radius: 10px;
+    .opp-card {
+      background: linear-gradient(145deg, rgba(0,161,222,0.2), rgba(32,96,61,0.2));
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 20px;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transform: translateY(0);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
-    .legal-card-content::-webkit-scrollbar-thumb {
-      background: #00A1DE;
-      border-radius: 10px;
+    .opp-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      border-color: #FAD201;
+      box-shadow: 0 25px 40px rgba(0,161,222,0.4);
     }
+    .opp-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: #FAD201;
+      border-left: 4px solid #00A1DE;
+      padding-left: 15px;
+    }
+    .opp-card ul { list-style: none; margin: 15px 0; }
+    .opp-card li { margin: 10px 0; }
+    .opp-card a { color: #fff; text-decoration: none; display: inline-block; transition: 0.2s; border-bottom: 1px dotted rgba(255,255,255,0.3); }
+    .opp-card a:hover { color: #00A1DE; transform: translateX(5px); border-bottom-color: #00A1DE; }
+    .btn-explore {
+      background: linear-gradient(135deg, #1e5631, #0f2e1a);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: all 0.3s;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+    .btn-explore:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #2a7a3e, #1a4a2a);
+      box-shadow: 0 8px 20px rgba(0,255,0,0.2);
+    }
+    /* Community styles */
+    .group-card {
+      background: linear-gradient(135deg, rgba(0,161,222,0.2), rgba(250,210,1,0.1));
+      border-radius: 20px;
+      padding: 20px;
+      margin: 15px 0;
+      cursor: pointer;
+      transition: 0.3s;
+      border-left: 5px solid #00A1DE;
+    }
+    .group-card:hover { transform: translateX(8px); background: rgba(0,161,222,0.3); }
+    .chat-container {
+      background: rgba(0,0,0,0.4);
+      border-radius: 20px;
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      margin-top: 20px;
+    }
+    .chat-message {
+      background: rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 10px 15px;
+      margin: 8px 0;
+    }
+    .chat-message strong { color: #FAD201; }
     .form-control { width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: #fff; }
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
     .modal-overlay.active { display: flex; }
@@ -217,6 +284,7 @@
   <div class="modal-overlay" id="commentsModal"><div class="modal-content"><div class="modal-header"><h3><i class="fas fa-comment-dots"></i> Comments & Suggestions</h3><button class="modal-close-btn" onclick="closeCommentsModal()">×</button></div><div id="commentsModalContent"></div></div></div>
   <div class="modal-overlay" id="adminLoginModal"><div class="modal-content"><h3>🔐 Admin Access</h3><input type="password" id="adminPassword" class="form-control" placeholder="Admin Password"><button class="btn btn-primary mt-20" onclick="loginAsAdmin()">Access</button><p id="adminError" style="color:red;"></p></div></div>
   <div class="modal-overlay" id="genericModal"><div class="modal-content" id="genericModalContent"></div></div>
+  <div class="modal-overlay" id="communityModal"><div class="modal-content" id="communityModalContent"></div></div>
 
   <script>
     // ======================= FIREBASE CONFIGURATION =======================
@@ -229,15 +297,14 @@
       appId: "1:785118659917:web:7ada98356d213a3fad2304",
       measurementId: "G-404BCPW9YW"
     };
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-    console.log("✅ Firebase connected with real credentials");
+    console.log("✅ Firebase connected");
     
     // ======================= GLOBAL VARIABLES =======================
     let isAdmin = false;
-    let currentUser = null;         // Firebase user object + custom data
+    let currentUser = null;
     let currentCourse = null;
     let completedCourses = [];
     let certificates = [];
@@ -248,7 +315,7 @@
     let liveStatus = { isLive: false, streamUrl: "", streamTitle: "Theo Learn Wise Live Session", platform: "youtube" };
     const ADMIN_PASSWORD = "TheoAdmin2026@RTLH";
 
-    // Language Data (same as original, trimmed for brevity but fully functional)
+    // Language Data (complete as in original)
     const languageUnitsData = {
       "Kinyarwanda": { units: [{ title: "Introduction to Kinyarwanda", topics: ["History", "Alphabet", "Greetings", "Expressions"] }, { title: "Basic Communication", topics: ["Self-intro", "Family", "Numbers", "Days"] }, { title: "Everyday Vocabulary", topics: ["Food", "School", "Occupations", "Places"] }, { title: "Grammar Fundamentals", topics: ["Nouns", "Pronouns", "Verbs", "Sentences"] }, { title: "Listening & Speaking", topics: ["Conversations", "Pronunciation", "Dialogues"] }, { title: "Reading & Writing", topics: ["Paragraphs", "Composition", "Storytelling"] }, { title: "Intermediate", topics: ["Public Speaking", "Debates", "Formal Lang"] }, { title: "Advanced", topics: ["Literature", "Proverbs", "Translation"] }] },
       "English": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings", "Introductions"] }, { title: "Everyday English", topics: ["Family", "School", "Workplace"] }, { title: "Grammar Basics", topics: ["Parts of Speech", "Tenses"] }, { title: "Communication Skills", topics: ["Listening", "Speaking", "Reading", "Writing"] }, { title: "Intermediate", topics: ["Vocabulary", "Presentations"] }, { title: "Advanced", topics: ["Business", "Academic", "Public Speaking"] }] },
@@ -262,9 +329,13 @@
       "Russian": { units: [{ title: "Cyrillic", topics: ["Letters", "Writing"] }, { title: "Pronunciation", topics: ["Stress"] }, { title: "Vocabulary", topics: ["Words", "Numbers"] }, { title: "Grammar", topics: ["Cases", "Verbs"] }, { title: "Communication", topics: ["Conversations"] }, { title: "Advanced", topics: ["Literature", "Business"] }] },
       "German": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar Basics", topics: ["Articles", "Cases"] }, { title: "Everyday", topics: ["Family", "Food", "Travel"] }, { title: "Reading", topics: ["Comprehension"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Translation"] }] },
       "Japanese": { units: [{ title: "Hiragana", topics: ["Writing", "Pronunciation"] }, { title: "Katakana", topics: ["Foreign Words"] }, { title: "Kanji Basics", topics: ["Characters"] }, { title: "Grammar", topics: ["Particles", "Verbs"] }, { title: "Communication", topics: ["Conversations"] }, { title: "Advanced", topics: ["Business", "Literature"] }] },
-      "Italian": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar", topics: ["Articles", "Verbs"] }, { title: "Communication", topics: ["Family", "Food"] }, { title: "Reading", topics: ["Texts"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Art"] }] }
+      "Italian": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar", topics: ["Articles", "Verbs"] }, { title: "Communication", topics: ["Family", "Food"] }, { title: "Reading", topics: ["Texts"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Art"] }] },
+      "Turkish": { units: [{ title: "Turkish Alphabet", topics: ["Letters", "Pronunciation"] }, { title: "Vocabulary", topics: ["Numbers", "Family"] }, { title: "Grammar", topics: ["Vowel harmony", "Suffixes"] }, { title: "Conversations", topics: ["Greetings", "Shopping"] }, { title: "Intermediate", topics: ["Business", "Media"] }, { title: "Advanced", topics: ["Literature", "Translation"] }] },
+      "Korean": { units: [{ title: "Hangul", topics: ["Consonants", "Vowels"] }, { title: "Pronunciation", topics: ["Rules"] }, { title: "Grammar", topics: ["Particles", "Verbs"] }, { title: "Daily Conversations", topics: ["Greetings", "Family"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature", "Media"] }] },
+      "Dutch": { units: [{ title: "Foundations", topics: ["Alphabet", "Greetings"] }, { title: "Grammar", topics: ["Articles", "Word order"] }, { title: "Communication", topics: ["Family", "Numbers"] }, { title: "Reading", topics: ["Texts"] }, { title: "Business", topics: ["Workplace"] }, { title: "Advanced", topics: ["Literature"] }] },
+      "Greek": { units: [{ title: "Greek Alphabet", topics: ["Letters", "Pronunciation"] }, { title: "Vocabulary", topics: ["Numbers", "Family"] }, { title: "Grammar", topics: ["Nouns", "Verbs"] }, { title: "Communication", topics: ["Conversations"] }, { title: "Literature", topics: ["Reading"] }, { title: "Advanced", topics: ["Business", "Translation"] }] }
     };
-    // Add more languages from original if needed (they will still work due to dynamic checking)
+
     const regularCourses = [
       {name:"ICT",icon:"💻",units:["Computer Basics","Operating Systems","Internet","Programming"]},
       {name:"Robotics",icon:"🤖",units:["Sensors","Microcontrollers","Automation","AI"]},
@@ -348,7 +419,6 @@
       navigateTo('home');
       renderNav();
     }
-    // Progress updates that sync to Firestore
     async function saveCompletedCourse(courseName) {
       if (!completedCourses.includes(courseName)) completedCourses.push(courseName);
       if (currentUser && currentUser.uid) await syncUserToFirestore();
@@ -417,7 +487,7 @@
       container.innerHTML = comments.slice(0,5).map(c => `<div class="comment-card"><div class="comment-header"><span class="commenter-name">${escapeHtml(c.name||'Anonymous')}</span><span class="comment-type">${c.type}</span></div><div>${escapeHtml(c.message)}</div><div class="comment-date">${c.timestamp?.toDate?.()?.toLocaleString() || 'Just now'}</div></div>`).join('');
     }
 
-    // ======================= LIVE STREAM (FIRESTORE) =======================
+    // ======================= LIVE STREAM =======================
     async function loadLiveStatusFromFirestore() {
       const doc = await db.collection("settings").doc("liveStatus").get();
       if (doc.exists) { liveStatus = doc.data(); updateLiveBanner(); }
@@ -471,9 +541,10 @@
       const nav = document.getElementById('mainNav');
       nav.innerHTML = `<div class="nav-item-3d"><a onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('courses')"><i class="fas fa-book"></i> Courses</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('opportunities')"><i class="fas fa-briefcase"></i> Opportunities</a></div>
+        <div class="nav-item-3d"><a onclick="navigateTo('community')"><i class="fas fa-users"></i> Community</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('account')"><i class="fas fa-user"></i> Account</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></div>
-        <div class="nav-item-3d"><a onclick="navigateTo('ece')"><i class="fas fa-child"></i> ECE</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('elibrary')"><i class="fas fa-book-open"></i> E-Library</a></div>
         <button class="nav-btn comments-btn" onclick="openCommentsModal()"><i class="fas fa-comment-dots"></i> Feedback</button>
         ${!currentUser ? `<button class="nav-btn register-nav-btn" onclick="navigateTo('account')"><i class="fas fa-user-plus"></i> Register</button>` : `<button class="nav-btn register-nav-btn" onclick="logoutFirebase()"><i class="fas fa-sign-out-alt"></i> Logout</button>`}
@@ -482,15 +553,16 @@
     function navigateTo(page) {
       if (page === 'home') renderHome();
       else if (page === 'courses') renderCourses();
+      else if (page === 'opportunities') renderOpportunities();
+      else if (page === 'community') renderCommunity();
       else if (page === 'account') renderAccount();
       else if (page === 'dashboard') renderDashboard();
-      else if (page === 'ece') renderECE();
       else if (page === 'elibrary') renderELibrary();
       else if (page === 'admin') renderAdmin();
       else renderHome();
     }
     
-    // ======================= HOME PAGE WITH INTRO + LEGAL CARDS =======================
+    // ======================= HOME PAGE (ORIGINAL - FULLY PRESERVED) =======================
     function renderHome() {
       document.getElementById('mainContent').innerHTML = `
         <div class="container">
@@ -500,7 +572,6 @@
               <span style="color:#FAD201;">Rwanda Tech Learning Hub (RTLH)</span>
             </h1>
             <p style="font-size:1.2rem; text-align:center; margin-bottom:30px;"><strong>Empowering Rwanda, Africa, and the World Through Technology-Integrated E-Learning</strong></p>
-            
             <div style="max-height:400px; overflow-y:auto; padding-right:15px; margin-bottom:30px;">
               <p>Welcome to <strong>Rwanda Tech Learning Hub (RTLH)</strong>, a modern digital learning platform created to equip learners with practical skills, professional knowledge, and globally competitive competencies for the 21st century. RTLH was developed with a vision of empowering Rwandans, Africans, and learners worldwide through accessible, affordable, and high-quality online education integrated with technology.</p>
               <p>At RTLH, we believe that education is the key to personal growth, innovation, employment, and sustainable development. Our platform provides learners with the opportunity to study anytime, anywhere, and at their own pace while gaining valuable knowledge and hands-on skills that can be applied in real-world situations. Whether you are a student, teacher, job seeker, entrepreneur, professional, or lifelong learner, RTLH is designed to help you achieve your educational and career goals.</p>
@@ -509,124 +580,24 @@
               <p>RTLH is more than an e-learning platform—it is a gateway to opportunity. By connecting education with technology, we prepare learners for the digital economy and the future workforce. Our mission is to bridge the skills gap, promote innovation, support lifelong learning, and create a generation of empowered individuals capable of transforming their communities and contributing to national and global development.</p>
               <p><strong>Join Rwanda Tech Learning Hub today and begin your journey toward knowledge, skills, certification, innovation, and success. Your future starts here.</strong></p>
             </div>
-            
             <div style="text-align:center;">
               <button class="btn-3d" onclick="navigateTo('courses')">
                 <i class="fas fa-rocket"></i> Start Learning Now
               </button>
             </div>
           </div>
-          
-          <!-- NEW LEGAL CENTER SECTION -->
           <div class="content-card">
             <h2 class="section-title" style="color:#FAD201;">⚖️ RTLH LEGAL CENTER</h2>
             <div class="legal-grid">
-              <!-- Privacy Policy Card -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-shield-alt"></i> Privacy Policy</h3></div>
-                <div class="legal-card-content">
-                  <p>At Rwanda Tech Learning Hub (RTLH), we respect and protect your privacy. We collect only the information necessary to provide educational services, including account registration, course enrollment, certification, academic progress tracking, customer support, and platform improvement.</p>
-                  <p>Your personal information is securely stored and protected through industry-standard security measures. RTLH does not sell personal information to third parties. Information may only be shared with trusted service providers, educational verification partners, or legal authorities when required by law.</p>
-                  <p>Users have the right to access, correct, update, or request deletion of their personal information, subject to applicable laws. By using RTLH, you consent to the collection and processing of information as described in our full Privacy Policy.</p>
-                </div>
-              </div>
-              <!-- Terms and Conditions Card -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-file-contract"></i> Terms & Conditions</h3></div>
-                <div class="legal-card-content">
-                  <p>By accessing or using RTLH, you agree to comply with all applicable laws, platform rules, and educational standards.</p>
-                  <p>Users must provide accurate information, maintain account security, respect intellectual property rights, and use the platform responsibly. Unauthorized copying, redistribution, hacking, cheating, plagiarism, or misuse of certificates is strictly prohibited.</p>
-                  <p>RTLH reserves the right to suspend or terminate accounts that violate these terms. Continued use of the platform constitutes acceptance of all applicable policies and updates.</p>
-                </div>
-              </div>
-              <!-- Cookie Policy Card -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-cookie-bite"></i> Cookie Policy</h3></div>
-                <div class="legal-card-content">
-                  <p>RTLH uses cookies and similar technologies to improve website functionality, personalize user experiences, remember user preferences, analyze traffic, and enhance platform performance.</p>
-                  <p>Cookies may include:</p>
-                  <ul>
-                    <li><strong>Essential Cookies</strong> – Required for website functionality and account access.</li>
-                    <li><strong>Performance Cookies</strong> – Help improve website speed and performance.</li>
-                    <li><strong>Analytics Cookies</strong> – Provide anonymous usage statistics.</li>
-                    <li><strong>Preference Cookies</strong> – Remember language and user settings.</li>
-                  </ul>
-                  <p>Users may disable cookies through browser settings; however, certain platform features may not function properly. By continuing to use RTLH, you consent to the use of cookies in accordance with this policy.</p>
-                </div>
-              </div>
-              <!-- Certificate Verification Policy -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-certificate"></i> Certificate Verification</h3></div>
-                <div class="legal-card-content">
-                  <p>RTLH certificates are issued only to learners who successfully complete course requirements, assessments, and verification procedures.</p>
-                  <p>Each certificate may contain:</p>
-                  <ul>
-                    <li>Unique Certificate ID</li>
-                    <li>Learner Name</li>
-                    <li>Course Title</li>
-                    <li>Completion Date</li>
-                    <li>Verification Information</li>
-                  </ul>
-                  <p>RTLH reserves the right to verify, suspend, revoke, or invalidate certificates obtained through fraud, plagiarism, cheating, identity misrepresentation, or violation of platform policies. Employers, institutions, scholarship providers, and other authorized organizations may verify certificate authenticity through the RTLH verification system.</p>
-                </div>
-              </div>
-              <!-- Refund Policy -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-money-bill-wave"></i> Refund Policy</h3></div>
-                <div class="legal-card-content">
-                  <p>Where paid courses or services are offered, learners may request a refund within the specified refund period stated during purchase.</p>
-                  <p>Refunds may be granted when:</p>
-                  <ul>
-                    <li>Payment errors occur.</li>
-                    <li>Duplicate transactions occur.</li>
-                    <li>Services cannot reasonably be delivered.</li>
-                  </ul>
-                  <p>Refunds may not be granted when:</p>
-                  <ul>
-                    <li>Significant portions of course content have already been accessed.</li>
-                    <li>Certificates have already been issued.</li>
-                    <li>Violations of platform policies occur.</li>
-                  </ul>
-                  <p>Approved refunds will be processed using the original payment method whenever possible. RTLH reserves the right to review all refund requests individually and in accordance with applicable consumer protection laws.</p>
-                </div>
-              </div>
-              <!-- Community Guidelines & Code of Conduct -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-users"></i> Community Guidelines</h3></div>
-                <div class="legal-card-content">
-                  <p>RTLH is committed to maintaining a respectful, inclusive, and professional learning environment.</p>
-                  <p><strong>All users must:</strong></p>
-                  <ul>
-                    <li>✓ Treat others with respect and dignity.</li>
-                    <li>✓ Communicate professionally.</li>
-                    <li>✓ Submit original work.</li>
-                    <li>✓ Respect intellectual property rights.</li>
-                    <li>✓ Support a positive learning environment.</li>
-                  </ul>
-                  <p><strong>Users must not:</strong></p>
-                  <ul>
-                    <li>✗ Harass, threaten, or discriminate against others.</li>
-                    <li>✗ Share offensive, harmful, or illegal content.</li>
-                    <li>✗ Engage in cheating or plagiarism.</li>
-                    <li>✗ Attempt unauthorized access to systems.</li>
-                    <li>✗ Distribute spam, malware, or misleading information.</li>
-                  </ul>
-                  <p>Violations may result in warnings, suspension, certificate revocation, account termination, or legal action where applicable.</p>
-                </div>
-              </div>
-              <!-- International Compliance Statement -->
-              <div class="legal-card">
-                <div class="legal-card-header"><h3><i class="fas fa-globe"></i> International Compliance</h3></div>
-                <div class="legal-card-content">
-                  <p>RTLH is committed to operating in accordance with internationally recognized principles of privacy, data protection, cybersecurity, consumer protection, digital learning, academic integrity, and responsible technology use.</p>
-                  <p>By using RTLH, users acknowledge that they have read, understood, and agreed to all applicable policies, terms, and guidelines governing the platform.</p>
-                  <p>© 2026 Rwanda Tech Learning Hub (RTLH). All Rights Reserved.</p>
-                </div>
-              </div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-shield-alt"></i> Privacy Policy</h3></div><div class="legal-card-content"><p>At Rwanda Tech Learning Hub (RTLH), we respect and protect your privacy. We collect only the information necessary to provide educational services, including account registration, course enrollment, certification, academic progress tracking, customer support, and platform improvement.</p><p>Your personal information is securely stored and protected through industry-standard security measures. RTLH does not sell personal information to third parties. Information may only be shared with trusted service providers, educational verification partners, or legal authorities when required by law.</p><p>Users have the right to access, correct, update, or request deletion of their personal information, subject to applicable laws. By using RTLH, you consent to the collection and processing of information as described in our full Privacy Policy.</p></div></div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-file-contract"></i> Terms & Conditions</h3></div><div class="legal-card-content"><p>By accessing or using RTLH, you agree to comply with all applicable laws, platform rules, and educational standards.</p><p>Users must provide accurate information, maintain account security, respect intellectual property rights, and use the platform responsibly. Unauthorized copying, redistribution, hacking, cheating, plagiarism, or misuse of certificates is strictly prohibited.</p><p>RTLH reserves the right to suspend or terminate accounts that violate these terms. Continued use of the platform constitutes acceptance of all applicable policies and updates.</p></div></div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-cookie-bite"></i> Cookie Policy</h3></div><div class="legal-card-content"><p>RTLH uses cookies and similar technologies to improve website functionality, personalize user experiences, remember user preferences, analyze traffic, and enhance platform performance.</p><p>Cookies may include:</p><ul><li><strong>Essential Cookies</strong> – Required for website functionality and account access.</li><li><strong>Performance Cookies</strong> – Help improve website speed and performance.</li><li><strong>Analytics Cookies</strong> – Provide anonymous usage statistics.</li><li><strong>Preference Cookies</strong> – Remember language and user settings.</li></ul><p>Users may disable cookies through browser settings; however, certain platform features may not function properly. By continuing to use RTLH, you consent to the use of cookies in accordance with this policy.</p></div></div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-certificate"></i> Certificate Verification</h3></div><div class="legal-card-content"><p>RTLH certificates are issued only to learners who successfully complete course requirements, assessments, and verification procedures.</p><p>Each certificate may contain:</p><ul><li>Unique Certificate ID</li><li>Learner Name</li><li>Course Title</li><li>Completion Date</li><li>Verification Information</li></ul><p>RTLH reserves the right to verify, suspend, revoke, or invalidate certificates obtained through fraud, plagiarism, cheating, identity misrepresentation, or violation of platform policies. Employers, institutions, scholarship providers, and other authorized organizations may verify certificate authenticity through the RTLH verification system.</p></div></div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-money-bill-wave"></i> Refund Policy</h3></div><div class="legal-card-content"><p>Where paid courses or services are offered, learners may request a refund within the specified refund period stated during purchase.</p><p>Refunds may be granted when:</p><ul><li>Payment errors occur.</li><li>Duplicate transactions occur.</li><li>Services cannot reasonably be delivered.</li></ul><p>Refunds may not be granted when:</p><ul><li>Significant portions of course content have already been accessed.</li><li>Certificates have already been issued.</li><li>Violations of platform policies occur.</li></ul><p>Approved refunds will be processed using the original payment method whenever possible. RTLH reserves the right to review all refund requests individually and in accordance with applicable consumer protection laws.</p></div></div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-users"></i> Community Guidelines</h3></div><div class="legal-card-content"><p>RTLH is committed to maintaining a respectful, inclusive, and professional learning environment.</p><p><strong>All users must:</strong></p><ul><li>✓ Treat others with respect and dignity.</li><li>✓ Communicate professionally.</li><li>✓ Submit original work.</li><li>✓ Respect intellectual property rights.</li><li>✓ Support a positive learning environment.</li></ul><p><strong>Users must not:</strong></p><ul><li>✗ Harass, threaten, or discriminate against others.</li><li>✗ Share offensive, harmful, or illegal content.</li><li>✗ Engage in cheating or plagiarism.</li><li>✗ Attempt unauthorized access to systems.</li><li>✗ Distribute spam, malware, or misleading information.</li></ul><p>Violations may result in warnings, suspension, certificate revocation, account termination, or legal action where applicable.</p></div></div>
+              <div class="legal-card"><div class="legal-card-header"><h3><i class="fas fa-globe"></i> International Compliance</h3></div><div class="legal-card-content"><p>RTLH is committed to operating in accordance with internationally recognized principles of privacy, data protection, cybersecurity, consumer protection, digital learning, academic integrity, and responsible technology use.</p><p>By using RTLH, users acknowledge that they have read, understood, and agreed to all applicable policies, terms, and guidelines governing the platform.</p><p>© 2026 Rwanda Tech Learning Hub (RTLH). All Rights Reserved.</p></div></div>
             </div>
           </div>
-          
-          <!-- Contact information cards (preserved from original) -->
           <div class="content-card">
             <h2 class="section-title">📞 Contact Information</h2>
             <div class="grid-3">
@@ -639,122 +610,132 @@
       `;
     }
     
-    function showPrivacyPolicy(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Privacy Policy</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>We collect your name, email, phone, and country for educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
-    function showTermsOfUse(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Terms of Use</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>By using this platform, you agree to use all content for lawful educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">I Agree</button>`; }
-    function renderCourses() {
-      let html = `<div class="container"><div class="content-card"><h2 class="section-title">📚 Course Library</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;">`;
-      regularCourses.forEach(c => { html += `<div onclick="openRegularCourse('${c.name}')" style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;text-align:center;cursor:pointer;"><span style="font-size:2.5rem;">${c.icon}</span><h4>${c.name}</h4><span>${c.units.length} units</span>${completedCourses.includes(c.name)?' <span style="color:#FAD201;">🏅</span>':''}</div>`; });
-      html += `</div><div style="margin-top:30px;"><div class="lang-category-card" onclick="renderLanguages()" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);"><i class="fas fa-globe" style="font-size:3rem;"></i><h3 style="margin-top:10px;">🌍 World Languages</h3><p>Explore African, European, and Asian languages</p></div></div></div></div>`;
-      document.getElementById('mainContent').innerHTML = html;
+    // ======================= OPPORTUNITIES PAGE (3D cards with jobs/internships/scholarships) =======================
+    function renderOpportunities() {
+      const oppHtml = `
+        <div class="container">
+          <div class="content-card">
+            <h2 class="section-title">🌍 Global Opportunities</h2>
+            <p style="text-align:center; margin-bottom:30px;">Jobs, Internships & Scholarships – curated for you.</p>
+            <div class="opportunity-grid">
+              <div class="opp-card"><h3><i class="fas fa-briefcase"></i> Global Job Platforms</h3><ul><li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li><li><a href="https://indeed.com" target="_blank">Indeed Global</a></li><li><a href="https://glassdoor.com" target="_blank">Glassdoor</a></li><li><a href="https://google.com" target="_blank">Google for Jobs</a></li></ul><button class="btn-explore" onclick="window.open('https://linkedin.com','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-map-of-africa"></i> Africa & Rwanda Jobs</h3><ul><li><a href="https://jobinrwanda.com" target="_blank">Job in Rwanda</a></li><li><a href="https://brightermonday.co.ke" target="_blank">BrighterMonday (East Africa)</a></li><li><a href="https://jobberman.com" target="_blank">Jobberman (West Africa)</a></li><li><a href="https://careers24.com" target="_blank">Careers24 (South Africa)</a></li></ul><button class="btn-explore" onclick="window.open('https://jobinrwanda.com','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-globe-americas"></i> Regional Jobs</h3><ul><li><a href="https://europa.eu" target="_blank">EURES Portal (Europe)</a></li><li><a href="https://stepstone.de" target="_blank">StepStone (Europe)</a></li><li><a href="https://seek.com.au" target="_blank">Seek (Asia-Pacific)</a></li><li><a href="https://jobsdb.com" target="_blank">JobsDB (Southeast Asia)</a></li><li><a href="https://ziprecruiter.com" target="_blank">ZipRecruiter (Americas)</a></li></ul><button class="btn-explore" onclick="window.open('https://europa.eu','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-graduation-cap"></i> Global Internships</h3><ul><li><a href="https://linkedin.com" target="_blank">LinkedIn Internships</a></li><li><a href="https://wayup.com" target="_blank">WayUp</a></li><li><a href="https://internships.com" target="_blank">Chegg Internships</a></li><li><a href="https://gooverseas.com" target="_blank">Go Overseas</a></li></ul><button class="btn-explore" onclick="window.open('https://wayup.com','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-handshake"></i> Africa & Rwanda Internships</h3><ul><li><a href="https://jobinrwanda.com" target="_blank">Job in Rwanda</a></li><li><a href="https://un.org" target="_blank">UN Careers (Africa Hubs)</a></li><li><a href="https://afdb.org" target="_blank">African Dev Bank</a></li><li><a href="https://fuzu.com" target="_blank">Fuzu</a></li></ul><button class="btn-explore" onclick="window.open('https://un.org','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-laptop-code"></i> Regional Internships</h3><ul><li><a href="https://erasmusintern.org" target="_blank">ErasmusIntern</a></li><li><a href="https://gradconnection.com" target="_blank">GradConnection (Asia-Pacific)</a></li><li><a href="https://kopra.org" target="_blank">Kopra (East Asia)</a></li><li><a href="https://joinhandshake.com" target="_blank">Handshake (Americas)</a></li></ul><button class="btn-explore" onclick="window.open('https://erasmusintern.org','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-award"></i> Global Scholarships</h3><ul><li><a href="https://scholarships.com" target="_blank">Scholarships.com</a></li><li><a href="https://scholars4dev.com" target="_blank">Scholars4dev</a></li><li><a href="https://fastweb.com" target="_blank">Fastweb</a></li><li><a href="https://findaphd.com" target="_blank">FindAPhD</a></li></ul><button class="btn-explore" onclick="window.open('https://scholarships.com','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-university"></i> Africa & Rwanda Scholarships</h3><ul><li><a href="https://mineduc.gov.rw" target="_blank">Rwanda MINEDUC</a></li><li><a href="https://advance-africa.com" target="_blank">Advance Africa</a></li><li><a href="https://au.int" target="_blank">African Union Portal</a></li><li><a href="https://mastercardfdn.org" target="_blank">Mastercard Foundation</a></li></ul><button class="btn-explore" onclick="window.open('https://mineduc.gov.rw','_blank')">Explore Now →</button></div>
+              <div class="opp-card"><h3><i class="fas fa-chalkboard-user"></i> Regional Scholarships</h3><ul><li><a href="https://europa.eu" target="_blank">Erasmus+</a></li><li><a href="https://daad.de" target="_blank">DAAD Germany</a></li><li><a href="https://campusfrance.org" target="_blank">Campus France</a></li><li><a href="https://jasso.go.jp" target="_blank">JASSO Japan</a></li><li><a href="https://campuschina.org" target="_blank">CSC China</a></li><li><a href="https://state.gov" target="_blank">EducationUSA</a></li></ul><button class="btn-explore" onclick="window.open('https://daad.de','_blank')">Explore Now →</button></div>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('mainContent').innerHTML = oppHtml;
     }
-    function renderLanguages() {
-      let langHtml = `<div class="container"><div class="content-card"><h2 class="section-title">🌍 World Languages</h2><div class="flex-grid">`;
-      for (let lang in languageUnitsData) {
-        let prog = getLanguageProgress(lang);
-        let total = languageUnitsData[lang].units.length;
-        langHtml += `<div class="language-card" onclick="startLanguageCourse('${lang}')"><i class="fas fa-language" style="font-size:2rem;"></i><h4>${lang}</h4><p>${prog.completedUnits.length}/${total} units</p>${prog.completedUnits.length===total?'✅ Certified':''}</div>`;
+
+    // ======================= COMMUNITY PAGE (Groups + E-class) =======================
+    async function renderCommunity() {
+      if (!currentUser) {
+        document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>👥 Community</h2><p>Please <a onclick="navigateTo('account')" style="color:#00A1DE;cursor:pointer;">login or register</a> to create and join groups.</p></div></div>`;
+        return;
       }
-      langHtml += `</div><button class="btn btn-outline" onclick="renderCourses()">← Back to Courses</button></div></div>`;
-      document.getElementById('mainContent').innerHTML = langHtml;
-    }
-    function startLanguageCourse(languageName) {
-      currentLanguage = languageName;
-      const data = languageUnitsData[languageName];
-      const prog = getLanguageProgress(languageName);
-      let html = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderLanguages()">← Back</button><h2>${languageName} Course</h2><div class="progress-bar"><div class="progress-fill" style="width:${(prog.completedUnits.length/data.units.length)*100}%"></div></div>`;
-      data.units.forEach((unit, idx) => {
-        html += `<div class="unit-card-small ${prog.completedUnits.includes(idx)?'completed':''}" onclick="openLanguageUnit(${idx})"><strong>Unit ${idx+1}: ${unit.title}</strong> ${prog.completedUnits.includes(idx)?'✅':'▶'}</div>`;
+      const groupsSnapshot = await db.collection("groups").orderBy("createdAt", "desc").get();
+      let groupsHtml = `<div class="container"><div class="content-card"><h2>👥 Learning Community</h2><button class="btn btn-primary" onclick="showCreateGroupModal()"><i class="fas fa-plus"></i> Create New Group</button><div id="groupsList">`;
+      groupsSnapshot.forEach(doc => {
+        const g = doc.data();
+        groupsHtml += `<div class="group-card" onclick="openGroupChat('${doc.id}', '${escapeHtml(g.name)}')">
+          <strong>📌 ${escapeHtml(g.name)}</strong><br>
+          <small>Created by ${escapeHtml(g.createdBy)} • ${g.memberCount || 1} members</small>
+          <p>${escapeHtml(g.description || 'No description')}</p>
+        </div>`;
       });
-      html += `<button class="btn btn-primary" onclick="if(prog.completedUnits.length===data.units.length) { saveCompletedCourse('${languageName}'); saveCertificate('${languageName}'); showToast('Certificate awarded!','success'); } else alert('Complete all units first.')">Get Certificate</button></div></div>`;
-      document.getElementById('mainContent').innerHTML = html;
+      groupsHtml += `</div></div></div>`;
+      document.getElementById('mainContent').innerHTML = groupsHtml;
     }
-    function openLanguageUnit(unitIndex) {
-      const unit = languageUnitsData[currentLanguage].units[unitIndex];
-      let html = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="startLanguageCourse('${currentLanguage}')">← Back</button><h3>${unit.title}</h3><p>Topics: ${unit.topics.join(", ")}</p><button class="btn btn-primary" onclick="completeLanguageUnit(${unitIndex})">Complete Unit & Take Quiz</button></div></div>`;
-      document.getElementById('mainContent').innerHTML = html;
+
+    function showCreateGroupModal() {
+      const modalHtml = `<div class="modal-header"><h3>Create a Learning Group</h3><button class="modal-close-btn" onclick="closeModal('communityModal')">×</button></div><input id="groupName" class="form-control" placeholder="Group Name" required><textarea id="groupDesc" class="form-control" placeholder="Description (optional)" rows="3"></textarea><button class="btn btn-primary" onclick="createGroup()">Create Group</button>`;
+      document.getElementById('communityModalContent').innerHTML = modalHtml;
+      document.getElementById('communityModal').classList.add('active');
     }
-    async function completeLanguageUnit(unitIndex) {
-      await saveLanguageProgress(currentLanguage, unitIndex, true);
-      showToast(`Unit ${unitIndex+1} completed!`, "success");
-      startLanguageCourse(currentLanguage);
+
+    async function createGroup() {
+      const name = document.getElementById('groupName').value.trim();
+      const desc = document.getElementById('groupDesc').value;
+      if (!name) { showToast("Group name required", "error"); return; }
+      await db.collection("groups").add({
+        name, description: desc, createdBy: currentUser.displayName || currentUser.email, createdById: currentUser.uid,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(), memberCount: 1, members: [currentUser.uid]
+      });
+      showToast("Group created!", "success");
+      closeModal('communityModal');
+      renderCommunity();
     }
-    function openRegularCourse(name) {
-      currentCourse = regularCourses.find(c => c.name === name);
-      let prog = userProgress[name] || 0;
-      let unitsHtml = currentCourse.units.map((u, i) => `<div style="margin:15px 0;"><h4>📖 ${u}</h4><button class="btn btn-outline" onclick="markUnitComplete('${name}',${i})">Start Learning</button>${prog > i ? ' ✅ Completed' : ''}</div>`).join('');
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderCourses()">← Back</button><h2>${currentCourse.icon} ${currentCourse.name}</h2>${unitsHtml}<button class="btn btn-primary" onclick="completeRegularCourseExam('${name}')">Take Final Exam & Get Certificate</button></div></div>`;
+
+    async function openGroupChat(groupId, groupName) {
+      const chatHtml = `<div class="modal-header"><h3>💬 E‑class: ${escapeHtml(groupName)}</h3><button class="modal-close-btn" onclick="closeModal('communityModal')">×</button></div><div id="chatMessages" class="chat-container" style="height:300px; overflow-y:auto;"></div><div style="display:flex; gap:10px; margin-top:10px;"><input id="chatInput" class="form-control" placeholder="Type your message..."><button class="btn btn-primary" onclick="sendGroupMessage('${groupId}')">Send</button></div>`;
+      document.getElementById('communityModalContent').innerHTML = chatHtml;
+      document.getElementById('communityModal').classList.add('active');
+      const unsubscribe = db.collection("groups").doc(groupId).collection("messages").orderBy("timestamp", "asc").onSnapshot(snapshot => {
+        const messagesDiv = document.getElementById('chatMessages');
+        if (!messagesDiv) return;
+        messagesDiv.innerHTML = '';
+        snapshot.forEach(doc => {
+          const msg = doc.data();
+          messagesDiv.innerHTML += `<div class="chat-message"><strong>${escapeHtml(msg.senderName)}:</strong> ${escapeHtml(msg.text)}<br><small>${msg.timestamp?.toDate?.()?.toLocaleTimeString() || ''}</small></div>`;
+        });
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      });
+      window.currentChatUnsubscribe = unsubscribe;
     }
-    async function markUnitComplete(courseName, idx) {
-      await saveProgress(courseName, idx);
-      openRegularCourse(courseName);
+
+    async function sendGroupMessage(groupId) {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      await db.collection("groups").doc(groupId).collection("messages").add({
+        text, senderId: currentUser.uid, senderName: currentUser.displayName || currentUser.email,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      input.value = '';
     }
-    async function completeRegularCourseExam(courseName) {
-      let totalUnits = regularCourses.find(c => c.name === courseName).units.length;
-      let prog = userProgress[courseName] || 0;
-      if (prog >= totalUnits) {
-        await saveCompletedCourse(courseName);
-        await saveCertificate(courseName);
-        showToast(`🏆 Certificate earned for ${courseName}!`, "success");
-        navigateTo('dashboard');
-      } else { showToast(`Complete all ${totalUnits} units first!`, "error"); }
-    }
-    function renderAccount() {
-      if (currentUser) {
-        document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;"><h3>Welcome ${currentUser.displayName || currentUser.email}</h3><p>Email: ${currentUser.email}</p><h4>📚 Completed Courses: ${completedCourses.length}</h4><h4>🎓 Certificates: ${certificates.length}</h4><button class="btn btn-danger mt-20" onclick="logoutFirebase()">Logout</button></div></div>`;
-      } else {
-        document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;"><h2>Login / Sign Up</h2><form id="authForm"><input id="authName" class="form-control" placeholder="Full Name (signup)"><input id="authEmail" class="form-control" placeholder="Email" required><input id="authPass" type="password" class="form-control" placeholder="Password" required><input id="authPhone" class="form-control" placeholder="Phone"><select id="authCountry" class="form-control"><option>Rwanda</option><option>USA</option><option>UK</option><option>Kenya</option></select><button type="submit" class="btn btn-primary">Login</button><button type="button" id="signupBtn" class="btn btn-outline">Sign Up</button></form></div></div>`;
-        document.getElementById('authForm').addEventListener('submit', async (e) => { e.preventDefault(); await loginFirebase(document.getElementById('authEmail').value, document.getElementById('authPass').value); if(currentUser) navigateTo('dashboard'); renderNav(); });
-        document.getElementById('signupBtn').addEventListener('click', async () => { await signUpFirebase(document.getElementById('authEmail').value, document.getElementById('authPass').value, document.getElementById('authName').value, document.getElementById('authPhone').value, document.getElementById('authCountry').value); if(currentUser) navigateTo('dashboard'); renderNav(); });
-      }
-    }
-    function renderDashboard() {
-      let langHtml = `<div class="grid-2">`;
-      for (let lang in languageProgress) {
-        let total = languageUnitsData[lang]?.units.length || 1;
-        let pct = (languageProgress[lang].completedUnits.length / total) * 100;
-        langHtml += `<div class="info-card"><h4>${lang}</h4><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><p>${Math.round(pct)}%</p></div>`;
-      }
-      langHtml += `</div>`;
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Dashboard</h2><div class="grid-3"><div class="info-card"><h3>📚 Completed Courses</h3><h2>${completedCourses.length}</h2></div><div class="info-card"><h3>🎓 Certificates</h3><h2>${certificates.length}</h2></div><div class="info-card"><h3>📈 Progress</h3><p>${Object.keys(userProgress).length + Object.keys(languageProgress).length} started</p></div></div><h3>Language Progress</h3>${langHtml}<button class="btn btn-primary mt-20" onclick="showCertificatesList()">View Certificates</button></div></div>`;
-    }
-    function showCertificatesList() { let h=certificates.map(c=>`<div>🏅 ${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div><h3>My Certificates</h3>${h||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
-    function renderECE(){ let ece=regularCourses.find(c=>c.name==="ECE"); currentCourse=ece; let uh=ece.units.map((u,i)=>`<div><h4>${u}</h4><button class="btn btn-outline" onclick="markUnitComplete('ECE',${i})">Start</button></div>`).join(''); document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>Early Childhood Education (ECE)</h2>${uh}<button class="btn btn-primary" onclick="completeRegularCourseExam('ECE')">Get Certificate</button></div></div>`; }
-    function renderELibrary(){ document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>E-Library</h2><p>Coming soon: Digital books and resources</p></div></div>`; }
-    async function renderAdmin() {
-      if (!isAdmin) { document.getElementById('adminLoginModal').classList.add('active'); return; }
-      const usersSnap = await db.collection("users").get();
-      let usersTable = `<h3>Users (${usersSnap.size})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Courses</th><th>Languages</th></tr>`;
-      usersSnap.forEach(doc => { const u = doc.data(); usersTable += `<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`; });
-      usersTable += `</table>`;
-      const comments = await loadCommentsFromFirestore();
-      let commentsHtml = `<h3>Comments (${comments.length})</h3>` + comments.map(c => `<div class="comment-card"><strong>${c.name||'Anonymous'}</strong> (${c.type}): ${c.message}<br><small>${c.timestamp?.toDate?.()?.toLocaleString()}</small></div>`).join('');
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="document.getElementById('adminContentArea').innerHTML = \`${usersTable.replace(/`/g,'\\`')}\`">👥 Users</span><span class="admin-tab" onclick="document.getElementById('adminContentArea').innerHTML = \`${commentsHtml.replace(/`/g,'\\`')}\`">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${usersTable}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`;
-      window.renderAdminLiveTab = () => { document.getElementById('adminContentArea').innerHTML = renderAdminLiveControls(); };
-    }
-    function loginAsAdmin() { if(document.getElementById('adminPassword').value===ADMIN_PASSWORD){ isAdmin=true; closeModal('adminLoginModal'); navigateTo('admin'); } else document.getElementById('adminError').innerText='Wrong password!'; }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); if(window.currentChatUnsubscribe) window.currentChatUnsubscribe(); }
     window.closeModal = closeModal;
 
-    // ======================= ENHANCED 3D BACKGROUND (Globe + Particles) =======================
+    // ======================= ORIGINAL FUNCTIONS (preserved) =======================
+    function showPrivacyPolicy(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Privacy Policy</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>We collect your name, email, phone, and country for educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
+    function showTermsOfUse(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Terms of Use</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>By using this platform, you agree to use all content for lawful educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">I Agree</button>`; }
+    function renderCourses() { let html = `<div class="container"><div class="content-card"><h2 class="section-title">📚 Course Library</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;">`; regularCourses.forEach(c => { html += `<div onclick="openRegularCourse('${c.name}')" style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;text-align:center;cursor:pointer;"><span style="font-size:2.5rem;">${c.icon}</span><h4>${c.name}</h4><span>${c.units.length} units</span>${completedCourses.includes(c.name)?' <span style="color:#FAD201;">🏅</span>':''}</div>`; }); html += `</div><div style="margin-top:30px;"><div class="lang-category-card" onclick="renderLanguages()" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);"><i class="fas fa-globe" style="font-size:3rem;"></i><h3 style="margin-top:10px;">🌍 World Languages</h3><p>Explore African, European, and Asian languages</p></div></div></div></div>`; document.getElementById('mainContent').innerHTML = html; }
+    function renderLanguages() { let langHtml = `<div class="container"><div class="content-card"><h2 class="section-title">🌍 World Languages</h2><div class="flex-grid">`; for (let lang in languageUnitsData) { let prog = getLanguageProgress(lang); let total = languageUnitsData[lang].units.length; langHtml += `<div class="language-card" onclick="startLanguageCourse('${lang}')"><i class="fas fa-language" style="font-size:2rem;"></i><h4>${lang}</h4><p>${prog.completedUnits.length}/${total} units</p>${prog.completedUnits.length===total?'✅ Certified':''}</div>`; } langHtml += `</div><button class="btn btn-outline" onclick="renderCourses()">← Back to Courses</button></div></div>`; document.getElementById('mainContent').innerHTML = langHtml; }
+    function startLanguageCourse(languageName) { currentLanguage = languageName; const data = languageUnitsData[languageName]; const prog = getLanguageProgress(languageName); let html = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderLanguages()">← Back</button><h2>${languageName} Course</h2><div class="progress-bar"><div class="progress-fill" style="width:${(prog.completedUnits.length/data.units.length)*100}%"></div></div>`; data.units.forEach((unit, idx) => { html += `<div class="unit-card-small ${prog.completedUnits.includes(idx)?'completed':''}" onclick="openLanguageUnit(${idx})"><strong>Unit ${idx+1}: ${unit.title}</strong> ${prog.completedUnits.includes(idx)?'✅':'▶'}</div>`; }); html += `<button class="btn btn-primary" onclick="if(prog.completedUnits.length===data.units.length) { saveCompletedCourse('${languageName}'); saveCertificate('${languageName}'); showToast('Certificate awarded!','success'); } else alert('Complete all units first.')">Get Certificate</button></div></div>`; document.getElementById('mainContent').innerHTML = html; }
+    function openLanguageUnit(unitIndex) { const unit = languageUnitsData[currentLanguage].units[unitIndex]; let html = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="startLanguageCourse('${currentLanguage}')">← Back</button><h3>${unit.title}</h3><p>Topics: ${unit.topics.join(", ")}</p><button class="btn btn-primary" onclick="completeLanguageUnit(${unitIndex})">Complete Unit & Take Quiz</button></div></div>`; document.getElementById('mainContent').innerHTML = html; }
+    async function completeLanguageUnit(unitIndex) { await saveLanguageProgress(currentLanguage, unitIndex, true); showToast(`Unit ${unitIndex+1} completed!`, "success"); startLanguageCourse(currentLanguage); }
+    function openRegularCourse(name) { currentCourse = regularCourses.find(c => c.name === name); let prog = userProgress[name] || 0; let unitsHtml = currentCourse.units.map((u, i) => `<div style="margin:15px 0;"><h4>📖 ${u}</h4><button class="btn btn-outline" onclick="markUnitComplete('${name}',${i})">Start Learning</button>${prog > i ? ' ✅ Completed' : ''}</div>`).join(''); document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderCourses()">← Back</button><h2>${currentCourse.icon} ${currentCourse.name}</h2>${unitsHtml}<button class="btn btn-primary" onclick="completeRegularCourseExam('${name}')">Take Final Exam & Get Certificate</button></div></div>`; }
+    async function markUnitComplete(courseName, idx) { await saveProgress(courseName, idx); openRegularCourse(courseName); }
+    async function completeRegularCourseExam(courseName) { let totalUnits = regularCourses.find(c => c.name === courseName).units.length; let prog = userProgress[courseName] || 0; if (prog >= totalUnits) { await saveCompletedCourse(courseName); await saveCertificate(courseName); showToast(`🏆 Certificate earned for ${courseName}!`, "success"); navigateTo('dashboard'); } else { showToast(`Complete all ${totalUnits} units first!`, "error"); } }
+    function renderAccount() { if (currentUser) { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;"><h3>Welcome ${currentUser.displayName || currentUser.email}</h3><p>Email: ${currentUser.email}</p><h4>📚 Completed Courses: ${completedCourses.length}</h4><h4>🎓 Certificates: ${certificates.length}</h4><button class="btn btn-danger mt-20" onclick="logoutFirebase()">Logout</button></div></div>`; } else { document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card" style="max-width:500px;margin:auto;"><h2>Login / Sign Up</h2><form id="authForm"><input id="authName" class="form-control" placeholder="Full Name (signup)"><input id="authEmail" class="form-control" placeholder="Email" required><input id="authPass" type="password" class="form-control" placeholder="Password" required><input id="authPhone" class="form-control" placeholder="Phone"><select id="authCountry" class="form-control"><option>Rwanda</option><option>USA</option><option>UK</option><option>Kenya</option></select><button type="submit" class="btn btn-primary">Login</button><button type="button" id="signupBtn" class="btn btn-outline">Sign Up</button></form></div></div>`; document.getElementById('authForm').addEventListener('submit', async (e) => { e.preventDefault(); await loginFirebase(document.getElementById('authEmail').value, document.getElementById('authPass').value); if(currentUser) navigateTo('dashboard'); renderNav(); }); document.getElementById('signupBtn').addEventListener('click', async () => { await signUpFirebase(document.getElementById('authEmail').value, document.getElementById('authPass').value, document.getElementById('authName').value, document.getElementById('authPhone').value, document.getElementById('authCountry').value); if(currentUser) navigateTo('dashboard'); renderNav(); }); } }
+    function renderDashboard() { let langHtml = `<div class="grid-2">`; for (let lang in languageProgress) { let total = languageUnitsData[lang]?.units.length || 1; let pct = (languageProgress[lang].completedUnits.length / total) * 100; langHtml += `<div class="info-card"><h4>${lang}</h4><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div><p>${Math.round(pct)}%</p></div>`; } langHtml += `</div>`; document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Dashboard</h2><div class="grid-3"><div class="info-card"><h3>📚 Completed Courses</h3><h2>${completedCourses.length}</h2></div><div class="info-card"><h3>🎓 Certificates</h3><h2>${certificates.length}</h2></div><div class="info-card"><h3>📈 Progress</h3><p>${Object.keys(userProgress).length + Object.keys(languageProgress).length} started</p></div></div><h3>Language Progress</h3>${langHtml}<button class="btn btn-primary mt-20" onclick="showCertificatesList()">View Certificates</button></div></div>`; }
+    function showCertificatesList() { let h=certificates.map(c=>`<div>🏅 ${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div><h3>My Certificates</h3>${h||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
+    function renderELibrary(){ document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>E-Library</h2><p>Coming soon: Digital books and resources</p></div></div>`; }
+    async function renderAdmin() { if (!isAdmin) { document.getElementById('adminLoginModal').classList.add('active'); return; } const usersSnap = await db.collection("users").get(); let usersTable = `<h3>Users (${usersSnap.size})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Courses</th><th>Languages</th></tr>`; usersSnap.forEach(doc => { const u = doc.data(); usersTable += `<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`; }); usersTable += `</table>`; const comments = await loadCommentsFromFirestore(); let commentsHtml = `<h3>Comments (${comments.length})</h3>` + comments.map(c => `<div class="comment-card"><strong>${c.name||'Anonymous'}</strong> (${c.type}): ${c.message}<br><small>${c.timestamp?.toDate?.()?.toLocaleString()}</small></div>`).join(''); document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="document.getElementById('adminContentArea').innerHTML = \`${usersTable.replace(/`/g,'\\`')}\`">👥 Users</span><span class="admin-tab" onclick="document.getElementById('adminContentArea').innerHTML = \`${commentsHtml.replace(/`/g,'\\`')}\`">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${usersTable}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`; window.renderAdminLiveTab = () => { document.getElementById('adminContentArea').innerHTML = renderAdminLiveControls(); }; }
+    function loginAsAdmin() { if(document.getElementById('adminPassword').value===ADMIN_PASSWORD){ isAdmin=true; closeModal('adminLoginModal'); navigateTo('admin'); } else document.getElementById('adminError').innerText='Wrong password!'; }
+
+    // ======================= 3D BACKGROUND (Original) =======================
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
     const rendererBg = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg-canvas'), alpha: true });
     rendererBg.setSize(innerWidth, innerHeight);
     camera.position.set(0, 2, 18);
-    
-    // Central glowing sphere
     const geometry = new THREE.SphereGeometry(1.8, 64, 64);
     const material = new THREE.MeshStandardMaterial({ color: 0x00A1DE, emissive: 0x004466, roughness: 0.3, metalness: 0.7 });
     const core = new THREE.Mesh(geometry, material);
     scene.add(core);
-    
-    // Wireframe globe
     const wireframeGeo = new THREE.SphereGeometry(2.0, 32, 32);
     const wireframeMat = new THREE.MeshBasicMaterial({ color: 0x00A1DE, wireframe: true, transparent: true, opacity: 0.3 });
     const wireframeGlobe = new THREE.Mesh(wireframeGeo, wireframeMat);
     scene.add(wireframeGlobe);
-    
-    // Particle system (stars + floating dots)
     const particlesGeometry = new THREE.BufferGeometry();
     const particlesCount = 1500;
     const posArray = new Float32Array(particlesCount * 3);
@@ -767,21 +748,16 @@
     const particlesMaterial = new THREE.PointsMaterial({ size: 0.08, color: 0x88aaff, transparent: true, opacity: 0.6 });
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
-    
-    // Orbiting rings
     const ringGeo = new THREE.TorusGeometry(2.5, 0.05, 64, 200);
     const ringMat = new THREE.MeshStandardMaterial({ color: 0xFAD201, emissive: 0x442200 });
     const ring = new THREE.Mesh(ringGeo, ringMat);
     ring.rotation.x = Math.PI / 2;
     scene.add(ring);
-    
     const ring2Geo = new THREE.TorusGeometry(3.0, 0.04, 64, 200);
     const ring2Mat = new THREE.MeshStandardMaterial({ color: 0x00A1DE });
     const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
     ring2.rotation.z = Math.PI / 3;
     scene.add(ring2);
-    
-    // Lights
     const ambientLight = new THREE.AmbientLight(0x404060);
     scene.add(ambientLight);
     const dirLight = new THREE.DirectionalLight(0xffffff, 1);
@@ -790,7 +766,6 @@
     const backLight = new THREE.PointLight(0x2266ff, 0.5);
     backLight.position.set(0, 0, -5);
     scene.add(backLight);
-    
     let time = 0;
     function animate() {
       requestAnimationFrame(animate);
@@ -807,13 +782,9 @@
       rendererBg.render(scene, camera);
     }
     animate();
-    window.addEventListener('resize', () => {
-      camera.aspect = innerWidth / innerHeight;
-      camera.updateProjectionMatrix();
-      rendererBg.setSize(innerWidth, innerHeight);
-    });
+    window.addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); rendererBg.setSize(innerWidth, innerHeight); });
 
-    // Expose global functions for onclick
+    // Expose global functions
     window.navigateTo = navigateTo; window.renderCourses = renderCourses; window.renderLanguages = renderLanguages;
     window.startLanguageCourse = startLanguageCourse; window.openLanguageUnit = openLanguageUnit;
     window.completeLanguageUnit = completeLanguageUnit; window.openRegularCourse = openRegularCourse;
@@ -822,7 +793,7 @@
     window.openLiveStream = openLiveStream; window.startLiveStream = startLiveStream; window.stopLiveStream = stopLiveStream;
     window.loginAsAdmin = loginAsAdmin; window.showPrivacyPolicy = showPrivacyPolicy; window.showTermsOfUse = showTermsOfUse;
     window.closeLiveStream = closeLiveStream; window.closeGenericModal = closeGenericModal; window.closeJotformAgent = closeJotformAgent;
-    window.openJotformAgent = openJotformAgent; window.logoutFirebase = logoutFirebase;
+    window.openJotformAgent = openJotformAgent; window.logoutFirebase = logoutFirebase; window.showCreateGroupModal = showCreateGroupModal; window.createGroup = createGroup; window.openGroupChat = openGroupChat; window.sendGroupMessage = sendGroupMessage;
     
     // ======================= AUTH STATE LISTENER =======================
     auth.onAuthStateChanged(async (user) => {
@@ -834,7 +805,7 @@
         completedCourses = []; certificates = []; userProgress = {}; languageProgress = {};
       }
       renderNav();
-      if (window.location.hash !== '#admin') navigateTo('home');
+      navigateTo('home');
     });
     loadLiveStatusFromFirestore();
   </script>
