@@ -262,7 +262,6 @@
     .footer-credits .social-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 10px; }
     .floating-ai-btn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: linear-gradient(135deg, #00A1DE, #20603D); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10001; box-shadow: 0 4px 15px rgba(0,161,222,0.5); transition: all 0.3s ease; animation: pulse-glow 2s infinite; border: 2px solid rgba(255,255,255,0.3); }
     .floating-ai-btn i { font-size: 28px; color: white; }
-    /* AI Chat Modal Styles */
     .ai-chat-modal .modal-content {
       max-width: 400px;
       height: 550px;
@@ -753,11 +752,14 @@
     
     function showCertificatesList(){ let h=certificates.map(c=>`<div>${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div><h3>My Certificates</h3>${h||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
     
-    function renderELibrary(){ document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>E-Library</h2><p>Coming soon: Digital books and resources</p></div></div>`; }
+    // E-Library now redirects to external HTML
+    function renderELibrary() { 
+      window.location.href = 'elibrary.html';
+    }
     
     async function renderAdmin(){ if(!isAdmin){ document.getElementById('adminLoginModal').classList.add('active'); return; } let commentsHtml=await renderAdminCommentsTab(); document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="renderAdminUsersTab()">👥 Users</span><span class="admin-tab" onclick="renderAdminCommentsTabView()">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${commentsHtml}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`; }
     
-    async function renderAdminUsersTab(){ let uh=`<h3>Users (${Object.keys(allUsers).length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th><th>Completed</th><th>Languages</th><tr>${Object.values(allUsers).map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`).join('')} </table>`; document.getElementById('adminContentArea').innerHTML=uh; }
+    async function renderAdminUsersTab(){ let uh=`<h3>Users (${Object.keys(allUsers).length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th><th>Completed</th><th>Languages</th></tr>${Object.values(allUsers).map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`).join('')} </table>`; document.getElementById('adminContentArea').innerHTML=uh; }
     
     async function renderAdminCommentsTabView(){ const ch=await renderAdminCommentsTab(); document.getElementById('adminContentArea').innerHTML=ch; }
     
@@ -1000,7 +1002,7 @@
       else if(page === 'community') renderCommunity();
       else if(page === 'account') renderAccount();
       else if(page === 'dashboard') renderDashboard();
-      else if(page === 'elibrary') renderELibrary();
+      else if(page === 'elibrary') renderELibrary();  // redirects to elibrary.html
       else renderHome();
     }
 
