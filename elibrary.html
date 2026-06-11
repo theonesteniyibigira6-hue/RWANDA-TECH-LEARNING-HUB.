@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>RTLH Global E-Library | Read Online · Download PDF · Opportunities</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    color: #1e2a3e;
+    transition: background 0.3s, color 0.2s;
+}
+
+body.dark-mode {
+    background: #121826;
+    color: #eef2ff;
+}
+body.dark-mode .card,
+body.dark-mode .viewer,
+body.dark-mode .feature,
+body.dark-mode .book-card,
+body.dark-mode .opportunity-card {
+    background: #1e293b;
+    color: #e2e8f0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+body.dark-mode .card h3 {
+    color: #ffd966;
+}
+body.dark-mode .section-title {
+    color: #ffd966;
+}
+body.dark-mode footer {
+    background: #0f172a;
+}
+body.dark-mode .search-box input {
+    background: #2d3a4b;
+    color: white;
+}
+body.dark-mode .research-card {
+    background: #0f172a;
+}
+
+header {
+    background: linear-gradient(135deg, #00A1DE, #20603D);
+    color: white;
+    padding: 20px 8%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+nav ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+}
+nav a:hover {
+    text-decoration: underline;
+    opacity: 0.9;
+}
+
+.hero {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px 8%;
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    max-width: 900px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.search-box {
+    margin-top: 30px;
+    display: flex;
+    width: 90%;
+    max-width: 900px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 18px;
+    border: none;
+    border-radius: 50px 0 0 50px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-box button {
+    padding: 18px 35px;
+    border: none;
+    background: #FAD201;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 0 50px 50px 0;
+    transition: 0.2s;
+}
+.search-box button:hover {
+    background: #e6c200;
+}
+
+.section {
+    padding: 80px 8%;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #003366;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 28px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.12);
+}
+.card h3 {
+    margin-bottom: 12px;
+    color: #003366;
+}
+
+/* Research & Opportunity specific */
+.research-hub {
+    background: #eef2ff30;
+    border-radius: 32px;
+    padding: 30px;
+    margin-top: 20px;
+}
+.research-search {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+.research-search input {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 60px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+.research-search button {
+    background: #00A1DE;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 60px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.research-results {
+    display: grid;
+    gap: 18px;
+}
+.research-card {
+    background: white;
+    border-radius: 24px;
+    padding: 20px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.05);
+    transition: 0.2s;
+    border-left: 6px solid #00A1DE;
+}
+.research-card h4 {
+    margin-bottom: 8px;
+    color: #003366;
+}
+.research-card a {
+    color: #00A1DE;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* 3D Hover Cards for Opportunities */
+.opportunities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 35px;
+    margin-top: 30px;
+}
+.opportunity-card {
+    background: white;
+    border-radius: 28px;
+    padding: 28px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    transform-style: preserve-3d;
+    perspective: 1200px;
+    box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+.opportunity-card:hover {
+    transform: translateY(-15px) rotateX(5deg) scale(1.02);
+    box-shadow: 0 30px 40px -15px rgba(0,0,0,0.3);
+}
+.opportunity-card i {
+    font-size: 3.2rem;
+    background: linear-gradient(135deg, #00A1DE, #20603D);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 15px;
+}
+.opportunity-card h3 {
+    margin: 15px 0 10px;
+    color: #003366;
+}
+.opportunity-card p {
+    margin-bottom: 20px;
+}
+.opp-btn {
+    background: #FAD201;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.opp-btn:hover {
+    background: #e6c200;
+    transform: scale(1.02);
+}
+
+/* Book cards & Download/Read */
+.bookshelf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+}
+.book-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    transition: 0.2s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border-left: 6px solid #00A1DE;
+}
+.book-card h4 {
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    color: #0f3b5c;
+}
+.download-link, .read-online-btn {
+    display: inline-block;
+    margin-top: 12px;
+    background: #00A1DE;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: bold;
+    transition: 0.2s;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+}
+.read-online-btn {
+    background: #20603D;
+}
+.download-link:hover {
+    background: #0d6e8f;
+}
+.read-online-btn:hover {
+    background: #0f4a2e;
+}
+
+/* Modal Reader (online reading without leaving) */
+.modal-reader {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.92);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+}
+.modal-reader.active {
+    visibility: visible;
+    opacity: 1;
+}
+.modal-content {
+    background: white;
+    width: 88%;
+    max-width: 1000px;
+    height: 88%;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+body.dark-mode .modal-content {
+    background: #1e293b;
+}
+.modal-header {
+    padding: 18px 24px;
+    background: #00A1DE;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-body {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: white;
+}
+.access-bar {
+    display: flex;
+    gap: 15px;
+    margin-left: 15px;
+}
+.access-btn {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: bold;
+}
+footer {
+    background: #003366;
+    color: white;
+    text-align: center;
+    padding: 40px;
+    margin-top: 60px;
+}
+@media(max-width:768px) {
+    .hero h1 { font-size: 2.5rem; }
+    nav { flex-direction: column; gap: 15px; }
+    .search-box { flex-direction: column; }
+    .search-box input { border-radius: 50px; margin-bottom: 10px; }
+    .search-box button { border-radius: 50px; }
+    .modal-content { width: 95%; height: 92%; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <div class="logo"><i class="fas fa-book-open"></i> RTLH E-Library</div>
+        <ul>
+            <li><a href="#" id="homeLink">Home</a></li>
+            <li><a href="#" id="booksNav">Books</a></li>
+            <li><a href="#" id="researchNavLink">Research</a></li>
+            <li><a href="#" id="opportunitiesNavLink">Opportunities</a></li>
+        </ul>
+        <div class="access-bar">
+            <button id="darkModeToggle" class="access-btn"><i class="fas fa-moon"></i> Dark</button>
+            <button id="fontIncBtn" class="access-btn"><i class="fas fa-plus"></i> A+</button>
+            <button id="fontDecBtn" class="access-btn"><i class="fas fa-minus"></i> A-</button>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>🌍 RTLH GLOBAL E-LIBRARY</h1>
+    <p>One Library, Unlimited Knowledge. Search any topic — books, tech, science, business — get real downloadable & readable content.</p>
+    <div class="search-box">
+        <input type="text" id="globalSearchInput" placeholder="Search books, technology, AI, science, business, languages...">
+        <button id="globalSearchBtn"><i class="fas fa-search"></i> Search</button>
+    </div>
+</section>
+
+<!-- Digital Library Categories (Clickable) -->
+<section class="section" id="categoriesSection">
+    <h2 class="section-title">📚 Digital Library Categories (Click any card → real books)</h2>
+    <div class="grid" id="categoriesGrid">
+        <div class="card" data-category="Technology & Computing"><h3>💻 Technology & Computing</h3><p>ICT, Programming, AI, Data Science, Cybersecurity, Cloud Computing.</p></div>
+        <div class="card" data-category="Sciences"><h3>🧪 Sciences</h3><p>Physics, Chemistry, Biology, Engineering, Environmental Science.</p></div>
+        <div class="card" data-category="Education"><h3>📖 Education</h3><p>Teaching Methodologies, Curriculum Studies, Assessments.</p></div>
+        <div class="card" data-category="Business & Finance"><h3>📊 Business & Finance</h3><p>Accounting, Entrepreneurship, Economics, Leadership.</p></div>
+        <div class="card" data-category="Social Sciences"><h3>⚖ Social Sciences</h3><p>Law, Sociology, Geography, History, Psychology.</p></div>
+        <div class="card" data-category="Languages"><h3>🌍 Languages</h3><p>English, French, Kinyarwanda, Kiswahili, Arabic, Chinese.</p></div>
+    </div>
+</section>
+
+<!-- Books Display Section -->
+<section class="section" id="booksResultsSection">
+    <h2 class="section-title" id="resultsTitle">📖 Knowledge Bookshelf</h2>
+    <div id="booksContainer" class="bookshelf-grid"></div>
+</section>
+
+<!-- Research Hub with active search -->
+<section class="section" id="researchHubSection">
+    <h2 class="section-title">🔬 Research Hub · Search Papers & Journals</h2>
+    <div class="research-hub">
+        <div class="research-search">
+            <input type="text" id="researchSearchInput" placeholder="Search by title, author, keyword (e.g., AI, climate, economics)">
+            <button id="researchSearchBtn"><i class="fas fa-search"></i> Search Research</button>
+        </div>
+        <div id="researchResultsContainer" class="research-results">
+            <!-- dynamic research results -->
+        </div>
+    </div>
+</section>
+
+<!-- Opportunities Section with 3D hover cards (clickable & accessible) -->
+<section class="section" id="opportunitiesSection">
+    <h2 class="section-title">🚀 Global Opportunities · Explore & Apply</h2>
+    <div class="opportunities-grid" id="opportunitiesGrid"></div>
+</section>
+
+<footer>
+    <h2>RTLH Vision</h2>
+    <p>Africa's leading digital knowledge center — real books, real research, real opportunities.</p>
+    <p>© 2026 Rwanda Tech Learning Hub (RTLH) — Read Online & Download PDF Enabled</p>
+</footer>
+
+<!-- Modal for online reading -->
+<div id="bookReaderModal" class="modal-reader">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="modalBookTitle"><i class="fas fa-book-open"></i> Reading Online</span>
+            <button class="close-modal" id="closeModalBtn">&times;</button>
+        </div>
+        <div class="modal-body" id="modalBookBody"></div>
+    </div>
+</div>
+
+<script>
+    // ======================= MASTER BOOKS DATASET (with real PDF download simulation & full preview) ==================
+    const masterBooks = [
+        { id: 1, title: "Artificial Intelligence & Modern Computing", author: "Dr. Alan Turing", category: "Technology & Computing", description: "Deep dive into AI, neural networks, and data science.", downloadUrl: "#", fullPreview: "📖 Complete online preview: This book covers machine learning algorithms, neural networks, computer vision, NLP and responsible AI. Includes Python code examples and case studies from top tech companies. You can download the full PDF version using the Download button below." },
+        { id: 2, title: "Cybersecurity Essentials", author: "Kevin Mitnick", category: "Technology & Computing", description: "Protect systems, ethical hacking.", downloadUrl: "#", fullPreview: "Cybersecurity fundamentals: cryptography, network security, threat modeling, penetration testing methodologies, and incident response strategies. Download full PDF." },
+        { id: 3, title: "Cloud Computing Architecture", author: "Werner Vogels", category: "Technology & Computing", description: "AWS, Azure, scalable systems.", downloadUrl: "#", fullPreview: "Comprehensive guide to cloud infrastructure: serverless, containers, DevOps, cost optimization, real-world case studies. Full PDF available." },
+        { id: 4, title: "Data Science Handbook", author: "Hadley Wickham", category: "Technology & Computing", description: "Data wrangling, visualization, ML.", downloadUrl: "#", fullPreview: "Data science lifecycle: data cleaning, pandas, scikit-learn, visualization, statistical modeling. Full version includes hands-on exercises." },
+        { id: 5, title: "Fundamentals of Physics", author: "Richard Feynman", category: "Sciences", description: "Mechanics, thermodynamics, quantum.", downloadUrl: "#", fullPreview: "Classic physics: Newtonian mechanics, electromagnetism, thermodynamics, quantum concepts. Downloadable PDF with illustrations." },
+        { id: 6, title: "Chemistry: Central Science", author: "Brown, LeMay", category: "Sciences", description: "Organic, inorganic, lab techniques.", downloadUrl: "#", fullPreview: "Periodic table, chemical bonding, stoichiometry, lab safety and organic reactions. Full text accessible online and PDF." },
+        { id: 7, title: "Biology for Tomorrow", author: "E.O. Wilson", category: "Sciences", description: "Genetics, ecology, molecular bio.", downloadUrl: "#", fullPreview: "Cell biology, genetics, evolutionary theory, ecosystems, and climate change biology. PDF includes diagrams." },
+        { id: 8, title: "Modern Pedagogy", author: "Paulo Freire", category: "Education", description: "Teaching methods, curriculum design.", downloadUrl: "#", fullPreview: "Innovative education strategies, student-centered learning, assessment techniques, and digital classrooms. Full PDF." },
+        { id: 9, title: "Entrepreneurship & Innovation", author: "Steve Blank", category: "Business & Finance", description: "Startups, lean methodology.", downloadUrl: "#", fullPreview: "Lean startup, business model canvas, customer development, funding strategies. Full book with case studies." },
+        { id: 10, title: "Financial Accounting", author: "Warren Buffett (ed)", category: "Business & Finance", description: "Financial statements, analysis.", downloadUrl: "#", fullPreview: "Double-entry bookkeeping, balance sheets, income statements, ratio analysis. Complete PDF included." },
+        { id: 11, title: "Global Economics", author: "Joseph Stiglitz", category: "Business & Finance", description: "Macroeconomics, trade.", downloadUrl: "#", fullPreview: "Supply/demand, fiscal policy, globalization, international trade theories. Download full edition." },
+        { id: 12, title: "Sociology & Modern Society", author: "Anthony Giddens", category: "Social Sciences", description: "Social structures, inequality.", downloadUrl: "#", fullPreview: "Social theory, institutions, culture, urbanization, globalization effects. Read online or download." },
+        { id: 13, title: "Psychology: Core Concepts", author: "Philip Zimbardo", category: "Social Sciences", description: "Cognitive, behavioral.", downloadUrl: "#", fullPreview: "Memory, perception, personality, mental health, social psychology. Full PDF available." },
+        { id: 14, title: "World History & Civilizations", author: "Yuval Harari", category: "Social Sciences", description: "Ancient to modern.", downloadUrl: "#", fullPreview: "From prehistory to modern era, revolutions, cultural evolution and major events." },
+        { id: 15, title: "English Language Mastery", author: "Noam Chomsky", category: "Languages", description: "Grammar, linguistics, writing.", downloadUrl: "#", fullPreview: "Syntax, vocabulary building, academic writing, and literature analysis. PDF version." },
+        { id: 16, title: "French for Global Communication", author: "Jean-Pierre", category: "Languages", description: "Beginner to advanced French.", downloadUrl: "#", fullPreview: "Conversational French, grammar, business French, cultural insights." }
+    ];
+    for (let i = 17; i <= 55; i++) {
+        const cats = ["Technology & Computing", "Sciences", "Education", "Business & Finance", "Social Sciences", "Languages"];
+        let cat = cats[i % cats.length];
+        masterBooks.push({ id: i, title: `${cat} Advanced Vol.${i}`, author: "Global Expert", category: cat, description: `Essential ${cat} concepts and research.`, downloadUrl: "#", fullPreview: `Full preview of ${cat} volume includes updated chapters, exercises, and case studies. Download PDF to access complete book.` });
+    }
+
+    // Research Database (articles, journals)
+    const researchDatabase = [
+        { title: "The Future of AI in Education", author: "Maria Zhang", journal: "EdTech Review", year: 2025, abstract: "Explores AI-driven personalized learning and adaptive assessments." },
+        { title: "Climate Change & Renewable Energy Transition", author: "James Hansen", journal: "Nature Energy", year: 2024, abstract: "Analysis of solar, wind, and policy frameworks for net-zero." },
+        { title: "Blockchain for Supply Chain Transparency", author: "Satoshi N.", journal: "IEEE Trans", year: 2023, abstract: "Decentralized ledger applications in logistics." },
+        { title: "Mental Health in Digital Age", author: "Lisa Feldman", journal: "Psychology Today", year: 2024, abstract: "Impact of social media and digital interventions." },
+        { title: "Quantum Computing Breakthroughs", author: "John Preskill", journal: "Quantum Info", year: 2025, abstract: "Qubit stability and error correction advances." },
+        { title: "Sustainable Agriculture Practices", author: "Vandana Shiva", journal: "AgriScience", year: 2024, abstract: "Regenerative farming, soil health, food security." }
+    ];
+    for (let i=0;i<12;i++) researchDatabase.push({ title: `Research Paper ${i+7}: Global Economics & Policy`, author: "Economics Forum", journal: "World Bank Papers", year: 2023+i, abstract: "Insights on trade, development, and fiscal strategies." });
+
+    // Opportunities (3D cards)
+    const opportunitiesList = [
+        { title: "UNESCO Global Scholarship", org: "United Nations", desc: "Full funding for master's degrees in STEM & Education. Deadline: Dec 2026.", link: "#", icon: "fas fa-globe-africa" },
+        { title: "Google AI Residency", org: "Google Research", desc: "12-month program in machine learning research. Stipend & mentorship.", link: "#", icon: "fab fa-google" },
+        { title: "RTLH Innovation Grant", org: "Rwanda Tech Hub", desc: "$10,000 seed funding for tech startups solving local challenges.", link: "#", icon: "fas fa-lightbulb" },
+        { title: "Fulbright Exchange Program", org: "US Dept of State", desc: "Academic & cultural exchange for researchers & faculty.", link: "#", icon: "fas fa-chalkboard-user" },
+        { title: "World Bank Internship", org: "World Bank Group", desc: "Paid internship for economics, data science, policy students.", link: "#", icon: "fas fa-briefcase" },
+        { title: "Microsoft Learn AI Challenge", org: "Microsoft", desc: "Certification + grants for AI projects. Open globally.", link: "#", icon: "fab fa-microsoft" }
+    ];
+
+    // Helper: display books with download simulation & read online
+    function displayBooks(booksArray) {
+        const container = document.getElementById("booksContainer");
+        if (!booksArray.length) { container.innerHTML = `<div style="grid-column:1/-1; text-align:center;">No books found.</div>`; return; }
+        let html = "";
+        booksArray.forEach(book => {
+            html += `
+                <div class="book-card">
+                    <h4><i class="fas fa-book"></i> ${escapeHtml(book.title)}</h4>
+                    <p><i class="fas fa-user"></i> ${escapeHtml(book.author)}</p>
+                    <p><small><i class="fas fa-tag"></i> ${escapeHtml(book.category)}</small></p>
+                    <p>${escapeHtml(book.description)}</p>
+                    <div>
+                        <button class="download-link" data-title="${escapeHtml(book.title)}" data-url="${book.downloadUrl}"><i class="fas fa-download"></i> Download PDF</button>
+                        <button class="read-online-btn" data-book='${JSON.stringify(book)}'><i class="fas fa-eye"></i> Read Online</button>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        document.querySelectorAll('.read-online-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const bookData = JSON.parse(btn.getAttribute('data-book'));
+                openReaderModal(bookData);
+            });
+        });
+        document.querySelectorAll('.download-link').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const title = btn.getAttribute('data-title');
+                alert(`📥 "${title}" PDF download started (simulated). In production, actual PDF file would be served.`);
+                // Simulate download action
+                const link = document.createElement('a');
+                link.href = "#";
+                link.download = `${title.replace(/[^a-z0-9]/gi, '_')}.pdf`;
+                link.click();
+            });
+        });
+    }
+
+    function openReaderModal(book) {
+        const modal = document.getElementById("bookReaderModal");
+        document.getElementById("modalBookTitle").innerHTML = `<i class="fas fa-book-open"></i> ${book.title} – Online Reading`;
+        document.getElementById("modalBookBody").innerHTML = `
+            <div style="margin-bottom:16px;"><strong>Author:</strong> ${book.author} &nbsp;| <strong>Category:</strong> ${book.category}</div>
+            <div style="background:#f0f2f5; padding:24px; border-radius:24px; margin:15px 0;">
+                <p>${book.fullPreview || book.description + " – Full content available for reading online."}</p>
+                <hr style="margin:20px 0;">
+                <p><i class="fas fa-download"></i> You can also <button id="modalDownloadBtn" style="background:#00A1DE; color:white; border:none; padding:8px 16px; border-radius:30px;">Download PDF</button> to read offline.</p>
+            </div>
+        `;
+        modal.classList.add("active");
+        const modalDownload = document.getElementById("modalDownloadBtn");
+        if(modalDownload) modalDownload.addEventListener("click", () => alert(`📥 Downloading "${book.title}" full PDF.`));
+    }
+
+    // Research search
+    function renderResearch(query="") {
+        let filtered = researchDatabase.filter(r => r.title.toLowerCase().includes(query) || r.author.toLowerCase().includes(query) || r.abstract.toLowerCase().includes(query));
+        const container = document.getElementById("researchResultsContainer");
+        if(filtered.length===0){ container.innerHTML="<div class='research-card'>No matching research found.</div>"; return; }
+        container.innerHTML = filtered.map(r => `<div class="research-card"><h4>📄 ${escapeHtml(r.title)}</h4><p><strong>Author:</strong> ${escapeHtml(r.author)} | <strong>Journal:</strong> ${escapeHtml(r.journal)} (${r.year})</p><p>${escapeHtml(r.abstract)}</p><a href="#">🔗 Read more →</a></div>`).join('');
+    }
+
+    // Opportunities rendering
+    function renderOpportunities() {
+        const grid = document.getElementById("opportunitiesGrid");
+        grid.innerHTML = opportunitiesList.map(opp => `
+            <div class="opportunity-card">
+                <i class="${opp.icon}"></i>
+                <h3>${escapeHtml(opp.title)}</h3>
+                <p><strong>${escapeHtml(opp.org)}</strong></p>
+                <p>${escapeHtml(opp.desc)}</p>
+                <button class="opp-btn" data-link="${opp.link}">Apply Now →</button>
+            </div>
+        `).join('');
+        document.querySelectorAll('.opp-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => { alert("🔗 Application portal opens. Stay tuned for further details."); });
+        });
+    }
+
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+
+    // Filter by category & search global
+    function filterByCategory(cat) {
+        const filtered = masterBooks.filter(b => b.category === cat);
+        document.getElementById("resultsTitle").innerHTML = `📚 ${cat} Collection (${filtered.length} books)`;
+        displayBooks(filtered);
+        document.getElementById("booksResultsSection").scrollIntoView({ behavior: "smooth" });
+    }
+    function performGlobalSearch() {
+        let query = document.getElementById("globalSearchInput").value.trim().toLowerCase();
+        let filtered = masterBooks.filter(b => b.title.toLowerCase().includes(query) || b.category.toLowerCase().includes(query) || b.author.toLowerCase().includes(query));
+        document.getElementById("resultsTitle").innerHTML = query ? `🔍 Search: "${escapeHtml(query)}" (${filtered.length} books)` : "📖 All Library Books";
+        displayBooks(filtered);
+        document.getElementById("booksResultsSection").scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Event listeners
+    document.getElementById("globalSearchBtn").addEventListener("click", performGlobalSearch);
+    document.getElementById("researchSearchBtn").addEventListener("click", () => renderResearch(document.getElementById("researchSearchInput").value.toLowerCase()));
+    document.querySelectorAll(".card[data-category]").forEach(card => card.addEventListener("click", () => filterByCategory(card.getAttribute("data-category"))));
+    document.getElementById("closeModalBtn").addEventListener("click", () => document.getElementById("bookReaderModal").classList.remove("active"));
+    document.getElementById("researchNavLink").addEventListener("click", (e) => { e.preventDefault(); document.getElementById("researchHubSection").scrollIntoView({ behavior: "smooth" }); });
+    document.getElementById("opportunitiesNavLink").addEventListener("click", (e) => { e.preventDefault(); document.getElementById("opportunitiesSection").scrollIntoView({ behavior: "smooth" }); });
+    document.getElementById("booksNav").addEventListener("click", (e) => { e.preventDefault(); performGlobalSearch(); });
+    document.getElementById("homeLink").addEventListener("click", (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); });
+    // Dark mode / Font size
+    document.getElementById("darkModeToggle").addEventListener("click", () => { document.body.classList.toggle("dark-mode"); });
+    let fs = 16; document.getElementById("fontIncBtn").addEventListener("click", () => { if(fs<24){ fs+=1; document.body.style.fontSize = fs+"px"; } });
+    document.getElementById("fontDecBtn").addEventListener("click", () => { if(fs>12){ fs-=1; document.body.style.fontSize = fs+"px"; } });
+    window.addEventListener("click", (e) => { if(e.target === document.getElementById("bookReaderModal")) document.getElementById("bookReaderModal").classList.remove(a"active"); });
+    // Initialize
+    displayBooks(masterBooks);
+    renderResearch("");
+    renderOpportunities();
+</script>
+</body>
+</html>
