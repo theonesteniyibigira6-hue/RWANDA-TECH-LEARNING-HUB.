@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>RWANDA TECH LEARNING HUB | Firebase</title>
+  <title>RWANDA TECH LEARNING HUB | Home</title>
   <link rel="icon" type="image/png" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%2300A1DE'/%3E%3Ctext x='50' y='45' font-size='22' text-anchor='middle' fill='white' font-weight='bold'%3ERTLH%3C/text%3E%3Ctext x='50' y='70' font-size='14' text-anchor='middle' fill='%23FAD201'%3EHUB%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -48,6 +48,30 @@
     .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.3); color: #fff; }
     .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
     .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+    /* 3D moving button style */
+    .btn-3d {
+      background: linear-gradient(135deg, #00A1DE, #20603D);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transform-style: preserve-3d;
+      animation: float3d 3s infinite ease-in-out;
+    }
+    .btn-3d:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 20px 30px rgba(0,161,222,0.5);
+    }
+    @keyframes float3d {
+      0% { transform: translateY(0px) rotateX(0deg); }
+      50% { transform: translateY(-8px) rotateX(2deg); }
+      100% { transform: translateY(0px) rotateX(0deg); }
+    }
     .form-control { width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); color: #fff; }
     .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; z-index:9999; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
     .modal-overlay.active { display: flex; }
@@ -372,7 +396,7 @@
       showToast('Stream ended','success');
     }
 
-    // ======================= UI RENDERING (Preserved from original) =======================
+    // ======================= UI RENDERING =======================
     function renderNav() {
       const nav = document.getElementById('mainNav');
       nav.innerHTML = `<div class="nav-item-3d"><a onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</a></div>
@@ -395,9 +419,47 @@
       else if (page === 'admin') renderAdmin();
       else renderHome();
     }
+    
+    // ======================= NEW HOME PAGE WITH CUSTOM INTRODUCTION AND 3D BUTTON =======================
     function renderHome() {
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card text-center"><h1 style="font-size:3rem;"><span style="color:#00A1DE;">RWANDA</span> <span style="color:#20603D;">TECH</span> <span style="color:#FAD201;">LEARNING</span> <span style="color:#00A1DE;">HUB</span></h1><p style="color:#ccc;max-width:1000px;margin:20px auto;">Firebase-powered learning platform. Your progress is saved in the cloud.</p><div class="legal-links"><a class="legal-link" onclick="showPrivacyPolicy()"><i class="fas fa-shield-alt"></i> Privacy Policy</a><span style="color:#aaa;">|</span><a class="legal-link" onclick="showTermsOfUse()"><i class="fas fa-file-contract"></i> Terms of Use</a></div><button class="btn btn-primary mt-20" onclick="navigateTo('courses')"><i class="fas fa-rocket"></i> Start Learning Now</button></div><div class="content-card"><h2 class="section-title">📞 Contact Information</h2><div class="grid-3"><div class="info-card"><i class="fas fa-envelope" style="font-size:2rem;color:#00A1DE;"></i><h3>Email</h3><p>rwandatechlearninghub@gmail.com</p></div><div class="info-card"><i class="fas fa-phone" style="font-size:2rem;color:#20603D;"></i><h3>Phone</h3><p>0794204258</p></div><div class="info-card"><i class="fab fa-whatsapp" style="font-size:2rem;color:#25D366;"></i><h3>WhatsApp</h3><p>+250 794 204 258</p></div></div></div></div>`;
+      document.getElementById('mainContent').innerHTML = `
+        <div class="container">
+          <div class="content-card">
+            <h1 style="font-size:2.8rem; text-align:center; margin-bottom:20px;">
+              <span style="color:#00A1DE;">Welcome to</span><br>
+              <span style="color:#FAD201;">Rwanda Tech Learning Hub (RTLH)</span>
+            </h1>
+            <p style="font-size:1.2rem; text-align:center; margin-bottom:30px;"><strong>Empowering Rwanda, Africa, and the World Through Technology-Integrated E-Learning</strong></p>
+            
+            <div style="max-height:400px; overflow-y:auto; padding-right:15px; margin-bottom:30px;">
+              <p>Welcome to <strong>Rwanda Tech Learning Hub (RTLH)</strong>, a modern digital learning platform created to equip learners with practical skills, professional knowledge, and globally competitive competencies for the 21st century. RTLH was developed with a vision of empowering Rwandans, Africans, and learners worldwide through accessible, affordable, and high-quality online education integrated with technology.</p>
+              <p>At RTLH, we believe that education is the key to personal growth, innovation, employment, and sustainable development. Our platform provides learners with the opportunity to study anytime, anywhere, and at their own pace while gaining valuable knowledge and hands-on skills that can be applied in real-world situations. Whether you are a student, teacher, job seeker, entrepreneur, professional, or lifelong learner, RTLH is designed to help you achieve your educational and career goals.</p>
+              <p>Our platform offers more than 30 diverse courses across multiple fields, including Web Development, Computer Programming, Graphic Design, Digital Marketing, Data Analysis, Artificial Intelligence, Cybersecurity, Networking, Database Management, ICT Fundamentals, Entrepreneurship, Business Management, Accounting, Project Management, Culinary Arts, Hospitality Management, Tourism, Agriculture Technology, Mathematics, Sciences, Languages, Education Studies, Leadership, Communication Skills, Office Applications, Research Skills, Financial Literacy, Career Development, Multimedia Production, Mobile Application Development, and many more.</p>
+              <p>Upon successful completion of a course, learners are awarded a <strong>professionally designed and internationally recognized certificate</strong> that validates the skills and knowledge acquired throughout the learning journey. These certificates help learners strengthen their academic portfolios, improve employability, demonstrate professional competence, and unlock new opportunities for careers, internships, scholarships, and further education.</p>
+              <p>RTLH is more than an e-learning platform—it is a gateway to opportunity. By connecting education with technology, we prepare learners for the digital economy and the future workforce. Our mission is to bridge the skills gap, promote innovation, support lifelong learning, and create a generation of empowered individuals capable of transforming their communities and contributing to national and global development.</p>
+              <p><strong>Join Rwanda Tech Learning Hub today and begin your journey toward knowledge, skills, certification, innovation, and success. Your future starts here.</strong></p>
+            </div>
+            
+            <div style="text-align:center;">
+              <button class="btn-3d" onclick="navigateTo('courses')">
+                <i class="fas fa-rocket"></i> Start Learning Now
+              </button>
+            </div>
+          </div>
+          
+          <!-- Contact information cards (preserved from original) -->
+          <div class="content-card">
+            <h2 class="section-title">📞 Contact Information</h2>
+            <div class="grid-3">
+              <div class="info-card"><i class="fas fa-envelope" style="font-size:2rem;color:#00A1DE;"></i><h3>Email</h3><p>rwandatechlearninghub@gmail.com</p></div>
+              <div class="info-card"><i class="fas fa-phone" style="font-size:2rem;color:#20603D;"></i><h3>Phone</h3><p>0794204258</p></div>
+              <div class="info-card"><i class="fab fa-whatsapp" style="font-size:2rem;color:#25D366;"></i><h3>WhatsApp</h3><p>+250 794 204 258</p></div>
+            </div>
+          </div>
+        </div>
+      `;
     }
+    
     function showPrivacyPolicy(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Privacy Policy</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>We collect your name, email, phone, and country for educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
     function showTermsOfUse(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Terms of Use</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>By using this platform, you agree to use all content for lawful educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">I Agree</button>`; }
     function renderCourses() {
@@ -483,7 +545,7 @@
       if (!isAdmin) { document.getElementById('adminLoginModal').classList.add('active'); return; }
       const usersSnap = await db.collection("users").get();
       let usersTable = `<h3>Users (${usersSnap.size})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Courses</th><th>Languages</th></tr>`;
-      usersSnap.forEach(doc => { const u = doc.data(); usersTable += `<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`; });
+      usersSnap.forEach(doc => { const u = doc.data(); usersTable += `<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td><tr>`; });
       usersTable += `</table>`;
       const comments = await loadCommentsFromFirestore();
       let commentsHtml = `<h3>Comments (${comments.length})</h3>` + comments.map(c => `<div class="comment-card"><strong>${c.name||'Anonymous'}</strong> (${c.type}): ${c.message}<br><small>${c.timestamp?.toDate?.()?.toLocaleString()}</small></div>`).join('');
@@ -494,6 +556,95 @@
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
     window.closeModal = closeModal;
 
+    // ======================= ENHANCED 3D BACKGROUND (Globe + Particles) =======================
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
+    const rendererBg = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg-canvas'), alpha: true });
+    rendererBg.setSize(innerWidth, innerHeight);
+    camera.position.set(0, 2, 18);
+    
+    // Central glowing sphere
+    const geometry = new THREE.SphereGeometry(1.8, 64, 64);
+    const material = new THREE.MeshStandardMaterial({ color: 0x00A1DE, emissive: 0x004466, roughness: 0.3, metalness: 0.7 });
+    const core = new THREE.Mesh(geometry, material);
+    scene.add(core);
+    
+    // Wireframe globe
+    const wireframeGeo = new THREE.SphereGeometry(2.0, 32, 32);
+    const wireframeMat = new THREE.MeshBasicMaterial({ color: 0x00A1DE, wireframe: true, transparent: true, opacity: 0.3 });
+    const wireframeGlobe = new THREE.Mesh(wireframeGeo, wireframeMat);
+    scene.add(wireframeGlobe);
+    
+    // Particle system (stars + floating dots)
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 1500;
+    const posArray = new Float32Array(particlesCount * 3);
+    for(let i = 0; i < particlesCount; i++) {
+      posArray[i*3] = (Math.random() - 0.5) * 80;
+      posArray[i*3+1] = (Math.random() - 0.5) * 50;
+      posArray[i*3+2] = (Math.random() - 0.5) * 60 - 20;
+    }
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMaterial = new THREE.PointsMaterial({ size: 0.08, color: 0x88aaff, transparent: true, opacity: 0.6 });
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+    
+    // Orbiting rings
+    const ringGeo = new THREE.TorusGeometry(2.5, 0.05, 64, 200);
+    const ringMat = new THREE.MeshStandardMaterial({ color: 0xFAD201, emissive: 0x442200 });
+    const ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.rotation.x = Math.PI / 2;
+    scene.add(ring);
+    
+    const ring2Geo = new THREE.TorusGeometry(3.0, 0.04, 64, 200);
+    const ring2Mat = new THREE.MeshStandardMaterial({ color: 0x00A1DE });
+    const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+    ring2.rotation.z = Math.PI / 3;
+    scene.add(ring2);
+    
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0x404060);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+    dirLight.position.set(5, 10, 7);
+    scene.add(dirLight);
+    const backLight = new THREE.PointLight(0x2266ff, 0.5);
+    backLight.position.set(0, 0, -5);
+    scene.add(backLight);
+    
+    let time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.005;
+      core.rotation.y = time * 0.2;
+      wireframeGlobe.rotation.y = time * 0.2;
+      ring.rotation.z += 0.005;
+      ring2.rotation.x += 0.003;
+      ring2.rotation.y += 0.002;
+      particlesMesh.rotation.y += 0.0005;
+      camera.position.x = Math.sin(time * 0.1) * 1;
+      camera.position.y = 2 + Math.sin(time * 0.2) * 0.2;
+      camera.lookAt(0, 0, 0);
+      rendererBg.render(scene, camera);
+    }
+    animate();
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      rendererBg.setSize(innerWidth, innerHeight);
+    });
+
+    // Expose global functions for onclick
+    window.navigateTo = navigateTo; window.renderCourses = renderCourses; window.renderLanguages = renderLanguages;
+    window.startLanguageCourse = startLanguageCourse; window.openLanguageUnit = openLanguageUnit;
+    window.completeLanguageUnit = completeLanguageUnit; window.openRegularCourse = openRegularCourse;
+    window.markUnitComplete = markUnitComplete; window.completeRegularCourseExam = completeRegularCourseExam;
+    window.openCommentsModal = renderCommentsModal; window.showCertificatesList = showCertificatesList;
+    window.openLiveStream = openLiveStream; window.startLiveStream = startLiveStream; window.stopLiveStream = stopLiveStream;
+    window.loginAsAdmin = loginAsAdmin; window.showPrivacyPolicy = showPrivacyPolicy; window.showTermsOfUse = showTermsOfUse;
+    window.closeLiveStream = closeLiveStream; window.closeGenericModal = closeGenericModal; window.closeJotformAgent = closeJotformAgent;
+    window.openJotformAgent = openJotformAgent; window.logoutFirebase = logoutFirebase;
+    
     // ======================= AUTH STATE LISTENER =======================
     auth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -507,27 +658,6 @@
       if (window.location.hash !== '#admin') navigateTo('home');
     });
     loadLiveStatusFromFirestore();
-
-    // ======================= 3D BACKGROUND =======================
-    const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-    const rendererBg = new THREE.WebGLRenderer({ canvas: document.querySelector('#bg-canvas'), alpha: true });
-    rendererBg.setSize(innerWidth, innerHeight); camera.position.set(0, 2, 22);
-    const stars = new THREE.Group();
-    for (let i = 0; i < 200; i++) { let s = new THREE.Mesh(new THREE.SphereGeometry(0.08, 4, 4), new THREE.MeshStandardMaterial({ color: 0x00A1DE })); s.position.set((Math.random()-0.5)*50, (Math.random()-0.5)*30, (Math.random()-0.5)*40); stars.add(s); }
-    scene.add(stars); scene.add(new THREE.AmbientLight(0x404060)); scene.add(new THREE.DirectionalLight(0xffffff, 1));
-    function animate() { requestAnimationFrame(animate); stars.rotation.y += 0.0005; rendererBg.render(scene, camera); } animate();
-    window.addEventListener('resize', () => { camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); rendererBg.setSize(innerWidth, innerHeight); });
-
-    // Expose global functions for onclick
-    window.navigateTo = navigateTo; window.renderCourses = renderCourses; window.renderLanguages = renderLanguages;
-    window.startLanguageCourse = startLanguageCourse; window.openLanguageUnit = openLanguageUnit;
-    window.completeLanguageUnit = completeLanguageUnit; window.openRegularCourse = openRegularCourse;
-    window.markUnitComplete = markUnitComplete; window.completeRegularCourseExam = completeRegularCourseExam;
-    window.openCommentsModal = renderCommentsModal; window.showCertificatesList = showCertificatesList;
-    window.openLiveStream = openLiveStream; window.startLiveStream = startLiveStream; window.stopLiveStream = stopLiveStream;
-    window.loginAsAdmin = loginAsAdmin; window.showPrivacyPolicy = showPrivacyPolicy; window.showTermsOfUse = showTermsOfUse;
-    window.closeLiveStream = closeLiveStream; window.closeGenericModal = closeGenericModal; window.closeJotformAgent = closeJotformAgent;
-    window.openJotformAgent = openJotformAgent; window.logoutFirebase = logoutFirebase;
   </script>
 </body>
 </html>
