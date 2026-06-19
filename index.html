@@ -12,6 +12,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <style>
+    /* ========== ALL ORIGINAL STYLES (unchanged) ========== */
     :root { --rwanda-blue: #00A1DE; --rwanda-green: #20603D; --rwanda-yellow: #FAD201; --content-bg: rgba(0, 0, 0, 0.5); }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', 'Segoe UI', sans-serif; color: #fff; line-height: 1.7; overflow-x: hidden; background: #0a0a1a; }
@@ -358,214 +359,9 @@
     let userProgress = {};
     let allUsers = {};
     let liveStatus = { isLive: false, streamUrl: "", streamTitle: "Theo Learn Wise Live Session", platform: "youtube" };
-    let currentLanguage = null;
-    let currentUnitIndex = 0;
-    let languageProgress = {};
+    // Language and course variables REMOVED as per instruction
+
     const ADMIN_PASSWORD = "TheoAdmin2026@RTLH";
-
-    // ======================= FULL LANGUAGE DATA (RESTORED) =======================
-    const languageUnitsData = {
-      "Kinyarwanda": {
-        units: [
-          { title: "Introduction to Kinyarwanda", topics: ["History of Kinyarwanda", "Alphabet and pronunciation", "Greetings and introductions", "Common expressions"] },
-          { title: "Basic Communication", topics: ["Self-introduction", "Family members", "Numbers and counting", "Days and months"] },
-          { title: "Everyday Vocabulary", topics: ["Food and drinks", "School vocabulary", "Occupations", "Places in the community"] },
-          { title: "Grammar Fundamentals", topics: ["Nouns and noun classes", "Pronouns", "Verbs", "Sentence formation"] },
-          { title: "Listening and Speaking Skills", topics: ["Conversations", "Pronunciation practice", "Dialogue exercises"] },
-          { title: "Reading and Writing", topics: ["Paragraph reading", "Composition writing", "Storytelling"] },
-          { title: "Intermediate Communication", topics: ["Public speaking", "Debates", "Formal and informal language"] },
-          { title: "Advanced Kinyarwanda", topics: ["Literature", "Proverbs", "Translation", "Professional communication"] }
-        ]
-      },
-      "English": {
-        units: [
-          { title: "English Foundations", topics: ["Alphabet", "Pronunciation", "Greetings", "Introductions"] },
-          { title: "Everyday English", topics: ["Family", "School", "Workplace", "Daily activities"] },
-          { title: "Grammar Basics", topics: ["Parts of speech", "Tenses", "Articles", "Pronouns"] },
-          { title: "Communication Skills", topics: ["Listening", "Speaking", "Reading", "Writing"] },
-          { title: "Intermediate English", topics: ["Vocabulary development", "Presentations", "Discussions", "Interviews"] },
-          { title: "Advanced English", topics: ["Business English", "Academic English", "Public speaking", "Report writing"] }
-        ]
-      },
-      "French": {
-        units: [
-          { title: "French Basics", topics: ["Alphabet and sounds", "Greetings", "Introductions"] },
-          { title: "Everyday French", topics: ["Family", "Shopping", "Travel"] },
-          { title: "Grammar", topics: ["Articles", "Verbs", "Adjectives"] },
-          { title: "Communication", topics: ["Listening", "Reading", "Writing"] },
-          { title: "Intermediate French", topics: ["Workplace French", "Tourism French", "Public communication"] },
-          { title: "Advanced French", topics: ["Professional French", "Translation", "French literature"] }
-        ]
-      },
-      "Swahili": {
-        units: [
-          { title: "Swahili Introduction", topics: ["Alphabet", "Pronunciation", "Greetings"] },
-          { title: "Basic Vocabulary", topics: ["Numbers", "Family", "Food"] },
-          { title: "Grammar", topics: ["Noun classes", "Verbs", "Sentence structures"] },
-          { title: "Communication", topics: ["Conversations", "Listening exercises"] },
-          { title: "Intermediate Swahili", topics: ["Business communication", "Tourism communication"] },
-          { title: "Advanced Swahili", topics: ["Literature", "Translation", "Professional communication"] }
-        ]
-      },
-      "Spanish": {
-        units: [
-          { title: "Spanish Basics", topics: ["Alphabet", "Pronunciation", "Greetings", "Numbers"] },
-          { title: "Daily Communication", topics: ["Family", "Food", "Travel", "Shopping"] },
-          { title: "Grammar Fundamentals", topics: ["Tenses", "Verbs", "Articles", "Adjectives"] },
-          { title: "Reading and Writing", topics: ["Paragraph reading", "Email writing", "Story reading"] },
-          { title: "Intermediate Spanish", topics: ["Travel Spanish", "Workplace Spanish", "Conversations"] },
-          { title: "Advanced Spanish", topics: ["Business Spanish", "Professional Communication", "Literature"] }
-        ]
-      },
-      "Arabic": {
-        units: [
-          { title: "Arabic Alphabet and Writing", topics: ["Letter recognition", "Writing practice", "Pronunciation"] },
-          { title: "Greetings and Communication", topics: ["Greetings", "Introductions", "Daily phrases"] },
-          { title: "Grammar Basics", topics: ["Nouns", "Verbs", "Sentence structure"] },
-          { title: "Reading Arabic", topics: ["Word recognition", "Simple texts", "Comprehension"] },
-          { title: "Intermediate Arabic", topics: ["Conversations", "Business Arabic", "Media Arabic"] },
-          { title: "Advanced Arabic", topics: ["Classical Arabic", "Modern Standard Arabic", "Literature"] }
-        ]
-      },
-      "Mandarin Chinese": {
-        units: [
-          { title: "Chinese Characters", topics: ["Basic strokes", "Character writing", "Radicals"] },
-          { title: "Pronunciation (Pinyin)", topics: ["Initials", "Finals", "Tones", "Pronunciation practice"] },
-          { title: "Everyday Chinese", topics: ["Greetings", "Numbers", "Family", "Food"] },
-          { title: "Grammar and Sentence Structure", topics: ["Word order", "Questions", "Negation"] },
-          { title: "Intermediate Chinese", topics: ["Conversations", "Travel Chinese", "Business Chinese"] },
-          { title: "Advanced Chinese", topics: ["Chinese culture", "Literature", "Professional writing"] }
-        ]
-      },
-      "Hindi": {
-        units: [
-          { title: "Hindi Alphabet", topics: ["Vowels", "Consonants", "Writing practice"] },
-          { title: "Pronunciation", topics: ["Sound recognition", "Speaking practice"] },
-          { title: "Vocabulary Building", topics: ["Common words", "Family terms", "Everyday objects"] },
-          { title: "Grammar", topics: ["Nouns", "Verbs", "Sentence formation"] },
-          { title: "Conversations", topics: ["Greetings", "Shopping", "Travel"] },
-          { title: "Reading and Writing", topics: ["Paragraph reading", "Composition writing"] },
-          { title: "Intermediate Hindi", topics: ["Business Hindi", "Media Hindi"] },
-          { title: "Advanced Hindi", topics: ["Literature", "Poetry", "Professional communication"] }
-        ]
-      },
-      "Portuguese": {
-        units: [
-          { title: "Portuguese Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
-          { title: "Daily Communication", topics: ["Family", "Numbers", "Food", "Travel"] },
-          { title: "Grammar", topics: ["Articles", "Verbs", "Tenses"] },
-          { title: "Reading and Writing", topics: ["Text reading", "Email writing"] },
-          { title: "Business Portuguese", topics: ["Workplace communication", "Professional vocabulary"] },
-          { title: "Advanced Portuguese", topics: ["Literature", "Translation", "Academic writing"] }
-        ]
-      },
-      "Russian": {
-        units: [
-          { title: "Cyrillic Alphabet", topics: ["Letter recognition", "Writing", "Pronunciation"] },
-          { title: "Pronunciation", topics: ["Sound rules", "Stress patterns"] },
-          { title: "Vocabulary", topics: ["Common words", "Numbers", "Family"] },
-          { title: "Grammar", topics: ["Cases", "Verbs", "Sentence structure"] },
-          { title: "Communication Skills", topics: ["Conversations", "Listening practice"] },
-          { title: "Advanced Russian", topics: ["Literature", "Business Russian", "Media"] }
-        ]
-      },
-      "German": {
-        units: [
-          { title: "German Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
-          { title: "Grammar Basics", topics: ["Articles", "Cases", "Verbs"] },
-          { title: "Everyday German", topics: ["Family", "Food", "Travel", "Shopping"] },
-          { title: "Reading and Writing", topics: ["Text comprehension", "Email writing"] },
-          { title: "Business German", topics: ["Workplace communication", "Professional vocabulary"] },
-          { title: "Advanced German", topics: ["Literature", "Academic writing", "Translation"] }
-        ]
-      },
-      "Japanese": {
-        units: [
-          { title: "Hiragana", topics: ["Character writing", "Pronunciation", "Reading"] },
-          { title: "Katakana", topics: ["Foreign words", "Writing practice"] },
-          { title: "Kanji Basics", topics: ["Basic characters", "Stroke order", "Meaning"] },
-          { title: "Grammar", topics: ["Particles", "Verb conjugation", "Sentence structure"] },
-          { title: "Communication", topics: ["Conversations", "Listening practice"] },
-          { title: "Advanced Japanese", topics: ["Business Japanese", "Literature", "Translation"] }
-        ]
-      },
-      "Italian": {
-        units: [
-          { title: "Italian Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
-          { title: "Grammar", topics: ["Articles", "Verbs", "Tenses"] },
-          { title: "Communication", topics: ["Family", "Food", "Travel"] },
-          { title: "Reading and Writing", topics: ["Text reading", "Composition"] },
-          { title: "Business Italian", topics: ["Workplace communication", "Professional vocabulary"] },
-          { title: "Advanced Italian", topics: ["Literature", "Art vocabulary", "Translation"] }
-        ]
-      },
-      "Turkish": {
-        units: [
-          { title: "Turkish Alphabet", topics: ["Letters", "Pronunciation", "Writing"] },
-          { title: "Vocabulary", topics: ["Common words", "Numbers", "Family"] },
-          { title: "Grammar", topics: ["Vowel harmony", "Suffixes", "Sentence structure"] },
-          { title: "Conversations", topics: ["Greetings", "Shopping", "Travel"] },
-          { title: "Intermediate Turkish", topics: ["Business Turkish", "Media Turkish"] },
-          { title: "Advanced Turkish", topics: ["Literature", "Professional communication"] }
-        ]
-      },
-      "Korean": {
-        units: [
-          { title: "Hangul Alphabet", topics: ["Consonants", "Vowels", "Writing"] },
-          { title: "Pronunciation", topics: ["Sound rules", "Speaking practice"] },
-          { title: "Grammar", topics: ["Particles", "Verb conjugation", "Sentence structure"] },
-          { title: "Daily Conversations", topics: ["Greetings", "Family", "Food", "Travel"] },
-          { title: "Business Korean", topics: ["Workplace communication", "Professional vocabulary"] },
-          { title: "Advanced Korean", topics: ["Literature", "Media", "Translation"] }
-        ]
-      },
-      "Dutch": {
-        units: [
-          { title: "Dutch Foundations", topics: ["Alphabet", "Pronunciation", "Greetings"] },
-          { title: "Grammar", topics: ["Articles", "Verbs", "Word order"] },
-          { title: "Communication", topics: ["Family", "Numbers", "Travel"] },
-          { title: "Reading and Writing", topics: ["Text reading", "Email writing"] },
-          { title: "Business Dutch", topics: ["Workplace communication"] },
-          { title: "Advanced Dutch", topics: ["Literature", "Translation"] }
-        ]
-      },
-      "Greek": {
-        units: [
-          { title: "Greek Alphabet", topics: ["Letters", "Pronunciation", "Writing"] },
-          { title: "Vocabulary", topics: ["Common words", "Numbers", "Family"] },
-          { title: "Grammar", topics: ["Nouns", "Verbs", "Articles"] },
-          { title: "Communication", topics: ["Conversations", "Listening practice"] },
-          { title: "Literature", topics: ["Famous works", "Reading comprehension"] },
-          { title: "Advanced Greek", topics: ["Business Greek", "Translation", "Academic writing"] }
-        ]
-      }
-    };
-
-    const regularCourses = [
-      {name:"ICT",icon:"💻",cat:"Technology",units:["Computer Basics","Operating Systems","Internet & Networks","Programming Fundamentals"]},
-      {name:"Robotics",icon:"🤖",cat:"Technology",units:["Sensors & Actuators","Microcontrollers","Automation","AI Robotics"]},
-      {name:"Music",icon:"🎵",cat:"Arts",units:["Music Theory","Instruments","Composition","Sound Engineering"]},
-      {name:"Fine Arts",icon:"🎨",cat:"Arts",units:["Drawing Techniques","Painting","Color Theory","Art History"]},
-      {name:"Writing",icon:"✍️",cat:"Arts",units:["Grammar & Style","Story Writing","Essay Writing","Creative Writing"]},
-      {name:"Health",icon:"🏥",cat:"Science",units:["Human Body Systems","Nutrition Science","Disease Prevention","Mental Health"]},
-      {name:"Entrepreneurship",icon:"💼",cat:"Business",units:["Business Ideation","Marketing Strategies","Financial Management","Startup Growth"]},
-      {name:"Multimedia",icon:"🎬",cat:"Technology",units:["Video Editing","Animation Basics","Photography","Graphic Design"]},
-      {name:"Agriculture",icon:"🌾",cat:"Science",units:["Crop Production","Soil Science","Livestock Management","Irrigation Systems"]},
-      {name:"Physics",icon:"⚛️",cat:"Science",units:["Classical Mechanics","Electricity & Magnetism","Waves & Optics","Modern Physics"]},
-      {name:"Chemistry",icon:"🧪",cat:"Science",units:["Atomic Structure","Chemical Reactions","Organic Chemistry","Lab Techniques"]},
-      {name:"Biology",icon:"🧬",cat:"Science",units:["Cell Biology","Genetics","Human Physiology","Ecology"]},
-      {name:"Geography",icon:"🌍",cat:"Science",units:["Physical Geography","Climate Studies","Population Dynamics","Natural Resources"]},
-      {name:"Languages",icon:"🗣️",cat:"Humanities",units:["Grammar Foundations","Vocabulary Building","Speaking Practice","Writing Skills"]},
-      {name:"Typing",icon:"⌨️",cat:"Technology",units:["Keyboard Layout","Speed Building","Accuracy Drills","Productivity Shortcuts"]},
-      {name:"History of Rwanda",icon:"🇷🇼",cat:"Humanities",units:["Pre-colonial Era","Colonial Period","Genocide History","Modern Rwanda"]},
-      {name:"World History",icon:"📜",cat:"Humanities",units:["Ancient Civilizations","Middle Ages","Modern Era","Contemporary History"]},
-      {name:"Carpentry",icon:"🪚",cat:"Vocational",units:["Tool Mastery","Wood Types","Construction Techniques","Furniture Making"]},
-      {name:"Mathematics",icon:"📐",cat:"Science",units:["Algebra","Geometry","Calculus","Statistics"]},
-      {name:"Cybersecurity",icon:"🔒",cat:"Technology",units:["Threat Landscape","Encryption Basics","Network Security","Ethical Hacking"]},
-      {name:"Artificial Intelligence",icon:"🧠",cat:"Technology",units:["AI Fundamentals","Machine Learning","Neural Networks","AI Applications"]},
-      {name:"ECE",icon:"👶",cat:"Education",units:["Child Development","Learning Through Play","Classroom Management","Early Literacy"]},
-      {name:"Culinary Arts",icon:"🍳",cat:"Vocational",units:["Introduction to Culinary Arts","Kitchen Safety","Cooking Methods","Bakery","International Cuisine","Final Project"]}
-    ];
 
     // ======================= HELPER FUNCTIONS =======================
     function showToast(msg, type) { let t=document.getElementById('db-toast'); if(!t){t=document.createElement('div');t.id='db-toast';document.body.appendChild(t);} t.className=`status-toast status-${type}`; t.innerHTML=msg; t.style.display='block'; setTimeout(()=>{t.style.display='none';},3000); }
@@ -575,17 +371,14 @@
     function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); if(window.currentChatUnsubscribe && id === 'communityModal') { window.currentChatUnsubscribe(); window.currentChatUnsubscribe = null; } }
 
-    // ======================= AUTH & USER DATA =======================
-    async function syncUserToFirestore() { if (!currentUser || !currentUser.uid) return; await db.collection("users").doc(currentUser.uid).set({ email: currentUser.email, name: currentUser.displayName || currentUser.email.split('@')[0], completedCourses, certificates, userProgress, languageProgress, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); }
-    async function loadUserFromFirestore(uid) { const doc = await db.collection("users").doc(uid).get(); if(doc.exists) { const data=doc.data(); completedCourses=data.completedCourses||[]; certificates=data.certificates||[]; userProgress=data.userProgress||{}; languageProgress=data.languageProgress||{}; } }
-    async function signUpFirebase(email, password, name, phone, country) { try { const cred = await auth.createUserWithEmailAndPassword(email, password); await cred.user.updateProfile({ displayName: name }); currentUser = { uid: cred.user.uid, email, displayName: name, phone, country }; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; await syncUserToFirestore(); showToast("Account created successfully!", "success"); return true; } catch (err) { showToast(err.message, "error"); return false; } }
+    // ======================= FIREBASE AUTH & USER DATA =======================
+    async function syncUserToFirestore() { if (!currentUser || !currentUser.uid) return; await db.collection("users").doc(currentUser.uid).set({ email: currentUser.email, name: currentUser.displayName || currentUser.email.split('@')[0], completedCourses, certificates, userProgress, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true }); }
+    async function loadUserFromFirestore(uid) { const doc = await db.collection("users").doc(uid).get(); if(doc.exists) { const data=doc.data(); completedCourses=data.completedCourses||[]; certificates=data.certificates||[]; userProgress=data.userProgress||{}; } }
+    async function signUpFirebase(email, password, name, phone, country) { try { const cred = await auth.createUserWithEmailAndPassword(email, password); await cred.user.updateProfile({ displayName: name }); currentUser = { uid: cred.user.uid, email, displayName: name, phone, country }; completedCourses=[]; certificates=[]; userProgress={}; await syncUserToFirestore(); showToast("Account created successfully!", "success"); return true; } catch (err) { showToast(err.message, "error"); return false; } }
     async function loginFirebase(email, password) { try { const cred = await auth.signInWithEmailAndPassword(email, password); await loadUserFromFirestore(cred.user.uid); currentUser = { uid: cred.user.uid, email: cred.user.email, displayName: cred.user.displayName || email.split('@')[0] }; showToast("Logged in!", "success"); return true; } catch (err) { showToast(err.message, "error"); return false; } }
-    function logoutFirebase() { auth.signOut(); currentUser = null; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; showToast("Logged out", "success"); navigateTo('home'); renderNav(); }
+    function logoutFirebase() { auth.signOut(); currentUser = null; completedCourses=[]; certificates=[]; userProgress={}; showToast("Logged out", "success"); navigateTo('home'); renderNav(); }
     async function saveCompletedCourse(cn) { if(!completedCourses.includes(cn)) completedCourses.push(cn); if(currentUser) await syncUserToFirestore(); }
     async function saveCertificate(cn) { certificates.push({ course: cn, student: currentUser?.displayName || "Learner", date: new Date().toISOString() }); if(currentUser) await syncUserToFirestore(); }
-    async function saveProgress(cn, ui) { userProgress[cn] = Math.max(userProgress[cn]||0, ui+1); if(currentUser) await syncUserToFirestore(); }
-    async function saveLanguageProgress(lang, ui, comp) { if(!languageProgress[lang]) languageProgress[lang]={completedUnits:[],lastUnit:0}; if(comp && !languageProgress[lang].completedUnits.includes(ui)) languageProgress[lang].completedUnits.push(ui); languageProgress[lang].lastUnit = Math.max(languageProgress[lang].lastUnit, ui); if(currentUser) await syncUserToFirestore(); }
-    function getLanguageProgress(lang) { return languageProgress[lang] || { completedUnits:[], lastUnit:0 }; }
 
     // ======================= COMMENTS =======================
     async function saveCommentToFirestore(comment) { await db.collection("comments").add({ ...comment, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); showToast("✅ Feedback sent!", "success"); }
@@ -603,26 +396,16 @@
     function startLiveStream(){ const title=document.getElementById('adminStreamTitle')?.value||"Live Session"; const platform=document.getElementById('adminStreamPlatform')?.value||"youtube"; const url=document.getElementById('adminStreamUrl')?.value; if(!url){ showToast('Enter stream URL','error'); return; } liveStatus={isLive:true,streamUrl:url,streamTitle:title,platform:platform}; saveLiveStatus(); updateLiveBanner(); const st=document.getElementById('adminLiveStatus'); if(st){ st.className='live-status online'; st.innerHTML='🟢 LIVE'; } showToast('You are LIVE!','success'); }
     function stopLiveStream(){ liveStatus={...liveStatus,isLive:false}; saveLiveStatus(); updateLiveBanner(); const st=document.getElementById('adminLiveStatus'); if(st){ st.className='live-status offline'; st.innerHTML='⚫ OFFLINE'; } showToast('Stream ended','success'); }
 
-    // ======================= AUTH LOCALSTORAGE =======================
-    function loadAllUsersData(){ let s=localStorage.getItem('rtlh_all_users'); if(s) allUsers=JSON.parse(s); else { allUsers={"demo@rtlh.com":{name:"Demo Student",email:"demo@rtlh.com",password:"demo123",phone:"+250780000000",country:"Rwanda",completedCourses:[],certificates:[],progress:{},languageProgress:{}}}; localStorage.setItem('rtlh_all_users',JSON.stringify(allUsers)); } }
+    // ======================= AUTH LOCALSTORAGE (fallback) =======================
+    function loadAllUsersData(){ let s=localStorage.getItem('rtlh_all_users'); if(s) allUsers=JSON.parse(s); else { allUsers={"demo@rtlh.com":{name:"Demo Student",email:"demo@rtlh.com",password:"demo123",phone:"+250780000000",country:"Rwanda",completedCourses:[],certificates:[],progress:{}}}; localStorage.setItem('rtlh_all_users',JSON.stringify(allUsers)); } }
     function saveAllUsers(){ localStorage.setItem('rtlh_all_users',JSON.stringify(allUsers)); }
-    function loadCurrentUser(){ let s=localStorage.getItem('rtlh_current_user'); if(s){ let u=JSON.parse(s); currentUser=u; completedCourses=currentUser.completedCourses||[]; certificates=currentUser.certificates||[]; userProgress=currentUser.progress||{}; languageProgress=currentUser.languageProgress||{}; } else { currentUser=null; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; } }
-    function saveCurrentUser(){ if(currentUser){ if(allUsers[currentUser.email]) allUsers[currentUser.email]={...allUsers[currentUser.email],...currentUser,languageProgress:languageProgress}; saveAllUsers(); localStorage.setItem('rtlh_current_user',JSON.stringify(currentUser)); } else localStorage.removeItem('rtlh_current_user'); }
-    function signUp(email,password,name,phone,country){ if(allUsers[email]) return {success:false,message:"Email already registered!"}; allUsers[email]={name,email,password,phone,country,completedCourses:[],certificates:[],progress:{},languageProgress:{}}; saveAllUsers(); currentUser=allUsers[email]; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; saveCurrentUser(); return {success:true,message:"Account created!"}; }
-    function login(email,password){ let u=allUsers[email]; if(u&&u.password===password){ currentUser={...u}; completedCourses=currentUser.completedCourses||[]; certificates=currentUser.certificates||[]; userProgress=currentUser.progress||{}; languageProgress=currentUser.languageProgress||{}; saveCurrentUser(); return {success:true}; } return {success:false,message:"Invalid email/password!"}; }
-    function logout(){ currentUser=null; completedCourses=[]; certificates=[]; userProgress={}; languageProgress={}; localStorage.removeItem('rtlh_current_user'); navigateTo('home'); }
+    function loadCurrentUser(){ let s=localStorage.getItem('rtlh_current_user'); if(s){ let u=JSON.parse(s); currentUser=u; completedCourses=currentUser.completedCourses||[]; certificates=currentUser.certificates||[]; userProgress=currentUser.progress||{}; } else { currentUser=null; completedCourses=[]; certificates=[]; userProgress={}; } }
+    function saveCurrentUser(){ if(currentUser){ if(allUsers[currentUser.email]) allUsers[currentUser.email]={...allUsers[currentUser.email],...currentUser}; saveAllUsers(); localStorage.setItem('rtlh_current_user',JSON.stringify(currentUser)); } else localStorage.removeItem('rtlh_current_user'); }
+    function signUp(email,password,name,phone,country){ if(allUsers[email]) return {success:false,message:"Email already registered!"}; allUsers[email]={name,email,password,phone,country,completedCourses:[],certificates:[],progress:{}}; saveAllUsers(); currentUser=allUsers[email]; completedCourses=[]; certificates=[]; userProgress={}; saveCurrentUser(); return {success:true,message:"Account created!"}; }
+    function login(email,password){ let u=allUsers[email]; if(u&&u.password===password){ currentUser={...u}; completedCourses=currentUser.completedCourses||[]; certificates=currentUser.certificates||[]; userProgress=currentUser.progress||{}; saveCurrentUser(); return {success:true}; } return {success:false,message:"Invalid email/password!"}; }
+    function logout(){ currentUser=null; completedCourses=[]; certificates=[]; userProgress={}; localStorage.removeItem('rtlh_current_user'); navigateTo('home'); }
 
-    // ======================= LANGUAGE CATEGORIES =======================
-    const africanRegions = { "East African Languages": ["Kinyarwanda", "Swahili"], "Central African Languages": ["Lingala", "Sango"], "West African Languages": ["Yoruba", "Igbo", "Hausa", "Wolof"], "Southern African Languages": ["Zulu", "Xhosa", "Shona", "Tswana"], "North African Languages": ["Arabic", "Amharic", "Berber"] };
-    const europeanLanguages = ["English", "French", "Spanish", "Portuguese", "German", "Italian", "Dutch", "Greek", "Russian"];
-    const asianLanguages = ["Mandarin Chinese", "Hindi", "Japanese", "Korean", "Thai", "Vietnamese", "Urdu", "Bengali", "Turkish"];
-
-    function showAfricanRegions() { /* preserve original */ }
-    function showLanguagesByRegion(region) { /* preserve original */ }
-    function showEuropeanLanguages() { /* preserve original */ }
-    function showAsianLanguages() { /* preserve original */ }
-
-    // ======================= ORIGINAL RENDER FUNCTIONS =======================
+    // ======================= ORIGINAL RENDER FUNCTIONS (without courses) =======================
     function renderHome() {
       document.getElementById('mainContent').innerHTML = `
         <div class="container">
@@ -641,7 +424,7 @@
               <p><strong>Join Rwanda Tech Learning Hub today and begin your journey toward knowledge, skills, certification, innovation, and success. Your future starts here.</strong></p>
             </div>
             <div style="text-align:center;">
-              <button class="btn-3d" onclick="navigateTo('courses')">
+              <button class="btn-3d" onclick="window.location.href='courses.html'">
                 <i class="fas fa-rocket"></i> Start Learning Now
               </button>
             </div>
@@ -673,65 +456,7 @@
     function showPrivacyPolicy(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Privacy Policy</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>We collect your name, email, phone, and country for educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
     function showTermsOfUse(){ document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>Terms of Use</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>By using this platform, you agree to use all content for lawful educational purposes only.</p></div><button class="btn btn-primary" onclick="closeGenericModal()">I Agree</button>`; }
     
-    function renderCourses() {
-      let html = `<div class="container"><div class="content-card"><h2 class="section-title">📚 Course Library</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px;">`;
-      regularCourses.forEach(c => { html += `<div onclick="openRegularCourse('${c.name}')" style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;text-align:center;cursor:pointer;"><span style="font-size:2.5rem;">${c.icon}</span><h4>${c.name}</h4><span>${c.units.length} units</span>${completedCourses.includes(c.name)?' <span style="color:#FAD201;">🏅</span>':''}</div>`; });
-      html += `</div><div style="margin-top:30px;"><div class="lang-category-card" onclick="renderLanguages()" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);"><i class="fas fa-globe" style="font-size:3rem;"></i><h3 style="margin-top:10px;">🌍 World Languages</h3><p>Explore African, European, and Asian languages</p></div></div></div></div>`;
-      document.getElementById('mainContent').innerHTML = html;
-    }
-
-    function renderLanguages() {
-      let langHtml = `<div class="container"><div class="content-card"><h2 class="section-title">🌍 World Languages</h2><div class="flex-grid">`;
-      for (let lang in languageUnitsData) {
-        let prog = getLanguageProgress(lang);
-        let total = languageUnitsData[lang].units.length;
-        langHtml += `<div class="language-card" onclick="startLanguageCourse('${lang}')"><i class="fas fa-language" style="font-size:2rem;"></i><h4>${lang}</h4><p>${prog.completedUnits.length}/${total} units</p>${prog.completedUnits.length===total?'✅ Certified':''}</div>`;
-      }
-      langHtml += `</div><button class="btn btn-outline" onclick="renderCourses()">← Back to Courses</button></div></div>`;
-      document.getElementById('mainContent').innerHTML = langHtml;
-    }
-
-    function startLanguageCourse(languageName) {
-      currentLanguage = languageName;
-      const data = languageUnitsData[languageName];
-      const prog = getLanguageProgress(languageName);
-      let html = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderLanguages()">← Back</button><h2>${languageName} Course</h2><div class="progress-bar"><div class="progress-fill" style="width:${(prog.completedUnits.length/data.units.length)*100}%"></div></div>`;
-      data.units.forEach((unit, idx) => {
-        html += `<div class="unit-card-small ${prog.completedUnits.includes(idx)?'completed':''}" onclick="openLanguageUnit(${idx})"><strong>Unit ${idx+1}: ${unit.title}</strong> ${prog.completedUnits.includes(idx)?'✅':'▶'}</div>`;
-      });
-      html += `<button class="btn btn-primary" onclick="if(prog.completedUnits.length===data.units.length) { saveCompletedCourse('${languageName}'); saveCertificate('${languageName}'); showToast('Certificate awarded!','success'); } else alert('Complete all units first.')">Get Certificate</button></div></div>`;
-      document.getElementById('mainContent').innerHTML = html;
-    }
-
-    function openLanguageUnit(unitIndex) {
-      const unit = languageUnitsData[currentLanguage].units[unitIndex];
-      let html = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="startLanguageCourse('${currentLanguage}')">← Back</button><h3>${unit.title}</h3><p>Topics: ${unit.topics.join(", ")}</p><button class="btn btn-primary" onclick="completeLanguageUnit(${unitIndex})">Complete Unit & Take Quiz</button></div></div>`;
-      document.getElementById('mainContent').innerHTML = html;
-    }
-
-    async function completeLanguageUnit(unitIndex) {
-      await saveLanguageProgress(currentLanguage, unitIndex, true);
-      showToast(`Unit ${unitIndex+1} completed!`, "success");
-      startLanguageCourse(currentLanguage);
-    }
-
-    function openRegularCourse(name) {
-      currentCourse = regularCourses.find(c => c.name === name);
-      if(!currentCourse) return;
-      let progress = userProgress[name] || 0;
-      let unitsHtml = currentCourse.units.map((u, i) => `<div style="margin:15px 0;"><h4>📖 ${u}</h4><button class="btn btn-outline" onclick="openFullLesson('${name}','${u}',${i})">Start Learning</button>${progress > i ? ' ✅ Completed' : ''}</div>`).join('');
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><button class="btn btn-outline" onclick="renderCourses()">← Back</button><h2>${currentCourse.icon} ${currentCourse.name}</h2>${unitsHtml}<button class="btn btn-primary" onclick="openExam()">Take Final Exam</button></div></div>`;
-    }
-
-    function openFullLesson(cn,u,idx){ if(currentUser) saveProgress(cn,idx); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>${u}</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><div><p>Learning content for ${u} is being prepared. Stay tuned!</p></div><button class="btn btn-primary" onclick="closeGenericModal()">Close</button>`; }
-
-    function openExam(){ if(!currentCourse) return; let qs=[]; for(let i=0;i<20;i++) qs.push({q:`Question ${i+1}: Based on ${currentCourse.name}`, opts:["Option A","Option B","Option C","Option D"], correct:1}); examAnswers={}; let qh=qs.map((q,i)=>`<div><p><strong>Q${i+1}. ${q.q}</strong></p>${q.opts.map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}" onchange="examAnswers['q${i}']=${j}"> ${o}</label><br>`).join('')}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div class="modal-header"><h3>${currentCourse.name} Exam</h3><button class="modal-close-btn" onclick="closeGenericModal()">×</button></div><p>Pass: 70%</p>${qh}<button class="btn btn-primary" onclick="submitExam()">Submit</button><div id="examResult"></div>`; }
-    
-    function submitExam(){ let s=0; for(let i=0;i<20;i++) if(examAnswers['q'+i]===1) s++; let pct=(s/20)*100; if(pct>=70){ saveCompletedCourse(currentCourse.name); saveCertificate(currentCourse.name); document.getElementById('examResult').innerHTML=`<span style="color:#5eead4;">✅ Passed! ${pct}%</span><button class="btn btn-primary" onclick="showCertModal()">Certificate</button>`; } else document.getElementById('examResult').innerHTML=`<span style="color:#ef4444;">❌ Failed ${pct}% <button onclick="openExam()">Retry</button></span>`; }
-    
-    function showCertModal(){ let n=currentUser?.name||"Learner"; document.getElementById('genericModalContent').innerHTML=`<div><h1>🏅 CERTIFICATE</h1><h2>${n}</h2><p>completed ${currentCourse.name}</p><p>${new Date().toLocaleDateString()}</p><button class="btn btn-primary" onclick="window.print()">Print</button></div>`; }
-    
-    function renderAccount(){ let f=currentUser?`<div><h3>Welcome ${currentUser.name}</h3><p>Email: ${currentUser.email}</p><div class="user-id-card"><strong>User ID:</strong><br><code>${currentUser.email}</code></div><h4>📚 Completed Courses: ${completedCourses.length}</h4><h4>🎓 Certificates Earned: ${certificates.length}</h4><h4>🌍 Languages in Progress: ${Object.keys(languageProgress).length}</h4><button class="btn btn-danger mt-20" onclick="logout()">Logout</button></div>`:`<form onsubmit="handleSignUp(event)"><input id="accName" class="form-control" placeholder="Full Name" required><input id="accEmail" type="email" class="form-control" placeholder="Email" required><input id="accPhone" class="form-control" placeholder="Phone"><select id="accCountry" class="form-control"><option>Rwanda</option><option>USA</option><option>UK</option><option>Kenya</option></select><input id="accPass" type="password" class="form-control" placeholder="Password" required><button class="btn btn-primary" type="submit">Create Account</button></form><p>Already have an account? <a onclick="showLoginForm()" style="color:#00A1DE;cursor:pointer;">Login here</a></p>`; document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card" style="max-width:500px;margin:auto;">${f}</div></div>`; }
+    function renderAccount(){ let f=currentUser?`<div><h3>Welcome ${currentUser.name}</h3><p>Email: ${currentUser.email}</p><div class="user-id-card"><strong>User ID:</strong><br><code>${currentUser.email}</code></div><h4>📚 Completed Courses: ${completedCourses.length}</h4><h4>🎓 Certificates Earned: ${certificates.length}</h4><button class="btn btn-danger mt-20" onclick="logout()">Logout</button></div>`:`<form onsubmit="handleSignUp(event)"><input id="accName" class="form-control" placeholder="Full Name" required><input id="accEmail" type="email" class="form-control" placeholder="Email" required><input id="accPhone" class="form-control" placeholder="Phone"><select id="accCountry" class="form-control"><option>Rwanda</option><option>USA</option><option>UK</option><option>Kenya</option></select><input id="accPass" type="password" class="form-control" placeholder="Password" required><button class="btn btn-primary" type="submit">Create Account</button></form><p>Already have an account? <a onclick="showLoginForm()" style="color:#00A1DE;cursor:pointer;">Login here</a></p>`; document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card" style="max-width:500px;margin:auto;">${f}</div></div>`; }
     
     function handleSignUp(e){ e.preventDefault(); let r=signUp(document.getElementById('accEmail').value,document.getElementById('accPass').value,document.getElementById('accName').value,document.getElementById('accPhone').value,document.getElementById('accCountry').value); alert(r.message); if(r.success) navigateTo('account'); }
     
@@ -740,24 +465,14 @@
     function handleLogin(e){ e.preventDefault(); let r=login(document.getElementById('loginEmail').value,document.getElementById('loginPass').value); alert(r.message||(r.success?"Logged in!":"Error")); if(r.success) navigateTo('account'); }
     
     function renderDashboard(){ 
-      let langProgressHtml = `<h3>🌍 Language Learning Progress</h3><div class="grid-2">`;
-      for(let lang in languageProgress) {
-        let total = languageUnitsData[lang]?.units.length || 0;
-        let completed = languageProgress[lang].completedUnits.length;
-        let percent = total > 0 ? Math.round((completed/total)*100) : 0;
-        langProgressHtml += `<div class="info-card"><h4>${lang}</h4><div class="progress-bar"><div class="progress-fill" style="width:${percent}%;"></div></div><p>${completed}/${total} units (${percent}%)</p>${percent === 100 ? '<span style="color:#FAD201;">🏅 Certified!</span>' : ''}</div>`;
-      }
-      langProgressHtml += `</div>`;
-      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Dashboard</h2><div class="grid-3"><div class="info-card"><h3>📚 Completed Courses</h3><h2>${completedCourses.length}</h2></div><div class="info-card"><h3>🎓 Certificates</h3><h2>${certificates.length}</h2></div><div class="info-card"><h3>📈 Progress</h3><p>${Object.keys(userProgress).length + Object.keys(languageProgress).length} courses/languages started</p></div></div>${langProgressHtml}<button class="btn btn-primary mt-20" onclick="showCertificatesList()">View Certificates</button></div></div>`; 
+      document.getElementById('mainContent').innerHTML = `<div class="container"><div class="content-card"><h2>Dashboard</h2><div class="grid-3"><div class="info-card"><h3>📚 Completed Courses</h3><h2>${completedCourses.length}</h2></div><div class="info-card"><h3>🎓 Certificates</h3><h2>${certificates.length}</h2></div><div class="info-card"><h3>📈 Progress</h3><p>${Object.keys(userProgress).length} courses started</p></div></div><button class="btn btn-primary mt-20" onclick="showCertificatesList()">View Certificates</button></div></div>`; 
     }
     
     function showCertificatesList(){ let h=certificates.map(c=>`<div>${c.course} - ${c.student} - ${new Date(c.date).toLocaleDateString()}</div>`).join(''); document.getElementById('genericModal').classList.add('active'); document.getElementById('genericModalContent').innerHTML=`<div><h3>My Certificates</h3>${h||'<p>None</p>'}<button class="btn btn-primary" onclick="closeGenericModal()">Close</button></div>`; }
     
-    function renderELibrary(){ document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>E-Library</h2><p>Coming soon: Digital books and resources</p></div></div>`; }
-    
     async function renderAdmin(){ if(!isAdmin){ document.getElementById('adminLoginModal').classList.add('active'); return; } let commentsHtml=await renderAdminCommentsTab(); document.getElementById('mainContent').innerHTML=`<div class="container"><div class="content-card"><h2>Admin Panel</h2><div class="admin-tabs"><span class="admin-tab active" onclick="renderAdminUsersTab()">👥 Users</span><span class="admin-tab" onclick="renderAdminCommentsTabView()">💬 Comments</span><span class="admin-tab" onclick="renderAdminLiveTab()">📺 Live Control</span></div><div id="adminContentArea">${commentsHtml}</div><hr><button class="btn btn-danger" onclick="isAdmin=false;navigateTo('home')">Exit Admin</button></div></div>`; }
     
-    async function renderAdminUsersTab(){ let uh=`<h3>Users (${Object.keys(allUsers).length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th><th>Completed</th><th>Languages</th><tr>${Object.values(allUsers).map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td><td>${u.completedCourses?.length||0}</td><td>${Object.keys(u.languageProgress||{}).length}</td></tr>`).join('')} </table>`; document.getElementById('adminContentArea').innerHTML=uh; }
+    async function renderAdminUsersTab(){ let uh=`<h3>Users (${Object.keys(allUsers).length})</h3><table style="width:100%"><tr><th>Name</th><th>Email</th><th>Country</th><th>Completed</th></tr>${Object.values(allUsers).map(u=>`<tr><td>${u.name||'-'}</td><td>${u.email||'-'}</td><td>${u.country||'-'}</td><td>${u.completedCourses?.length||0}</td></tr>`).join('')}</table>`; document.getElementById('adminContentArea').innerHTML=uh; }
     
     async function renderAdminCommentsTabView(){ const ch=await renderAdminCommentsTab(); document.getElementById('adminContentArea').innerHTML=ch; }
     
@@ -805,7 +520,7 @@
       document.getElementById('mainContent').innerHTML = oppHtml;
     }
 
-    // ======================= COMMUNITY PAGE =======================
+    // ======================= COMMUNITY PAGE (unchanged) =======================
     let currentGroupId = null;
 
     async function renderCommunity() {
@@ -978,12 +693,12 @@
     function renderNav() {
       const nav = document.getElementById('mainNav');
       nav.innerHTML = `<div class="nav-item-3d"><a onclick="navigateTo('home')"><i class="fas fa-home"></i> Home</a></div>
-        <div class="nav-item-3d"><a onclick="navigateTo('courses')"><i class="fas fa-book"></i> Courses</a></div>
+        <div class="nav-item-3d"><a href="courses.html"><i class="fas fa-book"></i> Courses</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('opportunities')"><i class="fas fa-briefcase"></i> Opportunities</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('community')"><i class="fas fa-users"></i> Community</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('account')"><i class="fas fa-user"></i> Account</a></div>
         <div class="nav-item-3d"><a onclick="navigateTo('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></div>
-        <div class="nav-item-3d"><a onclick="navigateTo('elibrary')"><i class="fas fa-book-open"></i> E-Library</a></div>
+        <div class="nav-item-3d"><a href="elibrary.html"><i class="fas fa-book-open"></i> E-Library</a></div>
         <button class="nav-btn comments-btn" onclick="openCommentsModal()"><i class="fas fa-comment-dots"></i> Feedback</button>
         ${!currentUser ? `<button class="nav-btn register-nav-btn" onclick="navigateTo('account')"><i class="fas fa-user-plus"></i> Register</button>` : `<button class="nav-btn register-nav-btn" onclick="logoutFirebase()"><i class="fas fa-sign-out-alt"></i> Logout</button>`}
         <button class="nav-btn admin-btn" onclick="navigateTo('admin')"><i class="fas fa-shield-alt"></i> Admin</button>`;
@@ -995,12 +710,10 @@
       }
       if(page === 'admin') renderAdmin();
       else if(page === 'home') renderHome();
-      else if(page === 'courses') renderCourses();
       else if(page === 'opportunities') renderOpportunities();
       else if(page === 'community') renderCommunity();
       else if(page === 'account') renderAccount();
       else if(page === 'dashboard') renderDashboard();
-      else if(page === 'elibrary') renderELibrary();
       else renderHome();
     }
 
@@ -1089,11 +802,8 @@
     window.showCreateGroupModal = showCreateGroupModal; window.createGroup = createGroup; window.closeModal = closeModal;
     window.logout = logout; window.showPrivacyPolicy = showPrivacyPolicy; window.showTermsOfUse = showTermsOfUse;
     window.closeGenericModal = closeGenericModal; window.closeLiveStream = closeLiveStream; window.closeCommentsModal = closeCommentsModal;
-    window.renderCourses = renderCourses; window.renderLanguages = renderLanguages; window.startLanguageCourse = startLanguageCourse;
-    window.openLanguageUnit = openLanguageUnit; window.completeLanguageUnit = completeLanguageUnit; window.openRegularCourse = openRegularCourse;
-    window.openFullLesson = openFullLesson; window.openExam = openExam; window.submitExam = submitExam; window.showCertModal = showCertModal;
     window.renderAccount = renderAccount; window.handleSignUp = handleSignUp; window.showLoginForm = showLoginForm; window.handleLogin = handleLogin;
-    window.renderDashboard = renderDashboard; window.showCertificatesList = showCertificatesList; window.renderELibrary = renderELibrary;
+    window.renderDashboard = renderDashboard; window.showCertificatesList = showCertificatesList;
     window.renderAdmin = renderAdmin; window.renderAdminUsersTab = renderAdminUsersTab; window.renderAdminCommentsTabView = renderAdminCommentsTabView;
     window.renderAdminLiveTab = renderAdminLiveTab; window.logoutFirebase = logoutFirebase; window.openAIChat = openAIChat; window.closeAIChat = closeAIChat;
   </script>
