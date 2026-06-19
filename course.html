@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -165,7 +164,6 @@
     .category-card:hover::before { opacity: 1; }
     .category-card i {
       font-size: 2.4rem;
-      color: #00A1DE;
       margin-bottom: 12px;
       display: block;
     }
@@ -182,6 +180,7 @@
       margin-top: 5px;
       display: block;
     }
+    /* Color groups (same as before) */
     .category-card.education i { color: #f1c40f; }
     .category-card.health i { color: #e74c3c; }
     .category-card.agriculture i { color: #27ae60; }
@@ -245,15 +244,15 @@
 
 <header class="catalog-header">
   <div class="container header-inner">
-    <a href="#" class="logo" onclick="window.history.back(); return false;">
-      <i class="fas fa-arrow-left"></i>
+    <a href="index.html" class="logo">
+      <i class="fas fa-home"></i>
       <span><span class="blue">RTLH</span> <span class="green">Course</span> <span class="yellow">Catalog</span></span>
     </a>
     <div class="header-search">
       <input type="text" id="searchInput" placeholder="Search courses... e.g., Nursing, AI, Business">
       <button onclick="filterCourses()"><i class="fas fa-search"></i> Search</button>
     </div>
-    <a href="index.html" class="btn-back"><i class="fas fa-home"></i> Home</a>
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Home</a>
   </div>
 </header>
 
@@ -280,7 +279,7 @@
 </footer>
 
 <script>
-  // ======================= ALL CATEGORIES (Exactly as provided, no omissions) =======================
+  // ======================= ALL CATEGORIES (Exactly as provided) =======================
   const categories = [
     // Education
     { name: "Education & Teacher Training", icon: "fa-solid fa-chalkboard", group: "education" },
@@ -288,7 +287,6 @@
     { name: "Special Needs Education", icon: "fa-solid fa-hands", group: "education" },
     { name: "Early Childhood Education", icon: "fa-solid fa-baby", group: "education" },
     { name: "TVET & Vocational Education", icon: "fa-solid fa-tools", group: "vocational" },
-
     // Health
     { name: "Health & Medical Sciences", icon: "fa-solid fa-heartbeat", group: "health" },
     { name: "Nursing & Midwifery", icon: "fa-solid fa-user-nurse", group: "health" },
@@ -297,7 +295,6 @@
     { name: "Public Health", icon: "fa-solid fa-heartbeat", group: "health" },
     { name: "Nutrition & Dietetics", icon: "fa-solid fa-apple-alt", group: "health" },
     { name: "Occupational Health & Safety", icon: "fa-solid fa-hard-hat", group: "health" },
-
     // Agriculture & Environmental
     { name: "Agriculture", icon: "fa-solid fa-seedling", group: "agriculture" },
     { name: "Veterinary Sciences", icon: "fa-solid fa-paw", group: "agriculture" },
@@ -305,7 +302,6 @@
     { name: "Environmental Studies", icon: "fa-solid fa-leaf", group: "agriculture" },
     { name: "Earth Sciences", icon: "fa-solid fa-globe-americas", group: "science" },
     { name: "Food Science", icon: "fa-solid fa-utensils", group: "science" },
-
     // Engineering & Construction
     { name: "Construction Technology", icon: "fa-solid fa-helmet-safety", group: "engineering" },
     { name: "Civil Engineering", icon: "fa-solid fa-road", group: "engineering" },
@@ -322,7 +318,6 @@
     { name: "Welding & Fabrication", icon: "fa-solid fa-fire", group: "engineering" },
     { name: "Refrigeration & Air Conditioning", icon: "fa-solid fa-snowflake", group: "engineering" },
     { name: "Renewable Energy", icon: "fa-solid fa-solar-panel", group: "engineering" },
-
     // Technology & Computing
     { name: "Information Technology", icon: "fa-solid fa-laptop", group: "technology" },
     { name: "Computer Science", icon: "fa-solid fa-code", group: "technology" },
@@ -336,7 +331,6 @@
     { name: "Cloud Computing", icon: "fa-solid fa-cloud", group: "technology" },
     { name: "Networking", icon: "fa-solid fa-network-wired", group: "technology" },
     { name: "Database Management", icon: "fa-solid fa-server", group: "technology" },
-
     // Design & Media
     { name: "Graphic Design", icon: "fa-solid fa-paint-brush", group: "design" },
     { name: "UI/UX Design", icon: "fa-solid fa-pencil-ruler", group: "design" },
@@ -346,7 +340,6 @@
     { name: "Film Production", icon: "fa-solid fa-film", group: "design" },
     { name: "Journalism", icon: "fa-solid fa-newspaper", group: "design" },
     { name: "Mass Communication", icon: "fa-solid fa-bullhorn", group: "design" },
-
     // Business & Management
     { name: "Business Administration", icon: "fa-solid fa-briefcase", group: "business" },
     { name: "Entrepreneurship", icon: "fa-solid fa-lightbulb", group: "business" },
@@ -364,7 +357,6 @@
     { name: "E-Commerce", icon: "fa-solid fa-shopping-cart", group: "business" },
     { name: "Customer Service", icon: "fa-solid fa-headset", group: "business" },
     { name: "Leadership & Management", icon: "fa-solid fa-user-tie", group: "business" },
-
     // Law & Social Sciences
     { name: "Law", icon: "fa-solid fa-gavel", group: "law" },
     { name: "Criminology", icon: "fa-solid fa-fingerprint", group: "law" },
@@ -380,7 +372,6 @@
     { name: "Anthropology", icon: "fa-solid fa-archway", group: "social" },
     { name: "History", icon: "fa-solid fa-book", group: "humanities" },
     { name: "Geography", icon: "fa-solid fa-map", group: "humanities" },
-
     // Humanities & Languages
     { name: "Philosophy", icon: "fa-solid fa-book", group: "humanities" },
     { name: "Religious Studies", icon: "fa-solid fa-pray", group: "humanities" },
@@ -390,7 +381,6 @@
     { name: "Creative Writing", icon: "fa-solid fa-pen-fancy", group: "humanities" },
     { name: "Linguistics", icon: "fa-solid fa-language", group: "humanities" },
     { name: "Library & Information Science", icon: "fa-solid fa-book", group: "library" },
-
     // Mathematics & Sciences
     { name: "Mathematics", icon: "fa-solid fa-square-root-alt", group: "science" },
     { name: "Statistics", icon: "fa-solid fa-chart-bar", group: "science" },
@@ -399,7 +389,6 @@
     { name: "Biology", icon: "fa-solid fa-dna", group: "science" },
     { name: "Biotechnology", icon: "fa-solid fa-microscope", group: "science" },
     { name: "Astronomy", icon: "fa-solid fa-meteor", group: "science" },
-
     // Hospitality & Tourism
     { name: "Hospitality Management", icon: "fa-solid fa-hotel", group: "hospitality" },
     { name: "Hotel Management", icon: "fa-solid fa-bed", group: "hospitality" },
@@ -408,7 +397,6 @@
     { name: "Culinary Arts", icon: "fa-solid fa-utensils", group: "hospitality" },
     { name: "Baking & Pastry", icon: "fa-solid fa-bread-slice", group: "hospitality" },
     { name: "Event Management", icon: "fa-solid fa-calendar-check", group: "hospitality" },
-
     // Fashion & Beauty
     { name: "Fashion Design", icon: "fa-solid fa-tshirt", group: "arts" },
     { name: "Tailoring & Garment Production", icon: "fa-solid fa-cut", group: "vocational" },
@@ -419,36 +407,30 @@
     { name: "Cosmetology", icon: "fa-solid fa-makeup", group: "vocational" },
     { name: "Makeup Artistry", icon: "fa-solid fa-paint-brush", group: "vocational" },
     { name: "Nail Technology", icon: "fa-solid fa-hand-sparkles", group: "vocational" },
-
     // Arts & Entertainment
     { name: "Fine Arts", icon: "fa-solid fa-palette", group: "arts" },
     { name: "Music", icon: "fa-solid fa-music", group: "arts" },
     { name: "Dance", icon: "fa-solid fa-dance", group: "arts" },
     { name: "Theatre & Performing Arts", icon: "fa-solid fa-theater-masks", group: "arts" },
-
     // Sports & Fitness
     { name: "Sports & Physical Education", icon: "fa-solid fa-running", group: "sports" },
     { name: "Sports Coaching", icon: "fa-solid fa-whistle", group: "sports" },
     { name: "Fitness & Wellness", icon: "fa-solid fa-heart", group: "sports" },
-
     // Transport & Logistics
     { name: "Transport & Logistics", icon: "fa-solid fa-truck", group: "transport" },
     { name: "Aviation", icon: "fa-solid fa-plane", group: "transport" },
     { name: "Maritime Studies", icon: "fa-solid fa-ship", group: "transport" },
     { name: "Railway Operations", icon: "fa-solid fa-train", group: "transport" },
     { name: "Driving & Road Safety", icon: "fa-solid fa-car", group: "transport" },
-
     // Security & Emergency
     { name: "Military Studies", icon: "fa-solid fa-shield", group: "security" },
     { name: "Security Management", icon: "fa-solid fa-lock", group: "security" },
     { name: "Disaster Management", icon: "fa-solid fa-tornado", group: "security" },
     { name: "Emergency Response", icon: "fa-solid fa-ambulance", group: "security" },
-
     // Office & Administration
     { name: "Secretarial Studies", icon: "fa-solid fa-file", group: "business" },
     { name: "Office Administration", icon: "fa-solid fa-clipboard", group: "business" },
     { name: "Typing & Keyboarding", icon: "fa-solid fa-keyboard", group: "vocational" },
-
     // Personal Development
     { name: "Research Methods", icon: "fa-solid fa-search", group: "personal" },
     { name: "Personal Development", icon: "fa-solid fa-user-check", group: "personal" },
@@ -456,10 +438,7 @@
     { name: "Public Speaking", icon: "fa-solid fa-microphone", group: "personal" },
     { name: "Financial Literacy", icon: "fa-solid fa-money-bill", group: "personal" },
     { name: "Career Development", icon: "fa-solid fa-rocket", group: "personal" },
-    { name: "Life Skills", icon: "fa-solid fa-life-ring", group: "personal" },
-
-    // Additional to ensure no omissions – check all provided categories above are present.
-    // (All categories from the user's list have been included; duplicates avoided.)
+    { name: "Life Skills", icon: "fa-solid fa-life-ring", group: "personal" }
   ];
 
   // ======================= RENDER =======================
@@ -495,10 +474,11 @@
     renderCategories(searchInput.value);
   }
 
+  // Live search on input
+  searchInput.addEventListener('input', filterCourses);
   searchInput.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') filterCourses();
   });
-  searchInput.addEventListener('input', filterCourses);
 
   // Initial render
   renderCategories();
