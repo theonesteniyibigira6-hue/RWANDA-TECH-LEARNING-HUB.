@@ -141,7 +141,7 @@
       padding: 25px 20px;
       text-align: center;
       transition: all 0.3s ease;
-      cursor: default;
+      cursor: pointer;
       position: relative;
       overflow: hidden;
     }
@@ -180,7 +180,7 @@
       margin-top: 5px;
       display: block;
     }
-    /* Color groups (same as before) */
+    /* Color groups */
     .category-card.education i { color: #f1c40f; }
     .category-card.health i { color: #e74c3c; }
     .category-card.agriculture i { color: #27ae60; }
@@ -200,6 +200,173 @@
     .category-card.vocational i { color: #9e9e9e; }
     .category-card.library i { color: #8e44ad; }
     .category-card.personal i { color: #00bcd4; }
+
+    .programs-view {
+      display: none;
+      padding: 30px 0 60px;
+    }
+    .programs-view.active { display: block; }
+    .programs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .programs-header h2 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, #FAD201, #00A1DE);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .program-card {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 18px;
+      transition: all 0.3s ease;
+      border-left: 5px solid #8b5cf6;
+      cursor: pointer;
+      color: #f0f4ff;
+    }
+    .program-card:hover {
+      transform: translateY(-4px);
+      border-color: #FAD201;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .program-card img {
+      width: 100%;
+      border-radius: 14px;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: transform 0.3s ease;
+    }
+    .program-card:hover img { transform: scale(1.02); }
+    .program-card h4 {
+      color: #fff;
+      margin: 10px 0 4px 0;
+      font-size: 1.05rem;
+    }
+    .program-card .meta {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.85rem;
+    }
+    .program-card .desc {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+    .program-card .click-hint {
+      display: inline-block;
+      margin-top: 8px;
+      color: #00A1DE;
+      font-size: 0.8rem;
+      font-weight: 600;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    .program-card:hover .click-hint { opacity: 1; }
+
+    .modal-reader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s ease;
+    }
+    .modal-reader.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-reader-content {
+      background: #1a2332;
+      width: 90%;
+      max-width: 850px;
+      max-height: 90vh;
+      border-radius: 32px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+    .modal-reader-header {
+      padding: 18px 28px;
+      background: rgba(0,161,222,0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .modal-reader-header span {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .modal-reader-header .close-modal {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 0.2s;
+      line-height: 1;
+    }
+    .modal-reader-header .close-modal:hover {
+      color: #fff;
+      transform: rotate(90deg);
+    }
+    .modal-reader-body {
+      padding: 30px 32px;
+      overflow-y: auto;
+      color: #e2e8f0;
+      font-size: 1rem;
+      line-height: 1.7;
+      flex: 1;
+      text-align: center;
+    }
+    .modal-reader-body img {
+      width: 100%;
+      border-radius: 16px;
+      max-height: 60vh;
+      object-fit: contain;
+      background: #0a0e1a;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .modal-reader-body h3 {
+      color: #fff;
+      margin-top: 18px;
+      font-size: 1.6rem;
+    }
+    .modal-reader-body .cat {
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 8px;
+    }
+    .modal-reader-body .desc {
+      color: rgba(255,255,255,0.7);
+      max-width: 700px;
+      margin: 0 auto;
+    }
 
     .no-results {
       text-align: center;
@@ -235,8 +402,11 @@
       .header-inner { flex-direction: column; align-items: stretch; }
       .header-search { max-width: 100%; }
       .category-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+      .programs-grid { grid-template-columns: 1fr; }
       .stats { gap: 20px; }
       .stats span { font-size: 0.8rem; padding: 5px 15px; }
+      .modal-reader-content { width: 96%; max-height: 94vh; }
+      .modal-reader-body { padding: 20px 16px; }
     }
   </style>
 </head>
@@ -244,6 +414,7 @@
 
 <header class="catalog-header">
   <div class="container header-inner">
+    <!-- HOME BUTTON NOW DIRECTS TO RTLH HOMEPAGE -->
     <a href="index.html" class="logo">
       <i class="fas fa-home"></i>
       <span><span class="blue">RTLH</span> <span class="green">Course</span> <span class="yellow">Catalog</span></span>
@@ -267,8 +438,37 @@
 </section>
 
 <div class="container">
-  <div class="category-grid" id="categoryGrid"></div>
-  <div class="no-results" id="noResults">🔍 No courses found. Try a different keyword.</div>
+  <!-- Category Grid View -->
+  <div id="categoryView">
+    <div class="category-grid" id="categoryGrid"></div>
+    <div class="no-results" id="noResults">🔍 No courses found. Try a different keyword.</div>
+  </div>
+
+  <!-- Programs View (hidden by default) -->
+  <div class="programs-view" id="programsView">
+    <div class="programs-header">
+      <h2 id="programsTitle">Programs</h2>
+      <button class="btn-back" id="backToCategoriesBtn"><i class="fas fa-arrow-left"></i> Back to Categories</button>
+    </div>
+    <div class="programs-grid" id="programsGrid"></div>
+    <div class="no-results" id="programsNoResults" style="display:none;">No programs found for this category.</div>
+  </div>
+</div>
+
+<!-- Slide Modal -->
+<div class="modal-reader" id="slideModal">
+  <div class="modal-reader-content">
+    <div class="modal-reader-header">
+      <span id="slideModalTitle"><i class="fas fa-image"></i> Program Slide</span>
+      <button class="close-modal" id="closeSlideModalBtn">&times;</button>
+    </div>
+    <div class="modal-reader-body" id="slideModalBody">
+      <img id="slideImage" src="" alt="Slide">
+      <h3 id="slideTitle"></h3>
+      <div class="cat" id="slideCategory"></div>
+      <div class="desc" id="slideDesc"></div>
+    </div>
+  </div>
 </div>
 
 <footer class="catalog-footer">
@@ -279,7 +479,7 @@
 </footer>
 
 <script>
-  // ======================= ALL CATEGORIES (Exactly as provided) =======================
+  // ======================= ALL CATEGORIES =======================
   const categories = [
     // Education
     { name: "Education & Teacher Training", icon: "fa-solid fa-chalkboard", group: "education" },
@@ -441,12 +641,562 @@
     { name: "Life Skills", icon: "fa-solid fa-life-ring", group: "personal" }
   ];
 
-  // ======================= RENDER =======================
+  // ======================= PROGRAM DATA (25 categories with 50 programs each) =======================
+  const programLists = {
+    "Education & Teacher Training": [
+      "Foundations of Education", "Philosophy of Education", "Sociology of Education",
+      "Educational Psychology", "Child Development and Learning", "Curriculum Development",
+      "Instructional Design", "Educational Assessment and Evaluation", "Classroom Management",
+      "Educational Research Methods", "Educational Statistics", "Educational Technology",
+      "Digital Learning Systems", "E-Learning Development", "AI in Education",
+      "Learning Analytics", "Educational Leadership", "School Administration",
+      "Education Policy and Planning", "Comparative Education", "Guidance and Counseling",
+      "Inclusive Education", "Special Needs Education", "Early Childhood Education",
+      "Primary Education", "Secondary Education", "Adult Education", "Community Education",
+      "Distance Education", "TVET Pedagogy", "STEM Education", "Mathematics Education",
+      "Physics Education", "Chemistry Education", "Biology Education", "Geography Education",
+      "History Education", "Language Education", "English Language Teaching",
+      "French Language Teaching", "ICT Education", "Entrepreneurship Education",
+      "Arts Education", "Music Education", "Physical Education Teaching",
+      "Teacher Professional Development", "Teacher Mentorship and Coaching",
+      "Educational Project Management", "School Quality Assurance",
+      "Advanced Pedagogy and Teaching Excellence"
+    ],
+    "Health & Medical Sciences": [
+      "Human Anatomy", "Human Physiology", "Medical Biochemistry", "Histology",
+      "Embryology", "Genetics", "Medical Microbiology", "Medical Parasitology",
+      "Medical Virology", "Immunology", "General Pathology", "Systemic Pathology",
+      "Pharmacology", "Toxicology", "Internal Medicine", "General Surgery",
+      "Pediatrics", "Obstetrics", "Gynecology", "Emergency Medicine",
+      "Family Medicine", "Community Medicine", "Dermatology", "Psychiatry",
+      "Neurology", "Cardiology", "Oncology", "Orthopedics", "Ophthalmology",
+      "ENT Medicine", "Radiology", "Medical Imaging", "Clinical Laboratory Sciences",
+      "Medical Informatics", "Health Information Systems", "Telemedicine",
+      "Biomedical Engineering", "Medical Ethics", "Healthcare Management",
+      "Patient Safety", "Evidence-Based Medicine", "Clinical Research",
+      "Epidemiology", "AI in Healthcare", "Precision Medicine", "Genomic Medicine",
+      "Medical Robotics", "Public Health Practice", "Clinical Practicum",
+      "Advanced Medical Sciences"
+    ],
+    "Nursing & Midwifery": [
+      "Fundamentals of Nursing", "Adult Nursing", "Pediatric Nursing",
+      "Geriatric Nursing", "Community Health Nursing", "Mental Health Nursing",
+      "Critical Care Nursing", "Emergency Nursing", "Surgical Nursing",
+      "Medical Nursing", "Oncology Nursing", "Cardiac Nursing", "Neonatal Nursing",
+      "Maternal Health Nursing", "Reproductive Health Nursing", "Midwifery Foundations",
+      "Antenatal Care", "Postnatal Care", "Labor and Delivery Management",
+      "Obstetric Emergencies", "Family Planning", "Nursing Ethics",
+      "Nursing Leadership", "Nursing Informatics", "Clinical Documentation",
+      "Evidence-Based Nursing", "Infection Prevention", "Patient Safety",
+      "Health Promotion", "Nutrition in Nursing", "Pharmacology for Nurses",
+      "Pathophysiology for Nurses", "Community Outreach", "Palliative Care",
+      "Home-Based Care", "School Health Nursing", "Occupational Health Nursing",
+      "Disaster Nursing", "Telehealth Nursing", "AI in Nursing",
+      "Nursing Research", "Nursing Education", "Nursing Administration",
+      "Midwifery Research", "Neonatal Intensive Care", "Women's Health",
+      "Clinical Placement", "Advanced Midwifery", "Advanced Nursing Practice",
+      "Professional Nursing Excellence"
+    ],
+    "Pharmacy": [
+      "Introduction to Pharmacy", "Pharmaceutical Chemistry", "Medicinal Chemistry",
+      "Pharmacognosy", "Pharmaceutics", "Biopharmaceutics", "Pharmacokinetics",
+      "Pharmacodynamics", "Clinical Pharmacy", "Hospital Pharmacy",
+      "Community Pharmacy", "Industrial Pharmacy", "Pharmaceutical Technology",
+      "Drug Formulation", "Drug Manufacturing", "Pharmaceutical Analysis",
+      "Toxicology", "Pharmacy Law", "Pharmacy Ethics", "Drug Regulation",
+      "Pharmaceutical Marketing", "Supply Chain for Medicines", "Quality Assurance",
+      "Quality Control", "Herbal Medicines", "Pharmacovigilance",
+      "Oncology Pharmacy", "Pediatric Pharmacy", "Geriatric Pharmacy",
+      "Infectious Disease Pharmacy", "Antimicrobial Stewardship",
+      "Clinical Therapeutics", "Pharmacoeconomics", "Public Health Pharmacy",
+      "Biotechnology in Pharmacy", "Vaccines and Immunization", "Digital Pharmacy",
+      "AI in Pharmacy", "Precision Medicine", "Genomic Pharmacy",
+      "Research Methods in Pharmacy", "Pharmaceutical Entrepreneurship",
+      "Pharmaceutical Logistics", "Drug Safety", "Clinical Trials",
+      "Pharmaceutical Innovation", "Pharmaceutical Data Analytics",
+      "Pharmaceutical Management", "Advanced Clinical Pharmacy",
+      "Pharmacy Practice Excellence"
+    ],
+    "Dentistry": [
+      "Oral Anatomy", "Dental Physiology", "Oral Histology", "Dental Materials",
+      "Operative Dentistry", "Preventive Dentistry", "Restorative Dentistry",
+      "Prosthodontics", "Orthodontics", "Periodontics", "Endodontics",
+      "Pediatric Dentistry", "Oral Surgery", "Oral Pathology", "Oral Medicine",
+      "Dental Radiology", "Community Dentistry", "Cosmetic Dentistry",
+      "Implant Dentistry", "Digital Dentistry", "Dental Informatics",
+      "Infection Control", "Dental Ethics", "Dental Practice Management",
+      "Dental Research", "Dental Pharmacology", "Dental Public Health",
+      "Oral Cancer Management", "Dental Laboratory Technology", "Occlusion Studies",
+      "Craniofacial Biology", "Laser Dentistry", "Advanced Prosthodontics",
+      "Orthodontic Technologies", "Dental Imaging", "AI in Dentistry",
+      "Tele-Dentistry", "Pediatric Oral Health", "Geriatric Dentistry",
+      "Dental Emergency Care", "Oral Rehabilitation", "Dental Quality Assurance",
+      "Clinical Dentistry", "Dental Education", "Practice Entrepreneurship",
+      "Advanced Oral Surgery", "Advanced Implantology", "Research Project",
+      "Clinical Practicum", "Comprehensive Dental Practice"
+    ],
+    "Public Health": [
+      "Foundations of Public Health", "Epidemiology", "Biostatistics",
+      "Community Health", "Global Health", "Environmental Health",
+      "Occupational Health", "Maternal and Child Health", "Health Promotion",
+      "Health Education", "Disease Prevention", "Infectious Disease Control",
+      "Non-Communicable Diseases", "Public Health Nutrition", "Health Policy",
+      "Health Systems Management", "Health Economics", "Health Informatics",
+      "Health Communication", "Public Health Research", "Demography",
+      "Reproductive Health", "Mental Health Promotion", "Disaster Health Management",
+      "Emergency Preparedness", "Vaccination Programs", "Water and Sanitation",
+      "Food Safety", "Environmental Risk Assessment", "Public Health Surveillance",
+      "Healthcare Quality Improvement", "Program Monitoring and Evaluation",
+      "AI in Public Health", "Digital Health", "Telehealth Systems",
+      "Community Outreach", "Population Health", "Health Equity",
+      "Behavioral Health", "Public Health Leadership", "Public Health Ethics",
+      "Public Health Law", "Health Data Analytics", "Clinical Epidemiology",
+      "Global Disease Burden", "Research Project", "Field Practicum",
+      "Advanced Public Health", "Public Health Innovation", "Public Health Excellence"
+    ],
+    "Agriculture": [
+      "Introduction to Agriculture", "Crop Production", "Horticulture",
+      "Agronomy", "Soil Science", "Plant Nutrition", "Irrigation Systems",
+      "Agricultural Engineering", "Agricultural Economics", "Farm Management",
+      "Agricultural Extension", "Organic Farming", "Greenhouse Technology",
+      "Precision Agriculture", "Smart Farming", "Sustainable Agriculture",
+      "Agroecology", "Plant Pathology", "Entomology", "Weed Management",
+      "Seed Technology", "Crop Protection", "Post-Harvest Technology",
+      "Agricultural Biotechnology", "Agricultural Marketing", "Agribusiness Management",
+      "Livestock Production", "Dairy Farming", "Poultry Farming", "Pig Farming",
+      "Fish Farming", "Beekeeping", "Aquaculture", "Agroforestry",
+      "Climate-Smart Agriculture", "Agricultural Data Analytics",
+      "Agricultural Finance", "Agricultural Policy", "Agricultural Supply Chains",
+      "Food Security", "Agricultural Research Methods", "Farm Mechanization",
+      "Agricultural Innovation", "AI in Agriculture", "Agricultural Entrepreneurship",
+      "Rural Development", "Agricultural Project Management", "Field Practicum",
+      "Advanced Agriculture", "Modern Agricultural Systems"
+    ],
+    "Veterinary Sciences": [
+      "Veterinary Anatomy", "Veterinary Physiology", "Veterinary Biochemistry",
+      "Veterinary Microbiology", "Veterinary Parasitology", "Veterinary Pathology",
+      "Veterinary Pharmacology", "Animal Nutrition", "Animal Genetics",
+      "Animal Reproduction", "Animal Welfare", "Small Animal Medicine",
+      "Large Animal Medicine", "Veterinary Surgery", "Veterinary Diagnostics",
+      "Veterinary Radiology", "Veterinary Epidemiology", "Veterinary Public Health",
+      "Poultry Health", "Dairy Health Management", "Swine Production Health",
+      "Aquatic Animal Health", "Wildlife Health", "Zoonotic Diseases",
+      "Livestock Production", "Veterinary Toxicology", "Clinical Veterinary Practice",
+      "Veterinary Laboratory Sciences", "Veterinary Emergency Care",
+      "Veterinary Dentistry", "Veterinary Nursing", "Veterinary Informatics",
+      "Veterinary Ethics", "Animal Disease Control", "Veterinary Research Methods",
+      "Veterinary Biotechnology", "Veterinary Management", "Veterinary Entrepreneurship",
+      "AI in Veterinary Medicine", "One Health Systems", "Animal Health Surveillance",
+      "Veterinary Quality Assurance", "Veterinary Pharmacotherapy",
+      "Livestock Extension Services", "Veterinary Project Management",
+      "Clinical Rotation", "Field Practicum", "Advanced Veterinary Sciences",
+      "Veterinary Innovation", "Professional Veterinary Practice"
+    ],
+    "Forestry": [
+      "Introduction to Forestry", "Forest Ecology", "Forest Management",
+      "Forest Conservation", "Forest Inventory", "Silviculture",
+      "Forest Protection", "Agroforestry", "Urban Forestry", "Forest Economics",
+      "Forest Policy", "Forest Genetics", "Tree Physiology", "Forest Soil Science",
+      "Forest Hydrology", "Biodiversity Conservation", "Wildlife Management",
+      "Sustainable Forestry", "Community Forestry", "Forest GIS",
+      "Remote Sensing for Forestry", "Forest Resource Assessment",
+      "Forest Fire Management", "Reforestation Techniques", "Afforestation Systems",
+      "Carbon Sequestration", "Climate Change and Forests", "Forest Products Technology",
+      "Wood Science", "Timber Production", "Non-Timber Forest Products",
+      "Forest Entrepreneurship", "Forestry Extension", "Forest Data Analytics",
+      "Environmental Impact Assessment", "Forest Certification", "AI in Forestry",
+      "Digital Forestry", "Forest Monitoring Systems", "Watershed Management",
+      "Forest Research Methods", "Forest Leadership", "Sustainable Resource Management",
+      "Forestry Project Management", "Forest Innovation", "Conservation Planning",
+      "Forestry Practicum", "Advanced Forestry", "Professional Forestry Practice",
+      "Global Forestry Systems"
+    ],
+    "Environmental Studies": [
+      "Foundations of Environmental Studies", "Environmental Science", "Ecology",
+      "Biodiversity Conservation", "Environmental Chemistry", "Environmental Physics",
+      "Environmental Biology", "Climate Change", "Sustainability Studies",
+      "Environmental Policy", "Environmental Law", "Environmental Economics",
+      "Environmental Ethics", "Environmental Education", "Environmental Health",
+      "Waste Management", "Solid Waste Systems", "Water Resource Management",
+      "Air Pollution Control", "Environmental Monitoring", "Environmental Impact Assessment",
+      "Natural Resource Management", "Renewable Energy Systems", "Green Technologies",
+      "Sustainable Development", "Environmental GIS", "Remote Sensing",
+      "Carbon Management", "Climate Adaptation", "Disaster Risk Reduction",
+      "Sustainable Cities", "Environmental Data Analytics", "Environmental Modeling",
+      "Ecosystem Management", "Wildlife Conservation", "Marine Environment Studies",
+      "Environmental Research Methods", "AI for Environmental Management",
+      "Environmental Innovation", "Environmental Project Management",
+      "Circular Economy", "Green Entrepreneurship", "Environmental Leadership",
+      "Conservation Planning", "Sustainable Agriculture", "Environmental Communication",
+      "Field Practicum", "Advanced Environmental Studies",
+      "Professional Environmental Practice", "Global Sustainability Systems"
+    ],
+    "Information Technology": [
+      "Computer Fundamentals", "Digital Literacy", "Operating Systems",
+      "Computer Hardware", "Computer Maintenance", "IT Support Specialist",
+      "Networking Fundamentals", "Information Systems", "IT Infrastructure",
+      "Computer Troubleshooting", "System Administration", "Windows Administration",
+      "Linux Administration", "Cloud Fundamentals", "Database Fundamentals",
+      "Cybersecurity Fundamentals", "IT Project Management", "IT Service Management",
+      "IT Governance", "IT Auditing", "Digital Transformation", "Enterprise Systems",
+      "Business Information Systems", "Data Analytics", "IT Documentation",
+      "Virtualization Technologies", "Containerization", "Internet of Things",
+      "Smart Systems", "Blockchain Fundamentals", "Artificial Intelligence Applications",
+      "Machine Learning Applications", "IT Risk Management", "Disaster Recovery Systems",
+      "Business Continuity Planning", "IT Quality Assurance", "IT Procurement",
+      "Technical Communication", "IT Research Methods", "IT Entrepreneurship",
+      "Emerging Technologies", "IT Innovation", "Digital Workplace Technologies",
+      "Cloud Services Management", "IT Leadership", "Professional IT Practice",
+      "IT Practicum", "Advanced Information Technology", "Global IT Systems",
+      "Information Technology Excellence"
+    ],
+    "Computer Science": [
+      "Introduction to Computer Science", "Programming Fundamentals",
+      "Data Structures", "Algorithms", "Object-Oriented Programming",
+      "Computer Architecture", "Operating Systems", "Database Systems",
+      "Software Engineering", "Computer Networks", "Web Technologies",
+      "Mobile Computing", "Artificial Intelligence", "Machine Learning",
+      "Deep Learning", "Computer Vision", "Natural Language Processing",
+      "Data Mining", "Data Science", "Cloud Computing", "Cybersecurity",
+      "Distributed Systems", "Parallel Computing", "Human-Computer Interaction",
+      "Computer Graphics", "Game Development", "Blockchain Technologies",
+      "Internet of Things", "Robotics", "Quantum Computing", "Compiler Design",
+      "Systems Programming", "Embedded Systems", "Information Retrieval",
+      "Big Data Technologies", "AI Ethics", "Computational Mathematics",
+      "Research Methods", "Advanced Algorithms", "Software Testing",
+      "Computer Science Project Management", "Innovation in Computing",
+      "Entrepreneurship in Technology", "Data Analytics", "AI Applications",
+      "Professional Computing Practice", "Computer Science Practicum",
+      "Advanced Computer Science", "Global Computing Systems", "Computer Science Excellence"
+    ],
+    "Software Development": [
+      "Introduction to Software Development", "Programming Logic",
+      "Python Development", "Java Development", "C# Development",
+      "C++ Development", "JavaScript Development", "TypeScript Development",
+      "PHP Development", "Software Engineering Principles",
+      "Software Design Patterns", "Object-Oriented Design", "Agile Development",
+      "Scrum Framework", "DevOps Fundamentals", "Software Testing",
+      "Quality Assurance", "Version Control with Git", "GitHub Collaboration",
+      "API Development", "RESTful Services", "GraphQL Development",
+      "Database Programming", "Backend Development", "Frontend Development",
+      "Full-Stack Development", "Mobile Software Development",
+      "Cloud-Native Applications", "Microservices Architecture",
+      "Event-Driven Architecture", "Secure Software Development",
+      "Software Documentation", "Software Maintenance", "Software Project Management",
+      "UI Development", "UX for Developers", "Software Architecture",
+      "Enterprise Software Development", "AI-Powered Software Systems",
+      "Software Analytics", "Open Source Development", "Software Entrepreneurship",
+      "Research Methods in Software Engineering", "Software Innovation",
+      "Continuous Integration & Deployment", "Professional Software Practice",
+      "Software Development Practicum", "Advanced Software Engineering",
+      "Global Software Systems", "Software Development Excellence"
+    ],
+    "Web Development": [
+      "Introduction to Web Development", "HTML Fundamentals",
+      "CSS Fundamentals", "Responsive Web Design", "JavaScript Programming",
+      "TypeScript Programming", "Frontend Development", "Backend Development",
+      "Full-Stack Development", "React Development", "Next.js Development",
+      "Vue.js Development", "Angular Development", "Node.js Development",
+      "Express.js Development", "PHP Web Development", "Laravel Development",
+      "Python Web Development", "Django Development", "Flask Development",
+      "Database Integration", "SQL for Web Developers", "API Development",
+      "REST APIs", "GraphQL APIs", "Authentication Systems", "Web Security",
+      "Web Performance Optimization", "Progressive Web Apps",
+      "E-Commerce Development", "Content Management Systems", "WordPress Development",
+      "Web Hosting and Deployment", "Cloud Web Applications", "Web Accessibility",
+      "SEO for Developers", "UI/UX for Web", "Web Project Management",
+      "Web Testing", "DevOps for Web Applications", "AI-Powered Web Applications",
+      "Web Analytics", "Modern JavaScript Frameworks", "Headless CMS Development",
+      "Web Entrepreneurship", "Professional Web Practice", "Web Development Practicum",
+      "Advanced Web Engineering", "Global Web Technologies", "Web Development Excellence"
+    ],
+    "Mobile Development": [
+      "Introduction to Mobile Development", "Mobile App Fundamentals",
+      "Android Development", "iOS Development", "Flutter Development",
+      "React Native Development", "Kotlin Development", "Swift Development",
+      "Dart Programming", "Mobile UI Design", "Mobile UX Design",
+      "Cross-Platform Development", "Native Mobile Development",
+      "Mobile Backend Development", "Mobile Databases", "Mobile APIs",
+      "Mobile Authentication", "Mobile Security", "Mobile Testing",
+      "Mobile Deployment", "Google Play Store Publishing", "Apple App Store Publishing",
+      "Mobile App Monetization", "Mobile Analytics", "Mobile Cloud Integration",
+      "Offline-First Applications", "Progressive Mobile Apps", "GPS and Location Services",
+      "Mobile Payment Systems", "Mobile E-Commerce Applications",
+      "Mobile Gaming Development", "Augmented Reality Applications",
+      "Mobile AI Applications", "Machine Learning on Mobile", "IoT Mobile Applications",
+      "Mobile Project Management", "Mobile DevOps", "Mobile Performance Optimization",
+      "Enterprise Mobile Applications", "Mobile Product Design", "Mobile Entrepreneurship",
+      "Research Methods in Mobile Computing", "Mobile Innovation",
+      "Advanced Android Engineering", "Advanced iOS Engineering",
+      "Professional Mobile Practice", "Mobile Development Practicum",
+      "Advanced Mobile Technologies", "Global Mobile Ecosystems",
+      "Mobile Development Excellence"
+    ],
+    "Networking": [
+      "Introduction to Computer Networking", "Networking Fundamentals",
+      "Network Architecture", "TCP/IP Protocol Suite", "Routing Technologies",
+      "Switching Technologies", "Wireless Networking", "Network Security",
+      "Network Design", "Network Administration", "Cisco Networking Fundamentals",
+      "CCNA Preparation", "CCNP Technologies", "Enterprise Networking",
+      "Data Center Networking", "Cloud Networking", "Software Defined Networking (SDN)",
+      "Network Automation", "Network Virtualization", "Fiber Optic Networking",
+      "Network Monitoring", "Network Troubleshooting", "VoIP Systems",
+      "Unified Communications", "Network Infrastructure Management", "WAN Technologies",
+      "LAN Technologies", "IPv4 Networking", "IPv6 Networking", "VPN Technologies",
+      "Wireless Security", "IoT Networking", "Industrial Networking",
+      "Network Analytics", "AI for Networking", "Network Operations Center (NOC)",
+      "Network Project Management", "Network Documentation", "Network Auditing",
+      "Network Compliance", "Network Research Methods", "Network Entrepreneurship",
+      "Network Innovation", "Telecommunications Networking",
+      "Advanced Routing and Switching", "Professional Networking Practice",
+      "Networking Practicum", "Advanced Network Engineering", "Global Network Systems",
+      "Networking Excellence"
+    ],
+    "Database Management": [
+      "Introduction to Databases", "Database Fundamentals",
+      "Relational Database Systems", "SQL Programming", "Advanced SQL",
+      "Database Design", "Data Modeling", "Database Administration",
+      "Database Security", "Database Backup and Recovery", "PostgreSQL Administration",
+      "MySQL Administration", "Microsoft SQL Server", "Oracle Database Systems",
+      "NoSQL Databases", "MongoDB Development", "Firebase Databases",
+      "Supabase Development", "Data Warehousing", "Data Lakes",
+      "Database Performance Optimization", "Query Optimization",
+      "Distributed Databases", "Cloud Databases", "Database Migration",
+      "Big Data Systems", "Database Analytics", "Data Governance",
+      "Data Quality Management", "Data Integration", "ETL Processes",
+      "Business Intelligence Databases", "Data Engineering", "Database Automation",
+      "Database Monitoring", "Database Auditing", "Database Project Management",
+      "AI in Database Systems", "Database Research Methods", "Database Innovation",
+      "Database Entrepreneurship", "Enterprise Database Systems",
+      "Real-Time Databases", "Database Documentation", "Advanced Database Architecture",
+      "Professional Database Practice", "Database Practicum",
+      "Advanced Data Management Systems", "Global Data Platforms", "Database Excellence"
+    ],
+    "Graphic Design": [
+      "Introduction to Graphic Design", "Design Principles",
+      "Visual Communication", "Typography", "Color Theory", "Layout Design",
+      "Branding Design", "Logo Design", "Advertising Design", "Marketing Graphics",
+      "Adobe Photoshop", "Adobe Illustrator", "Adobe InDesign", "CorelDRAW Design",
+      "Canva Design", "Digital Illustration", "Vector Graphics", "Print Design",
+      "Packaging Design", "Publication Design", "Social Media Design",
+      "Motion Graphics", "Infographic Design", "UI Graphics", "Web Graphics",
+      "Mobile Graphics", "Creative Direction", "Design Thinking", "Design Research",
+      "User-Centered Design", "Design Systems", "Visual Branding",
+      "Corporate Identity Design", "Design Project Management", "Design Entrepreneurship",
+      "AI for Graphic Design", "Digital Content Creation", "Graphic Design Analytics",
+      "Design Innovation", "Creative Problem Solving", "Portfolio Development",
+      "Freelance Graphic Design", "Professional Design Practice", "Graphic Design Practicum",
+      "Advanced Graphic Design", "Creative Technologies", "Global Design Trends",
+      "Brand Strategy Design", "Design Excellence", "Master Graphic Design Studio"
+    ],
+    "UI/UX Design": [
+      "Introduction to UI/UX Design", "User Experience Fundamentals",
+      "User Interface Design", "Design Thinking", "Human-Centered Design",
+      "User Research", "UX Writing", "Information Architecture", "Wireframing",
+      "Prototyping", "Figma Design", "Adobe XD Design", "Sketch for UX Design",
+      "Interaction Design", "Mobile UX Design", "Web UX Design", "Design Systems",
+      "Usability Testing", "Accessibility Design", "Visual Interface Design",
+      "Product Design", "UX Strategy", "UX Analytics", "User Psychology",
+      "Customer Journey Mapping", "Service Design", "UX Project Management",
+      "UX Leadership", "UX Research Methods", "Design Documentation",
+      "Product Discovery", "Agile UX", "UX for Startups", "UX for E-Commerce",
+      "UX for Mobile Apps", "UX for SaaS Products", "AI for UX Design",
+      "Conversational UX", "UX Innovation", "UX Entrepreneurship",
+      "Portfolio Development", "Professional UX Practice", "UX Design Practicum",
+      "Advanced UX Design", "Advanced UI Design", "Global UX Trends",
+      "Digital Product Design", "Enterprise UX Systems", "UX Excellence",
+      "Master UI/UX Studio"
+    ],
+    "Digital Media": [
+      "Introduction to Digital Media", "Digital Content Creation",
+      "Multimedia Production", "Digital Storytelling", "Social Media Content",
+      "Online Publishing", "Digital Communication", "Digital Marketing Media",
+      "Creative Media Design", "Interactive Media", "Media Production Techniques",
+      "Visual Storytelling", "Motion Graphics", "Animation Fundamentals",
+      "Audio Production", "Podcast Production", "Video Production",
+      "Streaming Media", "Digital Journalism", "Media Writing", "Media Research",
+      "Media Analytics", "Social Media Management", "Digital Branding",
+      "Digital Campaign Management", "Media Strategy", "Content Marketing",
+      "Influencer Media Management", "Digital Audience Engagement",
+      "Mobile Media Production", "AI for Digital Media", "Virtual Reality Media",
+      "Augmented Reality Media", "Interactive Story Design", "Digital Media Entrepreneurship",
+      "Media Project Management", "Creative Technologies", "Media Innovation",
+      "Digital Media Ethics", "Copyright and Media Law", "Professional Media Practice",
+      "Media Portfolio Development", "Digital Media Practicum", "Advanced Digital Media",
+      "Cross-Platform Media Systems", "Media Production Studio", "Global Media Trends",
+      "Digital Media Excellence", "Master Digital Media Production",
+      "Emerging Media Technologies"
+    ],
+    "Photography": [
+      "Introduction to Photography", "Digital Photography Fundamentals",
+      "Camera Operations", "Exposure Techniques", "Composition in Photography",
+      "Lighting Techniques", "Portrait Photography", "Fashion Photography",
+      "Event Photography", "Wedding Photography", "Commercial Photography",
+      "Product Photography", "Food Photography", "Travel Photography",
+      "Wildlife Photography", "Nature Photography", "Sports Photography",
+      "Photojournalism", "Documentary Photography", "Street Photography",
+      "Fine Art Photography", "Architectural Photography", "Aerial Photography",
+      "Drone Photography", "Mobile Photography", "Studio Photography",
+      "Black and White Photography", "Photo Editing Fundamentals", "Adobe Lightroom",
+      "Adobe Photoshop for Photographers", "Image Retouching", "Digital Imaging",
+      "Photography Business Management", "Photography Marketing",
+      "Photography Entrepreneurship", "Photography Portfolio Development",
+      "Photography Project Management", "Photography Ethics",
+      "Copyright for Photographers", "Photography Research Methods", "AI for Photography",
+      "Visual Storytelling", "Advanced Lighting Systems", "Professional Photography Practice",
+      "Photography Practicum", "Advanced Photography", "Creative Photography Studio",
+      "Global Photography Trends", "Photography Innovation", "Master Photography Program"
+    ],
+    "Videography": [
+      "Introduction to Videography", "Video Production Fundamentals",
+      "Camera Operations for Video", "Video Composition", "Lighting for Video",
+      "Audio Recording Techniques", "Video Storytelling", "Documentary Videography",
+      "Wedding Videography", "Event Videography", "Corporate Videography",
+      "Commercial Video Production", "Product Video Creation", "Social Media Video Production",
+      "Mobile Videography", "Drone Videography", "Travel Videography",
+      "Sports Videography", "Studio Video Production", "Multi-Camera Production",
+      "Video Editing Fundamentals", "Adobe Premiere Pro", "DaVinci Resolve",
+      "Final Cut Pro", "Motion Graphics", "Video Effects Production", "Color Grading",
+      "Sound Design for Video", "Live Streaming Production", "YouTube Content Production",
+      "Broadcast Video Production", "Video Marketing", "Video Analytics",
+      "AI for Video Production", "Virtual Production", "360° Video Production",
+      "Video Project Management", "Videography Entrepreneurship", "Video Portfolio Development",
+      "Copyright and Media Law", "Video Research Methods", "Creative Video Direction",
+      "Professional Videography Practice", "Videography Practicum", "Advanced Videography",
+      "Digital Video Systems", "Global Video Trends", "Video Innovation",
+      "Master Videography Studio", "Emerging Video Technologies"
+    ],
+    "Film Production": [
+      "Introduction to Film Production", "Film Studies", "Film History",
+      "Screenwriting", "Story Development", "Script Analysis", "Film Directing",
+      "Film Producing", "Cinematography", "Film Editing", "Production Design",
+      "Sound Design", "Film Lighting", "Documentary Filmmaking", "Short Film Production",
+      "Feature Film Production", "Television Production", "Digital Filmmaking",
+      "Visual Effects (VFX)", "Motion Graphics for Film", "Animation for Film",
+      "Film Marketing", "Film Distribution", "Film Finance", "Film Project Management",
+      "Film Entrepreneurship", "Casting and Talent Management", "Film Production Management",
+      "Location Management", "Post-Production Techniques", "Color Correction",
+      "Film Criticism", "Film Journalism", "Film Research Methods", "AI in Film Production",
+      "Virtual Production", "Film Ethics", "Copyright and Intellectual Property",
+      "Film Festival Management", "Creative Direction", "Professional Film Practice",
+      "Film Production Practicum", "Advanced Film Production", "Global Film Industries",
+      "Independent Filmmaking", "Film Innovation", "Studio Production Systems",
+      "International Cinema Studies", "Master Film Production Studio",
+      "Emerging Film Technologies"
+    ],
+    "Journalism": [
+      "Introduction to Journalism", "News Writing", "Feature Writing",
+      "Investigative Journalism", "Broadcast Journalism", "Digital Journalism",
+      "Multimedia Journalism", "Mobile Journalism", "Data Journalism",
+      "Political Reporting", "Business Reporting", "Sports Journalism",
+      "Health Journalism", "Science Journalism", "Environmental Journalism",
+      "International Reporting", "Conflict Reporting", "Photojournalism",
+      "Video Journalism", "Documentary Journalism", "News Editing",
+      "Editorial Writing", "Media Ethics", "Journalism Law", "Fact Checking",
+      "Information Verification", "Media Research", "Audience Analytics",
+      "Journalism Project Management", "Social Media Journalism", "Podcast Journalism",
+      "Newsroom Leadership", "Journalism Entrepreneurship", "Public Affairs Reporting",
+      "Investigative Research Methods", "AI for Journalism", "Data Analytics for Journalists",
+      "Crisis Communication", "Digital Publishing", "Media Innovation",
+      "Professional Journalism Practice", "Journalism Practicum", "Advanced Journalism",
+      "Global Journalism Systems", "News Production Management", "Journalism Excellence",
+      "International Media Studies", "Multimedia Storytelling",
+      "Emerging Journalism Technologies", "Master Journalism Program"
+    ],
+    "Mass Communication": [
+      "Introduction to Mass Communication", "Communication Theory",
+      "Media Studies", "Public Communication", "Strategic Communication",
+      "Interpersonal Communication", "Organizational Communication",
+      "Digital Communication", "Multimedia Communication", "Public Relations",
+      "Advertising Communication", "Corporate Communication", "Political Communication",
+      "Development Communication", "Health Communication", "Crisis Communication",
+      "International Communication", "Media Writing", "Media Production",
+      "Broadcast Communication", "Radio Production", "Television Production",
+      "Digital Publishing", "Social Media Communication", "Media Campaign Management",
+      "Communication Research", "Communication Analytics", "Audience Analysis",
+      "Communication Project Management", "Media Entrepreneurship", "Brand Communication",
+      "Communication Leadership", "Media Ethics", "Media Law", "AI in Communication",
+      "Communication Technologies", "Public Speaking and Presentation",
+      "Event Communication", "Corporate Media Management", "Communication Innovation",
+      "Professional Communication Practice", "Communication Practicum",
+      "Advanced Mass Communication", "Global Communication Systems",
+      "Digital Media Strategy", "Communication Excellence",
+      "Integrated Marketing Communication", "Emerging Communication Technologies",
+      "Media and Society", "Master Mass Communication Program"
+    ]
+  };
+
+  // ======================= SPECIFIC PHOTO DESCRIPTIONS FOR EDUCATION PROGRAMS =======================
+  // For the first 25 programs (Education & Teacher Training), we use the exact phrases you provided.
+  // For all other programs, we use category-specific keywords.
+  const specificPhotoKeywords = {
+    "Foundations of Education": "Teacher teaching in a modern classroom Students participating in a lesson Teacher preparing lesson plans Interactive digital learning environment Diverse students learning together",
+    "Philosophy of Education": "Teacher leading a discussion Educational books and research materials University lecture hall Students engaged in critical thinking Academic seminar on education",
+    "Sociology of Education": "Diverse classroom environment Community learning activities Students collaborating in groups School and community interaction Educational inclusion programs",
+    "Educational Psychology": "Teacher supporting a student Child learning activity Educational counseling session Student assessment process Learning behavior observation",
+    "Child Development and Learning": "Preschool classroom Child engaged in educational games Early childhood teacher Children's cognitive activities Child social interaction",
+    "Curriculum Development": "Education planning meeting Teacher creating learning materials Curriculum design workshop Educational content development Digital curriculum management",
+    "Instructional Design": "E-learning course design Teacher creating digital lessons Learning management system dashboard Educational content planning Instructional design team",
+    "Educational Assessment and Evaluation": "Student taking examination Teacher grading assignments Online assessment platform Educational analytics dashboard Student performance review",
+    "Classroom Management": "Organized classroom Teacher managing student activities Positive classroom environment Student engagement techniques Classroom leadership",
+    "Educational Research Methods": "Educational researcher analyzing data Academic research team Research report preparation Statistical analysis on computer Educational survey collection",
+    "Educational Statistics": "Data visualization charts Educational analytics dashboard Researcher analyzing educational data Statistics software interface Data-driven education planning",
+    "Educational Technology": "Smart classroom Students using tablets Interactive digital board Educational software platform AI-powered learning system",
+    "Digital Learning Systems": "Online learning platform Student learning on laptop Virtual classroom Learning management system Digital education technology",
+    "E-Learning Development": "Online course creation Video lesson production Learning platform design Educational content creator Virtual training session",
+    "AI in Education": "AI tutoring system Student using AI learning tools Artificial intelligence classroom Educational chatbot Personalized learning dashboard",
+    "Learning Analytics": "Educational data dashboard Student progress monitoring Learning performance charts Data analyst working on reports Educational AI analytics",
+    "Educational Leadership": "School principal leading staff Educational conference Leadership training session School administration meeting Educational decision-making",
+    "School Administration": "School office management School administrators meeting Student records management School planning session Educational leadership office",
+    "Education Policy and Planning": "Government education meeting Education policy discussion Strategic planning workshop National education conference Education development project",
+    "Comparative Education": "International classroom Global education conference Students from different countries International education collaboration Comparative education research",
+    "Guidance and Counseling": "School counselor helping student Career guidance session Student counseling office Emotional support discussion Educational mentorship",
+    "Inclusive Education": "Students with disabilities learning Inclusive classroom environment Teacher supporting diverse learners Assistive learning technologies Equal education opportunities",
+    "Special Needs Education": "Special education classroom Teacher assisting special-needs learner Learning support materials Individualized education activities Inclusive learning environment",
+    "Early Childhood Education": "Kindergarten classroom Teacher reading to children Educational toys and activities Child-centered learning Early childhood development activities",
+    "Primary Education": "Primary school classroom Children actively learning Teacher interacting with pupils Classroom educational activities School learning environment"
+  };
+
+  // ======================= CATEGORY-SPECIFIC KEYWORDS FOR OTHER CATEGORIES =======================
+  const categoryKeywords = {
+    "Health & Medical Sciences": "hospital doctor patient medical surgery",
+    "Nursing & Midwifery": "nurse hospital patient care midwife",
+    "Pharmacy": "pharmacy drugs medicine pill pharmacist",
+    "Dentistry": "dentist clinic tooth dental oral",
+    "Public Health": "public health community prevention wellness",
+    "Agriculture": "farm crop harvest tractor agriculture",
+    "Veterinary Sciences": "veterinarian animal pet clinic livestock",
+    "Forestry": "forest tree nature timber conservation",
+    "Environmental Studies": "environment nature conservation ecology",
+    "Information Technology": "IT computer network technology digital",
+    "Computer Science": "computer science coding programming software",
+    "Software Development": "software development coding programming agile",
+    "Web Development": "web development HTML CSS JavaScript",
+    "Mobile Development": "mobile app development iOS Android",
+    "Networking": "networking router switch infrastructure",
+    "Database Management": "database SQL server data storage",
+    "Graphic Design": "graphic design illustration visual art",
+    "UI/UX Design": "UI UX design user interface experience",
+    "Digital Media": "digital media video production multimedia",
+    "Photography": "photography camera lens portrait nature",
+    "Videography": "videography video camera production film",
+    "Film Production": "film production movie cinema director",
+    "Journalism": "journalism news reporting writing media",
+    "Mass Communication": "mass communication media broadcasting press"
+  };
+
+  // ======================= RENDER FUNCTIONS =======================
   const grid = document.getElementById('categoryGrid');
   const searchInput = document.getElementById('searchInput');
   const noResults = document.getElementById('noResults');
   const totalCount = document.getElementById('totalCount');
+  const categoryView = document.getElementById('categoryView');
+  const programsView = document.getElementById('programsView');
+  const programsGrid = document.getElementById('programsGrid');
+  const programsTitle = document.getElementById('programsTitle');
+  const programsNoResults = document.getElementById('programsNoResults');
 
+  // ---- Category View ----
   function renderCategories(filter = '') {
     const query = filter.toLowerCase().trim();
     const filtered = categories.filter(cat => 
@@ -462,7 +1212,7 @@
     noResults.style.display = 'none';
 
     grid.innerHTML = filtered.map(cat => `
-      <div class="category-card ${cat.group}">
+      <div class="category-card ${cat.group}" onclick="showPrograms('${cat.name}')">
         <i class="${cat.icon}"></i>
         <h3>${cat.name}</h3>
         <span class="sub">${cat.group.charAt(0).toUpperCase() + cat.group.slice(1)}</span>
@@ -470,17 +1220,109 @@
     `).join('');
   }
 
-  function filterCourses() {
-    renderCategories(searchInput.value);
+  // ---- Programs View ----
+  function showPrograms(categoryName) {
+    const programs = programLists[categoryName] || [];
+    categoryView.style.display = 'none';
+    programsView.classList.add('active');
+    programsTitle.textContent = `📚 ${categoryName} (${programs.length} programs)`;
+
+    if (programs.length === 0) {
+      programsGrid.innerHTML = '';
+      programsNoResults.style.display = 'block';
+      return;
+    }
+    programsNoResults.style.display = 'none';
+
+    // Determine if this is the Education & Teacher Training category (the first one with specific keywords)
+    const isEducation = categoryName === "Education & Teacher Training";
+
+    let html = '';
+    programs.forEach(title => {
+      const desc = `Comprehensive program covering ${title.toLowerCase()} – designed for mastery in ${categoryName}. Includes practical projects, case studies, and expert-led training.`;
+      const duration = `${Math.floor(Math.random() * 6) + 3} weeks`;
+
+      let searchQuery;
+      if (isEducation && specificPhotoKeywords[title]) {
+        // Use the specific photo descriptions you provided
+        searchQuery = encodeURIComponent(specificPhotoKeywords[title]);
+      } else {
+        // Use category keywords + title
+        const extra = categoryKeywords[categoryName] || categoryName;
+        searchQuery = encodeURIComponent(`${categoryName} ${title} ${extra}`);
+      }
+
+      const imgUrl = `https://source.unsplash.com/featured/400x250/?${searchQuery}`;
+      const slideImgUrl = `https://source.unsplash.com/featured/800x500/?${searchQuery}`;
+      
+      html += `
+        <div class="program-card" onclick="openSlideModal('${title.replace(/'/g, "\\'")}', '${categoryName.replace(/'/g, "\\'")}', '${desc.replace(/'/g, "\\'")}', '${slideImgUrl}')">
+          <img src="${imgUrl}" alt="${title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/${encodeURIComponent(title)}/400/250'">
+          <h4>${title}</h4>
+          <div class="meta">${categoryName} · ${duration}</div>
+          <div class="desc">${desc}</div>
+          <span class="click-hint"><i class="fas fa-chevron-circle-right"></i> Click to view slide</span>
+        </div>
+      `;
+    });
+    programsGrid.innerHTML = html;
   }
 
-  // Live search on input
+  // ---- Back to Categories ----
+  document.getElementById('backToCategoriesBtn').addEventListener('click', () => {
+    programsView.classList.remove('active');
+    categoryView.style.display = 'block';
+    searchInput.value = '';
+    renderCategories();
+  });
+
+  // ---- Search ----
+  function filterCourses() {
+    const query = searchInput.value.trim();
+    if (programsView.classList.contains('active')) {
+      const cards = programsGrid.querySelectorAll('.program-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const title = card.querySelector('h4').textContent.toLowerCase();
+        if (title.includes(query.toLowerCase())) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      programsNoResults.style.display = visible === 0 ? 'block' : 'none';
+    } else {
+      renderCategories(query);
+    }
+  }
   searchInput.addEventListener('input', filterCourses);
   searchInput.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') filterCourses();
   });
 
-  // Initial render
+  // ---- Slide Modal ----
+  function openSlideModal(title, category, description, imgUrl) {
+    document.getElementById('slideModalTitle').innerHTML = `<i class="fas fa-image"></i> ${title} – Slide View`;
+    document.getElementById('slideImage').src = imgUrl;
+    document.getElementById('slideImage').alt = title;
+    document.getElementById('slideTitle').textContent = title;
+    document.getElementById('slideCategory').textContent = `📂 ${category}`;
+    document.getElementById('slideDesc').textContent = description;
+    document.getElementById('slideModal').classList.add('active');
+  }
+
+  // Close modal
+  document.getElementById('closeSlideModalBtn').addEventListener('click', () => {
+    document.getElementById('slideModal').classList.remove('active');
+  });
+  document.getElementById('slideModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      document.getElementById('slideModal').classList.remove('active');
+    }
+  });
+
+  // ---- Initial Render ----
   renderCategories();
 </script>
 </body>
