@@ -41,7 +41,6 @@
             overflow: hidden;
         }
 
-        /* floating orbs */
         .orb {
             position: absolute;
             border-radius: 50%;
@@ -101,7 +100,6 @@
             }
         }
 
-        /* floating particles (tiny dots) */
         .particles-container {
             position: absolute;
             top: 0;
@@ -199,7 +197,6 @@
             }
         }
 
-        /* subtle grid lines */
         .grid-overlay {
             position: absolute;
             top: 0;
@@ -213,7 +210,7 @@
             pointer-events: none;
         }
 
-        /* ----- MAIN CONTENT (above bg) ----- */
+        /* ----- MAIN CONTENT ----- */
         .page-wrapper {
             position: relative;
             z-index: 1;
@@ -222,15 +219,15 @@
             flex-direction: column;
         }
 
-        /* ----- BACK BUTTON BAR ----- */
+        /* ----- BACK BAR with language selector ----- */
         .back-bar {
-            padding: 18px 30px;
-            background: rgba(0, 0, 0, 0.40);
+            padding: 14px 30px;
+            background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 16px;
             flex-wrap: wrap;
             position: sticky;
             top: 0;
@@ -244,10 +241,10 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
-            padding: 10px 24px;
+            padding: 10px 22px;
             border-radius: 40px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -259,20 +256,70 @@
             box-shadow: 0 8px 25px rgba(0, 161, 222, 0.25);
         }
         .back-btn i {
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         .back-bar-title {
             color: rgba(255, 255, 255, 0.80);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 400;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
+            flex: 1;
+            min-width: 140px;
         }
         .back-bar-title strong {
             color: #FAD201;
             font-weight: 700;
         }
 
-        /* ----- E-LIBRARY CONTENT (glass) ----- */
+        /* Language Selector */
+        .lang-selector-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+        .lang-selector-wrap i {
+            color: rgba(255, 255, 255, 0.50);
+            font-size: 0.9rem;
+        }
+        .lang-selector {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            padding: 8px 14px 8px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+            transition: 0.3s;
+            min-width: 150px;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        .lang-selector:hover {
+            border-color: #00A1DE;
+            background-color: rgba(0, 161, 222, 0.12);
+        }
+        .lang-selector option {
+            background: #1a2332;
+            color: #fff;
+            padding: 6px 10px;
+        }
+
+        .lang-label {
+            color: rgba(255, 255, 255, 0.40);
+            font-size: 0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* ----- E-LIBRARY CONTENT ----- */
         .elib-container {
             flex: 1;
             padding: 30px 30px 60px;
@@ -281,7 +328,6 @@
             width: 100%;
         }
 
-        /* glass cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(20px);
@@ -307,7 +353,6 @@
             -webkit-text-fill-color: transparent;
             display: inline-block;
         }
-
         .section-sub {
             color: rgba(255, 255, 255, 0.60);
             font-size: 1rem;
@@ -382,6 +427,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
         .search-box button:hover {
             filter: brightness(1.15);
@@ -390,7 +436,7 @@
         /* grid */
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
             margin-top: 10px;
         }
@@ -399,7 +445,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
-            padding: 24px 20px;
+            padding: 24px 18px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -412,7 +458,7 @@
             box-shadow: 0 12px 30px rgba(0, 161, 222, 0.15);
         }
         .category-card i {
-            font-size: 2.6rem;
+            font-size: 2.4rem;
             margin-bottom: 10px;
             background: linear-gradient(135deg, #FAD201, #00A1DE);
             -webkit-background-clip: text;
@@ -420,19 +466,19 @@
             -webkit-text-fill-color: transparent;
         }
         .category-card h4 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin-bottom: 4px;
             color: #fff;
         }
         .category-card p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.50);
         }
 
         /* bookshelf */
         .bookshelf-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
             gap: 24px;
             margin-top: 20px;
         }
@@ -452,13 +498,13 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
         }
         .book-card h4 {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: #fff;
             margin-bottom: 4px;
         }
         .book-card .author {
             color: rgba(255, 255, 255, 0.50);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 6px;
         }
         .book-card .cat-tag {
@@ -471,7 +517,7 @@
             margin-bottom: 10px;
         }
         .book-card .desc {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.60);
             margin-bottom: 14px;
             line-height: 1.5;
@@ -486,7 +532,7 @@
             border-radius: 30px;
             border: none;
             font-weight: 600;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             cursor: pointer;
             transition: 0.3s;
             display: inline-flex;
@@ -531,7 +577,7 @@
             color: #fff;
             font-size: 0.95rem;
             outline: none;
-            min-width: 200px;
+            min-width: 180px;
         }
         .research-search input::placeholder {
             color: rgba(255, 255, 255, 0.30);
@@ -548,6 +594,7 @@
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
+            white-space: nowrap;
         }
         .research-search button:hover {
             filter: brightness(1.15);
@@ -584,7 +631,7 @@
         /* opportunities */
         .opp-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 24px;
             margin-top: 10px;
         }
@@ -593,7 +640,7 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 24px;
-            padding: 24px 22px;
+            padding: 24px 20px;
             text-align: center;
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             cursor: default;
@@ -605,7 +652,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.30);
         }
         .opp-card i {
-            font-size: 2.8rem;
+            font-size: 2.6rem;
             margin-bottom: 12px;
             background: linear-gradient(135deg, #FAD201, #00A1DE);
             -webkit-background-clip: text;
@@ -613,7 +660,7 @@
             -webkit-text-fill-color: transparent;
         }
         .opp-card h4 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #fff;
             margin-bottom: 4px;
         }
@@ -624,7 +671,7 @@
         }
         .opp-card .desc {
             color: rgba(255, 255, 255, 0.55);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             line-height: 1.6;
             margin-bottom: 16px;
         }
@@ -741,6 +788,19 @@
         .modal-reader-body .preview-box p {
             margin-bottom: 10px;
         }
+        .modal-reader-body .preview-box .modal-dl-btn {
+            background: #00A1DE;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .modal-reader-body .preview-box .modal-dl-btn:hover {
+            background: #0088b8;
+        }
 
         /* responsive */
         @media (max-width: 768px) {
@@ -763,6 +823,18 @@
             .back-btn {
                 padding: 8px 16px;
                 font-size: 0.8rem;
+            }
+            .lang-selector {
+                min-width: 120px;
+                font-size: 0.75rem;
+                padding: 6px 12px 6px 14px;
+                padding-right: 34px;
+            }
+            .lang-selector-wrap i {
+                font-size: 0.8rem;
+            }
+            .lang-label {
+                display: none;
             }
             .search-box {
                 flex-direction: column;
@@ -793,6 +865,10 @@
             .modal-reader-body {
                 padding: 20px 16px;
             }
+            .back-bar-title {
+                font-size: 0.75rem;
+                min-width: 100px;
+            }
         }
         @media (max-width: 480px) {
             .grid-3 {
@@ -803,6 +879,11 @@
             }
             .hero-glass h1 {
                 font-size: 1.8rem;
+            }
+            .lang-selector {
+                min-width: 100px;
+                font-size: 0.7rem;
+                padding-right: 30px;
             }
         }
     </style>
@@ -835,18 +916,22 @@
     <!-- ===== PAGE WRAPPER ===== -->
     <div class="page-wrapper">
 
-        <!-- BACK BAR -->
+        <!-- BACK BAR with LANGUAGE SELECTOR -->
         <div class="back-bar">
-            <a href="index.html" class="back-btn">
+            <a href="index.html" class="back-btn" data-i18n="back_home">
                 <i class="fas fa-arrow-left"></i> Back to Home
             </a>
-            <span class="back-bar-title">
+            <span class="back-bar-title" data-i18n="library_title">
                 <i class="fas fa-book-open" style="color:#FAD201;"></i>
                 <strong>RTLH</strong> E‑Library · Digital Knowledge Hub
             </span>
-            <span style="margin-left:auto; color:rgba(255,255,255,0.30); font-size:0.8rem; display:none;" id="liveIndicator">
-                <i class="fas fa-circle" style="color:#10b981;"></i> Online
-            </span>
+
+            <!-- Language Selector -->
+            <div class="lang-selector-wrap">
+                <i class="fas fa-globe"></i>
+                <span class="lang-label" data-i18n="language">Language</span>
+                <select class="lang-selector" id="langSelector"></select>
+            </div>
         </div>
 
         <!-- MAIN CONTENT -->
@@ -854,66 +939,66 @@
 
             <!-- HERO -->
             <div class="hero-glass">
-                <h1>🌍 <span>RTLH Global E‑Library</span></h1>
-                <p>One Library, Unlimited Knowledge. Search any topic — books, tech, science, business — get real downloadable &amp; readable content.</p>
+                <h1>🌍 <span data-i18n="hero_title">RTLH Global E‑Library</span></h1>
+                <p data-i18n="hero_sub">One Library, Unlimited Knowledge. Search any topic — books, tech, science, business — get real downloadable &amp; readable content.</p>
                 <div class="search-box">
-                    <input type="text" id="globalSearchInput" placeholder="Search books, AI, science, business, languages..." />
-                    <button id="globalSearchBtn"><i class="fas fa-search"></i> Search</button>
+                    <input type="text" id="globalSearchInput" data-i18n-placeholder="search_placeholder" placeholder="Search books, AI, science, business, languages..." />
+                    <button id="globalSearchBtn" data-i18n="search_btn"><i class="fas fa-search"></i> Search</button>
                 </div>
             </div>
 
             <!-- CATEGORIES -->
             <div class="glass-card">
-                <h2 class="section-title">📚 Digital Library Categories</h2>
-                <p class="section-sub">Click any category to browse real books.</p>
+                <h2 class="section-title" data-i18n="categories_title">📚 Digital Library Categories</h2>
+                <p class="section-sub" data-i18n="categories_sub">Click any category to browse real books.</p>
                 <div class="grid-3" id="categoryGrid">
                     <div class="category-card" data-cat="Technology & Computing">
                         <i class="fas fa-laptop-code"></i>
-                        <h4>Technology &amp; Computing</h4>
-                        <p>ICT, AI, Data Science, Cybersecurity</p>
+                        <h4 data-i18n="cat_tech">Technology &amp; Computing</h4>
+                        <p data-i18n="cat_tech_desc">ICT, AI, Data Science, Cybersecurity</p>
                     </div>
                     <div class="category-card" data-cat="Sciences">
                         <i class="fas fa-flask"></i>
-                        <h4>Sciences</h4>
-                        <p>Physics, Chemistry, Biology, Engineering</p>
+                        <h4 data-i18n="cat_sci">Sciences</h4>
+                        <p data-i18n="cat_sci_desc">Physics, Chemistry, Biology, Engineering</p>
                     </div>
                     <div class="category-card" data-cat="Education">
                         <i class="fas fa-chalkboard-teacher"></i>
-                        <h4>Education</h4>
-                        <p>Teaching, Curriculum, Assessments</p>
+                        <h4 data-i18n="cat_edu">Education</h4>
+                        <p data-i18n="cat_edu_desc">Teaching, Curriculum, Assessments</p>
                     </div>
                     <div class="category-card" data-cat="Business & Finance">
                         <i class="fas fa-chart-line"></i>
-                        <h4>Business &amp; Finance</h4>
-                        <p>Accounting, Entrepreneurship, Economics</p>
+                        <h4 data-i18n="cat_biz">Business &amp; Finance</h4>
+                        <p data-i18n="cat_biz_desc">Accounting, Entrepreneurship, Economics</p>
                     </div>
                     <div class="category-card" data-cat="Social Sciences">
                         <i class="fas fa-scale-balanced"></i>
-                        <h4>Social Sciences</h4>
-                        <p>Law, Sociology, History, Psychology</p>
+                        <h4 data-i18n="cat_social">Social Sciences</h4>
+                        <p data-i18n="cat_social_desc">Law, Sociology, History, Psychology</p>
                     </div>
                     <div class="category-card" data-cat="Languages">
                         <i class="fas fa-language"></i>
-                        <h4>Languages</h4>
-                        <p>English, French, Kinyarwanda, Arabic, Chinese</p>
+                        <h4 data-i18n="cat_lang">Languages</h4>
+                        <p data-i18n="cat_lang_desc">English, French, Kinyarwanda, Arabic, Chinese</p>
                     </div>
                 </div>
             </div>
 
             <!-- BOOKSHELF -->
             <div class="glass-card" id="bookshelfSection">
-                <h2 class="section-title" id="bookshelfTitle">📖 Knowledge Bookshelf</h2>
+                <h2 class="section-title" id="bookshelfTitle" data-i18n="bookshelf_title">📖 Knowledge Bookshelf</h2>
                 <div class="bookshelf-grid" id="booksContainer"></div>
             </div>
 
             <!-- RESEARCH HUB -->
             <div class="glass-card">
-                <h2 class="section-title">🔬 Research Hub</h2>
-                <p class="section-sub">Search papers &amp; journals by title, author, or keyword.</p>
+                <h2 class="section-title" data-i18n="research_title">🔬 Research Hub</h2>
+                <p class="section-sub" data-i18n="research_sub">Search papers &amp; journals by title, author, or keyword.</p>
                 <div class="research-hub">
                     <div class="research-search">
-                        <input type="text" id="researchSearchInput" placeholder="e.g. AI, climate, economics..." />
-                        <button id="researchSearchBtn"><i class="fas fa-search"></i> Search Research</button>
+                        <input type="text" id="researchSearchInput" data-i18n-placeholder="research_placeholder" placeholder="e.g. AI, climate, economics..." />
+                        <button id="researchSearchBtn" data-i18n="research_btn"><i class="fas fa-search"></i> Search Research</button>
                     </div>
                     <div class="research-results" id="researchResults"></div>
                 </div>
@@ -921,15 +1006,15 @@
 
             <!-- OPPORTUNITIES -->
             <div class="glass-card">
-                <h2 class="section-title">🚀 Global Opportunities</h2>
-                <p class="section-sub">Explore scholarships, internships, and grants.</p>
+                <h2 class="section-title" data-i18n="opp_title">🚀 Global Opportunities</h2>
+                <p class="section-sub" data-i18n="opp_sub">Explore scholarships, internships, and grants.</p>
                 <div class="opp-grid" id="opportunitiesGrid"></div>
             </div>
 
             <!-- FOOTER -->
             <div class="elib-footer">
-                <p><strong>RTLH Vision</strong> — Africa's leading digital knowledge center.<br />Real books, real research, real opportunities.</p>
-                <p style="margin-top:6px;">© 2026 Rwanda Tech Learning Hub — Read Online &amp; Download PDF Enabled</p>
+                <p data-i18n="footer_line1"><strong>RTLH Vision</strong> — Africa's leading digital knowledge center.<br />Real books, real research, real opportunities.</p>
+                <p style="margin-top:6px;" data-i18n="footer_line2">© 2026 Rwanda Tech Learning Hub — Read Online &amp; Download PDF Enabled</p>
             </div>
         </div>
     </div>
@@ -938,16 +1023,875 @@
     <div class="modal-reader" id="bookReaderModal">
         <div class="modal-reader-content">
             <div class="modal-reader-header">
-                <span id="modalBookTitle"><i class="fas fa-book-open"></i> Reading Online</span>
+                <span id="modalBookTitle" data-i18n="modal_reading"><i class="fas fa-book-open"></i> Reading Online</span>
                 <button class="close-modal" id="closeModalBtn">&times;</button>
             </div>
             <div class="modal-reader-body" id="modalBookBody"></div>
         </div>
     </div>
 
-    <!-- ===== FIREBASE + LOGIC ===== -->
+    <!-- ===== TRANSLATIONS + FIREBASE + LOGIC ===== -->
     <script>
-        // ---------- FIREBASE CONFIG ----------
+        // ============================================================
+        //  1.  LANGUAGES & TRANSLATIONS  (15 world languages)
+        // ============================================================
+        const SUPPORTED_LANGUAGES = [
+            { code: 'en', name: 'English' },
+            { code: 'es', name: 'Español' },
+            { code: 'fr', name: 'Français' },
+            { code: 'ar', name: 'العربية' },
+            { code: 'ru', name: 'Русский' },
+            { code: 'pt', name: 'Português' },
+            { code: 'de', name: 'Deutsch' },
+            { code: 'ja', name: '日本語' },
+            { code: 'ko', name: '한국어' },
+            { code: 'it', name: 'Italiano' },
+            { code: 'nl', name: 'Nederlands' },
+            { code: 'tr', name: 'Türkçe' },
+            { code: 'sw', name: 'Kiswahili' },
+            { code: 'hi', name: 'हिन्दी' },
+            { code: 'zh', name: '中文' }
+        ];
+
+        const LANG_CODES = SUPPORTED_LANGUAGES.map(l => l.code);
+
+        // ----- TRANSLATIONS DICTIONARY (static UI text) -----
+        const I18N = {};
+
+        // English (default)
+        I18N.en = {
+            back_home: 'Back to Home',
+            library_title: 'RTLH E‑Library · Digital Knowledge Hub',
+            language: 'Language',
+            hero_title: 'RTLH Global E‑Library',
+            hero_sub: 'One Library, Unlimited Knowledge. Search any topic — books, tech, science, business — get real downloadable & readable content.',
+            search_placeholder: 'Search books, AI, science, business, languages...',
+            search_btn: 'Search',
+            categories_title: '📚 Digital Library Categories',
+            categories_sub: 'Click any category to browse real books.',
+            cat_tech: 'Technology & Computing',
+            cat_tech_desc: 'ICT, AI, Data Science, Cybersecurity',
+            cat_sci: 'Sciences',
+            cat_sci_desc: 'Physics, Chemistry, Biology, Engineering',
+            cat_edu: 'Education',
+            cat_edu_desc: 'Teaching, Curriculum, Assessments',
+            cat_biz: 'Business & Finance',
+            cat_biz_desc: 'Accounting, Entrepreneurship, Economics',
+            cat_social: 'Social Sciences',
+            cat_social_desc: 'Law, Sociology, History, Psychology',
+            cat_lang: 'Languages',
+            cat_lang_desc: 'English, French, Kinyarwanda, Arabic, Chinese',
+            bookshelf_title: '📖 Knowledge Bookshelf',
+            research_title: '🔬 Research Hub',
+            research_sub: 'Search papers & journals by title, author, or keyword.',
+            research_placeholder: 'e.g. AI, climate, economics...',
+            research_btn: 'Search Research',
+            opp_title: '🚀 Global Opportunities',
+            opp_sub: 'Explore scholarships, internships, and grants.',
+            footer_line1: 'RTLH Vision — Africa\'s leading digital knowledge center.\nReal books, real research, real opportunities.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Read Online & Download PDF Enabled',
+            modal_reading: 'Reading Online',
+            modal_author: 'Author',
+            modal_category: 'Category',
+            modal_download: 'Download PDF',
+            modal_dl_hint: 'You can also download PDF to read offline.',
+            book_author_label: 'Author:',
+            book_cat_label: 'Category:',
+            btn_pdf: 'PDF',
+            btn_read: 'Read',
+            no_books: 'No books found.',
+            no_research: 'No matching research found.',
+            apply_now: 'Apply Now →',
+            download_started: '📥 "{title}" PDF download started (simulated).',
+            app_portal: '🔗 Application portal opens. Stay tuned!',
+            search_results: '🔍 Search: "{query}" ({count} books)',
+            default_bookshelf: '📖 Knowledge Bookshelf',
+            online_status: 'Online',
+        };
+
+        // Spanish
+        I18N.es = {
+            back_home: 'Volver a Inicio',
+            library_title: 'RTLH E‑Biblioteca · Centro de Conocimiento Digital',
+            language: 'Idioma',
+            hero_title: 'RTLH Biblioteca Global',
+            hero_sub: 'Una biblioteca, conocimiento ilimitado. Busca cualquier tema — libros, tecnología, ciencia, negocios — obtén contenido descargable y legible.',
+            search_placeholder: 'Buscar libros, IA, ciencia, negocios, idiomas...',
+            search_btn: 'Buscar',
+            categories_title: '📚 Categorías de la Biblioteca Digital',
+            categories_sub: 'Haz clic en cualquier categoría para explorar libros reales.',
+            cat_tech: 'Tecnología e Informática',
+            cat_tech_desc: 'TIC, IA, Ciencia de Datos, Ciberseguridad',
+            cat_sci: 'Ciencias',
+            cat_sci_desc: 'Física, Química, Biología, Ingeniería',
+            cat_edu: 'Educación',
+            cat_edu_desc: 'Enseñanza, Currículo, Evaluaciones',
+            cat_biz: 'Negocios y Finanzas',
+            cat_biz_desc: 'Contabilidad, Emprendimiento, Economía',
+            cat_social: 'Ciencias Sociales',
+            cat_social_desc: 'Derecho, Sociología, Historia, Psicología',
+            cat_lang: 'Idiomas',
+            cat_lang_desc: 'Inglés, Francés, Kinyarwanda, Árabe, Chino',
+            bookshelf_title: '📖 Estante de Conocimiento',
+            research_title: '🔬 Centro de Investigación',
+            research_sub: 'Busca artículos y revistas por título, autor o palabra clave.',
+            research_placeholder: 'p.ej. IA, clima, economía...',
+            research_btn: 'Buscar Investigación',
+            opp_title: '🚀 Oportunidades Globales',
+            opp_sub: 'Explora becas, pasantías y subvenciones.',
+            footer_line1: 'Visión RTLH — el principal centro digital de conocimiento de África.\nLibros reales, investigación real, oportunidades reales.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Lectura en línea y descarga de PDF habilitada',
+            modal_reading: 'Lectura en línea',
+            modal_author: 'Autor',
+            modal_category: 'Categoría',
+            modal_download: 'Descargar PDF',
+            modal_dl_hint: 'También puedes descargar el PDF para leer sin conexión.',
+            book_author_label: 'Autor:',
+            book_cat_label: 'Categoría:',
+            btn_pdf: 'PDF',
+            btn_read: 'Leer',
+            no_books: 'No se encontraron libros.',
+            no_research: 'No se encontraron investigaciones coincidentes.',
+            apply_now: 'Aplicar ahora →',
+            download_started: '📥 Descarga de PDF "{title}" iniciada (simulada).',
+            app_portal: '🔗 Se abre el portal de solicitudes. ¡Mantente atento!',
+            search_results: '🔍 Búsqueda: "{query}" ({count} libros)',
+            default_bookshelf: '📖 Estante de Conocimiento',
+            online_status: 'En línea',
+        };
+
+        // French
+        I18N.fr = {
+            back_home: 'Retour à l\'Accueil',
+            library_title: 'RTLH E‑Bibliothèque · Centre de Connaissances Numériques',
+            language: 'Langue',
+            hero_title: 'RTLH Bibliothèque Mondiale',
+            hero_sub: 'Une bibliothèque, un savoir illimité. Recherchez n\'importe quel sujet — livres, tech, science, affaires — obtenez du contenu téléchargeable et lisible.',
+            search_placeholder: 'Rechercher livres, IA, science, affaires, langues...',
+            search_btn: 'Rechercher',
+            categories_title: '📚 Catégories de la Bibliothèque Numérique',
+            categories_sub: 'Cliquez sur une catégorie pour parcourir de vrais livres.',
+            cat_tech: 'Technologie et Informatique',
+            cat_tech_desc: 'TIC, IA, Science des Données, Cybersécurité',
+            cat_sci: 'Sciences',
+            cat_sci_desc: 'Physique, Chimie, Biologie, Ingénierie',
+            cat_edu: 'Éducation',
+            cat_edu_desc: 'Enseignement, Programme, Évaluations',
+            cat_biz: 'Affaires et Finance',
+            cat_biz_desc: 'Comptabilité, Entrepreneuriat, Économie',
+            cat_social: 'Sciences Sociales',
+            cat_social_desc: 'Droit, Sociologie, Histoire, Psychologie',
+            cat_lang: 'Langues',
+            cat_lang_desc: 'Anglais, Français, Kinyarwanda, Arabe, Chinois',
+            bookshelf_title: '📖 Bibliothèque du Savoir',
+            research_title: '🔬 Centre de Recherche',
+            research_sub: 'Recherchez des articles et revues par titre, auteur ou mot-clé.',
+            research_placeholder: 'ex. IA, climat, économie...',
+            research_btn: 'Rechercher',
+            opp_title: '🚀 Opportunités Mondiales',
+            opp_sub: 'Explorez les bourses, stages et subventions.',
+            footer_line1: 'Vision RTLH — le principal centre numérique de connaissances d\'Afrique.\nDes vrais livres, de la vraie recherche, de vraies opportunités.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Lecture en ligne et téléchargement PDF activés',
+            modal_reading: 'Lecture en ligne',
+            modal_author: 'Auteur',
+            modal_category: 'Catégorie',
+            modal_download: 'Télécharger PDF',
+            modal_dl_hint: 'Vous pouvez également télécharger le PDF pour lire hors ligne.',
+            book_author_label: 'Auteur :',
+            book_cat_label: 'Catégorie :',
+            btn_pdf: 'PDF',
+            btn_read: 'Lire',
+            no_books: 'Aucun livre trouvé.',
+            no_research: 'Aucune recherche correspondante trouvée.',
+            apply_now: 'Postuler maintenant →',
+            download_started: '📥 Téléchargement du PDF "{title}" lancé (simulé).',
+            app_portal: '🔗 Portail de candidature ouvert. Restez à l\'écoute !',
+            search_results: '🔍 Recherche : "{query}" ({count} livres)',
+            default_bookshelf: '📖 Bibliothèque du Savoir',
+            online_status: 'En ligne',
+        };
+
+        // Arabic
+        I18N.ar = {
+            back_home: 'العودة إلى الرئيسية',
+            library_title: 'مكتبة RTLH الإلكترونية · مركز المعرفة الرقمية',
+            language: 'اللغة',
+            hero_title: 'مكتبة RTLH العالمية',
+            hero_sub: 'مكتبة واحدة، معرفة غير محدودة. ابحث عن أي موضوع — كتب، تقنية، علوم، أعمال — واحصل على محتوى قابل للتحميل والقراءة.',
+            search_placeholder: 'ابحث عن كتب، ذكاء اصطناعي، علوم، أعمال، لغات...',
+            search_btn: 'بحث',
+            categories_title: '📚 فئات المكتبة الرقمية',
+            categories_sub: 'انقر على أي فئة لتصفح كتب حقيقية.',
+            cat_tech: 'التكنولوجيا والحوسبة',
+            cat_tech_desc: 'تكنولوجيا المعلومات، الذكاء الاصطناعي، علوم البيانات، الأمن السيبراني',
+            cat_sci: 'العلوم',
+            cat_sci_desc: 'الفيزياء، الكيمياء، الأحياء، الهندسة',
+            cat_edu: 'التعليم',
+            cat_edu_desc: 'التدريس، المناهج، التقييمات',
+            cat_biz: 'الأعمال والتمويل',
+            cat_biz_desc: 'المحاسبة، ريادة الأعمال، الاقتصاد',
+            cat_social: 'العلوم الاجتماعية',
+            cat_social_desc: 'القانون، علم الاجتماع، التاريخ، علم النفس',
+            cat_lang: 'اللغات',
+            cat_lang_desc: 'الإنجليزية، الفرنسية، الكينيارواندا، العربية، الصينية',
+            bookshelf_title: '📖 رف المعرفة',
+            research_title: '🔬 مركز الأبحاث',
+            research_sub: 'ابحث عن الأوراق والمجلات حسب العنوان أو المؤلف أو الكلمة المفتاحية.',
+            research_placeholder: 'مثال: الذكاء الاصطناعي، المناخ، الاقتصاد...',
+            research_btn: 'بحث في الأبحاث',
+            opp_title: '🚀 فرص عالمية',
+            opp_sub: 'استكشف المنح الدراسية والتدريب الداخلي والمنح.',
+            footer_line1: 'رؤية RTLH — مركز المعرفة الرقمي الرائد في أفريقيا.\nكتب حقيقية، أبحاث حقيقية، فرص حقيقية.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — القراءة عبر الإنترنت وتحميل PDF متاحان',
+            modal_reading: 'القراءة عبر الإنترنت',
+            modal_author: 'المؤلف',
+            modal_category: 'الفئة',
+            modal_download: 'تحميل PDF',
+            modal_dl_hint: 'يمكنك أيضًا تحميل PDF للقراءة دون اتصال.',
+            book_author_label: 'المؤلف:',
+            book_cat_label: 'الفئة:',
+            btn_pdf: 'PDF',
+            btn_read: 'قراءة',
+            no_books: 'لم يتم العثور على كتب.',
+            no_research: 'لم يتم العثور على أبحاث مطابقة.',
+            apply_now: 'تقديم الآن →',
+            download_started: '📥 بدء تحميل PDF "{title}" (محاكاة).',
+            app_portal: '🔗 يتم فتح بوابة التقديم. ترقبوا!',
+            search_results: '🔍 بحث: "{query}" ({count} كتب)',
+            default_bookshelf: '📖 رف المعرفة',
+            online_status: 'متصل',
+        };
+
+        // Russian
+        I18N.ru = {
+            back_home: 'На главную',
+            library_title: 'RTLH Электронная библиотека · Центр цифровых знаний',
+            language: 'Язык',
+            hero_title: 'Глобальная библиотека RTLH',
+            hero_sub: 'Одна библиотека — безграничные знания. Ищите любую тему — книги, технологии, науку, бизнес — получайте загружаемый и читаемый контент.',
+            search_placeholder: 'Поиск книг, ИИ, науки, бизнеса, языков...',
+            search_btn: 'Поиск',
+            categories_title: '📚 Категории цифровой библиотеки',
+            categories_sub: 'Нажмите на любую категорию, чтобы просмотреть реальные книги.',
+            cat_tech: 'Технологии и вычисления',
+            cat_tech_desc: 'ИКТ, ИИ, наука о данных, кибербезопасность',
+            cat_sci: 'Науки',
+            cat_sci_desc: 'Физика, химия, биология, инженерия',
+            cat_edu: 'Образование',
+            cat_edu_desc: 'Преподавание, учебные программы, оценивание',
+            cat_biz: 'Бизнес и финансы',
+            cat_biz_desc: 'Бухгалтерский учет, предпринимательство, экономика',
+            cat_social: 'Социальные науки',
+            cat_social_desc: 'Право, социология, история, психология',
+            cat_lang: 'Языки',
+            cat_lang_desc: 'Английский, французский, киньяруанда, арабский, китайский',
+            bookshelf_title: '📖 Книжная полка знаний',
+            research_title: '🔬 Исследовательский центр',
+            research_sub: 'Поиск статей и журналов по названию, автору или ключевому слову.',
+            research_placeholder: 'например: ИИ, климат, экономика...',
+            research_btn: 'Поиск исследований',
+            opp_title: '🚀 Глобальные возможности',
+            opp_sub: 'Изучите стипендии, стажировки и гранты.',
+            footer_line1: 'Видение RTLH — ведущий цифровой центр знаний Африки.\nРеальные книги, реальные исследования, реальные возможности.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Чтение онлайн и загрузка PDF доступны',
+            modal_reading: 'Чтение онлайн',
+            modal_author: 'Автор',
+            modal_category: 'Категория',
+            modal_download: 'Скачать PDF',
+            modal_dl_hint: 'Вы также можете скачать PDF для чтения офлайн.',
+            book_author_label: 'Автор:',
+            book_cat_label: 'Категория:',
+            btn_pdf: 'PDF',
+            btn_read: 'Читать',
+            no_books: 'Книги не найдены.',
+            no_research: 'Исследования не найдены.',
+            apply_now: 'Подать заявку →',
+            download_started: '📥 Начата загрузка PDF "{title}" (симуляция).',
+            app_portal: '🔗 Портал заявок открыт. Следите за обновлениями!',
+            search_results: '🔍 Поиск: "{query}" ({count} книг)',
+            default_bookshelf: '📖 Книжная полка знаний',
+            online_status: 'Онлайн',
+        };
+
+        // Portuguese
+        I18N.pt = {
+            back_home: 'Voltar ao Início',
+            library_title: 'RTLH E‑Biblioteca · Centro de Conhecimento Digital',
+            language: 'Idioma',
+            hero_title: 'RTLH Biblioteca Global',
+            hero_sub: 'Uma biblioteca, conhecimento ilimitado. Pesquise qualquer tópico — livros, tecnologia, ciência, negócios — obtenha conteúdo para download e leitura.',
+            search_placeholder: 'Pesquisar livros, IA, ciência, negócios, idiomas...',
+            search_btn: 'Pesquisar',
+            categories_title: '📚 Categorias da Biblioteca Digital',
+            categories_sub: 'Clique em qualquer categoria para explorar livros reais.',
+            cat_tech: 'Tecnologia e Computação',
+            cat_tech_desc: 'TIC, IA, Ciência de Dados, Cibersegurança',
+            cat_sci: 'Ciências',
+            cat_sci_desc: 'Física, Química, Biologia, Engenharia',
+            cat_edu: 'Educação',
+            cat_edu_desc: 'Ensino, Currículo, Avaliações',
+            cat_biz: 'Negócios e Finanças',
+            cat_biz_desc: 'Contabilidade, Empreendedorismo, Economia',
+            cat_social: 'Ciências Sociais',
+            cat_social_desc: 'Direito, Sociologia, História, Psicologia',
+            cat_lang: 'Idiomas',
+            cat_lang_desc: 'Inglês, Francês, Kinyarwanda, Árabe, Chinês',
+            bookshelf_title: '📖 Estante do Conhecimento',
+            research_title: '🔬 Centro de Pesquisa',
+            research_sub: 'Pesquise artigos e revistas por título, autor ou palavra-chave.',
+            research_placeholder: 'ex.: IA, clima, economia...',
+            research_btn: 'Pesquisar',
+            opp_title: '🚀 Oportunidades Globais',
+            opp_sub: 'Explore bolsas de estudo, estágios e subsídios.',
+            footer_line1: 'Visão RTLH — o principal centro digital de conhecimento da África.\nLivros reais, pesquisa real, oportunidades reais.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Leitura online e download de PDF habilitados',
+            modal_reading: 'Leitura online',
+            modal_author: 'Autor',
+            modal_category: 'Categoria',
+            modal_download: 'Baixar PDF',
+            modal_dl_hint: 'Você também pode baixar o PDF para ler offline.',
+            book_author_label: 'Autor:',
+            book_cat_label: 'Categoria:',
+            btn_pdf: 'PDF',
+            btn_read: 'Ler',
+            no_books: 'Nenhum livro encontrado.',
+            no_research: 'Nenhuma pesquisa correspondente encontrada.',
+            apply_now: 'Candidatar-se →',
+            download_started: '📥 Download do PDF "{title}" iniciado (simulado).',
+            app_portal: '🔗 Portal de inscrições aberto. Fique atento!',
+            search_results: '🔍 Busca: "{query}" ({count} livros)',
+            default_bookshelf: '📖 Estante do Conhecimento',
+            online_status: 'Online',
+        };
+
+        // German
+        I18N.de = {
+            back_home: 'Zurück zur Startseite',
+            library_title: 'RTLH E‑Bibliothek · Digitales Wissenszentrum',
+            language: 'Sprache',
+            hero_title: 'RTLH Globale Bibliothek',
+            hero_sub: 'Eine Bibliothek, unbegrenztes Wissen. Durchsuchen Sie jedes Thema — Bücher, Technik, Wissenschaft, Wirtschaft — erhalten Sie herunterladbare und lesbare Inhalte.',
+            search_placeholder: 'Suche nach Büchern, KI, Wissenschaft, Wirtschaft, Sprachen...',
+            search_btn: 'Suchen',
+            categories_title: '📚 Kategorien der Digitalen Bibliothek',
+            categories_sub: 'Klicken Sie auf eine Kategorie, um echte Bücher zu durchstöbern.',
+            cat_tech: 'Technologie & Informatik',
+            cat_tech_desc: 'IKT, KI, Datenwissenschaft, Cybersicherheit',
+            cat_sci: 'Wissenschaften',
+            cat_sci_desc: 'Physik, Chemie, Biologie, Ingenieurwesen',
+            cat_edu: 'Bildung',
+            cat_edu_desc: 'Lehre, Lehrplan, Bewertungen',
+            cat_biz: 'Wirtschaft & Finanzen',
+            cat_biz_desc: 'Buchhaltung, Unternehmertum, Wirtschaft',
+            cat_social: 'Sozialwissenschaften',
+            cat_social_desc: 'Recht, Soziologie, Geschichte, Psychologie',
+            cat_lang: 'Sprachen',
+            cat_lang_desc: 'Englisch, Französisch, Kinyarwanda, Arabisch, Chinesisch',
+            bookshelf_title: '📖 Wissensregal',
+            research_title: '🔬 Forschungszentrum',
+            research_sub: 'Durchsuchen Sie Papers und Zeitschriften nach Titel, Autor oder Stichwort.',
+            research_placeholder: 'z.B. KI, Klima, Wirtschaft...',
+            research_btn: 'Forschung durchsuchen',
+            opp_title: '🚀 Globale Chancen',
+            opp_sub: 'Entdecken Sie Stipendien, Praktika und Zuschüsse.',
+            footer_line1: 'RTLH Vision — Afrikas führendes digitales Wissenszentrum.\nEchte Bücher, echte Forschung, echte Chancen.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Online lesen & PDF-Download aktiviert',
+            modal_reading: 'Online lesen',
+            modal_author: 'Autor',
+            modal_category: 'Kategorie',
+            modal_download: 'PDF herunterladen',
+            modal_dl_hint: 'Sie können das PDF auch herunterladen, um offline zu lesen.',
+            book_author_label: 'Autor:',
+            book_cat_label: 'Kategorie:',
+            btn_pdf: 'PDF',
+            btn_read: 'Lesen',
+            no_books: 'Keine Bücher gefunden.',
+            no_research: 'Keine passenden Forschungsergebnisse gefunden.',
+            apply_now: 'Jetzt bewerben →',
+            download_started: '📥 PDF-Download von "{title}" gestartet (simuliert).',
+            app_portal: '🔗 Bewerbungsportal wird geöffnet. Bleiben Sie dran!',
+            search_results: '🔍 Suche: "{query}" ({count} Bücher)',
+            default_bookshelf: '📖 Wissensregal',
+            online_status: 'Online',
+        };
+
+        // Japanese
+        I18N.ja = {
+            back_home: 'ホームに戻る',
+            library_title: 'RTLH E‑ライブラリ · デジタル知識ハブ',
+            language: '言語',
+            hero_title: 'RTLH グローバルE‑ライブラリ',
+            hero_sub: '一つの図書館、無限の知識。あらゆるトピック — 本、テクノロジー、科学、ビジネス — を検索して、ダウンロード可能で読めるコンテンツを入手。',
+            search_placeholder: '本、AI、科学、ビジネス、言語を検索...',
+            search_btn: '検索',
+            categories_title: '📚 デジタルライブラリカテゴリ',
+            categories_sub: 'カテゴリをクリックして実際の本を閲覧。',
+            cat_tech: 'テクノロジー＆コンピューティング',
+            cat_tech_desc: 'ICT、AI、データサイエンス、サイバーセキュリティ',
+            cat_sci: 'サイエンス',
+            cat_sci_desc: '物理学、化学、生物学、工学',
+            cat_edu: '教育',
+            cat_edu_desc: '教育、カリキュラム、評価',
+            cat_biz: 'ビジネス＆ファイナンス',
+            cat_biz_desc: '会計、起業、経済学',
+            cat_social: '社会科学',
+            cat_social_desc: '法律、社会学、歴史、心理学',
+            cat_lang: '言語',
+            cat_lang_desc: '英語、フランス語、キニヤルワンダ語、アラビア語、中国語',
+            bookshelf_title: '📖 知識の本棚',
+            research_title: '🔬 研究ハブ',
+            research_sub: 'タイトル、著者、キーワードで論文やジャーナルを検索。',
+            research_placeholder: '例: AI、気候、経済...',
+            research_btn: '研究を検索',
+            opp_title: '🚀 グローバルチャンス',
+            opp_sub: '奨学金、インターンシップ、助成金を探す。',
+            footer_line1: 'RTLHビジョン — アフリカを代表するデジタル知識センター。\n本物の本、本物の研究、本物のチャンス。',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — オンライン読書＆PDFダウンロード対応',
+            modal_reading: 'オンライン読書',
+            modal_author: '著者',
+            modal_category: 'カテゴリ',
+            modal_download: 'PDFをダウンロード',
+            modal_dl_hint: 'オフラインで読むためにPDFをダウンロードすることもできます。',
+            book_author_label: '著者:',
+            book_cat_label: 'カテゴリ:',
+            btn_pdf: 'PDF',
+            btn_read: '読む',
+            no_books: '本が見つかりません。',
+            no_research: '該当する研究が見つかりません。',
+            apply_now: '今すぐ応募 →',
+            download_started: '📥 「{title}」のPDFダウンロードを開始しました（シミュレーション）。',
+            app_portal: '🔗 応募ポータルが開きます。お楽しみに！',
+            search_results: '🔍 検索: 「{query}」（{count}冊の本）',
+            default_bookshelf: '📖 知識の本棚',
+            online_status: 'オンライン',
+        };
+
+        // Korean
+        I18N.ko = {
+            back_home: '홈으로 돌아가기',
+            library_title: 'RTLH 전자도서관 · 디지털 지식 허브',
+            language: '언어',
+            hero_title: 'RTLH 글로벌 전자도서관',
+            hero_sub: '하나의 도서관, 무한한 지식. 책, 기술, 과학, 비즈니스 등 모든 주제를 검색하여 다운로드 가능한 콘텐츠를 얻으세요.',
+            search_placeholder: '책, AI, 과학, 비즈니스, 언어 검색...',
+            search_btn: '검색',
+            categories_title: '📚 디지털 도서관 카테고리',
+            categories_sub: '카테고리를 클릭하여 실제 책을 탐색하세요.',
+            cat_tech: '기술 및 컴퓨팅',
+            cat_tech_desc: 'ICT, AI, 데이터 과학, 사이버 보안',
+            cat_sci: '과학',
+            cat_sci_desc: '물리학, 화학, 생물학, 공학',
+            cat_edu: '교육',
+            cat_edu_desc: '교육, 커리큘럼, 평가',
+            cat_biz: '비즈니스 및 금융',
+            cat_biz_desc: '회계, 창업, 경제학',
+            cat_social: '사회과학',
+            cat_social_desc: '법학, 사회학, 역사, 심리학',
+            cat_lang: '언어',
+            cat_lang_desc: '영어, 프랑스어, 키냐르완다어, 아랍어, 중국어',
+            bookshelf_title: '📖 지식의 책장',
+            research_title: '🔬 연구 허브',
+            research_sub: '제목, 저자 또는 키워드로 논문과 저널을 검색하세요.',
+            research_placeholder: '예: AI, 기후, 경제...',
+            research_btn: '연구 검색',
+            opp_title: '🚀 글로벌 기회',
+            opp_sub: '장학금, 인턴십, 보조금을 탐색하세요.',
+            footer_line1: 'RTLH 비전 — 아프리카를 선도하는 디지털 지식 센터.\n진짜 책, 진짜 연구, 진짜 기회.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — 온라인 읽기 및 PDF 다운로드 지원',
+            modal_reading: '온라인 읽기',
+            modal_author: '저자',
+            modal_category: '카테고리',
+            modal_download: 'PDF 다운로드',
+            modal_dl_hint: '오프라인에서 읽을 수 있도록 PDF를 다운로드할 수 있습니다.',
+            book_author_label: '저자:',
+            book_cat_label: '카테고리:',
+            btn_pdf: 'PDF',
+            btn_read: '읽기',
+            no_books: '책을 찾을 수 없습니다.',
+            no_research: '일치하는 연구를 찾을 수 없습니다.',
+            apply_now: '지원하기 →',
+            download_started: '📥 "{title}" PDF 다운로드 시작 (시뮬레이션).',
+            app_portal: '🔗 지원 포털이 열립니다. 지켜봐 주세요!',
+            search_results: '🔍 검색: "{query}" ({count}권의 책)',
+            default_bookshelf: '📖 지식의 책장',
+            online_status: '온라인',
+        };
+
+        // Italian
+        I18N.it = {
+            back_home: 'Torna alla Home',
+            library_title: 'RTLH E‑Biblioteca · Hub di Conoscenza Digitale',
+            language: 'Lingua',
+            hero_title: 'RTLH Biblioteca Globale',
+            hero_sub: 'Una biblioteca, conoscenza illimitata. Cerca qualsiasi argomento — libri, tecnologia, scienza, economia — ottieni contenuti scaricabili e leggibili.',
+            search_placeholder: 'Cerca libri, IA, scienza, economia, lingue...',
+            search_btn: 'Cerca',
+            categories_title: '📚 Categorie della Biblioteca Digitale',
+            categories_sub: 'Clicca su una categoria per sfogliare libri reali.',
+            cat_tech: 'Tecnologia e Informatica',
+            cat_tech_desc: 'ICT, IA, Data Science, Cybersecurity',
+            cat_sci: 'Scienze',
+            cat_sci_desc: 'Fisica, Chimica, Biologia, Ingegneria',
+            cat_edu: 'Istruzione',
+            cat_edu_desc: 'Insegnamento, Curriculum, Valutazioni',
+            cat_biz: 'Business e Finanza',
+            cat_biz_desc: 'Contabilità, Imprenditorialità, Economia',
+            cat_social: 'Scienze Sociali',
+            cat_social_desc: 'Diritto, Sociologia, Storia, Psicologia',
+            cat_lang: 'Lingue',
+            cat_lang_desc: 'Inglese, Francese, Kinyarwanda, Arabo, Cinese',
+            bookshelf_title: '📖 Scaffale della Conoscenza',
+            research_title: '🔬 Centro Ricerche',
+            research_sub: 'Cerca articoli e riviste per titolo, autore o parola chiave.',
+            research_placeholder: 'es. IA, clima, economia...',
+            research_btn: 'Cerca Ricerche',
+            opp_title: '🚀 Opportunità Globali',
+            opp_sub: 'Esplora borse di studio, stage e sovvenzioni.',
+            footer_line1: 'Visione RTLH — il principale centro digitale di conoscenza in Africa.\nLibri veri, ricerca vera, opportunità vere.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Lettura online e download PDF abilitati',
+            modal_reading: 'Lettura online',
+            modal_author: 'Autore',
+            modal_category: 'Categoria',
+            modal_download: 'Scarica PDF',
+            modal_dl_hint: 'Puoi anche scaricare il PDF per leggere offline.',
+            book_author_label: 'Autore:',
+            book_cat_label: 'Categoria:',
+            btn_pdf: 'PDF',
+            btn_read: 'Leggi',
+            no_books: 'Nessun libro trovato.',
+            no_research: 'Nessuna ricerca corrispondente trovata.',
+            apply_now: 'Candidati ora →',
+            download_started: '📥 Download PDF di "{title}" avviato (simulato).',
+            app_portal: '🔗 Portale candidature aperto. Resta sintonizzato!',
+            search_results: '🔍 Cerca: "{query}" ({count} libri)',
+            default_bookshelf: '📖 Scaffale della Conoscenza',
+            online_status: 'Online',
+        };
+
+        // Dutch
+        I18N.nl = {
+            back_home: 'Terug naar Home',
+            library_title: 'RTLH E‑Bibliotheek · Digitaal Kenniscentrum',
+            language: 'Taal',
+            hero_title: 'RTLH Wereldwijde Bibliotheek',
+            hero_sub: 'Eén bibliotheek, onbeperkte kennis. Zoek naar elk onderwerp — boeken, techniek, wetenschap, zaken — krijg downloadbare en leesbare inhoud.',
+            search_placeholder: 'Zoek boeken, AI, wetenschap, zaken, talen...',
+            search_btn: 'Zoeken',
+            categories_title: '📚 Categorieën Digitale Bibliotheek',
+            categories_sub: 'Klik op een categorie om echte boeken te doorbladeren.',
+            cat_tech: 'Technologie & Computing',
+            cat_tech_desc: 'ICT, AI, Data Science, Cybersecurity',
+            cat_sci: 'Wetenschappen',
+            cat_sci_desc: 'Natuurkunde, Scheikunde, Biologie, Techniek',
+            cat_edu: 'Onderwijs',
+            cat_edu_desc: 'Lesgeven, Curriculum, Beoordelingen',
+            cat_biz: 'Zaken & Financiën',
+            cat_biz_desc: 'Accounting, Ondernemerschap, Economie',
+            cat_social: 'Sociale Wetenschappen',
+            cat_social_desc: 'Recht, Sociologie, Geschiedenis, Psychologie',
+            cat_lang: 'Talen',
+            cat_lang_desc: 'Engels, Frans, Kinyarwanda, Arabisch, Chinees',
+            bookshelf_title: '📖 Kennisplank',
+            research_title: '🔬 Onderzoekscentrum',
+            research_sub: 'Zoek naar artikelen en tijdschriften op titel, auteur of trefwoord.',
+            research_placeholder: 'bijv. AI, klimaat, economie...',
+            research_btn: 'Zoek Onderzoek',
+            opp_title: '🚀 Wereldwijde Kansen',
+            opp_sub: 'Verken beurzen, stages en subsidies.',
+            footer_line1: 'RTLH Visie — Afrika\'s toonaangevend digitaal kenniscentrum.\nEchte boeken, echt onderzoek, echte kansen.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Online lezen en PDF-download ingeschakeld',
+            modal_reading: 'Online lezen',
+            modal_author: 'Auteur',
+            modal_category: 'Categorie',
+            modal_download: 'PDF downloaden',
+            modal_dl_hint: 'Je kunt ook de PDF downloaden om offline te lezen.',
+            book_author_label: 'Auteur:',
+            book_cat_label: 'Categorie:',
+            btn_pdf: 'PDF',
+            btn_read: 'Lees',
+            no_books: 'Geen boeken gevonden.',
+            no_research: 'Geen overeenkomend onderzoek gevonden.',
+            apply_now: 'Nu solliciteren →',
+            download_started: '📥 PDF-download van "{title}" gestart (gesimuleerd).',
+            app_portal: '🔗 Sollicitatieportaal wordt geopend. Blijf op de hoogte!',
+            search_results: '🔍 Zoekopdracht: "{query}" ({count} boeken)',
+            default_bookshelf: '📖 Kennisplank',
+            online_status: 'Online',
+        };
+
+        // Turkish
+        I18N.tr = {
+            back_home: 'Ana Sayfaya Dön',
+            library_title: 'RTLH E‑Kütüphane · Dijital Bilgi Merkezi',
+            language: 'Dil',
+            hero_title: 'RTLH Küresel E‑Kütüphane',
+            hero_sub: 'Tek kütüphane, sınırsız bilgi. Herhangi bir konuyu ara — kitaplar, teknoloji, bilim, iş — indirilebilir ve okunabilir içerik elde et.',
+            search_placeholder: 'Kitapları, yapay zekayı, bilimi, işi, dilleri ara...',
+            search_btn: 'Ara',
+            categories_title: '📚 Dijital Kütüphane Kategorileri',
+            categories_sub: 'Gerçek kitaplara göz atmak için herhangi bir kategoriye tıkla.',
+            cat_tech: 'Teknoloji ve Bilişim',
+            cat_tech_desc: 'BİT, YZ, Veri Bilimi, Siber Güvenlik',
+            cat_sci: 'Bilimler',
+            cat_sci_desc: 'Fizik, Kimya, Biyoloji, Mühendislik',
+            cat_edu: 'Eğitim',
+            cat_edu_desc: 'Öğretim, Müfredat, Değerlendirmeler',
+            cat_biz: 'İşletme ve Finans',
+            cat_biz_desc: 'Muhasebe, Girişimcilik, Ekonomi',
+            cat_social: 'Sosyal Bilimler',
+            cat_social_desc: 'Hukuk, Sosyoloji, Tarih, Psikoloji',
+            cat_lang: 'Diller',
+            cat_lang_desc: 'İngilizce, Fransızca, Kinyarwanda, Arapça, Çince',
+            bookshelf_title: '📖 Bilgi Rafı',
+            research_title: '🔬 Araştırma Merkezi',
+            research_sub: 'Başlık, yazar veya anahtar kelimeye göre makale ve dergi ara.',
+            research_placeholder: 'ör. YZ, iklim, ekonomi...',
+            research_btn: 'Araştırma Ara',
+            opp_title: '🚀 Küresel Fırsatlar',
+            opp_sub: 'Bursları, stajları ve hibeleri keşfet.',
+            footer_line1: 'RTLH Vizyonu — Afrika\'nın önde gelen dijital bilgi merkezi.\nGerçek kitaplar, gerçek araştırmalar, gerçek fırsatlar.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Çevrimiçi okuma ve PDF indirme etkin',
+            modal_reading: 'Çevrimiçi Okuma',
+            modal_author: 'Yazar',
+            modal_category: 'Kategori',
+            modal_download: 'PDF İndir',
+            modal_dl_hint: 'Çevrimdışı okumak için PDF\'i de indirebilirsiniz.',
+            book_author_label: 'Yazar:',
+            book_cat_label: 'Kategori:',
+            btn_pdf: 'PDF',
+            btn_read: 'Oku',
+            no_books: 'Kitap bulunamadı.',
+            no_research: 'Eşleşen araştırma bulunamadı.',
+            apply_now: 'Şimdi Başvur →',
+            download_started: '📥 "{title}" PDF indirme başlatıldı (simüle edilmiş).',
+            app_portal: '🔗 Başvuru portalı açılıyor. Takipte kalın!',
+            search_results: '🔍 Arama: "{query}" ({count} kitap)',
+            default_bookshelf: '📖 Bilgi Rafı',
+            online_status: 'Çevrimiçi',
+        };
+
+        // Swahili
+        I18N.sw = {
+            back_home: 'Rudi Nyumbani',
+            library_title: 'Maktaba ya Kielektroniki ya RTLH · Kituo cha Maarifa ya Dijitali',
+            language: 'Lugha',
+            hero_title: 'Maktaba ya Kimataifa ya RTLH',
+            hero_sub: 'Maktaba moja, maarifa yasiyo na kikomo. Tafuta mada yoyote — vitabu, teknolojia, sayansi, biashara — pata maudhui yanayoweza kupakuliwa na kusomeka.',
+            search_placeholder: 'Tafuta vitabu, AI, sayansi, biashara, lugha...',
+            search_btn: 'Tafuta',
+            categories_title: '📚 Kategoria za Maktaba ya Dijitali',
+            categories_sub: 'Bonyeza kategoria yoyote ili kuvinjari vitabu halisi.',
+            cat_tech: 'Teknolojia na Kompyuta',
+            cat_tech_desc: 'TEKNOLOJIA, AI, Sayansi ya Data, Usalama wa Mtandao',
+            cat_sci: 'Sayansi',
+            cat_sci_desc: 'Fizikia, Kemia, Biolojia, Uhandisi',
+            cat_edu: 'Elimu',
+            cat_edu_desc: 'Ualimu, Mtaala, Tathmini',
+            cat_biz: 'Biashara na Fedha',
+            cat_biz_desc: 'Uhasibu, Ujasiriamali, Uchumi',
+            cat_social: 'Sayansi za Jamii',
+            cat_social_desc: 'Sheria, Sosholojia, Historia, Saikolojia',
+            cat_lang: 'Lugha',
+            cat_lang_desc: 'Kiingereza, Kifaransa, Kinyarwanda, Kiarabu, Kichina',
+            bookshelf_title: '📖 Rafu ya Maarifa',
+            research_title: '🔬 Kituo cha Utafiti',
+            research_sub: 'Tafuta karatasi na majarida kwa jina, mwandishi au neno kuu.',
+            research_placeholder: 'mfano: AI, hali ya hewa, uchumi...',
+            research_btn: 'Tafuta Utafiti',
+            opp_title: '🚀 Fursa za Kimataifa',
+            opp_sub: 'Gundua udhamini, mafunzo ya kazi, na ruzuku.',
+            footer_line1: 'Dira ya RTLH — kituo kikuu cha maarifa ya dijitali barani Afrika.\nVitabu halisi, utafiti halisi, fursa halisi.',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — Kusoma mtandaoni na kupakua PDF kunawezekana',
+            modal_reading: 'Kusoma Mtandaoni',
+            modal_author: 'Mwandishi',
+            modal_category: 'Kategoria',
+            modal_download: 'Pakua PDF',
+            modal_dl_hint: 'Unaweza pia kupakua PDF kusoma nje ya mtandao.',
+            book_author_label: 'Mwandishi:',
+            book_cat_label: 'Kategoria:',
+            btn_pdf: 'PDF',
+            btn_read: 'Soma',
+            no_books: 'Hakuna vitabu vilivyopatikana.',
+            no_research: 'Hakuna utafiti unaolingana uliopatikana.',
+            apply_now: 'Omba Sasa →',
+            download_started: '📥 Upakuaji wa PDF wa "{title}" umeanzishwa (imeigwa).',
+            app_portal: '🔗 Lango la maombi linafunguliwa. Endelea kufuatilia!',
+            search_results: '🔍 Utafutaji: "{query}" (vitabu {count})',
+            default_bookshelf: '📖 Rafu ya Maarifa',
+            online_status: 'Mtandaoni',
+        };
+
+        // Hindi
+        I18N.hi = {
+            back_home: 'होम पर वापस जाएं',
+            library_title: 'RTLH ई‑पुस्तकालय · डिजिटल ज्ञान केंद्र',
+            language: 'भाषा',
+            hero_title: 'RTLH वैश्विक ई‑पुस्तकालय',
+            hero_sub: 'एक पुस्तकालय, असीमित ज्ञान। किसी भी विषय को खोजें — पुस्तकें, तकनीक, विज्ञान, व्यवसाय — डाउनलोड करने योग्य और पठनीय सामग्री प्राप्त करें।',
+            search_placeholder: 'पुस्तकें, AI, विज्ञान, व्यवसाय, भाषाएँ खोजें...',
+            search_btn: 'खोजें',
+            categories_title: '📚 डिजिटल पुस्तकालय श्रेणियाँ',
+            categories_sub: 'वास्तविक पुस्तकें देखने के लिए किसी भी श्रेणी पर क्लिक करें।',
+            cat_tech: 'प्रौद्योगिकी और कंप्यूटिंग',
+            cat_tech_desc: 'ICT, AI, डेटा विज्ञान, साइबर सुरक्षा',
+            cat_sci: 'विज्ञान',
+            cat_sci_desc: 'भौतिकी, रसायन विज्ञान, जीव विज्ञान, इंजीनियरिंग',
+            cat_edu: 'शिक्षा',
+            cat_edu_desc: 'शिक्षण, पाठ्यक्रम, मूल्यांकन',
+            cat_biz: 'व्यवसाय और वित्त',
+            cat_biz_desc: 'लेखांकन, उद्यमिता, अर्थशास्त्र',
+            cat_social: 'सामाजिक विज्ञान',
+            cat_social_desc: 'कानून, समाजशास्त्र, इतिहास, मनोविज्ञान',
+            cat_lang: 'भाषाएँ',
+            cat_lang_desc: 'अंग्रेजी, फ्रेंच, किन्यारवांडा, अरबी, चीनी',
+            bookshelf_title: '📖 ज्ञान की अलमारी',
+            research_title: '🔬 अनुसंधान केंद्र',
+            research_sub: 'शीर्षक, लेखक या कीवर्ड द्वारा पेपर और जर्नल खोजें।',
+            research_placeholder: 'उदाहरण: AI, जलवायु, अर्थशास्त्र...',
+            research_btn: 'अनुसंधान खोजें',
+            opp_title: '🚀 वैश्विक अवसर',
+            opp_sub: 'छात्रवृत्ति, इंटर्नशिप और अनुदान का अन्वेषण करें।',
+            footer_line1: 'RTLH दृष्टि — अफ्रीका का अग्रणी डिजिटल ज्ञान केंद्र।\nवास्तविक पुस्तकें, वास्तविक अनुसंधान, वास्तविक अवसर।',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — ऑनलाइन पढ़ें और PDF डाउनलोड सक्षम',
+            modal_reading: 'ऑनलाइन पढ़ना',
+            modal_author: 'लेखक',
+            modal_category: 'श्रेणी',
+            modal_download: 'PDF डाउनलोड करें',
+            modal_dl_hint: 'आप ऑफलाइन पढ़ने के लिए PDF भी डाउनलोड कर सकते हैं।',
+            book_author_label: 'लेखक:',
+            book_cat_label: 'श्रेणी:',
+            btn_pdf: 'PDF',
+            btn_read: 'पढ़ें',
+            no_books: 'कोई पुस्तक नहीं मिली।',
+            no_research: 'कोई मेल खाने वाला अनुसंधान नहीं मिला।',
+            apply_now: 'अभी आवेदन करें →',
+            download_started: '📥 "{title}" का PDF डाउनलोड शुरू हुआ (अनुकरण)।',
+            app_portal: '🔗 आवेदन पोर्टल खुल रहा है। बने रहें!',
+            search_results: '🔍 खोज: "{query}" ({count} पुस्तकें)',
+            default_bookshelf: '📖 ज्ञान की अलमारी',
+            online_status: 'ऑनलाइन',
+        };
+
+        // Chinese (Simplified)
+        I18N.zh = {
+            back_home: '返回首页',
+            library_title: 'RTLH 电子图书馆 · 数字知识中心',
+            language: '语言',
+            hero_title: 'RTLH 全球电子图书馆',
+            hero_sub: '一个图书馆，无限知识。搜索任何主题 — 书籍、科技、科学、商业 — 获取可下载和可读的内容。',
+            search_placeholder: '搜索书籍、人工智能、科学、商业、语言...',
+            search_btn: '搜索',
+            categories_title: '📚 数字图书馆分类',
+            categories_sub: '点击任何类别浏览真实书籍。',
+            cat_tech: '技术与计算',
+            cat_tech_desc: 'ICT、人工智能、数据科学、网络安全',
+            cat_sci: '科学',
+            cat_sci_desc: '物理、化学、生物、工程',
+            cat_edu: '教育',
+            cat_edu_desc: '教学、课程、评估',
+            cat_biz: '商业与金融',
+            cat_biz_desc: '会计、创业、经济学',
+            cat_social: '社会科学',
+            cat_social_desc: '法律、社会学、历史、心理学',
+            cat_lang: '语言',
+            cat_lang_desc: '英语、法语、基尼亚卢旺达语、阿拉伯语、中文',
+            bookshelf_title: '📖 知识书架',
+            research_title: '🔬 研究中心',
+            research_sub: '按标题、作者或关键词搜索论文和期刊。',
+            research_placeholder: '例如：人工智能、气候、经济学...',
+            research_btn: '搜索研究',
+            opp_title: '🚀 全球机会',
+            opp_sub: '探索奖学金、实习和资助。',
+            footer_line1: 'RTLH 愿景 — 非洲领先的数字知识中心。\n真实的书籍、真实的研究、真实的机会。',
+            footer_line2: '© 2026 Rwanda Tech Learning Hub — 支持在线阅读和PDF下载',
+            modal_reading: '在线阅读',
+            modal_author: '作者',
+            modal_category: '分类',
+            modal_download: '下载PDF',
+            modal_dl_hint: '您也可以下载PDF以便离线阅读。',
+            book_author_label: '作者：',
+            book_cat_label: '分类：',
+            btn_pdf: 'PDF',
+            btn_read: '阅读',
+            no_books: '未找到书籍。',
+            no_research: '未找到匹配的研究。',
+            apply_now: '立即申请 →',
+            download_started: '📥 已开始下载 "{title}" 的PDF（模拟）。',
+            app_portal: '🔗 申请门户已打开。敬请关注！',
+            search_results: '🔍 搜索："{query}"（{count}本书）',
+            default_bookshelf: '📖 知识书架',
+            online_status: '在线',
+        };
+
+
+        // ============================================================
+        //  2.  TRANSLATION ENGINE
+        // ============================================================
+        let currentLang = 'en';
+
+        function t(key, lang) {
+            lang = lang || currentLang;
+            const dict = I18N[lang] || I18N.en;
+            return dict[key] || I18N.en[key] || key;
+        }
+
+        function tWithParams(key, params, lang) {
+            let str = t(key, lang);
+            if (params) {
+                for (const [k, v] of Object.entries(params)) {
+                    str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+                }
+            }
+            return str;
+        }
+
+        // Translate all elements with data-i18n attribute
+        function translatePage(lang) {
+            currentLang = lang;
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const val = t(key, lang);
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = val;
+                } else {
+                    el.textContent = val;
+                }
+            });
+            // Also update placeholder on data-i18n-placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key, lang);
+            });
+            // Update dynamic title (bookshelf)
+            updateBookshelfTitle();
+
+            // Update the "Online" indicator
+            const indicator = document.getElementById('liveIndicator');
+            if (indicator) {
+                indicator.innerHTML = `<i class="fas fa-circle" style="color:#10b981;"></i> ${t('online_status', lang)}`;
+            }
+
+            // Re-render books, research, opportunities with translation
+            renderAllContent(lang);
+
+            // Update modal if open
+            const modal = document.getElementById('bookReaderModal');
+            if (modal.classList.contains('active')) {
+                const titleEl = document.getElementById('modalBookTitle');
+                if (titleEl) {
+                    const bookData = modal._bookData;
+                    if (bookData) {
+                        titleEl.innerHTML =
+                            `<i class="fas fa-book-open"></i> ${bookData.title} – ${t('modal_reading', lang)}`;
+                    }
+                }
+            }
+        }
+
+        // ============================================================
+        //  3.  FIREBASE CONFIG
+        // ============================================================
         const firebaseConfig = {
             apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
             authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
@@ -961,7 +1905,9 @@
         const db = firebase.firestore();
         console.log("✅ Firebase connected (E‑Library)");
 
-        // ---------- HELPERS ----------
+        // ============================================================
+        //  4.  HELPERS
+        // ============================================================
         function escapeHtml(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
@@ -972,26 +1918,29 @@
             });
         }
 
+        let toastEl = null;
+
         function showToast(msg) {
-            let t = document.getElementById('toastMsg');
-            if (!t) {
-                t = document.createElement('div');
-                t.id = 'toastMsg';
-                t.style.cssText =
-                    'position:fixed;bottom:30px;right:30px;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);color:#fff;padding:14px 28px;border-radius:16px;z-index:99999;border:1px solid rgba(255,255,255,0.08);font-weight:500;transition:0.3s;box-shadow:0 12px 40px rgba(0,0,0,0.4);';
-                document.body.appendChild(t);
+            if (!toastEl) {
+                toastEl = document.createElement('div');
+                toastEl.id = 'toastMsg';
+                toastEl.style.cssText =
+                    'position:fixed;bottom:30px;right:30px;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);color:#fff;padding:14px 28px;border-radius:16px;z-index:99999;border:1px solid rgba(255,255,255,0.08);font-weight:500;transition:0.3s;box-shadow:0 12px 40px rgba(0,0,0,0.4);max-width:90%;';
+                document.body.appendChild(toastEl);
             }
-            t.textContent = msg;
-            t.style.opacity = '1';
-            t.style.transform = 'translateY(0)';
-            clearTimeout(t._hide);
-            t._hide = setTimeout(() => {
-                t.style.opacity = '0';
-                t.style.transform = 'translateY(20px)';
-            }, 3500);
+            toastEl.textContent = msg;
+            toastEl.style.opacity = '1';
+            toastEl.style.transform = 'translateY(0)';
+            clearTimeout(toastEl._hide);
+            toastEl._hide = setTimeout(() => {
+                toastEl.style.opacity = '0';
+                toastEl.style.transform = 'translateY(20px)';
+            }, 3800);
         }
 
-        // ---------- SEED DATA (if empty) ----------
+        // ============================================================
+        //  5.  SEED DATA
+        // ============================================================
         async function seedLibraryData() {
             const booksSnap = await db.collection("library_books").limit(1).get();
             if (booksSnap.empty) {
@@ -1121,7 +2070,9 @@
             }
         }
 
-        // ---------- LOAD & RENDER ----------
+        // ============================================================
+        //  6.  DATA LOADING & RENDERING
+        // ============================================================
         let allBooks = [];
         let allResearch = [];
         let allOpportunities = [];
@@ -1143,31 +2094,164 @@
             renderOpportunities();
         }
 
-        function displayBooks(books) {
+        // Detect if text is probably English (simple heuristic)
+        function isProbablyEnglish(text) {
+            if (!text) return true;
+            const englishPattern = /^[a-zA-Z0-9\s.,!?;:'"()\-&]+$/;
+            return englishPattern.test(text.substring(0, 200));
+        }
+
+        // Translate a single text using Google Translate (free endpoint)
+        async function translateText(text, targetLang) {
+            if (!text || targetLang === 'en' || text.trim().length < 2) return text;
+            try {
+                const url =
+                    `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                if (data && data[0] && data[0][0] && data[0][0][0]) {
+                    return data[0][0][0];
+                }
+                return text;
+            } catch (e) {
+                console.warn('Translation error for:', text, e);
+                return text;
+            }
+        }
+
+        // Translate an array of texts with batching
+        async function translateBatch(texts, targetLang) {
+            if (!texts || texts.length === 0 || targetLang === 'en') return texts;
+            // Simple batch: translate one by one with small delay
+            const results = [];
+            for (const t of texts) {
+                if (t && t.trim().length > 1) {
+                    const translated = await translateText(t, targetLang);
+                    results.push(translated);
+                } else {
+                    results.push(t);
+                }
+                // Small delay to avoid rate limiting
+                await new Promise(r => setTimeout(r, 80));
+            }
+            return results;
+        }
+
+        // Translate a book object (title, author, description, fullPreview)
+        async function translateBook(book, lang) {
+            if (lang === 'en' || !book) return book;
+            const copy = { ...book };
+            try {
+                const [title, author, desc, preview] = await translateBatch(
+                    [book.title, book.author, book.description, book.fullPreview || ''],
+                    lang
+                );
+                copy.title = title || book.title;
+                copy.author = author || book.author;
+                copy.description = desc || book.description;
+                copy.fullPreview = preview || book.fullPreview || book.description;
+            } catch (e) {
+                console.warn('Book translation error:', e);
+            }
+            return copy;
+        }
+
+        // Translate research item
+        async function translateResearch(item, lang) {
+            if (lang === 'en' || !item) return item;
+            const copy = { ...item };
+            try {
+                const [title, author, journal, abstract] = await translateBatch(
+                    [item.title, item.author, item.journal, item.abstract],
+                    lang
+                );
+                copy.title = title || item.title;
+                copy.author = author || item.author;
+                copy.journal = journal || item.journal;
+                copy.abstract = abstract || item.abstract;
+            } catch (e) { /* ignore */ }
+            return copy;
+        }
+
+        // Translate opportunity
+        async function translateOpportunity(opp, lang) {
+            if (lang === 'en' || !opp) return opp;
+            const copy = { ...opp };
+            try {
+                const [title, org, desc] = await translateBatch(
+                    [opp.title, opp.org, opp.desc],
+                    lang
+                );
+                copy.title = title || opp.title;
+                copy.org = org || opp.org;
+                copy.desc = desc || opp.desc;
+            } catch (e) { /* ignore */ }
+            return copy;
+        }
+
+        // ----- DISPLAY FUNCTIONS (with translation) -----
+        let displayedBooks = [];
+        let displayedResearch = [];
+        let displayedOpportunities = [];
+
+        function updateBookshelfTitle(query) {
+            const el = document.getElementById('bookshelfTitle');
+            if (!el) return;
+            const q = (query || '').trim();
+            if (q) {
+                const count = displayedBooks.length;
+                el.textContent = tWithParams('search_results', { query: q, count }, currentLang);
+            } else {
+                el.textContent = t('default_bookshelf', currentLang);
+            }
+        }
+
+        async function displayBooks(books, query) {
+            displayedBooks = books || [];
             const container = document.getElementById('booksContainer');
-            if (!books.length) {
+            const lang = currentLang;
+
+            if (!books || books.length === 0) {
                 container.innerHTML =
-                    '<div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.40);padding:40px 0;">No books found.</div>';
+                    `<div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.40);padding:40px 0;">${t('no_books', lang)}</div>`;
+                updateBookshelfTitle(query);
                 return;
             }
+
+            // Translate books if needed
+            let translatedBooks = books;
+            if (lang !== 'en') {
+                // Translate in batches for performance
+                const translated = [];
+                for (const b of books) {
+                    const tb = await translateBook(b, lang);
+                    translated.push(tb);
+                }
+                translatedBooks = translated;
+            }
+
             let html = '';
-            books.forEach(b => {
+            const pdfLabel = t('btn_pdf', lang);
+            const readLabel = t('btn_read', lang);
+            const authorLabel = t('book_author_label', lang);
+
+            translatedBooks.forEach(b => {
                 html += `
-              <div class="book-card">
+              <div class="book-card" data-book-id="${escapeHtml(b.id || '')}">
                 <h4><i class="fas fa-book" style="color:#00A1DE;"></i> ${escapeHtml(b.title)}</h4>
                 <div class="author"><i class="fas fa-user"></i> ${escapeHtml(b.author)}</div>
                 <span class="cat-tag"><i class="fas fa-tag"></i> ${escapeHtml(b.category)}</span>
                 <div class="desc">${escapeHtml(b.description)}</div>
                 <div class="actions">
-                  <button class="btn-download" data-title="${escapeHtml(b.title)}"><i class="fas fa-download"></i> PDF</button>
-                  <button class="btn-read" data-book='${JSON.stringify(b)}'><i class="fas fa-eye"></i> Read</button>
+                  <button class="btn-download" data-title="${escapeHtml(b.title)}"><i class="fas fa-download"></i> ${pdfLabel}</button>
+                  <button class="btn-read" data-book='${JSON.stringify(b)}'><i class="fas fa-eye"></i> ${readLabel}</button>
                 </div>
               </div>
             `;
             });
             container.innerHTML = html;
 
-            // attach events
+            // Attach events
             container.querySelectorAll('.btn-read').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const book = JSON.parse(btn.getAttribute('data-book'));
@@ -1177,101 +2261,233 @@
             container.querySelectorAll('.btn-download').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const title = btn.getAttribute('data-title');
-                    showToast(`📥 "${title}" PDF download started (simulated).`);
+                    const msg = tWithParams('download_started', { title }, currentLang);
+                    showToast(msg);
                 });
             });
+
+            updateBookshelfTitle(query);
         }
 
         function openReader(book) {
             const modal = document.getElementById('bookReaderModal');
-            document.getElementById('modalBookTitle').innerHTML = `<i class="fas fa-book-open"></i> ${book.title} – Online Reading`;
+            const lang = currentLang;
+            const title = book.title || 'Book';
+            const author = book.author || '';
+            const category = book.category || '';
+            const preview = book.fullPreview || book.description || '';
+
+            document.getElementById('modalBookTitle').innerHTML =
+                `<i class="fas fa-book-open"></i> ${escapeHtml(title)} – ${t('modal_reading', lang)}`;
+
+            const authorLabel = t('book_author_label', lang);
+            const catLabel = t('book_cat_label', lang);
+            const dlLabel = t('modal_download', lang);
+            const dlHint = t('modal_dl_hint', lang);
+
             document.getElementById('modalBookBody').innerHTML = `
-            <div class="book-meta"><strong>Author:</strong> ${escapeHtml(book.author)} &nbsp;|&nbsp; <strong>Category:</strong> ${escapeHtml(book.category)}</div>
+            <div class="book-meta"><strong>${authorLabel}</strong> ${escapeHtml(author)} &nbsp;|&nbsp; <strong>${catLabel}</strong> ${escapeHtml(category)}</div>
             <div class="preview-box">
-              <p>${escapeHtml(book.fullPreview || book.description + ' – Full content available for reading online.')}</p>
+              <p>${escapeHtml(preview)}</p>
               <hr style="border-color:rgba(255,255,255,0.06);margin:16px 0;" />
-              <p><i class="fas fa-download"></i> You can also <button id="modalDownloadBtn" style="background:#00A1DE;color:#fff;border:none;padding:8px 20px;border-radius:30px;font-weight:600;cursor:pointer;">Download PDF</button> to read offline.</p>
+              <p><i class="fas fa-download"></i> ${dlHint} <br /><br />
+              <button class="modal-dl-btn" id="modalDownloadBtn"><i class="fas fa-download"></i> ${dlLabel}</button></p>
             </div>
           `;
             modal.classList.add('active');
+            modal._bookData = book;
+
             const dlBtn = document.getElementById('modalDownloadBtn');
-            if (dlBtn) dlBtn.addEventListener('click', () => showToast(`📥 Downloading "${book.title}" full PDF.`));
+            if (dlBtn) {
+                dlBtn.addEventListener('click', () => {
+                    const msg = tWithParams('download_started', { title: book.title }, currentLang);
+                    showToast(msg);
+                });
+            }
         }
 
-        function renderResearch(query = '') {
-            const q = query.toLowerCase().trim();
+        async function renderResearch(query) {
+            const lang = currentLang;
+            const q = (query || '').trim().toLowerCase();
             let filtered = allResearch.filter(r =>
                 r.title.toLowerCase().includes(q) ||
                 r.author.toLowerCase().includes(q) ||
                 r.abstract.toLowerCase().includes(q)
             );
+
             const container = document.getElementById('researchResults');
+
             if (!filtered.length) {
                 container.innerHTML =
-                    '<div class="research-card" style="text-align:center;color:rgba(255,255,255,0.40);">No matching research found.</div>';
+                    `<div class="research-card" style="text-align:center;color:rgba(255,255,255,0.40);">${t('no_research', lang)}</div>`;
                 return;
             }
-            container.innerHTML = filtered.map(r => `
+
+            // Translate research items
+            let translated = filtered;
+            if (lang !== 'en') {
+                const items = [];
+                for (const r of filtered) {
+                    const tr = await translateResearch(r, lang);
+                    items.push(tr);
+                }
+                translated = items;
+            }
+
+            container.innerHTML = translated.map(r => `
             <div class="research-card">
               <h4>📄 ${escapeHtml(r.title)}</h4>
-              <div class="meta"><strong>Author:</strong> ${escapeHtml(r.author)} &nbsp;|&nbsp; <strong>Journal:</strong> ${escapeHtml(r.journal)} (${r.year})</div>
+              <div class="meta"><strong>${t('book_author_label', lang)}</strong> ${escapeHtml(r.author)} &nbsp;|&nbsp; <strong>Journal:</strong> ${escapeHtml(r.journal)} (${r.year})</div>
               <div class="abstract">${escapeHtml(r.abstract)}</div>
             </div>
           `).join('');
         }
 
-        function renderOpportunities() {
+        async function renderOpportunities() {
             const grid = document.getElementById('opportunitiesGrid');
+            const lang = currentLang;
             if (!grid) return;
-            grid.innerHTML = allOpportunities.map(o => `
+
+            let translated = allOpportunities;
+            if (lang !== 'en') {
+                const items = [];
+                for (const o of allOpportunities) {
+                    const to = await translateOpportunity(o, lang);
+                    items.push(to);
+                }
+                translated = items;
+            }
+
+            const applyLabel = t('apply_now', lang);
+            grid.innerHTML = translated.map(o => `
             <div class="opp-card">
-              <i class="${o.icon}"></i>
+              <i class="${o.icon || 'fas fa-star'}"></i>
               <h4>${escapeHtml(o.title)}</h4>
               <div class="org">${escapeHtml(o.org)}</div>
               <div class="desc">${escapeHtml(o.desc)}</div>
-              <button class="opp-btn">Apply Now →</button>
+              <button class="opp-btn">${applyLabel}</button>
             </div>
           `).join('');
+
             grid.querySelectorAll('.opp-btn').forEach(btn => {
-                btn.addEventListener('click', () => showToast('🔗 Application portal opens. Stay tuned!'));
+                btn.addEventListener('click', () => {
+                    showToast(t('app_portal', lang));
+                });
             });
         }
 
-        function filterByCategory(cat) {
+        // Combined render for language change
+        async function renderAllContent(lang) {
+            // Re-display books with current filter
+            const searchInput = document.getElementById('globalSearchInput');
+            const query = searchInput ? searchInput.value.trim() : '';
+            let filtered = allBooks;
+            if (query) {
+                const q = query.toLowerCase();
+                filtered = allBooks.filter(b =>
+                    b.title.toLowerCase().includes(q) ||
+                    b.category.toLowerCase().includes(q) ||
+                    b.author.toLowerCase().includes(q)
+                );
+            }
+            await displayBooks(filtered, query);
+            await renderResearch(document.getElementById('researchSearchInput')?.value || '');
+            await renderOpportunities();
+        }
+
+        // ============================================================
+        //  7.  FILTER & SEARCH
+        // ============================================================
+        async function filterByCategory(cat) {
             const filtered = allBooks.filter(b => b.category === cat);
-            document.getElementById('bookshelfTitle').textContent = `📚 ${cat} Collection (${filtered.length} books)`;
-            displayBooks(filtered);
+            await displayBooks(filtered, '');
+            document.getElementById('bookshelfTitle').textContent = `📚 ${cat} Collection (${filtered.length} ${t('btn_pdf', currentLang)})`;
             document.getElementById('bookshelfSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function performGlobalSearch() {
+        async function performGlobalSearch() {
             const input = document.getElementById('globalSearchInput');
-            const q = input.value.trim().toLowerCase();
-            let filtered = allBooks.filter(b =>
-                b.title.toLowerCase().includes(q) ||
-                b.category.toLowerCase().includes(q) ||
-                b.author.toLowerCase().includes(q)
-            );
-            document.getElementById('bookshelfTitle').textContent =
-                q ? `🔍 Search: "${escapeHtml(q)}" (${filtered.length} books)` : '📖 Knowledge Bookshelf';
-            displayBooks(filtered);
+            const q = input.value.trim();
+            let filtered = allBooks;
+            if (q) {
+                const query = q.toLowerCase();
+                filtered = allBooks.filter(b =>
+                    b.title.toLowerCase().includes(query) ||
+                    b.category.toLowerCase().includes(query) ||
+                    b.author.toLowerCase().includes(query)
+                );
+            }
+            await displayBooks(filtered, q);
             document.getElementById('bookshelfSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ---------- INIT ----------
+        // ============================================================
+        //  8.  INIT
+        // ============================================================
         (async function init() {
+            // Populate language selector
+            const selector = document.getElementById('langSelector');
+            SUPPORTED_LANGUAGES.forEach(lang => {
+                const opt = document.createElement('option');
+                opt.value = lang.code;
+                opt.textContent = lang.name;
+                selector.appendChild(opt);
+            });
+
+            // Detect browser language or use stored
+            let detectedLang = 'en';
+            const stored = localStorage.getItem('rtlh_lang');
+            if (stored && LANG_CODES.includes(stored)) {
+                detectedLang = stored;
+            } else {
+                const browserLang = navigator.language.split('-')[0];
+                if (LANG_CODES.includes(browserLang)) {
+                    detectedLang = browserLang;
+                }
+            }
+            selector.value = detectedLang;
+
+            // Seed and load data
             await seedLibraryData();
             await loadBooks();
             await loadResearch();
             await loadOpportunities();
-            renderResearch('');
 
-            // ---------- EVENT BINDING ----------
+            // Set initial language
+            await translatePage(detectedLang);
+            localStorage.setItem('rtlh_lang', detectedLang);
+
+            // ---- EVENT BINDING ----
+
+            // Language selector
+            selector.addEventListener('change', async function() {
+                const lang = this.value;
+                localStorage.setItem('rtlh_lang', lang);
+                await translatePage(lang);
+                // Re-run search to refresh displayed content
+                const searchVal = document.getElementById('globalSearchInput').value.trim();
+                let filtered = allBooks;
+                if (searchVal) {
+                    const q = searchVal.toLowerCase();
+                    filtered = allBooks.filter(b =>
+                        b.title.toLowerCase().includes(q) ||
+                        b.category.toLowerCase().includes(q) ||
+                        b.author.toLowerCase().includes(q)
+                    );
+                }
+                await displayBooks(filtered, searchVal);
+                await renderResearch(document.getElementById('researchSearchInput')?.value || '');
+                await renderOpportunities();
+                showToast(`🌐 ${t('language', lang)}: ${SUPPORTED_LANGUAGES.find(l => l.code === lang)?.name || lang}`);
+            });
+
+            // Global search
             document.getElementById('globalSearchBtn').addEventListener('click', performGlobalSearch);
             document.getElementById('globalSearchInput').addEventListener('keydown', e => {
                 if (e.key === 'Enter') performGlobalSearch();
             });
 
+            // Research search
             document.getElementById('researchSearchBtn').addEventListener('click', () => {
                 const val = document.getElementById('researchSearchInput').value;
                 renderResearch(val);
@@ -1283,6 +2499,7 @@
                 }
             });
 
+            // Category clicks
             document.querySelectorAll('#categoryGrid .category-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const cat = card.getAttribute('data-cat');
@@ -1290,6 +2507,7 @@
                 });
             });
 
+            // Modal close
             document.getElementById('closeModalBtn').addEventListener('click', () => {
                 document.getElementById('bookReaderModal').classList.remove('active');
             });
@@ -1299,7 +2517,7 @@
                 }
             });
 
-            console.log('✅ E‑Library fully loaded');
+            console.log('✅ E‑Library fully loaded with 15‑language translation');
         })();
     </script>
 
