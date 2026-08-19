@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report a Problem | Rwanda Tech E-Learning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            max-width: 700px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #0a7ea4;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .welcome-message {
+            background: #e8f4f8;
+            border-left: 5px solid #0a7ea4;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .faq-section {
+            margin-bottom: 30px;
+        }
+
+        .faq-section h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .faq-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f9f9f9;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: #f0f0f0;
+        }
+
+        .faq-answer {
+            padding: 15px;
+            display: none;
+            background: white;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #0a7ea4;
+            box-shadow: 0 0 0 3px rgba(10,126,164,0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .contact-info {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .contact-info a {
+            color: #0a7ea4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-send {
+            background: #0a7ea4;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-send:hover {
+            background: #086b8c;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-message .icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .success-message h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: #0a7ea4;
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                border-radius: 0;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <h1>Report a Problem</h1>
+        <p>Rwanda Tech E-Learning Hub</p>
+    </div>
+
+    <div class="content">
+        <!-- Welcome Message -->
+        <div class="welcome-message">
+            👋 <strong>Welcome to our Support Center!</strong><br>
+            We are here to help you. Please describe the problem you are experiencing, and our team will get back to you as soon as possible. Your report is valuable to us.
+        </div>
+
+        <!-- FAQs -->
+        <div class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I enroll in a course? <span>+</span></div>
+                <div class="faq-answer">Go to the Courses section, choose your desired course, and click "Enroll". You will need to be signed in first.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">I forgot my password. What should I do? <span>+</span></div>
+                <div class="faq-answer">Click on "Forgot Password" on the login page and follow the instructions sent to your email.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How can I contact support? <span>+</span></div>
+                <div class="faq-answer">You can call us at +250 794 204 or email theonesteniyibigira6@gmail.com. You can also submit a report using this form.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Do you offer certificates? <span>+</span></div>
+                <div class="faq-answer">Yes, certificates are issued upon successful completion of a course.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What should I do if a video doesn't play? <span>+</span></div>
+                <div class="faq-answer">First, check your internet connection and refresh the page. If the problem persists, report it using this form.</div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+            📞 <strong>Call us:</strong> <a href="tel:+250794204">+250 794 204</a> &nbsp;|&nbsp; ✉️ <strong>Email:</strong> <a href="mailto:theonesteniyibigira6@gmail.com">theonesteniyibigira6@gmail.com</a>
+        </div>
+
+        <!-- Report Form -->
+        <div id="reportForm">
+            <div class="form-group">
+                <label for="fullName">Full Name *</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" placeholder="Enter your email address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" placeholder="Enter your country">
+            </div>
+
+            <div class="form-group">
+                <label for="userId">User ID (if any)</label>
+                <input type="text" id="userId" placeholder="Enter your User ID (optional)">
+            </div>
+
+            <div class="form-group">
+                <label for="problem">Describe Your Problem / Case *</label>
+                <textarea id="problem" placeholder="Please explain the issue you are facing in detail..." required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Preferred Contact Method</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="contactMethod" value="phone" checked> 📞 Phone</label>
+                    <label><input type="radio" name="contactMethod" value="email"> ✉️ Email</label>
+                </div>
+            </div>
+
+            <button class="btn-send" onclick="submitReport()">Send Message</button>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+            <div class="icon">✅</div>
+            <h2>Your problem/case was reported successfully!</h2>
+            <p>Thank you for contacting us. Our support team will review your report and get back to you using your preferred contact method.</p>
+            <a href="#" class="btn-back" onclick="resetForm()">Submit Another Report</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            faqItems.forEach(other => {
+                if (other !== item) other.classList.remove('active');
+            });
+            item.classList.toggle('active');
+            const span = question.querySelector('span');
+            if (item.classList.contains('active')) {
+                span.textContent = '−';
+            } else {
+                span.textContent = '+';
+            }
+        });
+    });
+
+    // Submit report
+    function submitReport() {
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const country = document.getElementById('country').value.trim();
+        const userId = document.getElementById('userId').value.trim();
+        const problem = document.getElementById('problem').value.trim();
+        const contactMethod = document.querySelector('input[name="contactMethod"]:checked').value;
+
+        // Basic validation
+        if (!fullName) {
+            alert('Please enter your full name.');
+            return;
+        }
+        if (!email) {
+            alert('Please enter your email address.');
+            return;
+        }
+        if (!problem) {
+            alert('Please describe your problem.');
+            return;
+        }
+
+        // Hide form and show success
+        document.getElementById('reportForm').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+
+        // Data object (can be sent to backend later)
+        const reportData = {
+            fullName,
+            email,
+            phone,
+            country,
+            userId,
+            problem,
+            contactMethod,
+            timestamp: new Date().toISOString()
+        };
+        console.log('Report submitted:', reportData);
+    }
+
+    // Reset form for new submission
+    function resetForm() {
+        document.getElementById('successMessage').style.display = 'none';
+        document.getElementById('reportForm').style.display = 'block';
+        document.getElementById('fullName').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('country').value = '';
+        document.getElementById('userId').value = '';
+        document.getElementById('problem').value = '';
+        document.querySelector('input[name="contactMethod"][value="phone"]').checked = true;
+    }
+</script>
+
+</body>
+</html>
