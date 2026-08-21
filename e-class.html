@@ -1,457 +1,1196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RTLH E-Class | Rwanda Tech Learning Hub</title>
-<meta name="description" content="RTLH E-Class — the learner side of the Rwanda Tech Learning Hub E-Teacher ecosystem.">
-<meta name="theme-color" content="#07111f">
-<style>
-:root{
-  --bg:#07111f;--panel:#0d1b2e;--panel2:#10243c;--text:#eef6ff;--muted:#9db1c7;
-  --blue:#19a7ff;--cyan:#49e1ff;--green:#19c37d;--yellow:#ffd34d;--red:#ff647c;
-  --border:rgba(255,255,255,.10);--shadow:0 20px 60px rgba(0,0,0,.25);--radius:22px
-}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:
-radial-gradient(circle at 10% 0%,rgba(25,167,255,.12),transparent 28%),radial-gradient(circle at 90% 10%,rgba(25,195,125,.10),transparent 25%),var(--bg);color:var(--text)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}
-.app{min-height:100vh;display:grid;grid-template-columns:280px 1fr}
-.sidebar{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--border);background:rgba(5,15,28,.88);backdrop-filter:blur(18px);z-index:20;overflow:auto}
-.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 20px}.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--green));box-shadow:0 10px 30px rgba(25,167,255,.22)}.brand strong{display:block}.brand small{color:var(--muted)}
-.nav{display:grid;gap:6px}.nav button{border:1px solid transparent;background:transparent;color:#c8d7e7;text-align:left;padding:12px 14px;border-radius:14px;display:flex;gap:11px;align-items:center;transition:.2s}.nav button:hover,.nav button.active{background:rgba(73,225,255,.09);border-color:rgba(73,225,255,.16);color:#fff;transform:translateX(3px)}.nav .group{margin-top:12px;color:#6f859c;text-transform:uppercase;font-size:10px;letter-spacing:1.5px;padding:0 12px}
-.sidebar-footer{margin-top:20px;padding:14px;border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.025)}.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}
-.main{min-width:0}.topbar{position:sticky;top:0;z-index:15;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 28px;border-bottom:1px solid var(--border);background:rgba(7,17,31,.82);backdrop-filter:blur(16px)}.topbar .title small{display:block;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;align-items:center}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#193e63,#0b6);font-weight:800}
-.content{padding:28px;max-width:1700px;margin:auto}.view{display:none}.view.active{display:block}
-.hero{padding:28px;border:1px solid var(--border);border-radius:28px;background:linear-gradient(135deg,rgba(25,167,255,.12),rgba(25,195,125,.07));box-shadow:var(--shadow);margin-bottom:22px}.hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,46px)}.hero p{color:var(--muted);max-width:850px;line-height:1.7}
-.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(5,minmax(0,1fr))}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-radius:var(--radius);padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.10);transition:.25s}.card:hover{transform:translateY(-4px);border-color:rgba(73,225,255,.22);box-shadow:0 18px 50px rgba(0,0,0,.18)}
-.stat .value{font-size:30px;font-weight:850;margin:6px 0}.muted{color:var(--muted)}.tiny{font-size:12px}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:26px 0 14px}.section-head h2{margin:0}
-.btn{border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:#fff;background:#13253a;transition:.2s}.btn:hover{transform:translateY(-2px);border-color:rgba(73,225,255,.35)}.btn.primary{background:linear-gradient(135deg,#078fe8,#16b979);border:0}.btn.yellow{background:linear-gradient(135deg,#b88a00,#e6b829);color:#07111f;border:0}.btn.danger{background:rgba(255,100,124,.12);color:#ff9aaa}.btn.ghost{background:transparent}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px}.search{min-width:240px;flex:1}input,select,textarea{width:100%;background:#081728;color:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 12px;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(73,225,255,.08)}label{display:block;color:#b9c9d9;font-size:12px;margin-bottom:6px}.field{margin-bottom:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-grid .full{grid-column:1/-1}
-.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:18px}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{padding:13px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}.table th{color:#9fb4c9;background:rgba(255,255,255,.025)}
-.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);padding:5px 9px;border-radius:999px;font-size:11px}.badge.green{color:#6df0b4;background:rgba(25,195,125,.08)}.badge.yellow{color:#ffe58a;background:rgba(255,211,77,.08)}.badge.red{color:#ff9aaa;background:rgba(255,100,124,.08)}.badge.blue{color:#82ddff;background:rgba(25,167,255,.08)}
-.kicker{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;color:#7f9ab5}.progress{height:8px;background:#081525;border-radius:20px;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:20px}.list{display:grid;gap:10px}.list-item{display:flex;justify-content:space-between;gap:14px;padding:13px;border:1px solid var(--border);border-radius:15px;background:rgba(255,255,255,.02)}
-.class-cover{height:105px;border-radius:16px;background:linear-gradient(135deg,rgba(25,167,255,.45),rgba(25,195,125,.35));display:flex;align-items:flex-end;padding:14px;margin-bottom:15px}.class-cover h3{margin:0}.class-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.notice{border-left:4px solid var(--yellow);padding:12px 14px;background:rgba(255,211,77,.06);border-radius:10px;color:#d9e4ef}.private{border-left-color:var(--green);background:rgba(25,195,125,.06)}.empty{padding:35px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:18px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.open{display:flex}.modal-box{width:min(900px,100%);max-height:92vh;overflow:auto;background:#0b192a;border:1px solid var(--border);border-radius:25px;padding:22px;box-shadow:var(--shadow)}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-head h2{margin:0}
-.toast{position:fixed;right:20px;bottom:20px;z-index:200;max-width:380px;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:#102238;box-shadow:var(--shadow);display:none}.toast.show{display:block}
-.auth-screen{position:fixed;inset:0;background:radial-gradient(circle at 50% 0,rgba(25,167,255,.16),transparent 40%),var(--bg);display:none;place-items:center;padding:20px;z-index:150}.auth-screen.show{display:grid}.auth-box{width:min(720px,100%);border:1px solid var(--border);background:rgba(11,25,42,.94);border-radius:28px;padding:28px;box-shadow:var(--shadow)}.role-chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.role-chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);color:#b9c9d9}.role-chip.selected{background:rgba(73,225,255,.1);border-color:var(--cyan);color:#fff}.mobile-menu{display:none}
-.class-nav{display:flex;gap:6px;flex-wrap:wrap;margin:18px 0}.class-nav button{border:1px solid var(--border);background:#102238;color:#c8d7e7;border-radius:10px;padding:9px 11px}.class-nav button.active{background:rgba(73,225,255,.1);color:#fff;border-color:var(--cyan)}
-footer{padding:35px 28px;text-align:center;color:var(--muted);border-top:1px solid var(--border)}
-@media(max-width:1200px){.stats{grid-template-columns:repeat(3,1fr)}.app{grid-template-columns:90px 1fr}.sidebar .brand div,.sidebar .nav span,.sidebar-footer{display:none}.brand{justify-content:center}.nav button{justify-content:center}.nav .group{font-size:8px;padding:0;text-align:center}}
-@media(max-width:760px){.app{display:block}.sidebar{position:fixed;left:-290px;width:280px;transition:.25s}.sidebar.open{left:0}.sidebar .brand div,.sidebar .nav span,.sidebar-footer{display:block}.sidebar .nav button{justify-content:flex-start}.topbar{padding:12px 16px}.mobile-menu{display:inline-flex}.content{padding:16px}.stats,.two,.three,.form-grid{grid-template-columns:1fr}.hero{padding:20px}.search{min-width:100%}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Rwanda Tech Learning Hub - E-Class</title>
+
+  <!-- Firebase SDKs (v9 compat for simplicity) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* ----- RESET & ROOT VARIABLES (Rwandan Colors) ----- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    :root {
+      --primary: #00A3E0;      /* Sky Blue */
+      --secondary: #FDB813;    /* Yellow */
+      --accent: #00A651;       /* Green */
+      --dark: #1A2B3C;
+      --light-bg: #f4f8fb;
+      --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --radius: 20px;
+    }
+
+    body {
+      background: var(--light-bg);
+      color: var(--dark);
+      min-height: 100vh;
+      padding-bottom: 80px; /* space for bottom nav */
+      background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      position: relative;
+    }
+
+    /* Dark overlay for readability */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(26, 43, 60, 0.75);
+      z-index: -1;
+    }
+
+    /* ----- SCROLLBAR ----- */
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    /* ----- UTILITY ----- */
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ----- HEADER / TOP BAR ----- */
+    .top-header {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(145deg, var(--primary), var(--accent));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 10px rgba(0, 163, 224, 0.3);
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .logo-text .brand {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--dark);
+    }
+    .logo-text .sub {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .rtlh-home-btn {
+      background: var(--dark);
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .rtlh-home-btn:hover {
+      transform: scale(1.03);
+      background: #0f1a26;
+    }
+    .rtlh-home-btn i {
+      font-size: 14px;
+    }
+
+    /* ----- BOTTOM NAVIGATION (Mobile First) ----- */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 env(safe-area-inset-bottom);
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: transparent;
+      border: none;
+      font-size: 10px;
+      color: #8a9aa8;
+      cursor: pointer;
+      padding: 4px 12px;
+      transition: 0.2s;
+      border-radius: 12px;
+      position: relative;
+    }
+    .nav-item i {
+      font-size: 22px;
+      margin-bottom: 2px;
+    }
+    .nav-item span {
+      font-weight: 600;
+    }
+    .nav-item.active {
+      color: var(--primary);
+    }
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      width: 20px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 10px;
+    }
+
+    /* ----- AUTH PAGE (Overlay) ----- */
+    #auth-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      background: rgba(26, 43, 60, 0.88);
+      backdrop-filter: blur(6px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      transition: 0.4s;
+    }
+    #auth-page.hidden {
+      display: none;
+    }
+
+    .auth-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.4s ease;
+    }
+
+    .auth-card h2 {
+      font-size: 24px;
+      margin-bottom: 6px;
+      color: var(--dark);
+    }
+    .auth-card .subtitle {
+      color: #6b7a8a;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .auth-card input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      font-size: 15px;
+      transition: 0.2s;
+      background: #f8fafc;
+    }
+    .auth-card input:focus {
+      border-color: var(--primary);
+      outline: none;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(0, 163, 224, 0.1);
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(145deg, var(--primary), #0077b3);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+    .auth-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 24px rgba(0, 163, 224, 0.3);
+    }
+    .auth-switch {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 14px;
+      color: #6b7a8a;
+    }
+    .auth-switch a {
+      color: var(--primary);
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* ----- CLASS CARDS (Hover effect) ----- */
+    .class-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .class-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.02);
+      position: relative;
+      overflow: hidden;
+    }
+    .class-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+      border-color: var(--primary);
+    }
+
+    .class-card .badge {
+      display: inline-block;
+      padding: 2px 12px;
+      border-radius: 30px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .badge-free {
+      background: #e6f7ec;
+      color: var(--accent);
+    }
+    .badge-paid {
+      background: #fff5e6;
+      color: #e68a00;
+    }
+    .badge-premium {
+      background: #f0e6ff;
+      color: #7a3bb8;
+    }
+
+    .class-card h4 {
+      font-size: 17px;
+      margin: 8px 0 4px;
+    }
+    .class-card .teacher {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .class-card .desc {
+      font-size: 13px;
+      color: #5a6a7a;
+      margin: 6px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .class-card .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #8a9aa8;
+    }
+
+    /* ----- SEARCH & FILTER ----- */
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 30px;
+      font-size: 14px;
+      background: white;
+    }
+    .filter-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .filter-chip {
+      padding: 6px 16px;
+      border-radius: 30px;
+      border: 1.5px solid #dde3e9;
+      background: white;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a5a6a;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .filter-chip.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    /* ----- CLASS DETAILS VIEW ----- */
+    .detail-header {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--card-shadow);
+    }
+    .detail-header .teacher-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--dark);
+    }
+    .join-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 16px;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 12px;
+    }
+    .join-btn:hover {
+      transform: scale(1.02);
+      background: #008f47;
+    }
+
+    /* ----- MY CLASSES TABS (Lessons, Homework, etc) ----- */
+    .tab-bar {
+      display: flex;
+      overflow-x: auto;
+      gap: 4px;
+      padding: 4px 0;
+      margin-bottom: 12px;
+      background: white;
+      border-radius: 16px;
+      padding: 6px;
+      box-shadow: var(--card-shadow);
+    }
+    .tab-btn {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      font-weight: 600;
+      font-size: 12px;
+      color: #6b7a8a;
+      border-radius: 30px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 16px;
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e9edf2;
+      border-radius: 10px;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+    .progress-bar .fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      width: 0%;
+    }
+
+    /* ----- THEO AI FLOATING BUTTON ----- */
+    .theo-ai-float {
+      position: fixed;
+      bottom: 90px;
+      right: 16px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .theo-bubble {
+      background: linear-gradient(145deg, var(--primary), #0077b3);
+      color: white;
+      border: none;
+      border-radius: 60px;
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 8px 32px rgba(0, 163, 224, 0.45);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.25s;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    .theo-bubble:hover {
+      transform: scale(1.05);
+    }
+    .theo-bubble .avatar {
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    /* AI Modal */
+    .ai-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .ai-modal.open {
+      display: flex;
+    }
+    .ai-modal-content {
+      background: white;
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .ai-modal-content .ai-header {
+      padding: 16px;
+      background: var(--dark);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ai-modal-content .ai-header button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .ai-modal-content iframe {
+      width: 100%;
+      height: 550px;
+      border: none;
+      display: block;
+    }
+
+    /* ----- RESPONSIVE (Tablet / Desktop) ----- */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 720px;
+      }
+      .class-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .top-header {
+        padding: 16px 40px;
+      }
+      .bottom-nav {
+        max-width: 480px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 30px 30px 0 0;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 1000px;
+      }
+      .class-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    /* small helper */
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .mt-2 {
+      margin-top: 12px;
+    }
+    .text-muted {
+      color: #6b7a8a;
+      font-size: 13px;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .gap-2 {
+      gap: 8px;
+    }
+  </style>
 </head>
 <body>
 
-<div id="toast" class="toast"></div>
+  <!-- ==================== AUTH PAGE ==================== -->
+  <div id="auth-page">
+    <div class="auth-card">
+      <div class="logo-area" style="margin-bottom: 12px; justify-content: center;">
+        <div class="logo-icon">R</div>
+        <div class="logo-text">
+          <span class="brand">Rwanda Tech</span>
+          <span class="sub">Learning Hub</span>
+        </div>
+      </div>
+      <h2 id="auth-title">Welcome Back</h2>
+      <p class="subtitle" id="auth-sub">Sign in to continue your learning journey</p>
 
-<div id="authScreen" class="auth-screen">
-  <div class="auth-box">
-    <div class="kicker">RWANDA TECH LEARNING HUB</div>
-    <h1 style="margin:6px 0">RTLH E-Class</h1>
-    <p class="muted">Your student-side learning environment. Classes are created by E-Teachers and published through the shared RTLH Firebase system — students do not create teacher classes here.</p>
-    <div class="role-chips"><span class="role-chip selected">Learner</span><span class="role-chip">Student</span><span class="role-chip">Online learner</span></div>
-    <div class="form-grid">
-      <div class="field full"><label>Full name (for new account)</label><input id="authName" placeholder="Your full name"></div>
-      <div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="learner@example.com"></div>
-      <div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="Minimum 6 characters"></div>
+      <input type="email" id="auth-email" placeholder="Email address" />
+      <input type="password" id="auth-password" placeholder="Password" />
+
+      <button class="auth-btn" id="auth-action-btn">Sign In</button>
+
+      <div class="auth-switch">
+        <span id="auth-toggle-text">Don't have an account?</span>
+        <a id="auth-toggle-link">Create one now</a>
+      </div>
+      <div id="auth-error" style="color:#d32f2f; font-size:13px; margin-top:10px; text-align:center;"></div>
     </div>
-    <div class="toolbar">
-      <button class="btn primary" id="signUpBtn">Create learner account</button>
-      <button class="btn" id="signInBtn">Sign in</button>
-      <button class="btn" id="googleBtn">Continue with Google</button>
+  </div>
+
+  <!-- ==================== MAIN APP ==================== -->
+  <div id="main-app" style="display: none;">
+
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <div class="logo-area" onclick="navigateTo('home')">
+        <div class="logo-icon">R</div>
+        <div class="logo-text">
+          <span class="brand">Rwanda Tech</span>
+          <span class="sub">Learning Hub</span>
+        </div>
+      </div>
+      <a href="#" class="rtlh-home-btn" onclick="window.location.href='https://rwandatechlearninghub.com'; return false;">
+        🏠 RTLH Home
+      </a>
+    </header>
+
+    <!-- PAGE CONTAINER -->
+    <div class="container">
+
+      <!-- ===== HOME ===== -->
+      <div id="page-home" class="page active">
+        <h2 style="color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">📚 Discover Classes</h2>
+        <div class="search-bar">
+          <input type="text" id="search-input" placeholder="Search courses..." oninput="filterClasses()" />
+        </div>
+        <div class="filter-chips" id="filter-chips">
+          <span class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</span>
+          <span class="filter-chip" data-filter="free" onclick="setFilter('free')">Free</span>
+          <span class="filter-chip" data-filter="paid" onclick="setFilter('paid')">Paid</span>
+          <span class="filter-chip" data-filter="premium" onclick="setFilter('premium')">Premium</span>
+        </div>
+        <div id="class-grid-container" class="class-grid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- ===== CLASS DETAILS ===== -->
+      <div id="page-detail" class="page">
+        <button onclick="navigateTo('home')" style="background:white; border:none; padding:8px 16px; border-radius:30px; font-weight:600; margin-bottom:12px;">← Back to classes</button>
+        <div id="detail-content"></div>
+      </div>
+
+      <!-- ===== MY CLASSES ===== -->
+      <div id="page-myclasses" class="page">
+        <h2 style="color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5);">📖 My Classes</h2>
+        <div id="my-classes-list" style="margin-top: 12px;">
+          <!-- Rendered by JS -->
+        </div>
+        <div id="my-class-detail" style="margin-top: 16px;">
+          <!-- Rendered when a class is clicked -->
+        </div>
+      </div>
+
+      <!-- ===== PROFILE ===== -->
+      <div id="page-profile" class="page">
+        <div style="background:white; border-radius:var(--radius); padding:24px; box-shadow:var(--card-shadow);">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div style="width:60px; height:60px; border-radius:50%; background:var(--secondary); display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:800; color:var(--dark);">T</div>
+            <div>
+              <h3 id="profile-name">Theoneste</h3>
+              <p class="text-muted" id="profile-email">theoneste@rtlh.com</p>
+            </div>
+          </div>
+          <hr style="margin:16px 0; border-color:#eee;" />
+          <div><strong>📊 Progress:</strong> <span id="profile-progress">42%</span></div>
+          <div class="progress-bar" style="margin-top:4px;"><div class="fill" style="width:42%;"></div></div>
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between;"><span>💳 Payment Records</span> <span style="color:var(--accent);">3 transactions</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>📜 Certificates</span> <span style="color:var(--primary);">2 earned</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>💬 Messages</span> <span style="color:var(--dark);">5 unread</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>📹 Live Sessions</span> <span style="color:var(--dark);">Next: Fri 4pm</span></div>
+          </div>
+          <button onclick="logoutUser()" style="width:100%; margin-top:20px; padding:12px; background:#f1f3f5; border:1px solid #ddd; border-radius:30px; font-weight:700; color:#d32f2f; cursor:pointer;">Sign Out</button>
+        </div>
+      </div>
+
     </div>
-    <button class="btn ghost" id="forgotBtn" style="margin-top:10px">Forgot password?</button>
-    <div class="notice" style="margin-top:16px">Use the same Firebase project as <b>e-teacher.html</b>. The E-Teacher creates the class; Firebase stores it; E-Class displays it to learners.</div>
-  </div>
-</div>
 
-<div class="app" id="app">
-<aside class="sidebar" id="sidebar">
-  <div class="brand"><div class="logo">R</div><div><strong>RTLH</strong><small>E-Class</small></div></div>
-  <div class="nav">
-    <div class="group">Learning</div>
-    <button class="active" data-view="dashboard">⌂ <span>My Dashboard</span></button>
-    <button data-view="discover">▣ <span>Discover E-Classes</span></button>
-    <button data-view="myclasses">🎓 <span>My Classes</span></button>
-    <button data-view="calendar">◷ <span>Upcoming</span></button>
-    <div class="group">My work</div>
-    <button data-view="assignments">◆ <span>Assignments</span></button>
-    <button data-view="quizzes">✓ <span>Quizzes & Tests</span></button>
-    <button data-view="projects">🚀 <span>Projects</span></button>
-    <button data-view="grades">📊 <span>My Grades</span></button>
-    <button data-view="progress">◒ <span>My Progress</span></button>
-    <button data-view="certificates">🏆 <span>Certificates</span></button>
-    <div class="group">Connect</div>
-    <button data-view="messages">✉ <span>My Messages</span></button>
-    <button data-view="announcements">✦ <span>Announcements</span></button>
-    <button data-view="notifications">🔔 <span>Notifications</span></button>
-    <button data-view="discussion">💬 <span>Discussions</span></button>
-    <div class="group">Account</div>
-    <button data-view="profile">◉ <span>My Profile</span></button>
-    <button data-view="settings">⚙ <span>Account Settings</span></button>
-  </div>
-  <div class="sidebar-footer"><span class="status-dot"></span><b>RTLH learning online</b><p class="tiny muted">Your account area is private. Firebase rules must enforce access.</p></div>
-</aside>
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
+        <i>🏠</i><span>Home</span>
+      </button>
+      <button class="nav-item" data-page="myclasses" onclick="navigateTo('myclasses')">
+        <i>📚</i><span>My Classes</span>
+      </button>
+      <button class="nav-item" data-page="profile" onclick="navigateTo('profile')">
+        <i>👤</i><span>Profile</span>
+      </button>
+    </nav>
 
-<main class="main">
-<header class="topbar">
-  <div class="actions"><button class="btn mobile-menu" id="menuBtn">☰</button><div class="title"><b id="pageTitle">My E-Class Dashboard</b><small id="identityLine">Not signed in</small></div></div>
-  <div class="actions"><div class="avatar" id="avatar">L</div><button class="btn" id="profileTop">Profile</button><button class="btn danger" id="logoutBtn">Sign out</button></div>
-</header>
-
-<section class="content">
-
-<div class="view active" id="view-dashboard">
-  <div class="hero">
-    <div class="kicker">Learn • Practice • Connect • Grow</div>
-    <h1 id="welcome">Welcome to RTLH E-Class.</h1>
-    <p>Continue your learning, join classes created by RTLH E-Teachers, complete lessons and assignments, attend live sessions, communicate with teachers, and track your own progress.</p>
-    <div class="toolbar"><button class="btn primary" data-view="discover">🔎 Find an E-Class</button><button class="btn" data-view="myclasses">🎓 Open my classes</button></div>
-  </div>
-  <div class="grid stats">
-    <div class="card stat"><div class="muted tiny">My classes</div><div class="value" id="statClasses">0</div><span class="badge blue">Enrolled</span></div>
-    <div class="card stat"><div class="muted tiny">Lessons</div><div class="value" id="statLessons">0</div><span class="badge green">Available</span></div>
-    <div class="card stat"><div class="muted tiny">Pending work</div><div class="value" id="statPending">0</div><span class="badge yellow">Attention</span></div>
-    <div class="card stat"><div class="muted tiny">Average progress</div><div class="value" id="statProgress">0%</div><span class="badge blue">Learning</span></div>
-    <div class="card stat"><div class="muted tiny">Unread</div><div class="value" id="statUnread">0</div><span class="badge green">Messages</span></div>
-  </div>
-  <div class="section-head"><h2>Continue learning</h2><span class="muted tiny">Your own enrolled classes</span></div>
-  <div id="continueGrid" class="grid three"></div>
-  <div class="section-head"><h2>Upcoming</h2></div>
-  <div class="grid two"><div class="card"><h3>Live sessions & deadlines</h3><div id="upcomingList" class="list"></div></div><div class="card"><h3>Latest public announcements</h3><div id="dashboardAnnouncements" class="list"></div></div></div>
-</div>
-
-<div class="view" id="view-discover">
-  <div class="section-head"><div><h2>Discover E-Classes</h2><p class="muted">Only classes made available by E-Teachers appear here. Teachers do not need to recreate them for learners.</p></div></div>
-  <div class="toolbar"><input id="classSearch" class="search" placeholder="Search by class, teacher, subject or level…"><select id="classTypeFilter"><option value="">All class types</option><option>live</option><option>self-paced</option><option>hybrid</option><option>coaching</option><option>training</option></select><select id="levelFilter"><option value="">All levels</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Professional</option></select></div>
-  <div id="discoverGrid" class="grid three" style="margin-top:16px"></div>
-</div>
-
-<div class="view" id="view-myclasses"><div class="section-head"><h2>My E-Classes</h2></div><div id="myClassesGrid" class="grid three"></div></div>
-<div class="view" id="view-calendar"><div class="section-head"><h2>Upcoming learning</h2></div><div id="calendarList" class="list"></div></div>
-<div class="view" id="view-assignments"><div class="section-head"><h2>My Assignments & Homework</h2></div><div id="assignmentsList" class="list"></div></div>
-<div class="view" id="view-quizzes"><div class="section-head"><h2>Quizzes, Tests & Exams</h2></div><div id="quizzesList" class="grid three"></div></div>
-<div class="view" id="view-projects"><div class="section-head"><h2>Projects</h2></div><div id="projectsList" class="grid three"></div></div>
-<div class="view" id="view-grades"><div class="section-head"><h2>My Grades</h2><p class="muted">Only grades belonging to your learner account are displayed.</p></div><div id="gradesList" class="card"></div></div>
-<div class="view" id="view-progress"><div class="section-head"><h2>My Progress</h2></div><div id="progressList" class="grid three"></div></div>
-<div class="view" id="view-certificates"><div class="section-head"><h2>My Certificates</h2></div><div id="certificatesList" class="grid three"></div></div>
-<div class="view" id="view-messages"><div class="section-head"><h2>My Private Messages</h2><p class="muted">Personal teacher messages addressed to your UID only.</p></div><div id="messagesList" class="list"></div></div>
-<div class="view" id="view-announcements"><div class="section-head"><h2>Class Announcements</h2><p class="muted">Public announcements for your enrolled classes.</p></div><div id="announcementsList" class="list"></div></div>
-<div class="view" id="view-notifications"><div class="section-head"><h2>Notifications</h2></div><div id="notificationsList" class="list"></div></div>
-<div class="view" id="view-discussion"><div class="section-head"><h2>Class Discussions</h2></div><div id="discussionList" class="list"></div></div>
-
-<div class="view" id="view-profile">
-  <div class="section-head"><h2>My Profile</h2><button class="btn primary" id="saveProfileBtn">Save my profile</button></div>
-  <div class="grid two"><div class="card"><div class="kicker">Personal information</div><div class="form-grid">
-    <div class="field"><label>Full name</label><input id="pName"></div><div class="field"><label>Email</label><input id="pEmail" disabled></div>
-    <div class="field"><label>Country</label><input id="pCountry" placeholder="Rwanda"></div><div class="field"><label>Phone</label><input id="pPhone"></div>
-    <div class="field full"><label>Learning bio</label><textarea id="pBio" rows="5"></textarea></div>
-  </div></div><div class="card"><div class="kicker">Privacy</div><h3>Your account belongs to you.</h3><p class="muted">This page is designed so learners can edit only their own profile. Student A should never be able to change Student B's profile, grades, messages or progress.</p><div class="notice private">Firebase Security Rules must enforce this at the database level; hiding buttons in HTML is not sufficient.</div></div></div>
-</div>
-
-<div class="view" id="view-settings"><div class="section-head"><h2>Account Settings</h2></div><div class="grid two">
-  <div class="card"><h3>Security</h3><p class="muted">Use Firebase Authentication for your password and Google identity. Password resets are handled through Firebase.</p><button class="btn" id="resetFromSettings">Send password reset email</button></div>
-  <div class="card"><h3>Learning preferences</h3><div class="field"><label>Preferred language</label><select id="prefLanguage"><option>English</option><option>Kinyarwanda</option><option>French</option></select></div><div class="field"><label>Notifications</label><select id="prefNotifications"><option value="on">On</option><option value="off">Off</option></select></div><button class="btn primary" id="savePreferences">Save preferences</button></div>
-</div></div>
-
-<div class="view" id="view-class">
-  <button class="btn" id="backToClasses">← Back to E-Class</button>
-  <div class="hero" style="margin-top:16px"><div class="kicker" id="classKicker">RTLH E-Class</div><h1 id="openClassTitle">Class</h1><p id="openClassDesc"></p><div class="toolbar" id="openClassMeta"></div></div>
-  <div class="class-nav" id="classNav"></div>
-  <div class="card"><div id="classTabContent"></div></div>
-</div>
-
-</section>
-<footer><strong>RWANDA TECH LEARNING HUB · E-CLASS</strong><p>Teacher creates → Firebase stores → E-Class delivers learning.</p></footer>
-</main>
-</div>
-
-<div class="modal" id="joinModal"><div class="modal-box"><div class="modal-head"><h2>Join E-Class</h2><button class="btn" data-close>✕</button></div><div id="joinBody"></div><div class="toolbar"><button class="btn primary" id="confirmJoin">Confirm & Join</button><button class="btn" data-close>Cancel</button></div></div></div>
-
-<div class="modal" id="submitModal"><div class="modal-box"><div class="modal-head"><h2>Submit Assignment</h2><button class="btn" data-close>✕</button></div><p id="submitAssignmentName" class="muted"></p><div class="field"><label>Your answer</label><textarea id="submissionText" rows="8"></textarea></div><div class="field"><label>File / resource URL (optional)</label><input id="submissionUrl"></div><button class="btn primary" id="submitWorkBtn">Submit work</button></div></div>
-
-<script type="module">
-/*
-RTLH E-CLASS — CONNECTED TO THE EXISTING RTLH E-TEACHER
-
-IMPORTANT:
-Use the EXACT same Firebase Web App configuration as e-teacher.html.
-
-The existing E-Teacher creates records in these top-level collections:
-  classes
-  courses
-  lessons
-  quizzes
-  tests
-  exams
-  projects
-  assignments
-  meetings
-  announcements
-  messages
-
-Teacher-created records carry teacherId and classId where applicable.
-
-E-Class reads those records and writes learner records to:
-  enrollments
-  submissions
-  progress
-  discussion
-  users/{studentUid}
-
-Core flow:
-  E-Teacher → classes/{classId} → E-Class Discover
-  E-Teacher → lessons/{lessonId} → E-Class Class Lessons
-  E-Teacher → assignments/{id} → E-Class Assignments
-  E-Class → submissions/{id} → E-Teacher can grade
-  E-Teacher → grades/{id} → E-Class My Grades
-  E-Teacher → messages/{id} → E-Class My Messages
-  E-Teacher → announcements/{id} → E-Class Announcements
-*/
-
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import{getAuth,onAuthStateChanged,GoogleAuthProvider,signInWithPopup,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,updateProfile,signOut}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import{getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,updateDoc,query,where,orderBy,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-const firebaseConfig=window.RTLH_FIREBASE_CONFIG||{
-  apiKey:"AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
-  authDomain:"rwanda-tech-learning-hub.firebaseapp.com",
-  projectId:"rwanda-tech-learning-hub",
-  storageBucket:"rwanda-tech-learning-hub.firebasestorage.app",
-  messagingSenderId:"785118659917",
-  appId:"1:785118659917:web:7ada98356d213a3fad2304",
-};
-
-let app,auth,db,user=null,profile=null,allClasses=[],myEnrollments=[],myClasses=[],openClass=null,selectedJoin=null,selectedAssignment=null;
-const firebaseReady=!Object.values(firebaseConfig).some(v=>String(v).includes("PASTE_YOUR"));
-if(firebaseReady){app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}
-
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-const money=(n,c="RWF")=>`${c} ${Number(n||0).toLocaleString()}`;
-const showModal=id=>$(id).classList.add("open");
-const closeModal=id=>$(id).classList.remove("open");
-function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3200)}
-function dt(v){if(!v)return"—";try{const d=v.toDate?v.toDate():new Date(v);return d.toLocaleString()}catch{return String(v)}}
-
-function navigate(view){
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
-  $("view-"+view).classList.add("active");
-  document.querySelectorAll(".nav button[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
-  const titles={dashboard:"My E-Class Dashboard",discover:"Discover E-Classes",myclasses:"My E-Classes",calendar:"Upcoming Learning",assignments:"My Assignments",quizzes:"Quizzes & Tests",projects:"Projects",grades:"My Grades",progress:"My Progress",certificates:"My Certificates",messages:"My Private Messages",announcements:"Class Announcements",notifications:"Notifications",discussion:"Class Discussions",profile:"My Profile",settings:"Account Settings"};
-  $("pageTitle").textContent=titles[view]||"RTLH E-Class";$("sidebar").classList.remove("open");scrollTo({top:0,behavior:"smooth"})
-}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)navigate(b.dataset.view);if(e.target.matches("[data-close]")||e.target.classList.contains("modal")){if(e.target.dataset.close)closeModal(e.target.closest(".modal").id)}});
-
-async function loadUser(){
-  const ref=doc(db,"users",user.uid),snap=await getDoc(ref);
-  profile=snap.exists()?snap.data():{uid:user.uid,fullName:user.displayName||"RTLH Learner",email:user.email||"",role:"student",createdAt:serverTimestamp()};
-  if(!snap.exists())await setDoc(ref,profile,{merge:true});
-  $("welcome").textContent=`Welcome back, ${profile.fullName||profile.name||user.displayName||"Learner"} 👋`;
-  $("identityLine").textContent=`${profile.fullName||profile.name||user.displayName||"Learner"} · Learner`;
-  $("avatar").textContent=(profile.fullName||profile.name||user.displayName||"L")[0].toUpperCase();
-  $("pName").value=profile.fullName||profile.name||user.displayName||"";
-  $("pEmail").value=profile.email||user.email||"";
-  $("pCountry").value=profile.country||"";$("pPhone").value=profile.phone||"";$("pBio").value=profile.bio||"";
-}
-
-async function getCollection(name){
-  try{const s=await getDocs(query(collection(db,name),limit(500)));return s.docs.map(d=>({id:d.id,...d.data()}))}
-  catch(e){console.error(name,e);return[]}
-}
-
-async function loadClasses(){
-  const rows=await getCollection("classes");
-  // This is intentionally the same collection written by the existing E-Teacher.
-  allClasses=rows.filter(x=>x.status==="open"&&x.isPublic===true);
-  const enrol=await getCollection("enrollments");
-  myEnrollments=enrol.filter(x=>x.studentId===user.uid&&x.enrollmentStatus!=="cancelled");
-  const ids=new Set(myEnrollments.map(x=>x.classId));
-  myClasses=allClasses.filter(x=>ids.has(x.id));
-}
-
-async function loadAllLearnerData(){
-  await loadClasses();
-  renderAll();
-}
-
-function classCard(x,enrolled=false){
-  const p=myEnrollments.find(e=>e.classId===x.id)?.progress||0;
-  return `<div class="card">
-    <div class="class-cover"><div><span class="badge ${x.status==="open"?"green":"blue"}">${esc(x.status||"open")}</span><h3>${esc(x.title||"RTLH E-Class")}</h3></div></div>
-    <p class="muted">${esc(x.description||"Online learning class created by an RTLH E-Teacher.")}</p>
-    <div class="list">
-      <div class="list-item"><span>Teacher</span><b>${esc(x.teacherName||"RTLH E-Teacher")}</b></div>
-      <div class="list-item"><span>Level</span><span>${esc(x.level||"All levels")}</span></div>
-      <div class="list-item"><span>Type</span><span>${esc(x.classType||"online")}</span></div>
-      <div class="list-item"><span>Fee</span><span>${Number(x.price||0)>0?money(x.price,x.currency||"RWF"):"Free"}</span></div>
+    <!-- THEO AI FLOATING BUTTON -->
+    <div class="theo-ai-float">
+      <button class="theo-bubble" onclick="toggleAI()">
+        <span class="avatar">🧠</span> Ask Theo AI
+      </button>
     </div>
-    ${enrolled?`<div style="margin-top:12px"><div class="tiny muted">Your progress · ${p}%</div><div class="progress"><i style="width:${Math.min(100,Number(p))}%"></i></div></div>`:""}
-    <div class="class-actions">${enrolled?`<button class="btn primary" data-open-class="${esc(x.id)}">Open class</button>`:`<button class="btn primary" data-join="${esc(x.id)}">Join class</button>`}</div>
-  </div>`
-}
 
-function bindClassButtons(){
-  document.querySelectorAll("[data-join]").forEach(b=>b.onclick=()=>prepareJoin(b.dataset.join));
-  document.querySelectorAll("[data-open-class]").forEach(b=>b.onclick=()=>openClassPage(b.dataset.openClass));
-}
+    <!-- AI MODAL -->
+    <div class="ai-modal" id="ai-modal">
+      <div class="ai-modal-content">
+        <div class="ai-header">
+          <span><strong>🧠 Theo AI</strong> - Your Learning Assistant</span>
+          <button onclick="toggleAI()">✕</button>
+        </div>
+        <!-- Your exact JotForm embed code -->
+        <iframe id="JotFormIFrame-019e5d473d3a7b3389d34ebcf58152d4cd4e" 
+          title="Theo Learn Wise AI: Rwanda Tech Learning Hub knowledge assistant and facilitator"
+          allowtransparency="true" allow="geolocation; microphone; camera; fullscreen"
+          src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e?embedMode=iframe&autofocus=0&background=1&shadow=1"
+          frameborder="0" scrolling="no">
+        </iframe>
+      </div>
+    </div>
 
-function renderDiscover(){
-  const s=($("classSearch").value||"").toLowerCase(),t=$("classTypeFilter").value,l=$("levelFilter").value;
-  const rows=allClasses.filter(x=>(!t||x.classType===t)&&(!l||x.level===l)&&`${x.title||""} ${x.description||""} ${x.teacherName||""} ${x.level||""}`.toLowerCase().includes(s));
-  $("discoverGrid").innerHTML=rows.length?rows.map(x=>classCard(x,false)).join(""):`<div class="empty">No published E-Classes match your search.</div>`;bindClassButtons()
-}
-function renderMyClasses(){
-  $("myClassesGrid").innerHTML=myClasses.length?myClasses.map(x=>classCard(x,true)).join(""):`<div class="empty">You have not joined an E-Class yet. Go to Discover E-Classes to start.</div>`;bindClassButtons()
-}
-async function countClassLessons(){
-  const lessons=await getCollection("lessons");return lessons.filter(x=>myClasses.some(c=>c.id===x.classId)).length
-}
-function renderDashboard(){
-  $("continueGrid").innerHTML=myClasses.length?myClasses.slice(0,6).map(x=>classCard(x,true)).join(""):`<div class="empty">Join your first class to start learning.</div>`;bindClassButtons();
-  $("statClasses").textContent=myClasses.length;
-  countClassLessons().then(n=>$("statLessons").textContent=n);
-  $("statPending").textContent="—";
-  const avg=myClasses.length?Math.round(myClasses.reduce((a,c)=>a+Number(myEnrollments.find(e=>e.classId===c.id)?.progress||0),0)/myClasses.length):0;
-  $("statProgress").textContent=avg+"%";
-}
-async function renderAssignments(){
-  const a=(await getCollection("assignments")).filter(x=>myClasses.some(c=>c.id===x.classId)&&x.status==="published");
-  $("assignmentsList").innerHTML=a.length?a.map(x=>`<div class="card"><div><span class="badge yellow">Assignment</span><h3>${esc(x.title)}</h3><p class="muted">${esc(x.description||"")}</p><div class="meta">Due: ${esc(x.dueDate||"—")} · Max score: ${esc(x.maxScore||0)}</div></div><button class="btn primary" data-assignment="${esc(x.id)}" data-name="${esc(x.title)}">Submit work</button></div>`).join(""):`<div class="empty">No published assignments for your enrolled classes.</div>`;
-  document.querySelectorAll("[data-assignment]").forEach(b=>b.onclick=()=>{selectedAssignment={id:b.dataset.assignment,name:b.dataset.name};$("submitAssignmentName").textContent=selectedAssignment.name;$("submissionText").value="";$("submissionUrl").value="";showModal("submitModal")})
-}
-async function renderQuizzes(){
-  const [q,t,e]=await Promise.all([getCollection("quizzes"),getCollection("tests"),getCollection("exams")]);
-  const a=[...q.map(x=>({...x,kind:"Quiz"})),...t.map(x=>({...x,kind:"Test"})),...e.map(x=>({...x,kind:"Exam"}))].filter(x=>myClasses.some(c=>c.id===x.classId)&&x.isPublished===true);
-  $("quizzesList").innerHTML=a.length?a.map(x=>`<div class="card"><span class="badge blue">${esc(x.kind)}</span><h3>${esc(x.title)}</h3><p class="muted">${esc(x.courseId||"Class assessment")}</p><div class="list"><div class="list-item"><span>Duration</span><b>${esc(x.durationMinutes||0)} min</b></div><div class="list-item"><span>Marks</span><b>${esc(x.totalMarks||0)}</b></div><div class="list-item"><span>Pass mark</span><b>${esc(x.passMark||0)}</b></div></div><button class="btn primary" style="margin-top:12px" data-assessment="${esc(x.id)}">Open</button></div>`).join(""):`<div class="empty">No published quizzes, tests or exams are available.</div>`
-}
-async function renderProjects(){
-  const [p,a]=await Promise.all([getCollection("projects"),getCollection("assignments")]);
-  const rows=[...p,...a].filter(x=>myClasses.some(c=>c.id===x.classId)&&x.status==="published");
-  $("projectsList").innerHTML=rows.length?rows.map(x=>`<div class="card"><span class="badge yellow">${esc(x.type||"project")}</span><h3>${esc(x.title)}</h3><p class="muted">${esc(x.description||"")}</p><div class="list"><div class="list-item"><span>Due</span><span>${esc(x.dueDate||"—")}</span></div><div class="list-item"><span>Maximum score</span><b>${esc(x.maxScore||0)}</b></div></div></div>`).join(""):`<div class="empty">No published projects yet.</div>`
-}
-async function renderMeetings(){
-  const rows=(await getCollection("meetings")).filter(x=>myClasses.some(c=>c.id===x.classId)).sort((a,b)=>String(a.startTime||"").localeCompare(String(b.startTime||"")));
-  const html=rows.length?rows.map(x=>`<div class="list-item"><div><b>${esc(x.title)}</b><div class="tiny muted">${esc(x.platform||"Live")} · ${esc(x.startTime||"")}</div></div>${x.meetingUrl?`<a class="btn primary" target="_blank" href="${esc(x.meetingUrl)}">Join</a>`:""}</div>`).join(""):`<div class="empty">No upcoming live sessions.</div>`;
-  $("upcomingList").innerHTML=html;$("calendarList").innerHTML=html
-}
-async function renderMessages(){
-  const rows=(await getCollection("messages")).filter(x=>x.receiverId===user.uid).sort((a,b)=>String(b.sentAt||"").localeCompare(String(a.sentAt||"")));
-  $("messagesList").innerHTML=rows.length?rows.map(x=>`<div class="list-item"><div><span class="badge green">🔒 Private</span><h3>${esc(x.subject||"Message from your E-Teacher")}</h3><p class="muted">${esc(x.message||"")}</p></div><small class="muted">${dt(x.sentAt||x.createdAt)}</small></div>`).join(""):`<div class="empty">No private messages have been sent to your account.</div>`;
-  $("statUnread").textContent=rows.filter(x=>!x.isRead).length
-}
-async function renderAnnouncements(){
-  const rows=(await getCollection("announcements")).filter(x=>x.isPublished!==false&&myClasses.some(c=>!x.classId||x.classId===c.id));
-  const html=rows.length?rows.map(x=>`<div class="list-item"><div><span class="badge ${x.priority==="urgent"?"red":"blue"}">📢 ${esc(x.priority||"normal")}</span><h3>${esc(x.title)}</h3><p class="muted">${esc(x.message||"")}</p></div><small class="muted">${dt(x.publishedAt||x.createdAt)}</small></div>`).join(""):`<div class="empty">No public announcements for your classes.</div>`;
-  $("announcementsList").innerHTML=html;$("dashboardAnnouncements").innerHTML=html
-}
-async function renderNotifications(){
-  const rows=(await getCollection("notifications")).filter(x=>x.userId===user.uid||x.recipientId===user.uid);
-  $("notificationsList").innerHTML=rows.length?rows.map(x=>`<div class="list-item"><div><span class="badge green">🔔 Notification</span><h3>${esc(x.title||"RTLH Notification")}</h3><p class="muted">${esc(x.message||"")}</p></div><small class="muted">${dt(x.createdAt)}</small></div>`).join(""):`<div class="empty">No notifications.</div>`;
-  $("statUnread").textContent=rows.filter(x=>!x.isRead).length
-}
-async function renderGrades(){
-  const rows=(await getCollection("grades")).filter(x=>x.studentId===user.uid);
-  $("gradesList").innerHTML=rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Class</th><th>Assessment</th><th>Score</th><th>Feedback</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.classId||"—")}</td><td>${esc(x.title||x.assessmentTitle||"—")}</td><td><b>${esc(x.score??"—")}</b>${x.totalMarks?` / ${esc(x.totalMarks)}`:""}</td><td>${esc(x.feedback||"—")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">Your grades will appear here when an E-Teacher releases them.</div>`
-}
-async function renderProgress(){
-  $("progressList").innerHTML=myClasses.length?myClasses.map(x=>{const p=Number(myEnrollments.find(e=>e.classId===x.id)?.progress||0);return`<div class="card"><span class="badge blue">${esc(x.classType||"class")}</span><h3>${esc(x.title)}</h3><div class="tiny muted">Progress ${p}%</div><div class="progress" style="margin:8px 0 12px"><i style="width:${Math.min(100,p)}%"></i></div><p class="muted">Continue from your latest learning activity.</p></div>`}).join(""):`<div class="empty">Join a class to see your learning progress.</div>`
-}
-async function renderCertificates(){
-  const rows=(await getCollection("certificates")).filter(x=>x.studentId===user.uid);
-  $("certificatesList").innerHTML=rows.length?rows.map(x=>`<div class="card"><span class="badge green">🏆 Certificate</span><h3>${esc(x.title||x.courseTitle||"RTLH Certificate")}</h3><p class="muted">Issued: ${esc(x.issuedAt||"—")}</p>${x.url?`<a class="btn primary" target="_blank" href="${esc(x.url)}">View certificate</a>`:""}</div>`).join(""):`<div class="empty">Your certificates will appear here when you complete eligible learning programmes.</div>`
-}
-async function renderDiscussion(){
-  const rows=(await getCollection("discussion")).filter(x=>myClasses.some(c=>c.id===x.classId));
-  $("discussionList").innerHTML=rows.length?rows.map(x=>`<div class="list-item"><div><span class="badge blue">💬 ${esc(x.classId||"Class")}</span><h3>${esc(x.title||"Discussion")}</h3><p>${esc(x.message||x.content||"")}</p><small class="muted">${esc(x.authorName||"Learner")} · ${dt(x.createdAt)}</small></div></div>`).join(""):`<div class="empty">No class discussions yet.</div>`
-}
-function renderAll(){renderDiscover();renderMyClasses();renderDashboard();renderAssignments();renderQuizzes();renderProjects();renderMeetings();renderMessages();renderAnnouncements();renderNotifications();renderGrades();renderProgress();renderCertificates();renderDiscussion()}
+  </div>
 
-async function prepareJoin(id){
-  const x=allClasses.find(c=>c.id===id);if(!x)return;
-  if(myEnrollments.some(e=>e.classId===id))return openClassPage(id);
-  selectedJoin=x;
-  $("joinBody").innerHTML=`<div class="card"><span class="badge green">Open for enrolment</span><h2>${esc(x.title)}</h2><p class="muted">${esc(x.description||"")}</p><div class="list"><div class="list-item"><span>E-Teacher</span><b>${esc(x.teacherName||"RTLH E-Teacher")}</b></div><div class="list-item"><span>Type</span><span>${esc(x.classType||"online")}</span></div><div class="list-item"><span>Level</span><span>${esc(x.level||"All levels")}</span></div><div class="list-item"><span>Schedule</span><span>${esc(x.schedule||"See class details")}</span></div><div class="list-item"><span>Fee</span><span>${Number(x.price||0)>0?money(x.price,x.currency||"RWF"):"Free"}</span></div></div></div><div class="notice" style="margin-top:14px">Joining creates <b>your own enrolment record</b>. It does not give you permission to edit the teacher's class or another learner's account.</div>`;
-  showModal("joinModal")
-}
-$("confirmJoin").onclick=async()=>{
-  if(!selectedJoin||!user)return;
-  try{
-    const data={studentId:user.uid,studentName:profile.fullName||profile.name||user.displayName||"RTLH Learner",studentEmail:user.email||"",teacherId:selectedJoin.teacherId,classId:selectedJoin.id,courseId:selectedJoin.courseId||"",enrollmentStatus:"active",paymentStatus:Number(selectedJoin.price||0)>0?"pending":"free",progress:0,joinedAt:serverTimestamp()};
-    await addDoc(collection(db,"enrollments"),data);
-    closeModal("joinModal");toast("You joined the E-Class successfully.");await loadAllLearnerData();openClassPage(selectedJoin.id)
-  }catch(e){console.error(e);toast("Could not join. Check the Firebase Security Rules for student enrolment creation.")}
-}
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script src='https://cdn.jotfor.ms/s/umd/5e8a576af84/for-form-embed-handler.js'></script>
+  <script>
+    window.jotformEmbedHandler("iframe[id='JotFormIFrame-019e5d473d3a7b3389d34ebcf58152d4cd4e']",
+      "https://www.jotform.com");
+  </script>
 
-async function openClassPage(id){
-  const x=allClasses.find(c=>c.id===id);if(!x)return;
-  if(!myEnrollments.some(e=>e.classId===id))return toast("Join this class first.");
-  openClass=x;
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$("view-class").classList.add("active");
-  $("pageTitle").textContent="E-Classroom";$("openClassTitle").textContent=x.title;$("openClassDesc").textContent=x.description||"";
-  $("openClassMeta").innerHTML=`<span class="badge blue">👨‍🏫 ${esc(x.teacherName||"RTLH E-Teacher")}</span><span class="badge green">🎓 ${esc(x.level||"All levels")}</span><span class="badge yellow">◷ ${esc(x.classType||"online")}</span>`;
-  const tabs=["Home","Lessons","Assignments","Quizzes","Projects","Live","Discussion","My Grades","My Progress","Resources"];
-  $("classNav").innerHTML=tabs.map((t,i)=>`<button class="${i===0?"active":""}" data-class-tab="${t.toLowerCase().replaceAll(" ","-")}">${t}</button>`).join("");
-  document.querySelectorAll("[data-class-tab]").forEach(b=>b.onclick=()=>renderClassTab(b.dataset.classTab));
-  renderClassTab("home")
-}
-$("backToClasses").onclick=()=>navigate("myclasses");
+  <script>
+    // ============================================================
+    //  1. FIREBASE CONFIG (REPLACE WITH YOUR OWN)
+    // ============================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
+  authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
+  projectId: "rwanda-tech-learning-hub",
+  storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
+  messagingSenderId: "785118659917",
+  appId: "1:785118659917:web:7ada98356d213a3fad2304",
+    };
 
-async function renderClassTab(tab){
-  document.querySelectorAll("[data-class-tab]").forEach(b=>b.classList.toggle("active",b.dataset.classTab===tab));
-  const id=openClass.id;
-  if(tab==="home"){
-    const anns=(await getCollection("announcements")).filter(x=>x.classId===id&&x.isPublished!==false);
-    $("classTabContent").innerHTML=`<h2>Welcome to ${esc(openClass.title)}</h2><div class="notice">This is the student classroom created by your RTLH E-Teacher. New content published by the teacher is read from the shared Firebase collections.</div><h3>Announcements</h3>${anns.length?anns.map(x=>`<div class="notice" style="margin:9px 0"><b>${esc(x.title)}</b><p>${esc(x.message||"")}</p></div>`).join(""):`<div class="empty">No class announcements yet.</div>`;return
-  }
-  const map={"lessons":"lessons","assignments":"assignments","quizzes":"quizzes","projects":"projects","live":"meetings","resources":"resources"};
-  if(map[tab]){
-    let rows=await getCollection(map[tab]);rows=rows.filter(x=>x.classId===id&&x.isPublished!==false&&(x.status!=="draft"));
-    if(tab==="quizzes"){const tests=await getCollection("tests"),exams=await getCollection("exams");rows=[...rows,...tests.filter(x=>x.classId===id&&x.isPublished!==false).map(x=>({...x,kind:"Test"})),...exams.filter(x=>x.classId===id&&x.isPublished!==false).map(x=>({...x,kind:"Exam"}))]}
-    const title=tab[0].toUpperCase()+tab.slice(1);
-    $("classTabContent").innerHTML=rows.length?`<h2>${title}</h2>${rows.map(x=>`<div class="list-item" style="margin:9px 0"><div><span class="badge blue">${esc(x.contentType||x.kind||x.type||tab)}</span><h3>${esc(x.title||"Untitled")}</h3><p class="muted">${esc(x.description||x.instructions||"")}</p><small class="muted">${x.dueDate?"Due: "+esc(x.dueDate):x.startTime?"Starts: "+esc(x.startTime):""}</small></div><div class="toolbar">${x.videoUrl?`<a class="btn primary" target="_blank" href="${esc(x.videoUrl)}">Watch</a>`:""}${x.documentUrl?`<a class="btn" target="_blank" href="${esc(x.documentUrl)}">Open PDF</a>`:""}${x.meetingUrl?`<a class="btn primary" target="_blank" href="${esc(x.meetingUrl)}">Join live</a>`:""}${tab==="assignments"?`<button class="btn primary" data-class-submit="${esc(x.id)}" data-name="${esc(x.title)}">Submit</button>`:""}</div></div>`).join("")}`:`<h2>${title}</h2><div class="empty">Your E-Teacher has not published ${title.toLowerCase()} for this class yet.</div>`;
-    document.querySelectorAll("[data-class-submit]").forEach(b=>b.onclick=()=>{selectedAssignment={id:b.dataset.classSubmit,name:b.dataset.name};$("submitAssignmentName").textContent=selectedAssignment.name;showModal("submitModal")});return
-  }
-  if(tab==="discussion"){const rows=(await getCollection("discussion")).filter(x=>x.classId===id);$("classTabContent").innerHTML=`<h2>Class Discussion</h2>${rows.length?rows.map(x=>`<div class="list-item"><div><b>${esc(x.authorName||"Learner")}</b><p>${esc(x.message||x.content||"")}</p></div></div>`).join(""):`<div class="empty">No discussion posts yet.</div>`;return}
-  if(tab==="my-grades"){const rows=(await getCollection("grades")).filter(x=>x.classId===id&&x.studentId===user.uid);$("classTabContent").innerHTML=`<h2>My Grades</h2>${rows.length?rows.map(x=>`<div class="list-item"><span>${esc(x.title||x.assessmentTitle||"Grade")}</span><b>${esc(x.score??"—")}${x.totalMarks?"/"+esc(x.totalMarks):""}</b></div>`).join(""):`<div class="empty">No grades released for you yet.</div>`;return}
-  if(tab==="my-progress"){const e=myEnrollments.find(x=>x.classId===id),p=Number(e?.progress||0);$("classTabContent").innerHTML=`<h2>My Progress</h2><div class="card"><h3>${p}% complete</h3><div class="progress"><i style="width:${p}%"></i></div><p class="muted">Progress is stored against your learner enrolment and can be updated by the learning workflow.</p></div>`;return}
-}
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-$("submitWorkBtn").onclick=async()=>{
-  if(!selectedAssignment||!user||!openClass)return;
-  try{
-    await addDoc(collection(db,"submissions"),{assignmentId:selectedAssignment.id,assignmentTitle:selectedAssignment.name,studentId:user.uid,studentName:profile.fullName||user.displayName||"RTLH Learner",studentEmail:user.email||"",classId:openClass.id,teacherId:openClass.teacherId,answer:$("submissionText").value.trim(),fileUrl:$("submissionUrl").value.trim(),status:"submitted",submittedAt:serverTimestamp()});
-    closeModal("submitModal");toast("Assignment submitted. Your E-Teacher can now review and grade it.");$("submissionText").value="";$("submissionUrl").value=""
-  }catch(e){console.error(e);toast("Submission failed. Check Firebase Security Rules for student submissions.")}
-}
+    // ============================================================
+    //  2. SAMPLE COURSE DATA (Local fallback + Firestore sync)
+    // ============================================================
+    const SAMPLE_COURSES = [
+      { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', desc: 'Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.', image: '💻', lessons: 5, students: 120 },
+      { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', desc: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
+      { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', desc: 'Excel, Power BI, and Rwandan datasets (NISR, agriculture). Includes 1-on-1 coaching.', image: '📊', lessons: 12, students: 40 },
+      { id: 'c4', title: 'Build E-commerce with MoMo API', type: 'premium', teacher: 'Theoneste', desc: 'WordPress + WooCommerce + Mobile Money integration for local SMEs.', image: '🛒', lessons: 10, students: 25 },
+      { id: 'c5', title: 'Freelance Writing for Global Clients', type: 'paid', teacher: 'Theoneste', desc: 'Write proposals, build a portfolio, and land your first $100 gig.', image: '✍️', lessons: 6, students: 60 }
+    ];
 
-$("saveProfileBtn").onclick=async()=>{
-  try{const data={fullName:$("pName").value.trim(),country:$("pCountry").value.trim(),phone:$("pPhone").value.trim(),bio:$("pBio").value.trim(),updatedAt:serverTimestamp()};await setDoc(doc(db,"users",user.uid),data,{merge:true});await updateProfile(user,{displayName:data.fullName});await loadUser();toast("Your profile was saved.")}catch(e){toast("Profile update failed.")}
-}
-$("profileTop").onclick=()=>navigate("profile");
-$("resetFromSettings").onclick=async()=>{if(!user)return;try{await sendPasswordResetEmail(auth,user.email);toast("Password reset email sent.")}catch(e){toast("Could not send reset email.")}};
-$("savePreferences").onclick=()=>toast("Learning preferences saved for this session. Store them in users/{yourUID} for production.");
-$("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
-$("logoutBtn").onclick=()=>signOut(auth);
-$("classSearch").oninput=renderDiscover;$("classTypeFilter").onchange=renderDiscover;$("levelFilter").onchange=renderDiscover;
+    let currentFilter = 'all';
+    let currentClasses = [...SAMPLE_COURSES];
+    let enrolledClasses = []; // will be loaded from Firestore
+    let selectedClassId = null;
 
-$("signUpBtn").onclick=async()=>{
-  if(!firebaseReady)return toast("Add the same Firebase configuration used by e-teacher.html first.");
-  try{const name=$("authName").value.trim(),email=$("authEmail").value.trim(),pass=$("authPassword").value;if(!name||!email||pass.length<6)return toast("Enter your name, email and a password of at least 6 characters.");const c=await createUserWithEmailAndPassword(auth,email,pass);await updateProfile(c.user,{displayName:name});await setDoc(doc(db,"users",c.user.uid),{uid:c.user.uid,fullName:name,email,role:"student",accountStatus:"active",createdAt:serverTimestamp()},{merge:true});toast("Learner account created.")}catch(e){toast(e.message||"Could not create learner account.")}}
-$("signInBtn").onclick=async()=>{if(!firebaseReady)return toast("Add Firebase configuration first.");try{await signInWithEmailAndPassword(auth,$("authEmail").value.trim(),$("authPassword").value);toast("Welcome back.")}catch(e){toast(e.message||"Could not sign in.")}};
-$("googleBtn").onclick=async()=>{if(!firebaseReady)return toast("Add Firebase configuration first.");try{const c=await signInWithPopup(auth,new GoogleAuthProvider());await setDoc(doc(db,"users",c.user.uid),{uid:c.user.uid,fullName:c.user.displayName||"RTLH Learner",email:c.user.email||"",photoURL:c.user.photoURL||"",role:"student",accountStatus:"active",updatedAt:serverTimestamp()},{merge:true});toast("Signed in with Google.")}catch(e){toast(e.message||"Google sign-in failed.")}};
-$("forgotBtn").onclick=async()=>{const email=$("authEmail").value.trim();if(!email)return toast("Enter your email first.");try{await sendPasswordResetEmail(auth,email);toast("Password reset email sent.")}catch(e){toast("Could not send reset email.")}};
+    // ============================================================
+    //  3. AUTH LOGIC
+    // ============================================================
+    let isLogin = true;
 
-if(firebaseReady){
-  onAuthStateChanged(auth,async u=>{
-    user=u;
-    if(!u){$("authScreen").classList.add("show");return}
-    $("authScreen").classList.remove("show");
-    try{await loadUser();await loadAllLearnerData();navigate("dashboard")}catch(e){console.error(e);toast("Your account loaded, but Firebase data could not be read. Check Firestore rules.")}
-  })
-}else{$("authScreen").classList.add("show")}
-</script>
+    document.getElementById('auth-toggle-link').addEventListener('click', () => {
+      isLogin = !isLogin;
+      document.getElementById('auth-title').textContent = isLogin ? 'Welcome Back' : 'Join RTLH Today';
+      document.getElementById('auth-sub').textContent = isLogin ? 'Sign in to continue' : 'Create your account to start learning';
+      document.getElementById('auth-action-btn').textContent = isLogin ? 'Sign In' : 'Create Account';
+      document.getElementById('auth-toggle-text').textContent = isLogin ? "Don't have an account?" : 'Already have an account?';
+      document.getElementById('auth-toggle-link').textContent = isLogin ? 'Create one now' : 'Sign in';
+    });
+
+    document.getElementById('auth-action-btn').addEventListener('click', async () => {
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+      const errorEl = document.getElementById('auth-error');
+      errorEl.textContent = '';
+
+      if (!email || !password) {
+        errorEl.textContent = 'Please fill in all fields.';
+        return;
+      }
+
+      try {
+        if (isLogin) {
+          await auth.signInWithEmailAndPassword(email, password);
+        } else {
+          await auth.createUserWithEmailAndPassword(email, password);
+          // Optionally save user to Firestore
+          await db.collection('users').doc(auth.currentUser.uid).set({
+            email: email,
+            name: email.split('@')[0],
+            enrolled: [],
+            progress: 0
+          });
+        }
+        // Auth state listener will handle redirect
+      } catch (err) {
+        errorEl.textContent = err.message;
+      }
+    });
+
+    // ============================================================
+    //  4. AUTH STATE LISTENER
+    // ============================================================
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('auth-page').classList.add('hidden');
+        document.getElementById('main-app').style.display = 'block';
+        document.getElementById('profile-email').textContent = user.email;
+        document.getElementById('profile-name').textContent = user.email ? user.email.split('@')[0] : 'Theoneste';
+        loadUserData();
+        renderClasses();
+      } else {
+        document.getElementById('auth-page').classList.remove('hidden');
+        document.getElementById('main-app').style.display = 'none';
+      }
+    });
+
+    // ============================================================
+    //  5. LOAD / SAVE USER DATA (Firestore)
+    // ============================================================
+    async function loadUserData() {
+      const user = auth.currentUser;
+      if (!user) return;
+      try {
+        const doc = await db.collection('users').doc(user.uid).get();
+        if (doc.exists) {
+          const data = doc.data();
+          enrolledClasses = data.enrolled || [];
+          // Update progress bar
+          const prog = data.progress || 0;
+          document.querySelector('#profile-progress').textContent = prog + '%';
+          document.querySelector('#profile-progress + .progress-bar .fill').style.width = prog + '%';
+        } else {
+          // initialize
+          await db.collection('users').doc(user.uid).set({ email: user.email, enrolled: [], progress: 0 });
+        }
+        renderMyClasses();
+      } catch (e) {
+        console.warn('Firestore load error:', e);
+        // Fallback to local
+        enrolledClasses = ['c1', 'c2']; // demo
+        renderMyClasses();
+      }
+    }
+
+    async function saveEnrolled() {
+      const user = auth.currentUser;
+      if (!user) return;
+      try {
+        await db.collection('users').doc(user.uid).update({
+          enrolled: enrolledClasses
+        });
+      } catch (e) {
+        console.warn('Save error:', e);
+      }
+    }
+
+    function logoutUser() {
+      auth.signOut();
+    }
+
+    // ============================================================
+    //  6. RENDER CLASSES (Discover with Search & Filter)
+    // ============================================================
+    function renderClasses() {
+      const search = document.getElementById('search-input').value.toLowerCase();
+      let filtered = currentClasses.filter(c => {
+        const matchType = currentFilter === 'all' || c.type === currentFilter;
+        const matchSearch = c.title.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search);
+        return matchType && matchSearch;
+      });
+
+      const container = document.getElementById('class-grid-container');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="background:white; padding:30px; border-radius:20px; text-align:center; color:#6b7a8a;">No classes found. Try adjusting your filters.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(c => {
+        const isEnrolled = enrolledClasses.includes(c.id);
+        return `
+          <div class="class-card" onclick="viewClass('${c.id}')">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <span style="font-size:28px;">${c.image || '📘'}</span>
+              <span class="badge badge-${c.type}">${c.type.toUpperCase()}</span>
+            </div>
+            <h4>${c.title}</h4>
+            <div class="teacher">👨‍🏫 ${c.teacher}</div>
+            <div class="desc">${c.desc}</div>
+            <div class="meta">
+              <span>📖 ${c.lessons} lessons</span>
+              <span>👥 ${c.students} students</span>
+              ${isEnrolled ? '<span style="color:var(--accent);font-weight:700;">✅ Enrolled</span>' : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-chip').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.filter-chip[data-filter="${filter}"]`).classList.add('active');
+      renderClasses();
+    }
+
+    function filterClasses() {
+      renderClasses();
+    }
+
+    // ============================================================
+    //  7. CLASS DETAIL VIEW
+    // ============================================================
+    function viewClass(id) {
+      selectedClassId = id;
+      const c = currentClasses.find(cls => cls.id === id);
+      if (!c) return;
+      const isEnrolled = enrolledClasses.includes(c.id);
+
+      const detailDiv = document.getElementById('detail-content');
+      detailDiv.innerHTML = `
+        <div class="detail-header">
+          <div style="display:flex; gap:16px; align-items:center;">
+            <span style="font-size:40px;">${c.image || '📘'}</span>
+            <div>
+              <span class="badge badge-${c.type}">${c.type.toUpperCase()}</span>
+              <h3 style="margin-top:4px;">${c.title}</h3>
+              <div class="teacher">👨‍🏫 Teacher: <strong>${c.teacher}</strong></div>
+            </div>
+          </div>
+          <p style="margin-top:12px; color:#4a5a6a;">${c.desc}</p>
+          <div style="display:flex; gap:12px; margin-top:8px; font-size:14px; color:#6b7a8a;">
+            <span>📖 ${c.lessons} Lessons</span>
+            <span>👥 ${c.students} Students</span>
+          </div>
+          ${isEnrolled ? 
+            `<button class="join-btn" style="background:var(--dark); cursor:default;">✅ Already Enrolled</button>` :
+            `<button class="join-btn" onclick="joinClass('${c.id}')">➕ Join this Class</button>`
+          }
+        </div>
+        <div style="background:white; border-radius:var(--radius); padding:16px; box-shadow:var(--card-shadow);">
+          <h4>📋 Class Preview</h4>
+          <ul style="list-style:none; padding:0; margin-top:8px;">
+            <li style="padding:8px 0; border-bottom:1px solid #f0f2f5;">✅ Module 1: Introduction</li>
+            <li style="padding:8px 0; border-bottom:1px solid #f0f2f5;">✅ Module 2: Core Concepts</li>
+            <li style="padding:8px 0; border-bottom:1px solid #f0f2f5;">✅ Module 3: Practical Project</li>
+            <li style="padding:8px 0;">🎯 Final Assessment & Certificate</li>
+          </ul>
+        </div>
+      `;
+      navigateTo('detail');
+    }
+
+    // ============================================================
+    //  8. JOIN CLASS
+    // ============================================================
+    async function joinClass(id) {
+      if (!auth.currentUser) {
+        alert('Please sign in first.');
+        return;
+      }
+      if (!enrolledClasses.includes(id)) {
+        enrolledClasses.push(id);
+        await saveEnrolled();
+        // Update user progress mock
+        const user = auth.currentUser;
+        const doc = await db.collection('users').doc(user.uid).get();
+        let prog = doc.data()?.progress || 0;
+        prog = Math.min(100, prog + 8);
+        await db.collection('users').doc(user.uid).update({ progress: prog });
+        alert('🎉 You have joined the class! Check "My Classes".');
+        renderClasses();
+        renderMyClasses();
+        viewClass(id); // refresh detail view
+      }
+    }
+
+    // ============================================================
+    //  9. MY CLASSES RENDER
+    // ============================================================
+    function renderMyClasses() {
+      const container = document.getElementById('my-classes-list');
+      if (enrolledClasses.length === 0) {
+        container.innerHTML = `<div style="background:white; padding:30px; border-radius:20px; text-align:center; color:#6b7a8a;">You haven't joined any classes yet. Go to <strong>Home</strong> to discover!</div>`;
+        document.getElementById('my-class-detail').innerHTML = '';
+        return;
+      }
+
+      const myCourses = currentClasses.filter(c => enrolledClasses.includes(c.id));
+      container.innerHTML = myCourses.map(c => `
+        <div class="class-card" onclick="showMyClassDetail('${c.id}')" style="margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span style="font-size:20px; margin-right:8px;">${c.image || '📘'}</span>
+              <strong>${c.title}</strong>
+              <div class="text-muted" style="font-size:12px;">${c.teacher}</div>
+            </div>
+            <span style="background:#e9edf2; padding:4px 12px; border-radius:30px; font-size:12px;">In Progress</span>
+          </div>
+          <div class="progress-bar" style="margin-top:8px;"><div class="fill" style="width: ${Math.floor(Math.random() * 60 + 20)}%;"></div></div>
+        </div>
+      `).join('');
+
+      // Show first class detail by default
+      if (myCourses.length > 0) showMyClassDetail(myCourses[0].id);
+    }
+
+    // ============================================================
+    //  10. MY CLASS DETAIL (Announcements, Lessons, Homework, etc)
+    // ============================================================
+    function showMyClassDetail(id) {
+      const c = currentClasses.find(cls => cls.id === id);
+      if (!c) return;
+      const container = document.getElementById('my-class-detail');
+      container.innerHTML = `
+        <div style="background:white; border-radius:var(--radius); padding:16px; box-shadow:var(--card-shadow);">
+          <h4>📘 ${c.title}</h4>
+          <p class="text-muted">Teacher: ${c.teacher}</p>
+
+          <!-- Tabs -->
+          <div class="tab-bar" style="margin-top:12px;">
+            <button class="tab-btn active" data-tab="announcements" onclick="switchTab('announcements', this)">📢 Announce</button>
+            <button class="tab-btn" data-tab="lessons" onclick="switchTab('lessons', this)">📖 Lessons</button>
+            <button class="tab-btn" data-tab="homework" onclick="switchTab('homework', this)">📝 Homework</button>
+            <button class="tab-btn" data-tab="quizzes" onclick="switchTab('quizzes', this)">🧪 Quizzes</button>
+            <button class="tab-btn" data-tab="tests" onclick="switchTab('tests', this)">📊 Tests</button>
+            <button class="tab-btn" data-tab="projects" onclick="switchTab('projects', this)">🚀 Projects</button>
+            <button class="tab-btn" data-tab="live" onclick="switchTab('live', this)">📹 Live</button>
+          </div>
+
+          <div id="tab-contents">
+            <div class="tab-content active" data-tab="announcements">
+              <p><strong>📢 New!</strong> Welcome to ${c.title}. Our first live session is Friday 4pm.</p>
+              <p class="text-muted" style="margin-top:8px;">Stay tuned for weekly updates.</p>
+            </div>
+            <div class="tab-content" data-tab="lessons">
+              <ul style="list-style:none; padding:0;">
+                <li style="padding:8px 0; border-bottom:1px solid #f0f2f5;">✅ Lesson 1: Introduction (Watch)</li>
+                <li style="padding:8px 0; border-bottom:1px solid #f0f2f5;">✅ Lesson 2: Core Concepts (Watch)</li>
+                <li style="padding:8px 0;">📄 Lesson 3: Materials (PDF)</li>
+              </ul>
+            </div>
+            <div class="tab-content" data-tab="homework">
+              <p>📝 <strong>Homework #1:</strong> Complete the exercise on page 5. Submit by Sunday.</p>
+            </div>
+            <div class="tab-content" data-tab="quizzes">
+              <p>🧪 <strong>Quiz 1:</strong> Basics (5 questions) - <span style="color:var(--accent);">Score: 80%</span></p>
+            </div>
+            <div class="tab-content" data-tab="tests">
+              <p>📊 <strong>Mid-term Test:</strong> Available next week.</p>
+            </div>
+            <div class="tab-content" data-tab="projects">
+              <p>🚀 <strong>Final Project:</strong> Build a dashboard using Rwandan data.</p>
+            </div>
+            <div class="tab-content" data-tab="live">
+              <p>📹 <strong>Next Live Session:</strong> Friday, 4:00 PM (Zoom).</p>
+              <button style="background:var(--primary); color:white; border:none; padding:10px 20px; border-radius:30px; margin-top:8px;">Join Live</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelector(`.tab-content[data-tab="${tab}"]`).classList.add('active');
+    }
+
+    // ============================================================
+    //  11. NAVIGATION & AI TOGGLE
+    // ============================================================
+    function navigateTo(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(`page-${page}`).classList.add('active');
+
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const navMap = { 'home': 'home', 'myclasses': 'myclasses', 'profile': 'profile' };
+      if (navMap[page]) {
+        const navBtn = document.querySelector(`.nav-item[data-page="${navMap[page]}"]`);
+        if (navBtn) navBtn.classList.add('active');
+      }
+
+      // refresh content on navigation
+      if (page === 'home') renderClasses();
+      if (page === 'myclasses') renderMyClasses();
+      if (page === 'profile') loadUserData();
+    }
+
+    function toggleAI() {
+      document.getElementById('ai-modal').classList.toggle('open');
+    }
+
+    // ============================================================
+    //  12. INIT
+    // ============================================================
+    // If user is already logged in, load data
+    if (auth.currentUser) {
+      loadUserData();
+    }
+    renderClasses();
+
+    // Close AI modal on outside click
+    document.getElementById('ai-modal').addEventListener('click', function(e) {
+      if (e.target === this) toggleAI();
+    });
+
+    console.log('🚀 Rwanda Tech Learning Hub E-Class loaded successfully!');
+    console.log('📌 Replace firebaseConfig with your own credentials.');
+  </script>
+
 </body>
 </html>
