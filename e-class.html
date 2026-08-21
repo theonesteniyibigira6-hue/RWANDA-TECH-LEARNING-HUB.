@@ -920,7 +920,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebas
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs, query, where, serverTimestamp, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-// ===== YOUR REAL FIREBASE CONFIG (works with your e-teacher) =====
+// ===== YOUR REAL FIREBASE CONFIG =====
 const firebaseConfig = {
     apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
     authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
@@ -940,6 +940,13 @@ let currentLearner = null;
 let isAuthLoading = false;
 let allClasses = [];
 let enrolledClasses = [];
+
+// --- Sample fallback classes (always available) ---
+const SAMPLE_CLASSES = [
+    { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.', image: '💻', lessons: 5, students: 120 },
+    { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', description: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
+    { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets. Includes 1-on-1 coaching.', image: '📊', lessons: 12, students: 40 }
+];
 
 // --- UI Helpers ---
 window.openModal = (id) => document.getElementById(id).classList.add('show');
@@ -1127,30 +1134,24 @@ async function loadLearner() {
     enrolledClasses = currentLearner.enrolled || [];
 }
 
-// --- Fetch Classes (cached) ---
+// --- Fetch Classes (with fallback) ---
 async function fetchClasses() {
-    if (allClasses.length > 0) return allClasses; // cache
     try {
         const snap = await getDocs(collection(db, 'classes'));
         const results = [];
         snap.forEach(d => results.push({ id: d.id, ...d.data() }));
-        if (results.length === 0) {
-            // Fallback sample data if Firestore is empty
-            results.push(
-                { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.', image: '💻', lessons: 5, students: 120 },
-                { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', description: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
-                { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets. Includes 1-on-1 coaching.', image: '📊', lessons: 12, students: 40 }
-            );
+        if (results.length > 0) {
+            allClasses = results;
+            return results;
         }
-        allClasses = results;
-        return allClasses;
+        // If Firestore returns empty, use sample
+        allClasses = SAMPLE_CLASSES;
+        return SAMPLE_CLASSES;
     } catch (e) {
-        console.warn('Could not fetch classes, using fallback:', e);
-        return allClasses.length ? allClasses : [
-            { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom.', image: '💻', lessons: 5, students: 120 },
-            { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', description: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
-            { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets.', image: '📊', lessons: 12, students: 40 }
-        ];
+        // Fallback to sample if permission denied or any error
+        console.warn('Using fallback class data (Firestore not accessible).');
+        allClasses = SAMPLE_CLASSES;
+        return SAMPLE_CLASSES;
     }
 }
 
@@ -1189,7 +1190,9 @@ window.renderDiscover = async function() {
 
 // --- View Class (Join modal) ---
 window.viewClass = function(id) {
-    const c = allClasses.find(cls => cls.id === id);
+    // Ensure we have classes loaded
+    const classes = allClasses.length ? allClasses : SAMPLE_CLASSES;
+    const c = classes.find(cls => cls.id === id);
     if (!c) return;
     document.getElementById('joinClassInfo').textContent = `You are about to join: ${c.title} (${c.type})`;
     document.getElementById('confirmJoinBtn').onclick = () => joinClass(id);
@@ -1223,7 +1226,13 @@ window.renderMyClasses = function() {
         document.getElementById('myClassDetail').innerHTML = '';
         return;
     }
-    const myCourses = allClasses.filter(c => enrolledClasses.includes(c.id));
+    const classes = allClasses.length ? allClasses : SAMPLE_CLASSES;
+    const myCourses = classes.filter(c => enrolledClasses.includes(c.id));
+    if (myCourses.length === 0) {
+        container.innerHTML = `<div class="card empty"><div class="empty-icon">📚</div><p>No enrolled classes found. Try refreshing.</p></div>`;
+        document.getElementById('myClassDetail').innerHTML = '';
+        return;
+    }
     container.innerHTML = myCourses.map(c => `<div class="class-card" onclick="showClassDetail('${c.id}')" style="margin-bottom:14px;">
         <div class="class-cover" style="height:80px;padding:12px 16px;"><small>${escapeHtml(c.teacher || '')}</small><h3 style="font-size:18px;">${escapeHtml(c.title)}</h3></div>
         <div class="class-body"><div class="progress-bar"><div class="fill" style="width:${Math.floor(Math.random()*40+20)}%;"></div></div></div>
@@ -1232,7 +1241,8 @@ window.renderMyClasses = function() {
 };
 
 window.showClassDetail = function(id) {
-    const c = allClasses.find(cls => cls.id === id);
+    const classes = allClasses.length ? allClasses : SAMPLE_CLASSES;
+    const c = classes.find(cls => cls.id === id);
     if (!c) return;
     const container = document.getElementById('myClassDetail');
     container.innerHTML = `<div class="card"><h3>${escapeHtml(c.title)}</h3><p class="text-muted">Teacher: ${escapeHtml(c.teacher || 'RTLH')}</p>
@@ -1315,13 +1325,16 @@ document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', (e)
 document.getElementById('aiModal').addEventListener('click', (e) => { if (e.target === e.currentTarget) toggleAI(); });
 
 // --- Initial load ---
-if (auth.currentUser) {
-    loadDashboard();
-} else {
-    // pre-fetch classes anyway for faster login
-    fetchClasses();
-}
-console.log('🚀 RTLH E-Class loaded with Firebase config successfully.');
+(async function init() {
+    await fetchClasses();
+    if (auth.currentUser) {
+        await loadDashboard();
+    } else {
+        // Show discover with sample data even when not logged in
+        renderDiscover();
+    }
+    console.log('🚀 RTLH E-Class loaded with Firebase config successfully.');
+})();
 </script>
 </body>
 </html>
