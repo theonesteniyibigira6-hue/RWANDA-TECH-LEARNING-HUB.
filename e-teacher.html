@@ -3,555 +3,4216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="RTLH E-Teacher - Rwanda Tech Learning Hub teacher portal">
+<meta name="theme-color" content="#1e90ff">
 <title>RTLH E-Teacher | Rwanda Tech Learning Hub</title>
-<meta name="description" content="RTLH E-Teacher — teach, coach, train, create e-classes, manage learners, assessments, live sessions, communications, earnings and certificates.">
-<meta name="theme-color" content="#071a2f">
+
 <style>
 :root{
-  --bg:#07111f;--panel:#0d1b2e;--panel2:#10243c;--text:#eef6ff;--muted:#9db1c7;
-  --blue:#19a7ff;--cyan:#49e1ff;--green:#19c37d;--yellow:#ffd34d;--red:#ff647c;
-  --border:rgba(255,255,255,.10);--shadow:0 20px 60px rgba(0,0,0,.25);--radius:22px;
+    --blue:#0878d1;
+    --blue-dark:#07579a;
+    --blue-light:#eaf6ff;
+    --yellow:#f7c928;
+    --green:#20a464;
+    --red:#d62828;
+    --dark:#102033;
+    --muted:#64748b;
+    --white:#ffffff;
+    --bg:#f4f8fc;
+    --border:#dce7f1;
+    --shadow:0 12px 35px rgba(12,49,82,.10);
+    --radius:18px;
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:
-radial-gradient(circle at 10% 0%,rgba(25,167,255,.12),transparent 28%),radial-gradient(circle at 90% 10%,rgba(25,195,125,.10),transparent 25%),var(--bg);color:var(--text)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-a{color:inherit;text-decoration:none}
-.app{min-height:100vh;display:grid;grid-template-columns:280px 1fr}
-.sidebar{position:sticky;top:0;height:100vh;padding:22px 16px;border-right:1px solid var(--border);background:rgba(5,15,28,.88);backdrop-filter:blur(18px);z-index:20;overflow:auto}
-.brand{display:flex;align-items:center;gap:12px;padding:8px 10px 20px}
-.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--green));box-shadow:0 10px 30px rgba(25,167,255,.22)}
-.brand strong{display:block}.brand small{color:var(--muted)}
-.nav{display:grid;gap:6px}.nav button{border:1px solid transparent;background:transparent;color:#c8d7e7;text-align:left;padding:12px 14px;border-radius:14px;display:flex;gap:11px;align-items:center;transition:.2s}
-.nav button:hover,.nav button.active{background:rgba(73,225,255,.09);border-color:rgba(73,225,255,.16);color:#fff;transform:translateX(3px)}
-.nav .group{margin-top:12px;color:#6f859c;text-transform:uppercase;font-size:10px;letter-spacing:1.5px;padding:0 12px}
-.sidebar-footer{margin-top:20px;padding:14px;border:1px solid var(--border);border-radius:18px;background:rgba(255,255,255,.025)}
-.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}
-.main{min-width:0}.topbar{position:sticky;top:0;z-index:15;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 28px;border-bottom:1px solid var(--border);background:rgba(7,17,31,.82);backdrop-filter:blur(16px)}
-.topbar .title small{display:block;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;align-items:center}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#193e63,#0b6);font-weight:800}
-.content{padding:28px;max-width:1700px;margin:auto}.view{display:none}.view.active{display:block}
-.hero{padding:28px;border:1px solid var(--border);border-radius:28px;background:linear-gradient(135deg,rgba(25,167,255,.12),rgba(25,195,125,.07));box-shadow:var(--shadow);margin-bottom:22px}
-.hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,46px)}.hero p{color:var(--muted);max-width:850px;line-height:1.7}
-.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(5,minmax(0,1fr))}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border-radius:var(--radius);padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.10);transition:.25s}
-.card:hover{transform:translateY(-4px);border-color:rgba(73,225,255,.22);box-shadow:0 18px 50px rgba(0,0,0,.18)}
-.stat .value{font-size:30px;font-weight:850;margin:6px 0}.muted{color:var(--muted)}.tiny{font-size:12px}.section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:26px 0 14px}.section-head h2{margin:0}
-.btn{border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:#fff;background:#13253a;transition:.2s}.btn:hover{transform:translateY(-2px);border-color:rgba(73,225,255,.35)}
-.btn.primary{background:linear-gradient(135deg,#078fe8,#16b979);border:0}.btn.yellow{background:linear-gradient(135deg,#b88a00,#e6b829);color:#07111f;border:0}.btn.danger{background:rgba(255,100,124,.12);color:#ff9aaa}.btn.ghost{background:transparent}
-.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px}.search{min-width:240px;flex:1}
-input,select,textarea{width:100%;background:#081728;color:#fff;border:1px solid var(--border);border-radius:12px;padding:11px 12px;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(73,225,255,.08)}
-label{display:block;color:#b9c9d9;font-size:12px;margin-bottom:6px}.field{margin-bottom:14px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.form-grid .full{grid-column:1/-1}
-.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:18px}.table{width:100%;border-collapse:collapse;min-width:780px}.table th,.table td{padding:13px;border-bottom:1px solid var(--border);text-align:left;font-size:13px}.table th{color:#9fb4c9;background:rgba(255,255,255,.025)}.table tr:hover td{background:rgba(255,255,255,.018)}
-.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);padding:5px 9px;border-radius:999px;font-size:11px}.badge.green{color:#6df0b4;background:rgba(25,195,125,.08)}.badge.yellow{color:#ffe58a;background:rgba(255,211,77,.08)}.badge.red{color:#ff9aaa;background:rgba(255,100,124,.08)}.badge.blue{color:#82ddff;background:rgba(25,167,255,.08)}
-.kicker{font-size:11px;text-transform:uppercase;letter-spacing:1.6px;color:#7f9ab5}.progress{height:8px;background:#081525;border-radius:20px;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:20px}
-.list{display:grid;gap:10px}.list-item{display:flex;justify-content:space-between;gap:14px;padding:13px;border:1px solid var(--border);border-radius:15px;background:rgba(255,255,255,.02)}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal.open{display:flex}.modal-box{width:min(900px,100%);max-height:92vh;overflow:auto;background:#0b192a;border:1px solid var(--border);border-radius:25px;padding:22px;box-shadow:var(--shadow)}
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modal-head h2{margin:0}
-.toast{position:fixed;right:20px;bottom:20px;z-index:200;max-width:380px;padding:14px 16px;border-radius:14px;border:1px solid var(--border);background:#102238;box-shadow:var(--shadow);display:none}.toast.show{display:block}
-.empty{padding:35px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:18px}
-.auth-screen{position:fixed;inset:0;background:radial-gradient(circle at 50% 0,rgba(25,167,255,.16),transparent 40%),var(--bg);display:none;place-items:center;padding:20px;z-index:150}.auth-screen.show{display:grid}
-.auth-box{width:min(720px,100%);border:1px solid var(--border);background:rgba(11,25,42,.94);border-radius:28px;padding:28px;box-shadow:var(--shadow)}
-.role-chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.role-chip{padding:8px 12px;border-radius:999px;border:1px solid var(--border);color:#b9c9d9}.role-chip.selected{background:rgba(73,225,255,.1);border-color:var(--cyan);color:#fff}
-.mobile-menu{display:none}
-.notice{border-left:4px solid var(--yellow);padding:12px 14px;background:rgba(255,211,77,.06);border-radius:10px;color:#d9e4ef}
-@media(max-width:1200px){.stats{grid-template-columns:repeat(3,1fr)}.app{grid-template-columns:90px 1fr}.sidebar .brand div,.sidebar .nav span,.sidebar-footer{display:none}.brand{justify-content:center}.nav button{justify-content:center}.nav .group{font-size:8px;padding:0;text-align:center}}
-@media(max-width:760px){.app{display:block}.sidebar{position:fixed;left:-290px;width:280px;transition:.25s}.sidebar.open{left:0}.sidebar .brand div,.sidebar .nav span,.sidebar-footer{display:block}.sidebar .nav button{justify-content:flex-start}.topbar{padding:12px 16px}.mobile-menu{display:inline-flex}.content{padding:16px}.stats,.two,.three,.form-grid{grid-template-columns:1fr}.hero{padding:20px}.search{min-width:100%}}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--dark);
+    min-height:100vh;
+}
+
+button,input,textarea,select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+    height:70px;
+    background:linear-gradient(110deg,#07579a,#0878d1,#1297e8);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 5px 20px rgba(0,0,0,.12);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:45px;
+    height:45px;
+    border-radius:12px;
+    background:
+        linear-gradient(145deg,#0878d1 0 38%,#f7c928 38% 65%,#20a464 65%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:900;
+    font-size:15px;
+    border:2px solid rgba(255,255,255,.7);
+}
+
+.brand-text h1{
+    font-size:18px;
+    line-height:1.1;
+}
+
+.brand-text span{
+    font-size:11px;
+    opacity:.85;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.home-btn,
+.logout-btn,
+.menu-btn{
+    border:1px solid rgba(255,255,255,.25);
+    color:white;
+    background:rgba(255,255,255,.12);
+    border-radius:10px;
+    padding:10px 13px;
+    transition:.2s;
+}
+
+.home-btn:hover,
+.logout-btn:hover,
+.menu-btn:hover{
+    background:rgba(255,255,255,.22);
+}
+
+.menu-btn{
+    display:none;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.app{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+.sidebar{
+    width:255px;
+    background:#fff;
+    border-right:1px solid var(--border);
+    padding:18px 12px;
+    position:sticky;
+    top:70px;
+    height:calc(100vh - 70px);
+    overflow-y:auto;
+}
+
+.teacher-mini{
+    background:var(--blue-light);
+    border:1px solid #cfeaff;
+    border-radius:15px;
+    padding:14px;
+    margin-bottom:18px;
+}
+
+.teacher-mini-top{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--blue);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:800;
+    overflow:hidden;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.teacher-mini strong{
+    display:block;
+    font-size:14px;
+}
+
+.teacher-mini small{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    margin-top:8px;
+    font-size:11px;
+    color:var(--green);
+    font-weight:700;
+}
+
+.status::before{
+    content:"";
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+}
+
+.nav-title{
+    font-size:10px;
+    color:#94a3b8;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:8px 12px;
+}
+
+.nav-item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:12px;
+    border:0;
+    background:transparent;
+    color:#334155;
+    border-radius:11px;
+    text-align:left;
+    margin-bottom:3px;
+    transition:.2s;
+}
+
+.nav-item:hover{
+    background:#edf7ff;
+    color:var(--blue);
+}
+
+.nav-item.active{
+    background:var(--blue);
+    color:white;
+    font-weight:700;
+}
+
+.nav-icon{
+    width:22px;
+    text-align:center;
+}
+
+.main{
+    flex:1;
+    padding:25px;
+    min-width:0;
+}
+
+.section{
+    display:none;
+    animation:fade .25s ease;
+}
+
+.section.active{
+    display:block;
+}
+
+@keyframes fade{
+    from{opacity:0;transform:translateY(5px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* =========================
+   HEADERS
+========================= */
+
+.page-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:22px;
+}
+
+.page-header h2{
+    font-size:28px;
+    margin-bottom:6px;
+}
+
+.page-header p{
+    color:var(--muted);
+}
+
+.primary-btn,
+.secondary-btn,
+.danger-btn{
+    border:0;
+    border-radius:11px;
+    padding:11px 16px;
+    font-weight:700;
+    transition:.2s;
+}
+
+.primary-btn{
+    background:var(--blue);
+    color:#fff;
+}
+
+.primary-btn:hover{
+    background:var(--blue-dark);
+    transform:translateY(-1px);
+}
+
+.secondary-btn{
+    background:#eaf6ff;
+    color:var(--blue);
+}
+
+.danger-btn{
+    background:#fee2e2;
+    color:var(--red);
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:22px;
+}
+
+.card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+    box-shadow:var(--shadow);
+}
+
+.stat-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.stat-card::after{
+    content:"";
+    position:absolute;
+    right:-25px;
+    bottom:-35px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:var(--blue-light);
+}
+
+.stat-icon{
+    font-size:26px;
+    margin-bottom:13px;
+}
+
+.stat-label{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:850;
+    margin-top:4px;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:18px;
+}
+
+.card h3{
+    margin-bottom:14px;
+}
+
+.activity{
+    display:flex;
+    gap:12px;
+    padding:13px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.activity:last-child{
+    border-bottom:0;
+}
+
+.activity-icon{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:var(--blue-light);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.activity p{
+    font-size:13px;
+}
+
+.activity small{
+    color:var(--muted);
+}
+
+/* =========================
+   TABLES
+========================= */
+
+.table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    text-align:left;
+    padding:13px 10px;
+    border-bottom:1px solid var(--border);
+    font-size:13px;
+    white-space:nowrap;
+}
+
+th{
+    color:#475569;
+    background:#f8fafc;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.badge-green{
+    color:#087443;
+    background:#dcfce7;
+}
+
+.badge-yellow{
+    color:#8a6500;
+    background:#fef3c7;
+}
+
+.badge-blue{
+    color:#07579a;
+    background:#dbeeff;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    font-weight:700;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    border:1px solid #ccd9e5;
+    border-radius:10px;
+    padding:11px 12px;
+    outline:none;
+    background:#fff;
+    color:var(--dark);
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px rgba(8,120,209,.10);
+}
+
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.form-actions{
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+    margin-top:12px;
+}
+
+/* =========================
+   MODALS
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(7,31,53,.58);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:3000;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:min(760px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border-radius:20px;
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+    border-bottom:1px solid var(--border);
+}
+
+.modal-head button{
+    border:0;
+    background:#f1f5f9;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+}
+
+.modal-body{
+    padding:20px;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#authScreen{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:
+        radial-gradient(circle at top right,rgba(247,201,40,.22),transparent 30%),
+        radial-gradient(circle at bottom left,rgba(32,164,100,.18),transparent 35%),
+        linear-gradient(135deg,#eaf6ff,#f8fbff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.auth-card{
+    width:min(470px,100%);
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:30px;
+    box-shadow:0 30px 80px rgba(10,55,90,.15);
+}
+
+.auth-logo{
+    margin:auto;
+    width:70px;
+    height:70px;
+    border-radius:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:21px;
+    color:white;
+    background:linear-gradient(145deg,#0878d1 0 38%,#f7c928 38% 65%,#20a464 65%);
+}
+
+.auth-card h2{
+    text-align:center;
+    margin-top:15px;
+}
+
+.auth-card > p{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin:7px 0 22px;
+}
+
+.auth-tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#f1f5f9;
+    padding:4px;
+    border-radius:11px;
+    margin-bottom:18px;
+}
+
+.auth-tab{
+    border:0;
+    padding:10px;
+    background:transparent;
+    border-radius:8px;
+}
+
+.auth-tab.active{
+    background:white;
+    box-shadow:0 2px 7px rgba(0,0,0,.08);
+    font-weight:700;
+}
+
+.google-btn{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    background:white;
+    color:#222;
+    border:1px solid #ccd3da;
+    border-radius:10px;
+    padding:11px;
+    font-weight:700;
+}
+
+.google-icon{
+    width:20px;
+    height:20px;
+}
+
+.divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#94a3b8;
+    font-size:11px;
+    margin:17px 0;
+}
+
+.divider::before,
+.divider::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background:var(--border);
+}
+
+.auth-footer{
+    text-align:center;
+    margin-top:18px;
+    font-size:11px;
+    color:var(--muted);
+}
+
+.auth-error{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:10px;
+    border-radius:9px;
+    font-size:12px;
+    margin-bottom:12px;
+    display:none;
+}
+
+.loader{
+    display:none;
+    text-align:center;
+    padding:20px;
+    color:var(--muted);
+}
+
+/* =========================
+   CLASS CARDS
+========================= */
+
+.classes-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.class-card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:17px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+}
+
+.class-cover{
+    height:110px;
+    background:linear-gradient(120deg,#0878d1,#20a464);
+    padding:17px;
+    color:white;
+    position:relative;
+}
+
+.class-cover small{
+    opacity:.8;
+}
+
+.class-cover h3{
+    margin-top:7px;
+    font-size:19px;
+}
+
+.class-body{
+    padding:15px;
+}
+
+.class-meta{
+    display:flex;
+    gap:13px;
+    color:var(--muted);
+    font-size:11px;
+    margin:10px 0;
+}
+
+.class-actions{
+    display:flex;
+    gap:7px;
+    flex-wrap:wrap;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+#toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:7000;
+    background:#102033;
+    color:#fff;
+    padding:13px 17px;
+    border-radius:11px;
+    box-shadow:var(--shadow);
+    display:none;
+    max-width:350px;
+    font-size:13px;
+}
+
+#toast.show{
+    display:block;
+    animation:toastIn .25s ease;
+}
+
+@keyframes toastIn{
+    from{opacity:0;transform:translateY(15px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* =========================
+   THEO AI FACILITATOR
+========================= */
+.theo-ai-shell{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+.theo-ai-head{
+    padding:20px 22px;
+    background:linear-gradient(135deg,#eaf6ff,#f8fbff);
+    border-bottom:1px solid var(--border);
+}
+.theo-ai-head h3{margin:0 0 6px;font-size:20px}
+.theo-ai-head p{margin:0;color:var(--muted);line-height:1.6;font-size:13px}
+.theo-ai-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.theo-ai-tools button{border:1px solid var(--border);background:#fff;color:var(--dark);border-radius:10px;padding:9px 12px;font-size:12px;font-weight:700}
+.theo-ai-tools button:hover{border-color:var(--blue);color:var(--blue)}
+.theo-ai-frame-wrap{padding:0;background:#fff}
+.theo-ai-frame{display:block;width:100%;max-width:100%;height:688px;border:none}
+@media(max-width:800px){.theo-ai-frame{height:620px}}
+@media(max-width:550px){.theo-ai-frame{height:600px}.theo-ai-head{padding:16px}}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+    .card-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .classes-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+    .sidebar{
+        position:fixed;
+        left:-270px;
+        top:70px;
+        z-index:2000;
+        transition:.25s;
+        box-shadow:10px 0 30px rgba(0,0,0,.12);
+    }
+
+    .sidebar.open{
+        left:0;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .main{
+        padding:18px;
+    }
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .page-header{
+        flex-direction:column;
+    }
+
+    .classes-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:550px){
+    .brand-text{
+        display:none;
+    }
+
+    .topbar{
+        padding:0 12px;
+    }
+
+    .home-btn{
+        display:none;
+    }
+
+    .card-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .card{
+        padding:15px;
+    }
+
+    .stat-number{
+        font-size:22px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .page-header h2{
+        font-size:23px;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<div id="toast" class="toast"></div>
+<!-- =========================================================
+     AUTHENTICATION SCREEN
+========================================================= -->
 
-<div id="authScreen" class="auth-screen">
-  <div class="auth-box">
-    <div class="kicker">Rwanda Tech Learning Hub</div>
-    <h1 style="margin:6px 0">RTLH E-Teacher</h1>
-    <p class="muted">Create or sign in to your teacher account. Your Firebase Authentication account becomes the secure identity behind your RTLH profile.</p>
-    <div id="authConfigNotice" class="notice" style="margin:14px 0">
-      Firebase configuration is not yet connected. Add your Firebase web configuration in the script section of this file before using production authentication.
+<div id="authScreen">
+
+    <div class="auth-card">
+
+        <div class="auth-logo">RTLH</div>
+
+        <h2>RTLH E-Teacher</h2>
+
+        <p>
+            Teach, manage classes and empower learners through
+            Rwanda Tech Learning Hub.
+        </p>
+
+        <div id="authError" class="auth-error"></div>
+
+        <div class="auth-tabs">
+            <button class="auth-tab active" id="loginTab">
+                Sign In
+            </button>
+
+            <button class="auth-tab" id="registerTab">
+                Create Account
+            </button>
+        </div>
+
+        <button class="google-btn" id="googleBtn">
+            <svg class="google-icon" viewBox="0 0 24 24">
+                <path fill="#4285F4"
+                d="M21.35 12.23c0-.72-.06-1.42-.18-2.09H12v3.96h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.26z"/>
+                <path fill="#34A853"
+                d="M12 21.9c2.63 0 4.84-.87 6.45-2.41l-3.14-2.45c-.87.58-1.98.92-3.31.92-2.54 0-4.69-1.72-5.46-4.03H3.3v2.53A9.75 9.75 0 0 0 12 21.9z"/>
+                <path fill="#FBBC05"
+                d="M6.54 13.93A5.86 5.86 0 0 1 6.23 12c0-.67.11-1.32.31-1.93V7.54H3.3A9.84 9.84 0 0 0 2.25 12c0 1.61.39 3.14 1.05 4.46l3.24-2.53z"/>
+                <path fill="#EA4335"
+                d="M12 6.04c1.43 0 2.71.49 3.72 1.46l2.79-2.79C16.84 3.08 14.63 2.1 12 2.1a9.75 9.75 0 0 0-8.7 5.44l3.24 2.53C7.31 7.76 9.46 6.04 12 6.04z"/>
+            </svg>
+            Continue with Google
+        </button>
+
+        <div class="divider">OR</div>
+
+        <form id="authForm">
+
+            <div id="registerFields" style="display:none">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input
+                        id="fullName"
+                        type="text"
+                        placeholder="Enter your full name"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input
+                        id="phone"
+                        type="tel"
+                        placeholder="+250 7XX XXX XXX"
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="teacher@example.com"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    minlength="6"
+                    required
+                >
+            </div>
+
+            <button class="primary-btn" id="authSubmit" type="submit" style="width:100%">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="auth-footer">
+            By continuing, you agree to the RTLH Terms of Use and Privacy Policy.
+        </div>
+
     </div>
-    <div class="role-chips">
-      <span class="role-chip selected">Teacher</span><span class="role-chip">Coach</span><span class="role-chip">Trainer</span><span class="role-chip">Instructor</span>
-    </div>
-    <div class="form-grid">
-      <div class="field"><label>Email</label><input id="authEmail" type="email" placeholder="teacher@example.com"></div>
-      <div class="field"><label>Password</label><input id="authPassword" type="password" placeholder="Minimum 6 characters"></div>
-      <div class="field full"><label>Full name (used when creating an account)</label><input id="authName" placeholder="Your full name"></div>
-    </div>
-    <div class="toolbar">
-      <button class="btn primary" id="signUpBtn">Create E-Teacher account</button>
-      <button class="btn" id="signInBtn">Sign in</button>
-      <button class="btn ghost" id="demoBtn">Open demo mode</button>
-    </div>
-    <p class="tiny muted" style="margin-top:14px">Demo mode is for interface testing only; it does not represent a verified Firebase teacher account.</p>
-  </div>
 </div>
 
-<div class="app" id="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand"><div class="logo">R</div><div><strong>RTLH</strong><small>E-Teacher</small></div></div>
-    <div class="nav">
-      <div class="group">Workspace</div>
-      <button class="active" data-view="dashboard">⌂ <span>Dashboard</span></button>
-      <button data-view="profile">◉ <span>Teacher Profile</span></button>
-      <button data-view="classes">▣ <span>My E-Classes</span></button>
-      <button data-view="courses">▤ <span>Courses & Lessons</span></button>
-      <button data-view="learners">♙ <span>Learners</span></button>
-      <div class="group">Teaching</div>
-      <button data-view="assessments">✓ <span>Quizzes & Tests</span></button>
-      <button data-view="projects">◆ <span>Projects & Assignments</span></button>
-      <button data-view="meetings">◷ <span>Meetings & Live</span></button>
-      <button data-view="announcements">✦ <span>Posts & Announcements</span></button>
-      <button data-view="messages">✉ <span>Messages & Reminders</span></button>
-      <div class="group">Business</div>
-      <button data-view="earnings">◈ <span>Earnings & Payouts</span></button>
-      <button data-view="analytics">◒ <span>Analytics</span></button>
-      <button data-view="reviews">★ <span>Reviews</span></button>
-      <div class="group">Platform</div>
-      <button data-view="settings">⚙ <span>Settings</span></button>
-      <button data-view="help">?</button>
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<div id="application" style="display:none">
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <button class="menu-btn" id="menuBtn">☰</button>
+
+        <div class="logo">RTLH</div>
+
+        <div class="brand-text">
+            <h1>Rwanda Tech Learning Hub</h1>
+            <span>E-Teacher Portal</span>
+        </div>
+
     </div>
-    <div class="sidebar-footer"><span class="status-dot"></span><b>RTLH online</b><p class="tiny muted">Secure data is designed for Firebase/Firestore integration.</p></div>
-  </aside>
 
-  <main class="main">
-    <header class="topbar">
-      <div class="actions"><button class="btn mobile-menu" id="menuBtn">☰</button><div class="title"><b id="pageTitle">E-Teacher Dashboard</b><small id="identityLine">Demo / not signed in</small></div></div>
-      <div class="actions"><button class="btn" id="publicDirectoryBtn">Public Directory</button><div class="avatar" id="avatar">T</div><button class="btn" id="logoutBtn">Sign out</button></div>
-    </header>
+    <div class="top-actions">
 
-    <section class="content">
-      <div class="view active" id="view-dashboard">
-        <div class="hero">
-          <div class="kicker">Teach • Coach • Train • Inspire</div>
-          <h1>Build your professional E-Classroom.</h1>
-          <p>RTLH E-Teacher brings classes, courses, lessons, assessments, projects, live sessions, learner communication, progress, payments, earnings, reviews and certificates into one teacher workspace.</p>
-          <div class="toolbar">
-            <button class="btn primary" data-open="classModal">＋ Create E-Class</button>
-            <button class="btn" data-open="courseModal">＋ Create Course</button>
-            <button class="btn yellow" data-open="liveModal">◉ Schedule Live Session</button>
-          </div>
-        </div>
-        <div class="grid stats">
-          <div class="card stat"><div class="muted tiny">Active classes</div><div class="value" id="statClasses">0</div><span class="badge blue">E-Class</span></div>
-          <div class="card stat"><div class="muted tiny">Learners</div><div class="value" id="statLearners">0</div><span class="badge green">Enrolled</span></div>
-          <div class="card stat"><div class="muted tiny">Published courses</div><div class="value" id="statCourses">0</div><span class="badge blue">Learning</span></div>
-          <div class="card stat"><div class="muted tiny">Pending work</div><div class="value" id="statPending">0</div><span class="badge yellow">Attention</span></div>
-          <div class="card stat"><div class="muted tiny">Available earnings</div><div class="value" id="statEarnings">RWF 0</div><span class="badge green">Balance</span></div>
-        </div>
-        <div class="section-head"><h2>Teacher command centre</h2><span class="muted tiny">Designed for scalable online teaching</span></div>
-        <div class="grid three">
-          <div class="card"><div class="kicker">01 · Teach</div><h3>Create and manage classes</h3><p class="muted">Set class price, currency, level, capacity, schedule, visibility and enrollment status.</p><button class="btn" data-view="classes">Open classes →</button></div>
-          <div class="card"><div class="kicker">02 · Assess</div><h3>Automate learning checks</h3><p class="muted">Build quizzes, tests, exams and timed assessments with automatic grading foundations.</p><button class="btn" data-view="assessments">Open assessments →</button></div>
-          <div class="card"><div class="kicker">03 · Connect</div><h3>Reach every learner</h3><p class="muted">Announcements, differentiated reminders, meetings, live sessions and learner activity monitoring.</p><button class="btn" data-view="messages">Open communication →</button></div>
-        </div>
-        <div class="section-head"><h2>Today's teaching cockpit</h2></div>
-        <div class="grid two"><div class="card"><h3>Upcoming sessions</h3><div id="dashMeetings" class="list"></div></div><div class="card"><h3>Learners needing attention</h3><div id="dashAlerts" class="list"></div></div></div>
-      </div>
+        <a class="home-btn" href="index.html">
+            🏠 RTLH Home
+        </a>
 
-      <div class="view" id="view-profile">
-        <div class="section-head"><h2>Teacher profile & verification</h2><button class="btn primary" id="saveProfileBtn">Save profile</button></div>
-        <div class="grid two">
-          <div class="card">
-            <div class="kicker">Professional identity</div>
+        <button class="logout-btn" id="logoutBtn">
+            Sign Out
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="app">
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="teacher-mini">
+
+        <div class="teacher-mini-top">
+
+            <div class="avatar" id="sideAvatar">
+                T
+            </div>
+
+            <div>
+                <strong id="sideTeacherName">
+                    Teacher
+                </strong>
+
+                <small id="sideTeacherEmail">
+                    teacher@example.com
+                </small>
+            </div>
+
+        </div>
+
+        <div class="status">
+            Teacher account active
+        </div>
+
+    </div>
+
+    <div class="nav-title">
+        Main
+    </div>
+
+    <button class="nav-item active" data-section="dashboard">
+        <span class="nav-icon">📊</span>
+        Dashboard
+    </button>
+
+    <button class="nav-item" data-section="theoAI">
+        <span class="nav-icon">🤖</span>
+        Theo AI Facilitator
+    </button>
+
+    <button class="nav-item" data-section="classes">
+        <span class="nav-icon">🏫</span>
+        My E-Classes
+    </button>
+
+    <button class="nav-item" data-section="students">
+        <span class="nav-icon">👨‍🎓</span>
+        Students
+    </button>
+
+    <button class="nav-item" data-section="lessons">
+        <span class="nav-icon">📚</span>
+        Lessons
+    </button>
+
+    <button class="nav-item" data-section="assessments">
+        <span class="nav-icon">📝</span>
+        Assessments
+    </button>
+
+    <button class="nav-item" data-section="assignments">
+        <span class="nav-icon">📂</span>
+        Homework & Projects
+    </button>
+
+    <div class="nav-title">
+        Communication
+    </div>
+
+    <button class="nav-item" data-section="announcements">
+        <span class="nav-icon">📢</span>
+        Announcements
+    </button>
+
+    <button class="nav-item" data-section="messages">
+        <span class="nav-icon">💬</span>
+        Messages
+    </button>
+
+    <button class="nav-item" data-section="meetings">
+        <span class="nav-icon">🎥</span>
+        Meetings & Live
+    </button>
+
+    <div class="nav-title">
+        Finance
+    </div>
+
+    <button class="nav-item" data-section="payments">
+        <span class="nav-icon">💳</span>
+        Payments
+    </button>
+
+    <button class="nav-item" data-section="earnings">
+        <span class="nav-icon">💰</span>
+        Earnings
+    </button>
+
+    <div class="nav-title">
+        Account
+    </div>
+
+    <button class="nav-item" data-section="profile">
+        <span class="nav-icon">👤</span>
+        My Profile
+    </button>
+
+    <button class="nav-item" data-section="settings">
+        <span class="nav-icon">⚙️</span>
+        Settings
+    </button>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="main">
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="section active" id="dashboard">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Welcome, <span id="welcomeName">Teacher</span> 👋</h2>
+            <p>
+                Manage your teaching activities and connect with learners.
+            </p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('classModal')">
+            + Create E-Class
+        </button>
+
+    </div>
+
+
+    <div class="card-grid">
+
+        <div class="card stat-card">
+            <div class="stat-icon">🏫</div>
+            <div class="stat-label">My Classes</div>
+            <div class="stat-number" id="statClasses">0</div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-icon">👨‍🎓</div>
+            <div class="stat-label">Students</div>
+            <div class="stat-number" id="statStudents">0</div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-label">Lessons</div>
+            <div class="stat-number" id="statLessons">0</div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-label">Estimated Earnings</div>
+            <div class="stat-number" id="statEarnings">RWF 0</div>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="card">
+
+            <h3>Recent Activity</h3>
+
+            <div id="activityList">
+
+                <div class="activity">
+                    <div class="activity-icon">👋</div>
+                    <div>
+                        <p>Welcome to your RTLH E-Teacher dashboard.</p>
+                        <small>Start by creating your first e-class.</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Quick Actions</h3>
+
+            <button
+                class="secondary-btn"
+                style="width:100%;margin-bottom:9px"
+                onclick="openModal('classModal')">
+                🏫 Create Class
+            </button>
+
+            <button
+                class="secondary-btn"
+                style="width:100%;margin-bottom:9px"
+                onclick="showSection('theoAI')">
+                🤖 Ask Theo AI to Create
+            </button>
+
+            <button
+                class="secondary-btn"
+                style="width:100%;margin-bottom:9px"
+                onclick="showSection('lessons')">
+                📚 Add Lesson
+            </button>
+
+            <button
+                class="secondary-btn"
+                style="width:100%;margin-bottom:9px"
+                onclick="showSection('assessments')">
+                📝 Create Test
+            </button>
+
+            <button
+                class="secondary-btn"
+                style="width:100%"
+                onclick="showSection('announcements')">
+                📢 Post Announcement
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= THEO AI FACILITATOR ================= -->
+<section class="section" id="theoAI">
+    <div class="page-header">
+        <div>
+            <h2>🤖 Theo AI Teaching Facilitator</h2>
+            <p>Use Theo Learn Wise AI to plan lessons, create quizzes and tests, design projects and prepare other learning materials.</p>
+        </div>
+    </div>
+
+    <div class="theo-ai-shell">
+        <div class="theo-ai-head">
+            <h3>Theo Learn Wise AI</h3>
+            <p>Theo is your teaching facilitator. Use it alongside your RTLH E-Teacher tools, then save or publish the resulting work through the appropriate Lessons, Assessments, or Homework &amp; Projects area.</p>
+            <div class="theo-ai-tools">
+                <button type="button" onclick="showSection('lessons')">📚 Lessons</button>
+                <button type="button" onclick="showSection('assessments')">📝 Quizzes &amp; Tests</button>
+                <button type="button" onclick="showSection('assignments')">📂 Projects &amp; Homework</button>
+            </div>
+        </div>
+        <div class="theo-ai-frame-wrap">
+            <iframe id="JotFormIFrame-019e5d473d3a7b3389d34ebcf58152d4cd4e"
+              class="theo-ai-frame"
+              title="Theo Learn Wise AI: Rwanda Tech Learning Hub knowledge assistant and facilitator"
+              allowtransparency="true" allow="geolocation; microphone; camera; fullscreen"
+              src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e?embedMode=iframe&amp;autofocus=0&amp;background=1&amp;shadow=1"
+              frameborder="0" scrolling="no">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= CLASSES ================= -->
+
+<section class="section" id="classes">
+
+    <div class="page-header">
+
+        <div>
+            <h2>My E-Classes</h2>
+            <p>
+                Classes you have created are stored in Firebase and can be discovered by learners.
+            </p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('classModal')">
+            + Create E-Class
+        </button>
+
+    </div>
+
+    <div id="classesGrid" class="classes-grid">
+
+        <div class="card empty" style="grid-column:1/-1">
+            <div class="empty-icon">🏫</div>
+            <p>No classes created yet.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STUDENTS ================= -->
+
+<section class="section" id="students">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Students</h2>
+            <p>Manage learners enrolled in your e-classes.</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentsTable">
+
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty">
+                                No enrolled students yet.
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LESSONS ================= -->
+
+<section class="section" id="lessons">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Lessons</h2>
+            <p>Create and organise learning content for your classes.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('lessonModal')">
+            + Add Lesson
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Lesson</th>
+                        <th>Class</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+
+                <tbody id="lessonsTable">
+
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty">
+                                No lessons created yet.
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ASSESSMENTS ================= -->
+
+<section class="section" id="assessments">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Assessments</h2>
+            <p>
+                Create quizzes, tests, projects and timed examinations.
+            </p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('assessmentModal')">
+            + Create Assessment
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Class</th>
+                        <th>Type</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="assessmentTable">
+
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty">
+                                No assessments created yet.
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ASSIGNMENTS ================= -->
+
+<section class="section" id="assignments">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Homework & Projects</h2>
+            <p>Give learners assignments and track their submissions.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('assignmentModal')">
+            + Create Assignment
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="empty">
+            <div class="empty-icon">📂</div>
+            <p>
+                Homework and project submissions will appear here.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ANNOUNCEMENTS ================= -->
+
+<section class="section" id="announcements">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Announcements</h2>
+            <p>Publish important messages to your learners.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('announcementModal')">
+            + New Announcement
+        </button>
+
+    </div>
+
+    <div id="announcementList" class="card">
+
+        <div class="empty">
+            <div class="empty-icon">📢</div>
+            <p>No announcements yet.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MESSAGES ================= -->
+
+<section class="section" id="messages">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Messages</h2>
+            <p>Communicate privately with your learners.</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="empty">
+            <div class="empty-icon">💬</div>
+            <p>Your learner messages will appear here.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MEETINGS ================= -->
+
+<section class="section" id="meetings">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Meetings & Live Classes</h2>
+            <p>Organise online meetings and live teaching sessions.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('meetingModal')">
+            + Schedule Meeting
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="empty">
+            <div class="empty-icon">🎥</div>
+            <p>
+                Your upcoming meetings and live sessions will appear here.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PAYMENTS ================= -->
+
+<section class="section" id="payments">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Payment Settings</h2>
+            <p>Configure how learners can pay for your classes.</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <form id="paymentForm">
+
             <div class="form-grid">
-              <div class="field"><label>Full name</label><input id="pName"></div>
-              <div class="field"><label>Public teacher name</label><input id="pDisplayName"></div>
-              <div class="field full"><label>Bio</label><textarea id="pBio" rows="5"></textarea></div>
-              <div class="field"><label>Subjects / expertise</label><input id="pSubjects" placeholder="ICT, AI, Music"></div>
-              <div class="field"><label>Languages</label><input id="pLanguages" placeholder="English, Kinyarwanda"></div>
-              <div class="field"><label>Qualifications</label><input id="pQualifications"></div>
-              <div class="field"><label>Experience (years)</label><input id="pExperience" type="number" min="0" value="0"></div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+
+                    <select id="paymentMethod">
+                        <option value="mobile_money">
+                            Mobile Money
+                        </option>
+                        <option value="bank">
+                            Bank Transfer
+                        </option>
+                        <option value="card">
+                            Card Payment
+                        </option>
+                        <option value="free">
+                            Free Classes
+                        </option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Currency</label>
+
+                    <select id="currency">
+                        <option value="RWF">RWF</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Account / Number</label>
+
+                    <input
+                        id="paymentAccount"
+                        placeholder="Enter payment number/account"
+                    >
+
+                </div>
+
+                <div class="form-group">
+                    <label>Default Class Fee</label>
+
+                    <input
+                        id="classFee"
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                    >
+
+                </div>
+
             </div>
-          </div>
-          <div class="card">
-            <div class="kicker">RTLH verification</div>
-            <h3 id="teacherIdLabel">RTLH Teacher ID: —</h3>
-            <p class="muted">A teacher should be verified before being presented as an officially verified RTLH E-Teacher.</p>
-            <div class="list">
-              <div class="list-item"><span>Application status</span><span id="verificationBadge" class="badge yellow">pending</span></div>
-              <div class="list-item"><span>Public directory</span><span id="directoryBadge" class="badge red">Not published</span></div>
-              <div class="list-item"><span>Account</span><span class="badge green">Firebase identity</span></div>
+
+            <div class="form-actions">
+
+                <button class="primary-btn" type="submit">
+                    Save Payment Settings
+                </button>
+
             </div>
-            <div class="notice" style="margin-top:15px">Verification should be completed by RTLH administrators. This interface never grants verification merely because a teacher changes a browser value.</div>
-          </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= EARNINGS ================= -->
+
+<section class="section" id="earnings">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Earnings</h2>
+            <p>Monitor income generated through your RTLH classes.</p>
         </div>
-      </div>
 
-      <div class="view" id="view-classes">
-        <div class="section-head"><h2>My E-Classes</h2><button class="btn primary" data-open="classModal">＋ Create E-Class</button></div>
-        <div class="toolbar"><input id="classSearch" class="search" placeholder="Search classes..."><select id="classFilter"><option value="">All statuses</option><option>open</option><option>draft</option><option>closed</option></select></div>
-        <div id="classesGrid" class="grid three" style="margin-top:16px"></div>
-      </div>
+    </div>
 
-      <div class="view" id="view-courses">
-        <div class="section-head"><h2>Courses & Lessons</h2><div class="toolbar"><button class="btn primary" data-open="courseModal">＋ Course</button><button class="btn" data-open="lessonModal">＋ Lesson</button></div></div>
-        <div id="coursesList"></div>
-      </div>
+    <div class="card-grid">
 
-      <div class="view" id="view-learners">
-        <div class="section-head"><h2>Learners & enrolments</h2><button class="btn" id="refreshLearners">↻ Refresh</button></div>
-        <div class="card"><div class="toolbar"><input id="learnerSearch" class="search" placeholder="Search learner, class or course..."></div><div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Learner</th><th>Class</th><th>Progress</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead><tbody id="learnersTable"></tbody></table></div></div>
-      </div>
-
-      <div class="view" id="view-assessments">
-        <div class="section-head"><h2>Quizzes, tests & exams</h2><button class="btn primary" data-open="assessmentModal">＋ Create assessment</button></div>
-        <div class="grid three" id="assessmentsGrid"></div>
-        <div class="section-head"><h2>Assessment automation</h2></div>
-        <div class="grid three">
-          <div class="card"><h3>⏱ Scheduled release</h3><p class="muted">Set availability windows and timed attempts.</p></div>
-          <div class="card"><h3>⚡ Automatic results</h3><p class="muted">Objective questions can be auto-graded; results can be delivered after submission or a configured delay.</p></div>
-          <div class="card"><h3>🔐 Attempt controls</h3><p class="muted">Configure attempts, duration, pass mark and publication state.</p></div>
+        <div class="card stat-card">
+            <div class="stat-icon">💵</div>
+            <div class="stat-label">Gross Earnings</div>
+            <div class="stat-number" id="grossEarnings">
+                RWF 0
+            </div>
         </div>
-      </div>
 
-      <div class="view" id="view-projects">
-        <div class="section-head"><h2>Projects, homework & assignments</h2><button class="btn primary" data-open="projectModal">＋ Create task</button></div>
-        <div id="projectsGrid" class="grid three"></div>
-      </div>
-
-      <div class="view" id="view-meetings">
-        <div class="section-head"><h2>Meetings & live streams</h2><button class="btn primary" data-open="liveModal">＋ Schedule</button></div>
-        <div class="grid two"><div class="card"><h3>Upcoming</h3><div id="meetingsList" class="list"></div></div><div class="card"><h3>Live teaching toolkit</h3><p class="muted">Store a secure meeting/stream URL, platform, start/end times and class association. Integrate a provider later without changing the class model.</p><div class="list"><div class="list-item"><span>Attendance</span><span class="badge blue">Ready for integration</span></div><div class="list-item"><span>Recording link</span><span class="badge blue">Supported</span></div><div class="list-item"><span>Calendar</span><span class="badge green">Scheduled</span></div></div></div></div>
-      </div>
-
-      <div class="view" id="view-announcements">
-        <div class="section-head"><h2>Posts & announcements</h2><button class="btn primary" data-open="announcementModal">＋ New announcement</button></div>
-        <div id="announcementsList" class="list"></div>
-      </div>
-
-      <div class="view" id="view-messages">
-        <div class="section-head"><h2>Messages, differentiated communication & learner chasing</h2><button class="btn primary" data-open="messageModal">＋ Send message</button></div>
-        <div class="grid two">
-          <div class="card"><h3>Message centre</h3><div id="messagesList" class="list"></div></div>
-          <div class="card"><h3>Engagement automation</h3><p class="muted">The production backend can detect inactivity, missed deadlines and upcoming events, then send differentiated notifications/emails according to learner/class rules.</p><div class="list"><div class="list-item"><span>Inactive learner</span><span class="badge yellow">Reminder</span></div><div class="list-item"><span>Missed assignment</span><span class="badge red">Escalate</span></div><div class="list-item"><span>Upcoming class</span><span class="badge blue">Notify</span></div><div class="list-item"><span>Test result</span><span class="badge green">Send result</span></div></div></div>
+        <div class="card stat-card">
+            <div class="stat-icon">🏛️</div>
+            <div class="stat-label">Estimated Tax</div>
+            <div class="stat-number" id="estimatedTax">
+                RWF 0
+            </div>
         </div>
-      </div>
 
-      <div class="view" id="view-earnings">
-        <div class="section-head"><h2>Earnings, platform fees & payouts</h2><button class="btn" data-open="payoutModal">Request payout</button></div>
-        <div class="grid stats" style="grid-template-columns:repeat(4,1fr)"><div class="card stat"><div class="muted tiny">Gross sales</div><div id="grossSales" class="value">RWF 0</div></div><div class="card stat"><div class="muted tiny">RTLH fee/withholding</div><div id="platformFees" class="value">RWF 0</div></div><div class="card stat"><div class="muted tiny">Available balance</div><div id="availableBalance" class="value">RWF 0</div></div><div class="card stat"><div class="muted tiny">Pending payout</div><div id="pendingPayout" class="value">RWF 0</div></div></div>
-        <div class="card" style="margin-top:16px"><div class="notice">Configure the actual RTLH platform fee/withholding and tax treatment in the secure backend after confirming the applicable business and tax rules. The browser should never be trusted to calculate or approve final payouts.</div><div class="table-wrap" style="margin-top:14px"><table class="table"><thead><tr><th>Class</th><th>Gross</th><th>RTLH fee/withholding</th><th>Teacher amount</th><th>Status</th></tr></thead><tbody id="earningsTable"></tbody></table></div></div>
-      </div>
-
-      <div class="view" id="view-analytics">
-        <div class="section-head"><h2>Teaching analytics</h2></div>
-        <div class="grid three"><div class="card"><div class="kicker">Learner success</div><h2 id="aCompletion">0%</h2><p class="muted">Average course/class progress foundation.</p><div class="progress"><i id="aCompletionBar" style="width:0%"></i></div></div><div class="card"><div class="kicker">Assessment performance</div><h2 id="aScore">0%</h2><p class="muted">Average recorded score from available grades.</p><div class="progress"><i id="aScoreBar" style="width:0%"></i></div></div><div class="card"><div class="kicker">Teacher rating</div><h2 id="aRating">0.0 ★</h2><p class="muted">Based on published learner reviews.</p></div></div>
-      </div>
-
-      <div class="view" id="view-reviews">
-        <div class="section-head"><h2>Learner reviews</h2></div>
-        <div id="reviewsList" class="grid three"></div>
-      </div>
-
-      <div class="view" id="view-settings">
-        <div class="section-head"><h2>RTLH E-Teacher settings</h2><button class="btn primary" id="saveSettingsBtn">Save</button></div>
-        <div class="grid two">
-          <div class="card"><h3>Teaching preferences</h3><div class="field"><label>Default currency</label><select id="setCurrency"><option>RWF</option><option>USD</option><option>EUR</option></select></div><div class="field"><label>Default class visibility</label><select id="setVisibility"><option value="public">Public</option><option value="private">Private</option></select></div><div class="field"><label>Default platform fee / withholding estimate (%)</label><input id="setFee" type="number" min="0" max="100" step="0.1" value="10"></div></div>
-          <div class="card"><h3>Professional safeguards</h3><div class="list"><div class="list-item"><span>Teacher verification</span><span class="badge yellow">Admin controlled</span></div><div class="list-item"><span>Payment confirmation</span><span class="badge green">Backend/webhook</span></div><div class="list-item"><span>Grade editing</span><span class="badge blue">Teacher permission</span></div><div class="list-item"><span>Financial records</span><span class="badge red">Restricted</span></div></div></div>
+        <div class="card stat-card">
+            <div class="stat-icon">💰</div>
+            <div class="stat-label">Estimated Net</div>
+            <div class="stat-number" id="netEarnings">
+                RWF 0
+            </div>
         </div>
-      </div>
 
-      <div class="view" id="view-help">
-        <div class="section-head"><h2>RTLH E-Teacher professional programme</h2></div>
-        <div class="grid two">
-          <div class="card"><h3>Core teaching capabilities</h3><p class="muted">Online coaching, training, course delivery, e-class formation, lesson management, homework, assignments, projects, quizzes, tests, exams, automated assessment windows, learner results, enrollment, attendance, live meetings, posts, announcements and communication.</p></div>
-          <div class="card"><h3>Business & trust capabilities</h3><p class="muted">Public teacher directory, public class catalogue, teacher verification, student payments, configurable RTLH fees/withholding, earnings, payout requests, reviews, analytics and certificate workflows.</p></div>
-          <div class="card"><h3>Future integrations</h3><p class="muted">Email provider, payment gateway, live-stream provider, cloud video storage, calendar, push notifications, AI teaching assistant and AI learner assistant can be connected through secure backend services.</p></div>
-          <div class="card"><h3>Scale principle</h3><p class="muted">Firestore stores structured metadata and permissions. Large media/video delivery should use appropriate storage/streaming infrastructure. Sensitive payment and administrative actions should run server-side.</p></div>
+    </div>
+
+    <div class="card">
+
+        <h3>Teacher Income Notice</h3>
+
+        <p style="color:var(--muted);line-height:1.7;font-size:13px">
+            Earnings generated through RTLH teaching activities should be
+            handled according to applicable platform rules and relevant
+            tax requirements. The figures displayed here are estimates
+            and are not tax advice.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section class="section" id="profile">
+
+    <div class="page-header">
+
+        <div>
+            <h2>My Teacher Profile</h2>
+            <p>Keep your teaching information up to date.</p>
         </div>
-      </div>
-    </section>
-  </main>
+
+    </div>
+
+    <div class="card">
+
+        <form id="profileForm">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input id="profileName" placeholder="Your full name">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input id="profileEmail" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input id="profilePhone" placeholder="+250 7XX XXX XXX">
+                </div>
+
+                <div class="form-group">
+                    <label>Country</label>
+                    <input id="profileCountry" value="Rwanda">
+                </div>
+
+                <div class="form-group">
+                    <label>Teaching Subject / Specialisation</label>
+                    <input
+                        id="profileSubject"
+                        placeholder="e.g. ICT, English, Music"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Qualification</label>
+                    <input
+                        id="profileQualification"
+                        placeholder="Your qualification"
+                    >
+                </div>
+
+                <div class="form-group full">
+                    <label>About You</label>
+
+                    <textarea
+                        id="profileBio"
+                        placeholder="Tell learners about yourself and your teaching experience."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button class="primary-btn" type="submit">
+                    Save Profile
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<section class="section" id="settings">
+
+    <div class="page-header">
+
+        <div>
+            <h2>Settings</h2>
+            <p>Manage your E-Teacher preferences.</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <div class="form-group">
+            <label>Email Notifications</label>
+
+            <select id="emailNotifications">
+                <option value="enabled">Enabled</option>
+                <option value="disabled">Disabled</option>
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label>Class Discovery</label>
+
+            <select id="classDiscovery">
+                <option value="public">
+                    Public - learners can discover my classes
+                </option>
+
+                <option value="private">
+                    Private - learners need an invitation/code
+                </option>
+            </select>
+
+        </div>
+
+        <button
+            class="primary-btn"
+            id="saveSettingsBtn">
+            Save Settings
+        </button>
+
+    </div>
+
+</section>
+
+</main>
+</div>
 </div>
 
-<!-- Modals -->
-<div class="modal" id="classModal"><div class="modal-box"><div class="modal-head"><h2>Create E-Class</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field"><label>Class title</label><input id="cTitle"></div><div class="field"><label>Course ID (optional)</label><input id="cCourseId"></div>
-<div class="field full"><label>Description</label><textarea id="cDesc" rows="4"></textarea></div>
-<div class="field"><label>Level</label><select id="cLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Professional</option></select></div>
-<div class="field"><label>Class type</label><select id="cType"><option>live</option><option>self-paced</option><option>hybrid</option><option>coaching</option><option>training</option></select></div>
-<div class="field"><label>Price</label><input id="cPrice" type="number" min="0" value="0"></div><div class="field"><label>Currency</label><select id="cCurrency"><option>RWF</option><option>USD</option><option>EUR</option></select></div>
-<div class="field"><label>Maximum students</label><input id="cMax" type="number" min="1" value="30"></div><div class="field"><label>Schedule</label><input id="cSchedule" placeholder="Saturdays 10:00–12:00"></div>
-<div class="field"><label>Status</label><select id="cStatus"><option>draft</option><option>open</option><option>closed</option></select></div><div class="field"><label>Public listing</label><select id="cPublic"><option value="true">Yes</option><option value="false">No</option></select></div>
-</div><div class="toolbar"><button class="btn primary" id="saveClassBtn">Create class</button></div></div></div>
 
-<div class="modal" id="courseModal"><div class="modal-box"><div class="modal-head"><h2>Create Course</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field full"><label>Course title</label><input id="coTitle"></div><div class="field full"><label>Description</label><textarea id="coDesc" rows="4"></textarea></div>
-<div class="field"><label>Category</label><input id="coCategory" placeholder="ICT, Music, Languages..."></div><div class="field"><label>Level</label><select id="coLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Professional</option></select></div>
-<div class="field"><label>Language</label><input id="coLanguage" value="English"></div><div class="field"><label>Thumbnail URL</label><input id="coThumb"></div>
-<div class="field"><label>Status</label><select id="coStatus"><option>draft</option><option>published</option></select></div><div class="field"><label>Public</label><select id="coPublic"><option value="true">Yes</option><option value="false">No</option></select></div>
-</div><div class="toolbar"><button class="btn primary" id="saveCourseBtn">Create course</button></div></div></div>
+<!-- =========================================================
+     CREATE CLASS MODAL
+========================================================= -->
 
-<div class="modal" id="lessonModal"><div class="modal-box"><div class="modal-head"><h2>Create Lesson</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field"><label>Lesson title</label><input id="lTitle"></div><div class="field"><label>Lesson number</label><input id="lNumber" type="number" value="1"></div>
-<div class="field"><label>Course ID</label><input id="lCourseId"></div><div class="field"><label>Class ID</label><input id="lClassId"></div>
-<div class="field"><label>Content type</label><select id="lType"><option>video</option><option>text</option><option>pdf</option><option>audio</option><option>presentation</option><option>live</option><option>mixed</option></select></div><div class="field"><label>Duration (minutes)</label><input id="lDuration" type="number" value="30"></div>
-<div class="field full"><label>Lesson description</label><textarea id="lDesc" rows="4"></textarea></div><div class="field full"><label>Video URL</label><input id="lVideo"></div><div class="field full"><label>Document/PDF URL</label><input id="lDoc"></div>
-</div><div class="toolbar"><button class="btn primary" id="saveLessonBtn">Create lesson</button></div></div></div>
+<div class="modal" id="classModal">
 
-<div class="modal" id="assessmentModal"><div class="modal-box"><div class="modal-head"><h2>Create Quiz / Test / Exam</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field"><label>Type</label><select id="aType"><option>quiz</option><option>test</option><option>exam</option></select></div><div class="field"><label>Title</label><input id="aTitle"></div>
-<div class="field"><label>Course ID</label><input id="aCourseId"></div><div class="field"><label>Class ID</label><input id="aClassId"></div>
-<div class="field"><label>Duration (minutes)</label><input id="aDuration" type="number" value="30"></div><div class="field"><label>Total marks</label><input id="aMarks" type="number" value="100"></div>
-<div class="field"><label>Pass mark</label><input id="aPass" type="number" value="50"></div><div class="field"><label>Attempts allowed</label><input id="aAttempts" type="number" value="1"></div>
-<div class="field"><label>Available from</label><input id="aFrom" type="datetime-local"></div><div class="field"><label>Available until</label><input id="aUntil" type="datetime-local"></div>
-<div class="field"><label>Auto-grade</label><select id="aAuto"><option value="true">Yes</option><option value="false">No</option></select></div><div class="field"><label>Published</label><select id="aPublished"><option value="true">Yes</option><option value="false">No</option></select></div>
-</div><div class="toolbar"><button class="btn primary" id="saveAssessmentBtn">Create assessment</button></div></div></div>
+    <div class="modal-box">
 
-<div class="modal" id="projectModal"><div class="modal-box"><div class="modal-head"><h2>Create Homework / Assignment / Project</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field"><label>Type</label><select id="prType"><option>assignment</option><option>homework</option><option>project</option></select></div><div class="field"><label>Title</label><input id="prTitle"></div>
-<div class="field"><label>Course ID</label><input id="prCourseId"></div><div class="field"><label>Class ID</label><input id="prClassId"></div>
-<div class="field full"><label>Description</label><textarea id="prDesc" rows="4"></textarea></div><div class="field"><label>Maximum score</label><input id="prScore" type="number" value="100"></div><div class="field"><label>Submission type</label><select id="prSubmit"><option>file</option><option>text</option><option>link</option><option>mixed</option></select></div><div class="field"><label>Due date</label><input id="prDue" type="datetime-local"></div><div class="field"><label>Status</label><select id="prStatus"><option>draft</option><option>published</option></select></div>
-</div><div class="toolbar"><button class="btn primary" id="saveProjectBtn">Create task</button></div></div></div>
+        <div class="modal-head">
 
-<div class="modal" id="liveModal"><div class="modal-box"><div class="modal-head"><h2>Schedule Meeting / Live Stream</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field full"><label>Session title</label><input id="mTitle"></div><div class="field"><label>Class ID</label><input id="mClassId"></div><div class="field"><label>Course ID</label><input id="mCourseId"></div>
-<div class="field"><label>Platform</label><select id="mPlatform"><option>Google Meet</option><option>Zoom</option><option>Microsoft Teams</option><option>RTLH Live</option><option>Other</option></select></div><div class="field"><label>Meeting / stream URL</label><input id="mUrl"></div>
-<div class="field"><label>Start</label><input id="mStart" type="datetime-local"></div><div class="field"><label>End</label><input id="mEnd" type="datetime-local"></div>
-</div><div class="toolbar"><button class="btn primary" id="saveMeetingBtn">Schedule session</button></div></div></div>
+            <h3>Create New E-Class</h3>
 
-<div class="modal" id="announcementModal"><div class="modal-box"><div class="modal-head"><h2>Post Announcement</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field full"><label>Title</label><input id="anTitle"></div><div class="field full"><label>Message</label><textarea id="anMessage" rows="6"></textarea></div><div class="field"><label>Class ID</label><input id="anClassId"></div><div class="field"><label>Priority</label><select id="anPriority"><option>normal</option><option>high</option><option>urgent</option><option>low</option></select></div>
-</div><div class="toolbar"><button class="btn primary" id="saveAnnouncementBtn">Publish</button></div></div></div>
+            <button onclick="closeModal('classModal')">
+                ✕
+            </button>
 
-<div class="modal" id="messageModal"><div class="modal-box"><div class="modal-head"><h2>Send Learner Message</h2><button class="btn" data-close>✕</button></div><div class="form-grid">
-<div class="field"><label>Receiver learner UID</label><input id="msgReceiver"></div><div class="field"><label>Class ID</label><input id="msgClassId"></div><div class="field full"><label>Message</label><textarea id="msgText" rows="6"></textarea></div>
-</div><div class="toolbar"><button class="btn primary" id="sendMessageBtn">Send</button></div></div></div>
+        </div>
 
-<div class="modal" id="payoutModal"><div class="modal-box"><div class="modal-head"><h2>Request Teacher Payout</h2><button class="btn" data-close>✕</button></div><div class="notice">This creates a payout request record. Actual money movement must be approved and processed by a secure backend/payment provider.</div><div class="form-grid" style="margin-top:14px"><div class="field"><label>Amount</label><input id="poAmount" type="number" min="0"></div><div class="field"><label>Currency</label><select id="poCurrency"><option>RWF</option><option>USD</option><option>EUR</option></select></div><div class="field full"><label>Method</label><select id="poMethod"><option>mobile_money</option><option>bank</option><option>payment_gateway</option></select></div></div><div class="toolbar"><button class="btn primary" id="savePayoutBtn">Request payout</button></div></div></div>
+        <div class="modal-body">
+
+            <form id="classForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Class Name *</label>
+
+                        <input
+                            id="className"
+                            required
+                            placeholder="e.g. Beginner Web Development"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subject *</label>
+
+                        <input
+                            id="classSubject"
+                            required
+                            placeholder="e.g. ICT"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Education Level</label>
+
+                        <select id="classLevel">
+                            <option>Beginner</option>
+                            <option>Intermediate</option>
+                            <option>Advanced</option>
+                            <option>Primary</option>
+                            <option>Secondary</option>
+                            <option>University</option>
+                            <option>Professional</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Class Fee</label>
+
+                        <input
+                            id="classPrice"
+                            type="number"
+                            min="0"
+                            placeholder="0"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Start Date</label>
+
+                        <input
+                            id="classStartDate"
+                            type="date"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Class Status</label>
+
+                        <select id="classStatus">
+                            <option value="active">Active</option>
+                            <option value="draft">Draft</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Description *</label>
+
+                        <textarea
+                            id="classDescription"
+                            required
+                            placeholder="Describe what learners will learn in this class."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal('classModal')">
+                        Cancel
+                    </button>
+
+                    <button
+                        class="primary-btn"
+                        type="submit">
+                        Create E-Class
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     LESSON MODAL
+========================================================= -->
+
+<div class="modal" id="lessonModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h3>Add Lesson</h3>
+
+            <button onclick="closeModal('lessonModal')">
+                ✕
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <form id="lessonForm">
+
+                <div class="form-group">
+
+                    <label>Lesson Title *</label>
+
+                    <input
+                        id="lessonTitle"
+                        required
+                        placeholder="Lesson title"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Class ID</label>
+
+                    <input
+                        id="lessonClassId"
+                        placeholder="Enter the class ID"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Lesson Type</label>
+
+                    <select id="lessonType">
+                        <option value="text">Text</option>
+                        <option value="video">Video</option>
+                        <option value="document">Document</option>
+                        <option value="live">Live Lesson</option>
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Lesson Content / URL</label>
+
+                    <textarea
+                        id="lessonContent"
+                        placeholder="Enter lesson content or video/document URL."
+                    ></textarea>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal('lessonModal')">
+                        Cancel
+                    </button>
+
+                    <button class="primary-btn" type="submit">
+                        Save Lesson
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ASSESSMENT MODAL
+========================================================= -->
+
+<div class="modal" id="assessmentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h3>Create Assessment</h3>
+
+            <button onclick="closeModal('assessmentModal')">
+                ✕
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <form id="assessmentForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Assessment Title *</label>
+
+                        <input
+                            id="assessmentTitle"
+                            required
+                            placeholder="e.g. Unit 1 Test"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Class ID</label>
+
+                        <input
+                            id="assessmentClassId"
+                            placeholder="Class ID"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Assessment Type</label>
+
+                        <select id="assessmentType">
+                            <option value="quiz">Quiz</option>
+                            <option value="test">Test</option>
+                            <option value="exam">Exam</option>
+                            <option value="project">Project</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Duration (minutes)</label>
+
+                        <input
+                            id="assessmentDuration"
+                            type="number"
+                            min="1"
+                            value="30"
+                        >
+
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Questions / Instructions</label>
+
+                        <textarea
+                            id="assessmentQuestions"
+                            placeholder="Enter questions or assessment instructions."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal('assessmentModal')">
+                        Cancel
+                    </button>
+
+                    <button class="primary-btn" type="submit">
+                        Create Assessment
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ASSIGNMENT MODAL
+========================================================= -->
+
+<div class="modal" id="assignmentModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h3>Create Homework / Project</h3>
+
+            <button onclick="closeModal('assignmentModal')">
+                ✕
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <form id="assignmentForm">
+
+                <div class="form-group">
+                    <label>Title</label>
+                    <input
+                        id="assignmentTitle"
+                        required
+                        placeholder="Assignment title"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Class ID</label>
+                    <input
+                        id="assignmentClassId"
+                        placeholder="Class ID"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Type</label>
+
+                    <select id="assignmentType">
+                        <option value="homework">Homework</option>
+                        <option value="project">Project</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input id="assignmentDueDate" type="datetime-local">
+                </div>
+
+                <div class="form-group">
+                    <label>Instructions</label>
+
+                    <textarea
+                        id="assignmentInstructions"
+                        placeholder="Instructions for learners."
+                    ></textarea>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal('assignmentModal')">
+                        Cancel
+                    </button>
+
+                    <button class="primary-btn" type="submit">
+                        Publish Assignment
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     ANNOUNCEMENT MODAL
+========================================================= -->
+
+<div class="modal" id="announcementModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h3>New Announcement</h3>
+
+            <button onclick="closeModal('announcementModal')">
+                ✕
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <form id="announcementForm">
+
+                <div class="form-group">
+
+                    <label>Class ID</label>
+
+                    <input
+                        id="announcementClassId"
+                        placeholder="Class ID"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Announcement</label>
+
+                    <textarea
+                        id="announcementText"
+                        required
+                        placeholder="Write your announcement..."
+                    ></textarea>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal('announcementModal')">
+                        Cancel
+                    </button>
+
+                    <button class="primary-btn" type="submit">
+                        Publish
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MEETING MODAL
+========================================================= -->
+
+<div class="modal" id="meetingModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <h3>Schedule Meeting / Live Class</h3>
+
+            <button onclick="closeModal('meetingModal')">
+                ✕
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <form id="meetingForm">
+
+                <div class="form-group">
+                    <label>Meeting Title</label>
+
+                    <input
+                        id="meetingTitle"
+                        required
+                        placeholder="e.g. Live ICT Lesson"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Class ID</label>
+
+                    <input
+                        id="meetingClassId"
+                        placeholder="Class ID"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Date & Time</label>
+
+                    <input
+                        id="meetingDate"
+                        type="datetime-local"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Meeting / Live Stream URL</label>
+
+                    <input
+                        id="meetingUrl"
+                        type="url"
+                        placeholder="https://..."
+                    >
+                </div>
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-btn"
+                        onclick="closeModal('meetingModal')">
+                        Cancel
+                    </button>
+
+                    <button class="primary-btn" type="submit">
+                        Schedule
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<!-- =========================================================
+     FIREBASE + APPLICATION JAVASCRIPT
+========================================================= -->
 
 <script type="module">
-/* =========================================================
-   RTLH E-TEACHER — FIREBASE / FIRESTORE FOUNDATION
-   Replace the placeholder values below with your Firebase
-   Web App configuration from Firebase Console.
-   ========================================================= */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  onAuthStateChanged, updateProfile, signOut
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 import {
-  getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc,
-  query, where, orderBy, limit, serverTimestamp
+    getFirestore,
+    collection,
+    doc,
+    setDoc,
+    addDoc,
+    getDoc,
+    getDocs,
+    query,
+    where,
+    orderBy,
+    serverTimestamp,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-/* ====== INSERT YOUR REAL FIREBASE CONFIG HERE ====== */
-const firebaseConfig = window.RTLH_FIREBASE_CONFIG || {
-  apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
-  authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
-  databaseURL: "https://rwanda-tech-learning-hub-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "rwanda-tech-learning-hub",
-  storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
-  messagingSenderId: "785118659917",
-  appId: "1:785118659917:web:86de5cad6a85372ead2304",
-  
+
+/* =========================================================
+   FIREBASE CONFIGURATION
+
+   REPLACE THESE VALUES WITH YOUR FIREBASE WEB APP CONFIG.
+========================================================= */
+
+const firebaseConfig = {
+
+    apiKey: "YOUR_FIREBASE_API_KEY",
+
+    authDomain:
+        "YOUR_PROJECT_ID.firebaseapp.com",
+
+    projectId:
+        "YOUR_PROJECT_ID",
+
+    storageBucket:
+        "YOUR_PROJECT_ID.firebasestorage.app",
+
+    messagingSenderId:
+        "YOUR_MESSAGING_SENDER_ID",
+
+    appId:
+        "YOUR_FIREBASE_APP_ID"
+
 };
 
-let app=null, auth=null, db=null, functions=null, firebaseReady=false;
-const configReady = !Object.values(firebaseConfig).some(v => String(v).includes("PASTE_YOUR"));
-try {
-  if(configReady){
-    app=initializeApp(firebaseConfig); auth=getAuth(app); db=getFirestore(app); functions=getFunctions(app, "europe-west1"); firebaseReady=true;
-    document.getElementById("authConfigNotice").style.display="none";
-  }
-}catch(e){ console.error(e); }
 
-const state={
-  demo:false,user:null,teacher:null,classes:[],courses:[],lessons:[],enrollments:[],
-  assessments:[],projects:[],meetings:[],announcements:[],messages:[],reviews:[],transactions:[],payouts:[]
+/* =========================================================
+   INITIALISE FIREBASE
+========================================================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+const googleProvider = new GoogleAuthProvider();
+
+let currentUser = null;
+let currentTeacher = null;
+
+
+/* =========================================================
+   BASIC UI FUNCTIONS
+========================================================= */
+
+window.openModal = function(id){
+
+    document.getElementById(id).classList.add("show");
+
 };
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),3000)}
-function money(n,c="RWF"){return `${c} ${Number(n||0).toLocaleString()}`}
-function modal(id,open=true){$(id).classList.toggle("open",open)}
-function uid(){return state.user?.uid || "demo-teacher"}
-function isDemo(){return state.demo || !firebaseReady}
 
-async function safeAdd(col,data){
-  if(isDemo()){ const item={id:"demo-"+Math.random().toString(36).slice(2),...data,createdAt:new Date()}; state[col].unshift(item); return item; }
-  return await addDoc(collection(db,col),data);
-}
-async function loadCol(col,field="teacherId"){
-  if(isDemo()) return state[col]||[];
-  try{
-    const q=query(collection(db,col),where(field,"==",uid()),limit(100));
-    const snap=await getDocs(q); return snap.docs.map(d=>({id:d.id,...d.data()}));
-  }catch(e){ console.error(col,e); toast(`Could not load ${col}. Check Firestore rules/indexes.`); return []; }
-}
-function setIdentity(){
-  const t=state.teacher||{};
-  const name=t.displayName||t.fullName||state.user?.displayName||"RTLH E-Teacher";
-  $("identityLine").textContent=`${name} · ${t.rtlhTeacherId||"Teacher ID pending"} · ${t.verificationStatus||"pending"}`;
-  $("avatar").textContent=(name[0]||"T").toUpperCase();
-  $("teacherIdLabel").textContent=`RTLH Teacher ID: ${t.rtlhTeacherId||"Pending generation"}`;
-  $("verificationBadge").textContent=t.verificationStatus||"pending";
-  $("verificationBadge").className="badge "+((t.verificationStatus==="approved")?"green":"yellow");
-  $("directoryBadge").textContent=t.isPublic ? "Published" : "Not published";
-  $("directoryBadge").className="badge "+(t.isPublic?"green":"red");
-  $("pName").value=t.fullName||state.user?.displayName||"";
-  $("pDisplayName").value=t.displayName||t.fullName||"";
-  $("pBio").value=t.bio||"";
-  $("pSubjects").value=Array.isArray(t.subjects)?t.subjects.join(", "):(t.subjects||"");
-  $("pLanguages").value=Array.isArray(t.languages)?t.languages.join(", "):(t.languages||"");
-  $("pQualifications").value=t.qualifications||"";
-  $("pExperience").value=t.experience??0;
-}
-async function ensureTeacher(){
-  if(isDemo()){
-    state.user={uid:"demo-teacher",displayName:"Demo E-Teacher",email:"demo@rtlh.local"};
-    state.teacher={uid:"demo-teacher",fullName:"Demo E-Teacher",displayName:"Demo E-Teacher",rtlhTeacherId:"RTLH-T-DEMO-000001",verificationStatus:"pending",isPublic:false,subjects:["ICT"],languages:["English","Kinyarwanda"]};
-    return;
-  }
-  try{
-    // Unique RTLH User/Teacher IDs are generated by the trusted Firebase callable function.
-    const call=httpsCallable(functions,"ensureTeacherProfile");
-    const result=await call({});
-    const ids=result.data||{};
-    const ref=doc(db,"teachers",uid()); const snap=await getDoc(ref);
-    if(snap.exists()) state.teacher={id:snap.id,...snap.data(),...ids};
-    else state.teacher={id:uid(),...ids,verificationStatus:"pending",isVerified:false,isPublic:false};
-    setIdentity();
-  }catch(e){
-    console.error(e);
-    toast("Teacher profile setup failed. Deploy the Firebase Functions backend and check Firestore rules.");
-  }
-}
-async function loadAll(){
-  if(isDemo()) return;
-  state.classes=await loadCol("classes"); state.courses=await loadCol("courses"); state.lessons=await loadCol("lessons");
-  state.enrollments=await loadCol("enrollments","teacherId"); state.assessments=[];
-  for(const c of ["quizzes","tests","exams"]){ const arr=await loadCol(c); state.assessments.push(...arr.map(x=>({...x,kind:c.slice(0,-1)}))); }
-  state.projects=[...(await loadCol("projects")),...(await loadCol("assignments"))];
-  state.meetings=await loadCol("meetings"); state.announcements=await loadCol("announcements");
-  state.messages=await loadCol("messages","senderId"); state.reviews=await loadCol("reviews","teacherId");
-  state.transactions=await loadCol("transactions","teacherId"); state.payouts=await loadCol("payouts","teacherId");
-}
-function render(){
-  $("statClasses").textContent=state.classes.filter(x=>x.status!=="closed").length;
-  $("statCourses").textContent=state.courses.filter(x=>x.status==="published").length;
-  $("statLearners").textContent=new Set(state.enrollments.map(x=>x.studentId)).size;
-  $("statPending").textContent=state.projects.filter(x=>x.status==="published").length;
-  const gross=state.transactions.reduce((a,x)=>a+Number(x.amount||0),0), fees=state.transactions.reduce((a,x)=>a+Number(x.platformFee||0),0);
-  $("statEarnings").textContent=money(Math.max(0,gross-fees));
-  $("grossSales").textContent=money(gross);$("platformFees").textContent=money(fees);$("availableBalance").textContent=money(Math.max(0,gross-fees));$("pendingPayout").textContent=money(state.payouts.filter(x=>x.status==="pending").reduce((a,x)=>a+Number(x.amount||0),0));
-  renderClasses();renderCourses();renderAssessments();renderProjects();renderMeetings();renderAnnouncements();renderMessages();renderLearners();renderReviews();renderEarnings();renderDash();
-}
-function renderClasses(){
-  const q=($("classSearch")?.value||"").toLowerCase(), f=$("classFilter")?.value||"";
-  const rows=state.classes.filter(x=>(!f||x.status===f)&&(!q||`${x.title} ${x.description}`.toLowerCase().includes(q)));
-  $("classesGrid").innerHTML=rows.length?rows.map(x=>`<div class="card"><span class="badge ${x.status==="open"?"green":"blue"}">${esc(x.status||"draft")}</span><h3>${esc(x.title||"Untitled class")}</h3><p class="muted">${esc(x.description||"No description")}</p><div class="list"><div class="list-item"><span>Price</span><b>${money(x.price,x.currency||"RWF")}</b></div><div class="list-item"><span>Students</span><b>${x.enrolledStudents||0}/${x.maxStudents||"∞"}</b></div><div class="list-item"><span>Type</span><span>${esc(x.classType||"live")}</span></div></div><div class="toolbar" style="margin-top:12px"><button class="btn" onclick="window.copyClassId('${esc(x.id)}')">Copy ID</button></div></div>`).join(""):`<div class="empty">No classes yet. Create your first E-Class.</div>`;
-}
-function renderCourses(){
-  $("coursesList").innerHTML=state.courses.length?state.courses.map(c=>{
-    const ls=state.lessons.filter(l=>l.courseId===c.id);
-    return `<div class="card" style="margin-bottom:12px"><div class="section-head" style="margin:0 0 8px"><div><span class="badge blue">${esc(c.status||"draft")}</span><h3 style="margin:7px 0">${esc(c.title)}</h3></div><button class="btn" onclick="window.createLessonFor('${esc(c.id)}')">＋ Lesson</button></div><p class="muted">${esc(c.description||"")}</p><div class="list">${ls.length?ls.map(l=>`<div class="list-item"><span>${l.lessonNumber||""}. ${esc(l.title)}</span><span class="badge">${esc(l.contentType||"content")}</span></div>`).join(""):`<div class="empty">No lessons yet.</div>`}</div></div>`;
-  }).join(""):`<div class="empty">No courses yet.</div>`;
-}
-function renderAssessments(){
-  $("assessmentsGrid").innerHTML=state.assessments.length?state.assessments.map(a=>`<div class="card"><span class="badge blue">${esc(a.kind||a.type||"assessment")}</span><h3>${esc(a.title||"Assessment")}</h3><p class="muted">${esc(a.courseId||"No course linked")}</p><div class="list"><div class="list-item"><span>Duration</span><b>${a.durationMinutes||0} min</b></div><div class="list-item"><span>Marks</span><b>${a.totalMarks||0}</b></div><div class="list-item"><span>Pass</span><b>${a.passMark||0}</b></div></div></div>`).join(""):`<div class="empty">No assessments yet.</div>`;
-}
-function renderProjects(){ $("projectsGrid").innerHTML=state.projects.length?state.projects.map(p=>`<div class="card"><span class="badge yellow">${esc(p.type||"assignment")}</span><h3>${esc(p.title||"Task")}</h3><p class="muted">${esc(p.description||"")}</p><div class="list"><div class="list-item"><span>Max score</span><b>${p.maxScore||0}</b></div><div class="list-item"><span>Status</span><span>${esc(p.status||"draft")}</span></div></div></div>`).join(""):`<div class="empty">No assignments, homework or projects yet.</div>`}
-function renderMeetings(){const html=state.meetings.length?state.meetings.map(m=>`<div class="list-item"><div><b>${esc(m.title)}</b><div class="tiny muted">${esc(m.platform||"Live")} · ${esc(m.startTime?.toDate?m.startTime.toDate().toLocaleString():m.startTime||"")}</div></div><a class="btn" target="_blank" href="${esc(m.meetingUrl||m.url||"#")}">Open</a></div>`).join(""):`<div class="empty">No scheduled sessions.</div>`;$("meetingsList").innerHTML=html;$("dashMeetings").innerHTML=html;}
-function renderAnnouncements(){$("announcementsList").innerHTML=state.announcements.length?state.announcements.map(a=>`<div class="list-item"><div><b>${esc(a.title)}</b><p class="muted" style="margin:5px 0">${esc(a.message)}</p></div><span class="badge ${a.priority==="urgent"?"red":"blue"}">${esc(a.priority||"normal")}</span></div>`).join(""):`<div class="empty">No announcements.</div>`}
-function renderMessages(){$("messagesList").innerHTML=state.messages.length?state.messages.map(m=>`<div class="list-item"><div><b>To: ${esc(m.receiverId||"learner")}</b><p class="muted" style="margin:5px 0">${esc(m.message)}</p></div><span class="badge">${m.isRead?"read":"sent"}</span></div>`).join(""):`<div class="empty">No messages.</div>`}
-function renderLearners(){
-  const q=($("learnerSearch")?.value||"").toLowerCase(); const rows=state.enrollments.filter(e=>`${e.studentId} ${e.classId} ${e.courseId}`.toLowerCase().includes(q));
-  $("learnersTable").innerHTML=rows.length?rows.map(e=>`<tr><td>${esc(e.studentId||"—")}</td><td>${esc(e.classId||"—")}</td><td><div style="min-width:110px"><b>${e.progress||0}%</b><div class="progress"><i style="width:${Math.min(100,Number(e.progress||0))}%"></i></div></div></td><td><span class="badge ${e.paymentStatus==="paid"?"green":"yellow"}">${esc(e.paymentStatus||"pending")}</span></td><td>${esc(e.enrollmentStatus||"active")}</td><td><button class="btn" onclick="window.remindLearner('${esc(e.studentId||"")}')">Remind</button></td></tr>`).join(""):`<tr><td colspan="6"><div class="empty">No enrolments found.</div></td></tr>`;
-}
-function renderReviews(){$("reviewsList").innerHTML=state.reviews.length?state.reviews.map(r=>`<div class="card"><div class="kicker">Learner review</div><h3>${"★".repeat(Math.max(0,Math.min(5,Number(r.rating||0))))}</h3><p>${esc(r.comment||"No comment")}</p><small class="muted">${esc(r.studentId||"Student")}</small></div>`).join(""):`<div class="empty">No reviews yet.</div>`}
-function renderEarnings(){const rows=state.transactions; $("earningsTable").innerHTML=rows.length?rows.map(x=>`<tr><td>${esc(x.classId||"—")}</td><td>${money(x.amount,x.currency||"RWF")}</td><td>${money(x.platformFee,x.currency||"RWF")}</td><td>${money(Number(x.amount||0)-Number(x.platformFee||0),x.currency||"RWF")}</td><td><span class="badge green">${esc(x.status||"completed")}</span></td></tr>`).join(""):`<tr><td colspan="5"><div class="empty">No transactions recorded.</div></td></tr>`}
-function renderDash(){$("dashAlerts").innerHTML=state.enrollments.filter(e=>Number(e.progress||0)<30).slice(0,6).map(e=>`<div class="list-item"><span>Learner <b>${esc(e.studentId||"")}</b><small class="muted"> · ${e.progress||0}% progress</small></span><button class="btn" onclick="window.remindLearner('${esc(e.studentId||"")}')">Chase</button></div>`).join("")||`<div class="empty">No urgent learner alerts.</div>`}
-function saveDemo(col,item){state[col].unshift(item);render()}
+window.closeModal = function(id){
 
-async function createClass(){
-  const data={title:$("cTitle").value.trim(),courseId:$("cCourseId").value.trim(),description:$("cDesc").value.trim(),level:$("cLevel").value,classType:$("cType").value,price:Number($("cPrice").value||0),currency:$("cCurrency").value,maxStudents:Number($("cMax").value||30),enrolledStudents:0,schedule:$("cSchedule").value,status:$("cStatus").value,isPublic:$("cPublic").value==="true",teacherId:uid(),createdAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.title){toast("Enter a class title.");return} const r=await safeAdd("classes",data); if(!isDemo()) state.classes.unshift({id:r.id,...data}); modal("classModal",false);toast("E-Class created.");render();
+    document.getElementById(id).classList.remove("show");
+
+};
+
+
+window.showSection = function(sectionId){
+
+    document.querySelectorAll(".section")
+        .forEach(section => section.classList.remove("active"));
+
+    const target =
+        document.getElementById(sectionId);
+
+    if(target){
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav-item")
+        .forEach(item => {
+
+            item.classList.toggle(
+                "active",
+                item.dataset.section === sectionId
+            );
+
+        });
+
+    document.getElementById("sidebar")
+        .classList.remove("open");
+
+};
+
+
+function toast(message){
+
+    const el =
+        document.getElementById("toast");
+
+    el.textContent = message;
+
+    el.classList.add("show");
+
+    setTimeout(() => {
+        el.classList.remove("show");
+    },3500);
+
 }
-async function createCourse(){
-  const data={title:$("coTitle").value.trim(),description:$("coDesc").value.trim(),category:$("coCategory").value.trim(),level:$("coLevel").value,language:$("coLanguage").value,thumbnailUrl:$("coThumb").value,status:$("coStatus").value,isPublic:$("coPublic").value==="true",teacherId:uid(),createdAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.title){toast("Enter a course title.");return} const r=await safeAdd("courses",data);if(!isDemo())state.courses.unshift({id:r.id,...data});modal("courseModal",false);toast("Course created.");render();
+
+
+function showAuthError(message){
+
+    const el =
+        document.getElementById("authError");
+
+    el.textContent = message;
+
+    el.style.display = "block";
+
 }
-async function createLesson(){
-  const data={title:$("lTitle").value.trim(),lessonNumber:Number($("lNumber").value||1),courseId:$("lCourseId").value.trim(),classId:$("lClassId").value.trim(),teacherId:uid(),description:$("lDesc").value.trim(),contentType:$("lType").value,videoUrl:$("lVideo").value,documentUrl:$("lDoc").value,durationMinutes:Number($("lDuration").value||0),isPublished:true,createdAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.title){toast("Enter a lesson title.");return}const r=await safeAdd("lessons",data);if(!isDemo())state.lessons.unshift({id:r.id,...data});modal("lessonModal",false);toast("Lesson created.");render();
+
+
+function clearAuthError(){
+
+    document.getElementById("authError")
+        .style.display = "none";
+
 }
-async function createAssessment(){
-  const type=$("aType").value, col=type==="quiz"?"quizzes":type==="test"?"tests":"exams";
-  const data={title:$("aTitle").value.trim(),courseId:$("aCourseId").value.trim(),classId:$("aClassId").value.trim(),teacherId:uid(),durationMinutes:Number($("aDuration").value||0),totalMarks:Number($("aMarks").value||0),passMark:Number($("aPass").value||0),attemptsAllowed:Number($("aAttempts").value||1),autoGrade:$("aAuto").value==="true",availableFrom:$("aFrom").value,availableUntil:$("aUntil").value,isPublished:$("aPublished").value==="true",status:"scheduled",createdAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.title){toast("Enter an assessment title.");return}const r=await safeAdd(col,data);const item={id:r.id,...data,kind:type};if(!isDemo())state.assessments.unshift(item);modal("assessmentModal",false);toast(`${type} created.`);render();
-}
-async function createProject(){
-  const type=$("prType").value,col=type==="assignment"||type==="homework"?"assignments":"projects";
-  const data={type,title:$("prTitle").value.trim(),courseId:$("prCourseId").value.trim(),classId:$("prClassId").value.trim(),teacherId:uid(),description:$("prDesc").value.trim(),maxScore:Number($("prScore").value||0),submissionType:$("prSubmit").value,dueDate:$("prDue").value,status:$("prStatus").value,createdAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.title){toast("Enter a task title.");return}const r=await safeAdd(col,data);if(!isDemo())state.projects.unshift({id:r.id,...data});modal("projectModal",false);toast("Task created.");render();
-}
-async function createMeeting(){
-  const data={title:$("mTitle").value.trim(),classId:$("mClassId").value.trim(),courseId:$("mCourseId").value.trim(),teacherId:uid(),platform:$("mPlatform").value,meetingUrl:$("mUrl").value,startTime:$("mStart").value,endTime:$("mEnd").value,status:"scheduled",createdAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.title){toast("Enter a session title.");return}const r=await safeAdd("meetings",data);if(!isDemo())state.meetings.unshift({id:r.id,...data});modal("liveModal",false);toast("Live session scheduled.");render();
-}
-async function createAnnouncement(){
-  const data={title:$("anTitle").value.trim(),message:$("anMessage").value.trim(),classId:$("anClassId").value.trim(),teacherId:uid(),priority:$("anPriority").value,publishedAt:firebaseReady&&!isDemo()?serverTimestamp():new Date(),isPublished:true};
-  if(!data.title||!data.message){toast("Enter a title and message.");return}const r=await safeAdd("announcements",data);if(!isDemo())state.announcements.unshift({id:r.id,...data});modal("announcementModal",false);toast("Announcement published.");render();
-}
-async function sendMessage(){
-  const data={senderId:uid(),receiverId:$("msgReceiver").value.trim(),classId:$("msgClassId").value.trim(),message:$("msgText").value.trim(),isRead:false,sentAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(!data.receiverId||!data.message){toast("Enter receiver and message.");return}const r=await safeAdd("messages",data);if(!isDemo())state.messages.unshift({id:r.id,...data});modal("messageModal",false);toast("Message sent.");render();
-}
-async function requestPayout(){
-  const data={teacherId:uid(),amount:Number($("poAmount").value||0),currency:$("poCurrency").value,method:$("poMethod").value,status:"pending",requestedAt:firebaseReady&&!isDemo()?serverTimestamp():new Date()};
-  if(data.amount<=0){toast("Enter a valid payout amount.");return}const r=await safeAdd("payouts",data);if(!isDemo())state.payouts.unshift({id:r.id,...data});modal("payoutModal",false);toast("Payout request recorded.");render();
-}
-async function saveProfile(){
-  const data={fullName:$("pName").value.trim(),displayName:$("pDisplayName").value.trim(),bio:$("pBio").value.trim(),subjects:$("pSubjects").value.split(",").map(s=>s.trim()).filter(Boolean),languages:$("pLanguages").value.split(",").map(s=>s.trim()).filter(Boolean),qualifications:$("pQualifications").value.trim(),experience:Number($("pExperience").value||0)};
-  if(isDemo()){Object.assign(state.teacher,data);setIdentity();toast("Demo profile updated.");return}
-  await setDoc(doc(db,"teachers",uid()),{...data,updatedAt:serverTimestamp()},{merge:true});Object.assign(state.teacher,data);setIdentity();toast("Profile saved.");
-}
-function navigate(view){
-  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$("view-"+view).classList.add("active");
-  document.querySelectorAll(".nav button[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===view));
-  $("pageTitle").textContent=({dashboard:"E-Teacher Dashboard",profile:"Teacher Profile & Verification",classes:"My E-Classes",courses:"Courses & Lessons",learners:"Learners & Enrolments",assessments:"Quizzes, Tests & Exams",projects:"Projects & Assignments",meetings:"Meetings & Live Streams",announcements:"Posts & Announcements",messages:"Messages & Reminders",earnings:"Earnings & Payouts",analytics:"Teaching Analytics",reviews:"Learner Reviews",settings:"Settings",help:"RTLH E-Teacher"}[view]||"E-Teacher");
-  $("sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"});
-}
-document.addEventListener("click",e=>{
-  const v=e.target.closest("[data-view]");if(v){navigate(v.dataset.view);return}
-  const o=e.target.closest("[data-open]");if(o){modal(o.dataset.open,true);return}
-  if(e.target.matches("[data-close]")||e.target.classList.contains("modal")){if(e.target.dataset.close) e.target.closest(".modal").classList.remove("open");}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+document.querySelectorAll(".nav-item")
+.forEach(item => {
+
+    item.addEventListener("click", () => {
+
+        showSection(item.dataset.section);
+
+    });
+
 });
-$("menuBtn").onclick=()=>$("sidebar").classList.toggle("open");
-$("publicDirectoryBtn").onclick=()=>toast("Public teacher/class directory is a separate RTLH page powered by approved Firestore records.");
-$("saveClassBtn").onclick=createClass;$("saveCourseBtn").onclick=createCourse;$("saveLessonBtn").onclick=createLesson;$("saveAssessmentBtn").onclick=createAssessment;$("saveProjectBtn").onclick=createProject;$("saveMeetingBtn").onclick=createMeeting;$("saveAnnouncementBtn").onclick=createAnnouncement;$("sendMessageBtn").onclick=sendMessage;$("savePayoutBtn").onclick=requestPayout;$("saveProfileBtn").onclick=saveProfile;
-$("classSearch").oninput=renderClasses;$("classFilter").onchange=renderClasses;$("learnerSearch").oninput=renderLearners;$("refreshLearners").onclick=()=>{loadAll().then(render)};
-$("saveSettingsBtn").onclick=()=>toast("Settings saved locally in this interface. Production settings should be stored server-side.");
-$("logoutBtn").onclick=async()=>{if(firebaseReady&&!isDemo())await signOut(auth);state.demo=false;state.user=null;document.getElementById("authScreen").classList.add("show")};
-$("demoBtn").onclick=async()=>{state.demo=true;document.getElementById("authScreen").classList.remove("show");await ensureTeacher();setIdentity();render()};
-$("signUpBtn").onclick=async()=>{
-  if(!firebaseReady){toast("Add Firebase configuration first, or use Demo mode.");return}
-  try{const email=$("authEmail").value.trim(),pass=$("authPassword").value,name=$("authName").value.trim();if(!email||pass.length<6||!name){toast("Enter name, email and a password of at least 6 characters.");return}
-    const cr=await createUserWithEmailAndPassword(auth,email,pass);await updateProfile(cr.user,{displayName:name});
-    await setDoc(doc(db,"users",cr.user.uid),{fullName:name,email,country:"",role:"teacher",accountStatus:"active",createdAt:serverTimestamp()},{merge:true});
-    await ensureTeacher();
-    toast("E-Teacher account created. Your secure RTLH IDs are generated by the Firebase backend; verification is pending.");
-  }catch(e){toast(e.message||"Could not create account.");}
-};
-$("signInBtn").onclick=async()=>{
-  if(!firebaseReady){toast("Add Firebase configuration first, or use Demo mode.");return}
-  try{await signInWithEmailAndPassword(auth,$("authEmail").value.trim(),$("authPassword").value);toast("Signed in.");}catch(e){toast(e.message||"Could not sign in.");}
-};
-window.copyClassId=id=>{navigator.clipboard?.writeText(id);toast(`Class ID copied: ${id}`)};
-window.createLessonFor=id=>{$("lCourseId").value="";$("lClassId").value=id;modal("lessonModal",true)};
-window.remindLearner=async id=>{toast(`Reminder queued for learner ${id}. Production email/push delivery should be handled by a trusted backend.`);if(!isDemo()){await safeAdd("notifications",{userId:id,title:"RTLH E-Teacher reminder",message:"Please check your RTLH class activities.",type:"teacher_reminder",relatedId:"",isRead:false,createdAt:serverTimestamp()});}};
-if(firebaseReady){
-  onAuthStateChanged(auth,async user=>{
-    if(user){state.demo=false;state.user=user;document.getElementById("authScreen").classList.remove("show");await ensureTeacher();await loadAll();setIdentity();render();}
-    else document.getElementById("authScreen").classList.add("show");
-  });
-}else{
-  document.getElementById("authScreen").classList.add("show");
+
+
+document.getElementById("menuBtn")
+.addEventListener("click", () => {
+
+    document.getElementById("sidebar")
+        .classList.toggle("open");
+
+});
+
+
+/* =========================================================
+   AUTH TABS
+========================================================= */
+
+let authMode = "login";
+
+
+document.getElementById("loginTab")
+.addEventListener("click", () => {
+
+    authMode = "login";
+
+    document.getElementById("loginTab")
+        .classList.add("active");
+
+    document.getElementById("registerTab")
+        .classList.remove("active");
+
+    document.getElementById("registerFields")
+        .style.display = "none";
+
+    document.getElementById("authSubmit")
+        .textContent = "Sign In";
+
+});
+
+
+document.getElementById("registerTab")
+.addEventListener("click", () => {
+
+    authMode = "register";
+
+    document.getElementById("registerTab")
+        .classList.add("active");
+
+    document.getElementById("loginTab")
+        .classList.remove("active");
+
+    document.getElementById("registerFields")
+        .style.display = "block";
+
+    document.getElementById("authSubmit")
+        .textContent = "Create Teacher Account";
+
+});
+
+
+/* =========================================================
+   EMAIL AUTHENTICATION
+========================================================= */
+
+document.getElementById("authForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    clearAuthError();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    try{
+
+        if(authMode === "login"){
+
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+        }else{
+
+            const name =
+                document.getElementById("fullName")
+                .value.trim();
+
+            const phone =
+                document.getElementById("phone")
+                .value.trim();
+
+            if(!name){
+
+                showAuthError(
+                    "Please enter your full name."
+                );
+
+                return;
+            }
+
+            const credential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            await createTeacherProfile(
+                credential.user,
+                {
+                    fullName:name,
+                    phone:phone
+                }
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showAuthError(
+            friendlyAuthError(error)
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   GOOGLE AUTHENTICATION
+========================================================= */
+
+document.getElementById("googleBtn")
+.addEventListener("click", async () => {
+
+    clearAuthError();
+
+    try{
+
+        const result =
+            await signInWithPopup(
+                auth,
+                googleProvider
+            );
+
+        const user = result.user;
+
+        const profileRef =
+            doc(db,"users",user.uid);
+
+        const profileSnap =
+            await getDoc(profileRef);
+
+        if(!profileSnap.exists()){
+
+            await createTeacherProfile(
+                user,
+                {
+                    fullName:
+                        user.displayName || "",
+                    phone:""
+                }
+            );
+
+        }else{
+
+            const data = profileSnap.data();
+
+            if(data.role !== "teacher"){
+
+                await updateDoc(
+                    profileRef,
+                    {
+                        role:"teacher",
+                        updatedAt:serverTimestamp()
+                    }
+                );
+
+            }
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showAuthError(
+            friendlyAuthError(error)
+        );
+
+    }
+
+});
+
+
+function friendlyAuthError(error){
+
+    const code = error.code || "";
+
+    const messages = {
+
+        "auth/invalid-credential":
+            "The email or password is incorrect.",
+
+        "auth/user-not-found":
+            "No account was found with this email.",
+
+        "auth/wrong-password":
+            "The password is incorrect.",
+
+        "auth/email-already-in-use":
+            "An account with this email already exists.",
+
+        "auth/weak-password":
+            "Password should contain at least 6 characters.",
+
+        "auth/popup-closed-by-user":
+            "Google Sign-In was cancelled.",
+
+        "auth/operation-not-allowed":
+            "This sign-in method has not been enabled in Firebase.",
+
+        "auth/unauthorized-domain":
+            "This website domain is not authorised in Firebase Authentication."
+
+    };
+
+    return messages[code] ||
+        error.message ||
+        "Authentication failed. Please try again.";
+
 }
+
+
+/* =========================================================
+   CREATE TEACHER PROFILE
+========================================================= */
+
+async function createTeacherProfile(user, extra = {}){
+
+    const teacherData = {
+
+        uid:user.uid,
+
+        fullName:
+            extra.fullName ||
+            user.displayName ||
+            "RTLH Teacher",
+
+        email:
+            user.email || "",
+
+        phone:
+            extra.phone || "",
+
+        photoURL:
+            user.photoURL || "",
+
+        country:"Rwanda",
+
+        role:"teacher",
+
+        accountType:"e-teacher",
+
+        teachingSubject:"",
+
+        qualification:"",
+
+        bio:"",
+
+        createdAt:serverTimestamp(),
+
+        updatedAt:serverTimestamp()
+
+    };
+
+    await setDoc(
+        doc(db,"users",user.uid),
+        teacherData,
+        {merge:true}
+    );
+
+}
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+onAuthStateChanged(auth, async user => {
+
+    if(!user){
+
+        currentUser = null;
+
+        document.getElementById("authScreen")
+            .style.display = "flex";
+
+        document.getElementById("application")
+            .style.display = "none";
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    try{
+
+        await ensureTeacherProfile(user);
+
+        await loadTeacher();
+
+        document.getElementById("authScreen")
+            .style.display = "none";
+
+        document.getElementById("application")
+            .style.display = "block";
+
+        await loadDashboard();
+
+    }catch(error){
+
+        console.error(error);
+
+        showAuthError(
+            "Your account could not be loaded. Please try again."
+        );
+
+    }
+
+});
+
+
+async function ensureTeacherProfile(user){
+
+    const ref =
+        doc(db,"users",user.uid);
+
+    const snap =
+        await getDoc(ref);
+
+    if(!snap.exists()){
+
+        await createTeacherProfile(user);
+
+        return;
+
+    }
+
+    const data = snap.data();
+
+    if(data.role !== "teacher"){
+
+        await updateDoc(
+            ref,
+            {
+                role:"teacher",
+                accountType:"e-teacher",
+                updatedAt:serverTimestamp()
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD TEACHER
+========================================================= */
+
+async function loadTeacher(){
+
+    const ref =
+        doc(db,"users",currentUser.uid);
+
+    const snap =
+        await getDoc(ref);
+
+    if(!snap.exists()){
+
+        await createTeacherProfile(currentUser);
+
+        return loadTeacher();
+
+    }
+
+    currentTeacher = snap.data();
+
+    const name =
+        currentTeacher.fullName ||
+        currentUser.displayName ||
+        "Teacher";
+
+    const email =
+        currentTeacher.email ||
+        currentUser.email ||
+        "";
+
+    document.getElementById("welcomeName")
+        .textContent = name.split(" ")[0];
+
+    document.getElementById("sideTeacherName")
+        .textContent = name;
+
+    document.getElementById("sideTeacherEmail")
+        .textContent = email;
+
+    document.getElementById("profileName")
+        .value = name;
+
+    document.getElementById("profileEmail")
+        .value = email;
+
+    document.getElementById("profilePhone")
+        .value = currentTeacher.phone || "";
+
+    document.getElementById("profileCountry")
+        .value = currentTeacher.country || "Rwanda";
+
+    document.getElementById("profileSubject")
+        .value =
+            currentTeacher.teachingSubject || "";
+
+    document.getElementById("profileQualification")
+        .value =
+            currentTeacher.qualification || "";
+
+    document.getElementById("profileBio")
+        .value =
+            currentTeacher.bio || "";
+
+    const avatar =
+        document.getElementById("sideAvatar");
+
+    if(currentTeacher.photoURL){
+
+        avatar.innerHTML =
+            `<img src="${escapeHtml(currentTeacher.photoURL)}" alt="Teacher">`;
+
+    }else{
+
+        avatar.textContent =
+            name.charAt(0).toUpperCase();
+
+    }
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+async function loadDashboard(){
+
+    await loadClasses();
+
+    await loadLessons();
+
+    await loadAssessments();
+
+    await loadAnnouncements();
+
+}
+
+
+/* =========================================================
+   CLASSES
+========================================================= */
+
+async function loadClasses(){
+
+    if(!currentUser) return;
+
+    const q =
+        query(
+            collection(db,"classes"),
+            where(
+                "teacherId",
+                "==",
+                currentUser.uid
+            )
+        );
+
+    const snap =
+        await getDocs(q);
+
+    const classes =
+        snap.docs.map(doc => ({
+            id:doc.id,
+            ...doc.data()
+        }));
+
+    document.getElementById("statClasses")
+        .textContent = classes.length;
+
+    const grid =
+        document.getElementById("classesGrid");
+
+    if(classes.length === 0){
+
+        grid.innerHTML = `
+            <div class="card empty" style="grid-column:1/-1">
+                <div class="empty-icon">🏫</div>
+                <p>No classes created yet.</p>
+                <br>
+                <button class="primary-btn"
+                    onclick="openModal('classModal')">
+                    Create Your First Class
+                </button>
+            </div>
+        `;
+
+        return;
+
+    }
+
+    grid.innerHTML = classes.map(item => `
+
+        <div class="class-card">
+
+            <div class="class-cover">
+
+                <small>
+                    ${escapeHtml(item.subject || "General")}
+                </small>
+
+                <h3>
+                    ${escapeHtml(item.name || "Unnamed Class")}
+                </h3>
+
+            </div>
+
+            <div class="class-body">
+
+                <p style="font-size:13px;color:#64748b">
+                    ${escapeHtml(
+                        item.description ||
+                        "No description available."
+                    )}
+                </p>
+
+                <div class="class-meta">
+
+                    <span>
+                        👥 ${item.studentCount || 0}
+                    </span>
+
+                    <span>
+                        💰 ${item.price || 0} ${item.currency || "RWF"}
+                    </span>
+
+                    <span>
+                        ${item.status || "active"}
+                    </span>
+
+                </div>
+
+                <div class="class-actions">
+
+                    <button
+                        class="secondary-btn"
+                        onclick="copyClassCode('${item.id}')">
+                        Copy Class ID
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   CREATE CLASS
+========================================================= */
+
+document.getElementById("classForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    if(!currentUser) return;
+
+    try{
+
+        const classData = {
+
+            name:
+                document.getElementById("className")
+                .value.trim(),
+
+            subject:
+                document.getElementById("classSubject")
+                .value.trim(),
+
+            level:
+                document.getElementById("classLevel")
+                .value,
+
+            price:
+                Number(
+                    document.getElementById("classPrice")
+                    .value || 0
+                ),
+
+            currency:"RWF",
+
+            startDate:
+                document.getElementById("classStartDate")
+                .value,
+
+            status:
+                document.getElementById("classStatus")
+                .value,
+
+            description:
+                document.getElementById("classDescription")
+                .value.trim(),
+
+            teacherId:
+                currentUser.uid,
+
+            teacherName:
+                currentTeacher?.fullName ||
+                currentUser.displayName ||
+                "RTLH Teacher",
+
+            visibility:"public",
+
+            studentCount:0,
+
+            createdAt:serverTimestamp(),
+
+            updatedAt:serverTimestamp()
+
+        };
+
+        const ref =
+            await addDoc(
+                collection(db,"classes"),
+                classData
+            );
+
+        /* Add teacher's class reference */
+
+        await setDoc(
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "teacherClasses",
+                ref.id
+            ),
+            {
+                classId:ref.id,
+                className:classData.name,
+                createdAt:serverTimestamp()
+            }
+        );
+
+        document.getElementById("classForm")
+            .reset();
+
+        closeModal("classModal");
+
+        toast(
+            "E-Class created successfully. Learners can now discover it."
+        );
+
+        await loadClasses();
+
+        showSection("classes");
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not create the class: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+window.copyClassCode = async function(classId){
+
+    try{
+
+        await navigator.clipboard.writeText(classId);
+
+        toast("Class ID copied: " + classId);
+
+    }catch{
+
+        toast("Class ID: " + classId);
+
+    }
+
+};
+
+
+/* =========================================================
+   LESSONS
+========================================================= */
+
+async function loadLessons(){
+
+    if(!currentUser) return;
+
+    const q =
+        query(
+            collection(db,"lessons"),
+            where(
+                "teacherId",
+                "==",
+                currentUser.uid
+            )
+        );
+
+    const snap =
+        await getDocs(q);
+
+    const lessons =
+        snap.docs.map(d => ({
+            id:d.id,
+            ...d.data()
+        }));
+
+    document.getElementById("statLessons")
+        .textContent = lessons.length;
+
+    const tbody =
+        document.getElementById("lessonsTable");
+
+    if(!lessons.length){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        No lessons created yet.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    tbody.innerHTML =
+        lessons.map(item => `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(item.title || "")}
+                </td>
+
+                <td>
+                    ${escapeHtml(item.classId || "-")}
+                </td>
+
+                <td>
+                    ${escapeHtml(item.type || "text")}
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        Published
+                    </span>
+                </td>
+
+                <td>
+                    ${formatDate(item.createdAt)}
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+
+document.getElementById("lessonForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await addDoc(
+            collection(db,"lessons"),
+            {
+
+                title:
+                    document.getElementById("lessonTitle")
+                    .value.trim(),
+
+                classId:
+                    document.getElementById("lessonClassId")
+                    .value.trim(),
+
+                type:
+                    document.getElementById("lessonType")
+                    .value,
+
+                content:
+                    document.getElementById("lessonContent")
+                    .value.trim(),
+
+                teacherId:
+                    currentUser.uid,
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        document.getElementById("lessonForm").reset();
+
+        closeModal("lessonModal");
+
+        toast("Lesson created successfully.");
+
+        await loadLessons();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not save lesson: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   ASSESSMENTS
+========================================================= */
+
+async function loadAssessments(){
+
+    if(!currentUser) return;
+
+    const q =
+        query(
+            collection(db,"assessments"),
+            where(
+                "teacherId",
+                "==",
+                currentUser.uid
+            )
+        );
+
+    const snap =
+        await getDocs(q);
+
+    const assessments =
+        snap.docs.map(d => ({
+            id:d.id,
+            ...d.data()
+        }));
+
+    const tbody =
+        document.getElementById("assessmentTable");
+
+    if(!assessments.length){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        No assessments created yet.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    tbody.innerHTML =
+        assessments.map(item => `
+
+            <tr>
+
+                <td>
+                    ${escapeHtml(item.title || "")}
+                </td>
+
+                <td>
+                    ${escapeHtml(item.classId || "-")}
+                </td>
+
+                <td>
+                    ${escapeHtml(item.type || "quiz")}
+                </td>
+
+                <td>
+                    ${item.duration || 0} minutes
+                </td>
+
+                <td>
+                    <span class="badge badge-green">
+                        Published
+                    </span>
+                </td>
+
+            </tr>
+
+        `).join("");
+
+}
+
+
+document.getElementById("assessmentForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await addDoc(
+            collection(db,"assessments"),
+            {
+
+                title:
+                    document.getElementById("assessmentTitle")
+                    .value.trim(),
+
+                classId:
+                    document.getElementById("assessmentClassId")
+                    .value.trim(),
+
+                type:
+                    document.getElementById("assessmentType")
+                    .value,
+
+                duration:
+                    Number(
+                        document.getElementById("assessmentDuration")
+                        .value || 30
+                    ),
+
+                questions:
+                    document.getElementById("assessmentQuestions")
+                    .value.trim(),
+
+                teacherId:
+                    currentUser.uid,
+
+                autoGrading:true,
+
+                timed:true,
+
+                status:"published",
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        document.getElementById("assessmentForm").reset();
+
+        closeModal("assessmentModal");
+
+        toast(
+            "Assessment created successfully."
+        );
+
+        await loadAssessments();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not create assessment: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   ASSIGNMENTS
+========================================================= */
+
+document.getElementById("assignmentForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await addDoc(
+            collection(db,"assignments"),
+            {
+
+                title:
+                    document.getElementById("assignmentTitle")
+                    .value.trim(),
+
+                classId:
+                    document.getElementById("assignmentClassId")
+                    .value.trim(),
+
+                type:
+                    document.getElementById("assignmentType")
+                    .value,
+
+                dueDate:
+                    document.getElementById("assignmentDueDate")
+                    .value,
+
+                instructions:
+                    document.getElementById("assignmentInstructions")
+                    .value.trim(),
+
+                teacherId:
+                    currentUser.uid,
+
+                createdAt:
+                    serverTimestamp(),
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        document.getElementById("assignmentForm").reset();
+
+        closeModal("assignmentModal");
+
+        toast(
+            "Assignment published successfully."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not publish assignment: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   ANNOUNCEMENTS
+========================================================= */
+
+async function loadAnnouncements(){
+
+    if(!currentUser) return;
+
+    const q =
+        query(
+            collection(db,"announcements"),
+            where(
+                "teacherId",
+                "==",
+                currentUser.uid
+            )
+        );
+
+    const snap =
+        await getDocs(q);
+
+    const announcements =
+        snap.docs.map(d => ({
+            id:d.id,
+            ...d.data()
+        }));
+
+    const container =
+        document.getElementById("announcementList");
+
+    if(!announcements.length){
+
+        container.innerHTML = `
+            <div class="empty">
+                <div class="empty-icon">📢</div>
+                <p>No announcements yet.</p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+    container.innerHTML =
+        announcements.map(item => `
+
+            <div class="activity">
+
+                <div class="activity-icon">
+                    📢
+                </div>
+
+                <div>
+
+                    <p>
+                        ${escapeHtml(item.message || "")}
+                    </p>
+
+                    <small>
+                        Class:
+                        ${escapeHtml(item.classId || "All classes")}
+                        ·
+                        ${formatDate(item.createdAt)}
+                    </small>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+}
+
+
+document.getElementById("announcementForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await addDoc(
+            collection(db,"announcements"),
+            {
+
+                classId:
+                    document.getElementById("announcementClassId")
+                    .value.trim(),
+
+                message:
+                    document.getElementById("announcementText")
+                    .value.trim(),
+
+                teacherId:
+                    currentUser.uid,
+
+                teacherName:
+                    currentTeacher?.fullName || "",
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        document.getElementById("announcementForm").reset();
+
+        closeModal("announcementModal");
+
+        toast("Announcement published.");
+
+        await loadAnnouncements();
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not publish announcement: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   MEETING
+========================================================= */
+
+document.getElementById("meetingForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await addDoc(
+            collection(db,"meetings"),
+            {
+
+                title:
+                    document.getElementById("meetingTitle")
+                    .value.trim(),
+
+                classId:
+                    document.getElementById("meetingClassId")
+                    .value.trim(),
+
+                scheduledAt:
+                    document.getElementById("meetingDate")
+                    .value,
+
+                meetingUrl:
+                    document.getElementById("meetingUrl")
+                    .value.trim(),
+
+                teacherId:
+                    currentUser.uid,
+
+                status:"scheduled",
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+        );
+
+        document.getElementById("meetingForm").reset();
+
+        closeModal("meetingModal");
+
+        toast(
+            "Meeting scheduled successfully."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not schedule meeting: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+document.getElementById("profileForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await setDoc(
+            doc(db,"users",currentUser.uid),
+            {
+
+                fullName:
+                    document.getElementById("profileName")
+                    .value.trim(),
+
+                phone:
+                    document.getElementById("profilePhone")
+                    .value.trim(),
+
+                country:
+                    document.getElementById("profileCountry")
+                    .value.trim(),
+
+                teachingSubject:
+                    document.getElementById("profileSubject")
+                    .value.trim(),
+
+                qualification:
+                    document.getElementById("profileQualification")
+                    .value.trim(),
+
+                bio:
+                    document.getElementById("profileBio")
+                    .value.trim(),
+
+                role:"teacher",
+
+                accountType:"e-teacher",
+
+                updatedAt:
+                    serverTimestamp()
+
+            },
+            {merge:true}
+        );
+
+        await loadTeacher();
+
+        toast(
+            "Teacher profile updated successfully."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not update profile: " +
+            error.message
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   PAYMENT SETTINGS
+========================================================= */
+
+document.getElementById("paymentForm")
+.addEventListener("submit", async event => {
+
+    event.preventDefault();
+
+    try{
+
+        await setDoc(
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "teacherSettings",
+                "payments"
+            ),
+            {
+
+                paymentMethod:
+                    document.getElementById("paymentMethod")
+                    .value,
+
+                currency:
+                    document.getElementById("currency")
+                    .value,
+
+                paymentAccount:
+                    document.getElementById("paymentAccount")
+                    .value.trim(),
+
+                classFee:
+                    Number(
+                        document.getElementById("classFee")
+                        .value || 0
+                    ),
+
+                updatedAt:
+                    serverTimestamp()
+
+            },
+            {merge:true}
+        );
+
+        toast(
+            "Payment settings saved."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not save payment settings."
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+document.getElementById("saveSettingsBtn")
+.addEventListener("click", async () => {
+
+    try{
+
+        await setDoc(
+            doc(
+                db,
+                "users",
+                currentUser.uid,
+                "teacherSettings",
+                "general"
+            ),
+            {
+
+                emailNotifications:
+                    document.getElementById("emailNotifications")
+                    .value,
+
+                classDiscovery:
+                    document.getElementById("classDiscovery")
+                    .value,
+
+                updatedAt:
+                    serverTimestamp()
+
+            },
+            {merge:true}
+        );
+
+        toast(
+            "Settings saved successfully."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        toast(
+            "Could not save settings."
+        );
+
+    }
+
+});
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document.getElementById("logoutBtn")
+.addEventListener("click", async () => {
+
+    try{
+
+        await signOut(auth);
+
+        toast("You have signed out.");
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+});
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function formatDate(timestamp){
+
+    if(!timestamp) return "-";
+
+    try{
+
+        if(typeof timestamp.toDate === "function"){
+
+            return timestamp
+                .toDate()
+                .toLocaleDateString();
+
+        }
+
+        return new Date(timestamp)
+            .toLocaleDateString();
+
+    }catch{
+
+        return "-";
+
+    }
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL WHEN CLICKING OUTSIDE
+========================================================= */
+
+document.querySelectorAll(".modal")
+.forEach(modal => {
+
+    modal.addEventListener("click", event => {
+
+        if(event.target === modal){
+
+            modal.classList.remove("show");
+
+        }
+
+    });
+
+});
+
 </script>
+
+<script src="https://cdn.jotfor.ms/s/umd/ca83c9b8f5f/for-form-embed-handler.js"></script>
+<script>
+window.jotformEmbedHandler(
+  "iframe[id='JotFormIFrame-019e5d473d3a7b3389d34ebcf58152d4cd4e']",
+  "https://www.jotform.com"
+);
+</script>
+
 </body>
 </html>
