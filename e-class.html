@@ -23,16 +23,10 @@
     --shadow:0 12px 35px rgba(12,49,82,.10);
     --radius:18px;
 }
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
+*{ box-sizing:border-box; margin:0; padding:0; }
 body{
     font-family:Inter,Segoe UI,Arial,sans-serif;
-    font-size:17px;            /* Larger base font */
+    font-size:17px;
     background:var(--bg);
     color:var(--dark);
     min-height:100vh;
@@ -49,23 +43,12 @@ body::before{
     background:rgba(26,43,60,0.78);
     z-index:-1;
 }
+button,input,textarea,select{ font:inherit; }
+button{ cursor:pointer; }
+a{ text-decoration:none; color:inherit; }
 
-button,input,textarea,select{
-    font:inherit;
-}
-button{
-    cursor:pointer;
-}
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-/* =========================
-   TOP BAR
-========================= */
 .topbar{
-    height:76px;               /* Slightly taller */
+    height:76px;
     background:linear-gradient(110deg,#07579a,#0878d1,#1297e8);
     color:white;
     display:flex;
@@ -83,9 +66,7 @@ a{
     gap:14px;
 }
 .logo{
-    width:50px;
-    height:50px;
-    border-radius:14px;
+    width:50px; height:50px; border-radius:14px;
     background:linear-gradient(145deg,#0878d1 0 38%,#f7c928 38% 65%,#20a464 65%);
     display:flex;
     align-items:center;
@@ -95,22 +76,14 @@ a{
     font-size:18px;
     border:2px solid rgba(255,255,255,.7);
 }
-.brand-text h1{
-    font-size:20px;
-    line-height:1.2;
-}
-.brand-text span{
-    font-size:12px;
-    opacity:.85;
-}
+.brand-text h1{ font-size:20px; line-height:1.2; }
+.brand-text span{ font-size:12px; opacity:.85; }
 .top-actions{
     display:flex;
     align-items:center;
     gap:12px;
 }
-.home-btn,
-.logout-btn,
-.menu-btn{
+.home-btn, .logout-btn, .menu-btn{
     border:1px solid rgba(255,255,255,.25);
     color:white;
     background:rgba(255,255,255,.12);
@@ -119,18 +92,11 @@ a{
     font-size:15px;
     transition:.2s;
 }
-.home-btn:hover,
-.logout-btn:hover,
-.menu-btn:hover{
+.home-btn:hover, .logout-btn:hover, .menu-btn:hover{
     background:rgba(255,255,255,.22);
 }
-.menu-btn{
-    display:none;
-}
+.menu-btn{ display:none; }
 
-/* =========================
-   LAYOUT
-========================= */
 .app{
     display:flex;
     min-height:calc(100vh - 76px);
@@ -159,9 +125,7 @@ a{
     gap:12px;
 }
 .avatar{
-    width:48px;
-    height:48px;
-    border-radius:50%;
+    width:48px; height:48px; border-radius:50%;
     background:var(--blue);
     color:#fff;
     display:flex;
@@ -171,19 +135,9 @@ a{
     font-size:20px;
     overflow:hidden;
 }
-.avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-.learner-mini strong{
-    display:block;
-    font-size:16px;
-}
-.learner-mini small{
-    color:var(--muted);
-    font-size:13px;
-}
+.avatar img{ width:100%; height:100%; object-fit:cover; }
+.learner-mini strong{ display:block; font-size:16px; }
+.learner-mini small{ color:var(--muted); font-size:13px; }
 .status{
     display:inline-flex;
     align-items:center;
@@ -194,11 +148,7 @@ a{
     font-weight:700;
 }
 .status::before{
-    content:"";
-    width:8px;
-    height:8px;
-    border-radius:50%;
-    background:var(--green);
+    content:""; width:8px; height:8px; border-radius:50%; background:var(--green);
 }
 .nav-title{
     font-size:11px;
@@ -222,20 +172,9 @@ a{
     font-size:15px;
     transition:.2s;
 }
-.nav-item:hover{
-    background:#edf7ff;
-    color:var(--blue);
-}
-.nav-item.active{
-    background:var(--blue);
-    color:white;
-    font-weight:700;
-}
-.nav-icon{
-    width:26px;
-    text-align:center;
-    font-size:20px;
-}
+.nav-item:hover{ background:#edf7ff; color:var(--blue); }
+.nav-item.active{ background:var(--blue); color:white; font-weight:700; }
+.nav-icon{ width:26px; text-align:center; font-size:20px; }
 .main{
     flex:1;
     padding:28px 30px;
@@ -245,17 +184,12 @@ a{
     display:none;
     animation:fade .25s ease;
 }
-.section.active{
-    display:block;
-}
+.section.active{ display:block; }
 @keyframes fade{
-    from{opacity:0;transform:translateY(6px)}
-    to{opacity:1;transform:translateY(0)}
+    from{ opacity:0; transform:translateY(6px); }
+    to{ opacity:1; transform:translateY(0); }
 }
 
-/* =========================
-   HEADERS
-========================= */
 .page-header{
     display:flex;
     align-items:flex-start;
@@ -268,17 +202,9 @@ a{
     border-radius:var(--radius);
     border:1px solid rgba(255,255,255,0.3);
 }
-.page-header h2{
-    font-size:30px;
-    margin-bottom:6px;
-}
-.page-header p{
-    color:var(--muted);
-    font-size:15px;
-}
-.primary-btn,
-.secondary-btn,
-.danger-btn{
+.page-header h2{ font-size:30px; margin-bottom:6px; }
+.page-header p{ color:var(--muted); font-size:15px; }
+.primary-btn, .secondary-btn, .danger-btn{
     border:0;
     border-radius:12px;
     padding:13px 20px;
@@ -286,26 +212,11 @@ a{
     font-size:15px;
     transition:.2s;
 }
-.primary-btn{
-    background:var(--blue);
-    color:#fff;
-}
-.primary-btn:hover{
-    background:var(--blue-dark);
-    transform:translateY(-2px);
-}
-.secondary-btn{
-    background:#eaf6ff;
-    color:var(--blue);
-}
-.danger-btn{
-    background:#fee2e2;
-    color:var(--red);
-}
+.primary-btn{ background:var(--blue); color:#fff; }
+.primary-btn:hover{ background:var(--blue-dark); transform:translateY(-2px); }
+.secondary-btn{ background:#eaf6ff; color:var(--blue); }
+.danger-btn{ background:#fee2e2; color:var(--red); }
 
-/* =========================
-   CARDS & GRID
-========================= */
 .card-grid{
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -320,10 +231,7 @@ a{
     padding:22px;
     box-shadow:var(--shadow);
 }
-.stat-card{
-    position:relative;
-    overflow:hidden;
-}
+.stat-card{ position:relative; overflow:hidden; }
 .stat-card::after{
     content:"";
     position:absolute;
@@ -334,58 +242,33 @@ a{
     border-radius:50%;
     background:var(--blue-light);
 }
-.stat-icon{
-    font-size:30px;
-    margin-bottom:14px;
-}
-.stat-label{
-    color:var(--muted);
-    font-size:14px;
-}
-.stat-number{
-    font-size:32px;
-    font-weight:850;
-    margin-top:4px;
-}
+.stat-icon{ font-size:30px; margin-bottom:14px; }
+.stat-label{ color:var(--muted); font-size:14px; }
+.stat-number{ font-size:32px; font-weight:850; margin-top:4px; }
 .dashboard-grid{
     display:grid;
     grid-template-columns:2fr 1fr;
     gap:20px;
 }
-.card h3{
-    font-size:20px;
-    margin-bottom:16px;
-}
+.card h3{ font-size:20px; margin-bottom:16px; }
 .activity{
     display:flex;
     gap:14px;
     padding:14px 0;
     border-bottom:1px solid var(--border);
 }
-.activity:last-child{
-    border-bottom:0;
-}
+.activity:last-child{ border-bottom:0; }
 .activity-icon{
-    width:44px;
-    height:44px;
-    border-radius:12px;
+    width:44px; height:44px; border-radius:12px;
     background:var(--blue-light);
     display:flex;
     align-items:center;
     justify-content:center;
     font-size:22px;
 }
-.activity p{
-    font-size:15px;
-}
-.activity small{
-    color:var(--muted);
-    font-size:13px;
-}
+.activity p{ font-size:15px; }
+.activity small{ color:var(--muted); font-size:13px; }
 
-/* =========================
-   SEARCH & FILTER
-========================= */
 .search-bar{
     display:flex;
     gap:12px;
@@ -416,15 +299,8 @@ a{
     cursor:pointer;
     transition:.15s;
 }
-.filter-chip.active{
-    background:var(--blue);
-    border-color:var(--blue);
-    color:white;
-}
+.filter-chip.active{ background:var(--blue); border-color:var(--blue); color:white; }
 
-/* =========================
-   CLASS CARDS (Hover)
-========================= */
 .classes-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -452,17 +328,9 @@ a{
     color:white;
     position:relative;
 }
-.class-cover small{
-    opacity:.85;
-    font-size:13px;
-}
-.class-cover h3{
-    margin-top:8px;
-    font-size:22px;
-}
-.class-body{
-    padding:18px;
-}
+.class-cover small{ opacity:.85; font-size:13px; }
+.class-cover h3{ margin-top:8px; font-size:22px; }
+.class-body{ padding:18px; }
 .class-meta{
     display:flex;
     gap:16px;
@@ -486,16 +354,8 @@ a{
 .badge-paid{ background:#fff5e6; color:#e68a00; }
 .badge-premium{ background:#f0e6ff; color:#7a3bb8; }
 
-/* =========================
-   TABLES
-========================= */
-.table-wrap{
-    overflow:auto;
-}
-table{
-    width:100%;
-    border-collapse:collapse;
-}
+.table-wrap{ overflow:auto; }
+table{ width:100%; border-collapse:collapse; }
 th,td{
     text-align:left;
     padding:14px 12px;
@@ -503,15 +363,8 @@ th,td{
     font-size:14px;
     white-space:nowrap;
 }
-th{
-    color:#475569;
-    background:#f8fafc;
-    font-weight:700;
-}
+th{ color:#475569; background:#f8fafc; font-weight:700; }
 
-/* =========================
-   TABS (for class detail)
-========================= */
 .tab-bar{
     display:flex;
     overflow-x:auto;
@@ -533,10 +386,7 @@ th{
     cursor:pointer;
     transition:.15s;
 }
-.tab-btn.active{
-    background:var(--blue);
-    color:white;
-}
+.tab-btn.active{ background:var(--blue); color:white; }
 .tab-content{
     display:none;
     background:rgba(255,255,255,0.92);
@@ -544,9 +394,7 @@ th{
     border-radius:var(--radius);
     box-shadow:var(--shadow);
 }
-.tab-content.active{
-    display:block;
-}
+.tab-content.active{ display:block; }
 .progress-bar{
     height:10px;
     background:#e9edf2;
@@ -561,9 +409,6 @@ th{
     width:0%;
 }
 
-/* =========================
-   MODALS
-========================= */
 .modal{
     position:fixed;
     inset:0;
@@ -574,9 +419,7 @@ th{
     padding:20px;
     z-index:3000;
 }
-.modal.show{
-    display:flex;
-}
+.modal.show{ display:flex; }
 .modal-box{
     background:white;
     width:min(760px,100%);
@@ -595,25 +438,18 @@ th{
 .modal-head button{
     border:0;
     background:#f1f5f9;
-    width:38px;
-    height:38px;
+    width:38px; height:38px;
     border-radius:50%;
     font-size:20px;
 }
-.modal-body{
-    padding:22px;
-}
+.modal-body{ padding:22px; }
 .form-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:16px;
 }
-.form-group{
-    margin-bottom:16px;
-}
-.form-group.full{
-    grid-column:1/-1;
-}
+.form-group{ margin-bottom:16px; }
+.form-group.full{ grid-column:1/-1; }
 label{
     display:block;
     font-weight:700;
@@ -633,10 +469,7 @@ input:focus,textarea:focus,select:focus{
     border-color:var(--blue);
     box-shadow:0 0 0 4px rgba(8,120,209,.10);
 }
-textarea{
-    min-height:100px;
-    resize:vertical;
-}
+textarea{ min-height:100px; resize:vertical; }
 .form-actions{
     display:flex;
     gap:12px;
@@ -644,9 +477,6 @@ textarea{
     margin-top:14px;
 }
 
-/* =========================
-   AUTH
-========================= */
 #authScreen{
     position:fixed;
     inset:0;
@@ -669,8 +499,7 @@ textarea{
 }
 .auth-logo{
     margin:auto;
-    width:80px;
-    height:80px;
+    width:80px; height:80px;
     border-radius:20px;
     display:flex;
     align-items:center;
@@ -680,11 +509,7 @@ textarea{
     color:white;
     background:linear-gradient(145deg,#0878d1 0 38%,#f7c928 38% 65%,#20a464 65%);
 }
-.auth-card h2{
-    text-align:center;
-    margin-top:16px;
-    font-size:26px;
-}
+.auth-card h2{ text-align:center; margin-top:16px; font-size:26px; }
 .auth-card > p{
     text-align:center;
     color:var(--muted);
@@ -706,11 +531,7 @@ textarea{
     border-radius:8px;
     font-size:15px;
 }
-.auth-tab.active{
-    background:white;
-    box-shadow:0 2px 7px rgba(0,0,0,.08);
-    font-weight:700;
-}
+.auth-tab.active{ background:white; box-shadow:0 2px 7px rgba(0,0,0,.08); font-weight:700; }
 .google-btn{
     width:100%;
     display:flex;
@@ -725,10 +546,7 @@ textarea{
     font-weight:700;
     font-size:16px;
 }
-.google-icon{
-    width:22px;
-    height:22px;
-}
+.google-icon{ width:22px; height:22px; }
 .divider{
     display:flex;
     align-items:center;
@@ -758,10 +576,6 @@ textarea{
     margin-bottom:14px;
     display:none;
 }
-
-/* =========================
-   THEO AI FLOAT
-========================= */
 .theo-ai-float{
     position:fixed;
     bottom:90px;
@@ -784,12 +598,9 @@ textarea{
     transition:.25s;
     border:2px solid rgba(255,255,255,.2);
 }
-.theo-bubble:hover{
-    transform:scale(1.05);
-}
+.theo-bubble:hover{ transform:scale(1.05); }
 .theo-bubble .avatar{
-    width:36px;
-    height:36px;
+    width:36px; height:36px;
     background:rgba(255,255,255,.2);
     border-radius:50%;
     display:flex;
@@ -809,9 +620,7 @@ textarea{
     justify-content:center;
     padding:20px;
 }
-.ai-modal.open{
-    display:flex;
-}
+.ai-modal.open{ display:flex; }
 .ai-modal-content{
     background:white;
     border-radius:var(--radius);
@@ -847,10 +656,7 @@ textarea{
     padding:40px 20px;
     color:var(--muted);
 }
-.empty-icon{
-    font-size:42px;
-    margin-bottom:12px;
-}
+.empty-icon{ font-size:42px; margin-bottom:12px; }
 #toast{
     position:fixed;
     right:20px;
@@ -870,13 +676,10 @@ textarea{
     animation:toastIn .25s ease;
 }
 @keyframes toastIn{
-    from{opacity:0;transform:translateY(15px)}
-    to{opacity:1;transform:translateY(0)}
+    from{ opacity:0; transform:translateY(15px); }
+    to{ opacity:1; transform:translateY(0); }
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
 @media(max-width:1100px){
     .card-grid{ grid-template-columns:repeat(2,1fr); }
     .classes-grid{ grid-template-columns:repeat(2,1fr); }
@@ -916,9 +719,7 @@ textarea{
 </head>
 <body>
 
-<!-- =========================================================
-     AUTH SCREEN
-========================================================= -->
+<!-- AUTH SCREEN -->
 <div id="authScreen">
     <div class="auth-card">
         <div class="auth-logo">RTLH</div>
@@ -947,9 +748,7 @@ textarea{
     </div>
 </div>
 
-<!-- =========================================================
-     APPLICATION
-========================================================= -->
+<!-- APPLICATION -->
 <div id="application" style="display:none">
 <header class="topbar">
     <div class="brand">
@@ -1104,10 +903,10 @@ textarea{
 </div>
 </div>
 
-<!-- ====== MODALS (Join Class) ====== -->
+<!-- JOIN CLASS MODAL -->
 <div class="modal" id="joinModal"><div class="modal-box"><div class="modal-head"><h3>Join Class</h3><button onclick="closeModal('joinModal')">✕</button></div><div class="modal-body"><p id="joinClassInfo">Loading class details...</p><button class="primary-btn" id="confirmJoinBtn" style="width:100%;margin-top:14px;">Confirm Join</button></div></div></div>
 
-<!-- ====== THEO AI FLOATING BUTTON ====== -->
+<!-- THEO AI FLOATING BUTTON -->
 <div class="theo-ai-float"><button class="theo-bubble" onclick="toggleAI()"><span class="avatar">🧠</span> Ask Theo AI</button></div>
 <div class="ai-modal" id="aiModal"><div class="ai-modal-content"><div class="ai-header"><span><strong>🧠 Theo AI</strong> - Your Learning Assistant</span><button onclick="toggleAI()">✕</button></div><iframe src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e?embedMode=iframe&autofocus=0&background=1&shadow=1" style="width:100%;height:560px;border:none;" allowtransparency="true" allow="geolocation;microphone;camera;fullscreen"></iframe></div></div>
 
@@ -1119,9 +918,9 @@ textarea{
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs, query, where, serverTimestamp, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs, query, where, serverTimestamp, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-// ===== YOUR REAL FIREBASE CONFIG (copied from e-teacher) =====
+// ===== YOUR REAL FIREBASE CONFIG (works with your e-teacher) =====
 const firebaseConfig = {
     apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
     authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
@@ -1151,6 +950,8 @@ window.showSection = (id) => {
     if(t) t.classList.add('active');
     document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.section === id));
     document.getElementById('sidebar').classList.remove('open');
+    if(id === 'discover') renderDiscover();
+    if(id === 'myclasses') renderMyClasses();
 };
 window.toggleAI = () => document.getElementById('aiModal').classList.toggle('open');
 
@@ -1158,7 +959,8 @@ function toast(msg) {
     const el = document.getElementById('toast');
     el.textContent = msg;
     el.classList.add('show');
-    setTimeout(() => el.classList.remove('show'), 3500);
+    clearTimeout(el._timer);
+    el._timer = setTimeout(() => el.classList.remove('show'), 3500);
 }
 function showAuthError(msg) {
     const el = document.getElementById('authError');
@@ -1173,7 +975,7 @@ function formatDate(ts) {
 }
 
 // --- Navigation ---
-document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', () => { showSection(item.dataset.section); if(item.dataset.section === 'discover') renderDiscover(); if(item.dataset.section === 'myclasses') renderMyClasses(); }));
+document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', () => { showSection(item.dataset.section); }));
 document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
 
 // --- Auth Tabs ---
@@ -1241,11 +1043,11 @@ function friendlyAuthError(err) {
         'auth/invalid-credential': 'The email or password is incorrect.',
         'auth/user-not-found': 'No account found with this email.',
         'auth/wrong-password': 'Incorrect password.',
-        'auth/email-already-in-use': 'Email already in use.',
+        'auth/email-already-in-use': 'This email is already registered. Please sign in instead.',
         'auth/weak-password': 'Password must be at least 6 characters.',
         'auth/popup-blocked': 'Popup blocked. Please allow popups or use email/password.',
         'auth/operation-not-allowed': 'This sign-in method is not enabled.',
-        'auth/unauthorized-domain': 'This domain is not authorized in Firebase.'
+        'auth/unauthorized-domain': 'This domain is not authorized in Firebase. Add "localhost" to authorized domains.'
     };
     return map[code] || err.message || 'Authentication failed.';
 }
@@ -1325,20 +1127,31 @@ async function loadLearner() {
     enrolledClasses = currentLearner.enrolled || [];
 }
 
-// --- Load All Classes from Firestore ---
+// --- Fetch Classes (cached) ---
 async function fetchClasses() {
-    const snap = await getDocs(collection(db, 'classes'));
-    const results = [];
-    snap.forEach(d => results.push({ id: d.id, ...d.data() }));
-    // Fallback sample if Firestore is empty
-    if (results.length === 0) {
-        return [
-            { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.', image: '💻', lessons: 5, students: 120 },
+    if (allClasses.length > 0) return allClasses; // cache
+    try {
+        const snap = await getDocs(collection(db, 'classes'));
+        const results = [];
+        snap.forEach(d => results.push({ id: d.id, ...d.data() }));
+        if (results.length === 0) {
+            // Fallback sample data if Firestore is empty
+            results.push(
+                { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.', image: '💻', lessons: 5, students: 120 },
+                { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', description: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
+                { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets. Includes 1-on-1 coaching.', image: '📊', lessons: 12, students: 40 }
+            );
+        }
+        allClasses = results;
+        return allClasses;
+    } catch (e) {
+        console.warn('Could not fetch classes, using fallback:', e);
+        return allClasses.length ? allClasses : [
+            { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom.', image: '💻', lessons: 5, students: 120 },
             { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', description: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
-            { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets. Includes 1-on-1 coaching.', image: '📊', lessons: 12, students: 40 }
+            { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets.', image: '📊', lessons: 12, students: 40 }
         ];
     }
-    return results;
 }
 
 // --- Discover Render ---
@@ -1349,10 +1162,10 @@ window.setFilter = (f) => {
     renderDiscover();
 };
 window.renderDiscover = async function() {
-    allClasses = await fetchClasses();
+    const classes = await fetchClasses();
     const search = document.getElementById('searchInput').value.toLowerCase();
     const grid = document.getElementById('discoverGrid');
-    let filtered = allClasses.filter(c => {
+    let filtered = classes.filter(c => {
         const matchType = currentFilter === 'all' || c.type === currentFilter;
         const matchSearch = (c.title || '').toLowerCase().includes(search) || (c.description || '').toLowerCase().includes(search);
         return matchType && matchSearch;
@@ -1454,13 +1267,13 @@ window.switchClassTab = function(tab, btn) {
 
 // --- Dashboard ---
 async function loadDashboard() {
-    await renderDiscover();
-    renderMyClasses();
+    await fetchClasses();
     document.getElementById('statClasses').textContent = enrolledClasses.length;
     document.getElementById('statCerts').textContent = currentLearner?.certificates?.length || 0;
-    document.getElementById('statProgress').textContent = currentLearner?.progress || 0 + '%';
-    // mock due
+    document.getElementById('statProgress').textContent = (currentLearner?.progress || 0) + '%';
     document.getElementById('statDue').textContent = Math.floor(Math.random() * 3);
+    renderDiscover();
+    renderMyClasses();
 }
 
 // --- Logout ---
@@ -1501,11 +1314,14 @@ document.getElementById('saveSettingsBtn').addEventListener('click', async () =>
 document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('show'); }));
 document.getElementById('aiModal').addEventListener('click', (e) => { if (e.target === e.currentTarget) toggleAI(); });
 
-// --- Init ---
+// --- Initial load ---
 if (auth.currentUser) {
     loadDashboard();
+} else {
+    // pre-fetch classes anyway for faster login
+    fetchClasses();
 }
-console.log('🚀 RTLH E-Class loaded successfully with Firebase config!');
+console.log('🚀 RTLH E-Class loaded with Firebase config successfully.');
 </script>
 </body>
 </html>
