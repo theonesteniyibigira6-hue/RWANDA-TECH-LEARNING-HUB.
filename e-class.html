@@ -921,13 +921,12 @@ import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWith
 import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs, query, where, serverTimestamp, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 // ===== YOUR REAL FIREBASE CONFIG =====
-const firebaseConfig = {
-    apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
-    authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
-    projectId: "rwanda-tech-learning-hub",
-    storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
-    messagingSenderId: "785118659917",
-    appId: "1:785118659917:web:7ada98356d213a3fad2304"
+const apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
+  authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
+  projectId: "rwanda-tech-learning-hub",
+  storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
+  messagingSenderId: "785118659917",
+  appId: "1:785118659917:web:7ada98356d213a3fad2304",
 };
 
 const app = initializeApp(firebaseConfig);
