@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mentorship Program | Rwanda Tech Learning Hub</title>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <style>
+        /* ============================
+               ROOT VARIABLES & RESET
+               ============================ */
+        :root {
+            --primary: #00A86B;
+            --primary-dark: #008f5a;
+            --primary-light: #e6f7f0;
+            --secondary: #1a2a3a;
+            --secondary-light: #2c3e50;
+            --accent: #f39c12;
+            --text-dark: #1a1a2e;
+            --text-gray: #5a6a7a;
+            --text-light: #8a9aa8;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 12px 40px rgba(0, 168, 107, 0.15);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-color: #e8edf2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* ============================
+               SCROLLBAR STYLING
+               ============================ */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        /* ============================
+               NAVIGATION
+               ============================ */
+        .navbar {
+            background: var(--bg-white);
+            padding: 0 2rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .navbar .logo i {
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        .navbar .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-user .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .nav-user .user-avatar:hover {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 168, 107, 0.35);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.8rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ============================
+               HERO SECTION
+               ============================ */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            color: #fff;
+            padding: 60px 2rem 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 168, 107, 0.08);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(0, 168, 107, 0.05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 640px;
+            margin: 0 auto 32px;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 32px;
+        }
+
+        .hero-stats .stat {
+            text-align: center;
+        }
+
+        .hero-stats .stat .number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .hero-stats .stat .label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ============================
+               AUTH MODALS
+               ============================ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            max-width: 440px;
+            width: 100%;
+            padding: 40px 32px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+            animation: modalSlide 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal .modal-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .modal .modal-header .icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 12px;
+        }
+
+        .modal .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal .modal-header p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            background: var(--bg-white);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 168, 107, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group .hint {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .auth-toggle a {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            background: #fde8e8;
+            color: #c0392b;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .success-msg {
+            background: #e6f7f0;
+            color: #008f5a;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            display: none;
+            margin-bottom: 12px;
+        }
+
+        .success-msg.show {
+            display: block;
+        }
+
+        /* ============================
+               MENTORSHIP SECTIONS
+               ============================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            font-size: 1.05rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+        }
+
+        .feature-card {
+            background: var(--bg-white);
+            padding: 32px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .feature-card .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 16px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Mentor Cards */
+        .mentors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 28px;
+            margin-top: 32px;
+        }
+
+        .mentor-card {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .mentor-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .mentor-card .mentor-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .mentor-card .mentor-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .mentor-card .mentor-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .mentor-card .mentor-info .role {
+            font-size: 0.8rem;
+            color: var(--text-gray);
+        }
+
+        .mentor-card .badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: var(--primary-light);
+            color: var(--primary);
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .mentor-card .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin: 8px 0 12px;
+        }
+
+        .mentor-card .bio {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .mentor-card .status {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-light);
+        }
+
+        .mentor-card .status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .mentor-card .status .dot.available {
+            background: var(--primary);
+        }
+        .mentor-card .status .dot.busy {
+            background: var(--accent);
+        }
+        .mentor-card .status .dot.unavailable {
+            background: #e74c3c;
+        }
+
+        /* ============================
+               MY MENTORSHIP DASHBOARD
+               ============================ */
+        .dashboard-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            background: var(--bg-white);
+            padding: 8px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .dashboard-tabs .tab-btn {
+            padding: 10px 24px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-gray);
+        }
+
+        .dashboard-tabs .tab-btn:hover {
+            background: var(--bg-light);
+        }
+
+        .dashboard-tabs .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .mentorship-card {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            transition: var(--transition);
+        }
+
+        .mentorship-card:hover {
+            border-color: var(--primary);
+        }
+
+        .mentorship-card .info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .mentorship-card .info p {
+            color: var(--text-gray);
+            font-size: 0.85rem;
+        }
+
+        .mentorship-card .info .meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        .mentorship-card .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--border-color);
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        /* ============================
+               FOOTER
+               ============================ */
+        .footer {
+            background: var(--secondary);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .footer .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* ============================
+               RESPONSIVE
+               ============================ */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0 1rem;
+                height: 64px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .hero-stats .stat .number {
+                font-size: 1.6rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 40px 0;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+            .modal {
+                padding: 28px 20px;
+            }
+            .mentorship-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .dashboard-tabs .tab-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+            .footer .footer-links {
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .mentors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--secondary);
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            z-index: 99999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 420px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast.error {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .toast .toast-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .toast .toast-msg {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================
+    NAVBAR
+    ============================ -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            Rwanda<span>Tech</span> Hub
+        </a>
+        <div class="nav-links">
+            <a href="#" class="active"><i class="fas fa-handshake"></i> Mentorship</a>
+            <a href="#"><i class="fas fa-users"></i> Mentors</a>
+            <a href="#"><i class="fas fa-rocket"></i> Programs</a>
+            <a href="#"><i class="fas fa-calendar"></i> Events</a>
+        </div>
+        <div class="nav-user" id="navUser">
+            <button class="btn btn-primary btn-sm" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+            <button class="btn btn-secondary btn-sm" id="signupBtn">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================
+    HERO
+    ============================ -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Empowering Rwanda's <span>Tech Talent</span></h1>
+            <p>
+                Our mentorship program connects aspiring tech professionals with
+                industry leaders. Get personalized guidance, hands-on projects,
+                and the network you need to thrive in Rwanda's growing digital economy.
+            </p>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary" id="heroFindMentorBtn">
+                    <i class="fas fa-search"></i> Find a Mentor
+                </button>
+                <button class="btn btn-outline" id="heroBecomeMentorBtn" style="border-color: rgba(255,255,255,0.4); color: #fff;">
+                    <i class="fas fa-user-tie"></i> Become a Mentor
+                </button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="number" id="statMentors">0</div>
+                    <div class="label">Active Mentors</div>
+                </div>
+                <div class="stat">
+                    <div class="number" id="statMentees">0</div>
+                    <div class="label">Mentees Enrolled</div>
+                </div>
+                <div class="stat">
+                    <div class="number" id="statMatches">0</div>
+                    <div class="label">Successful Matches</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+    FEATURES
+    ============================ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Why Join Our <span>Mentorship</span> Program?</h2>
+            <p class="section-subtitle">
+                A structured, hands-on system that helps you build a meaningful career in tech.
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-code"></i></div>
+                    <h3>Hands-On Projects</h3>
+                    <p>Apply your skills to real-world projects—from prototypes to market-ready solutions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-people-arrows"></i></div>
+                    <h3>Career Readiness</h3>
+                    <p>Master communication, pitching, interview techniques, and business growth strategies.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-female"></i></div>
+                    <h3>Women in Tech</h3>
+                    <p>Dedicated tracks to support and empower women in Rwanda's tech ecosystem.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon"><i class="fas fa-network-wired"></i></div>
+                    <h3>Community & Network</h3>
+                    <p>Connect with founders, developers, and researchers across East Africa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+    MENTORS LIST
+    ============================ -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <h2 class="section-title">Meet Our <span>Mentors</span></h2>
+            <p class="section-subtitle">
+                Learn from experienced professionals who are shaping Rwanda's tech future.
+            </p>
+            <div class="mentors-grid" id="mentorsGrid">
+                <!-- Dynamic from Firebase -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+    DASHBOARD (Logged-in users)
+    ============================ -->
+    <section class="section" style="padding-top: 0; display: none;" id="dashboardSection">
+        <div class="container">
+            <h2 class="section-title">My <span>Mentorship</span></h2>
+            <p class="section-subtitle">Manage your mentorship journey</p>
+
+            <div class="dashboard-tabs">
+                <button class="tab-btn active" data-tab="myMentorships"><i class="fas fa-comments"></i> My Mentorships</button>
+                <button class="tab-btn" data-tab="requests"><i class="fas fa-paper-plane"></i> Requests</button>
+                <button class="tab-btn" data-tab="profile"><i class="fas fa-user-edit"></i> Profile</button>
+                <button class="tab-btn" id="adminTabBtn" style="display: none;" data-tab="admin"><i class="fas fa-shield-alt"></i> Admin</button>
+            </div>
+
+            <!-- Tab: My Mentorships -->
+            <div class="tab-content active" id="tabMyMentorships">
+                <div id="mentorshipList">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- Tab: Requests -->
+            <div class="tab-content" id="tabRequests">
+                <div id="requestsList">
+                    <!-- Dynamic -->
+                </div>
+            </div>
+
+            <!-- Tab: Profile -->
+            <div class="tab-content" id="tabProfile">
+                <div style="background: var(--bg-white); border-radius: var(--radius); padding: 32px; border: 1px solid var(--border-color); max-width: 600px;">
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="profileName" placeholder="Your full name" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Role</label>
+                            <select id="profileRole">
+                                <option value="mentee">Mentee</option>
+                                <option value="mentor">Mentor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Skills / Expertise</label>
+                            <input type="text" id="profileSkills" placeholder="e.g. Python, React, Data Science" />
+                            <div class="hint">Comma-separated skills</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea id="profileBio" placeholder="Tell us about yourself, your goals, or your experience..."></textarea>
+                        </div>
+                        <div class="form-group" id="mentorAvailabilityGroup" style="display: none;">
+                            <label>Availability Status</label>
+                            <select id="profileAvailability">
+                                <option value="available">Available</option>
+                                <option value="busy">Busy (Limited Slots)</option>
+                                <option value="unavailable">Unavailable</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tab: Admin -->
+            <div class="tab-content" id="tabAdmin">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    <div style="background: var(--bg-white); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border-color);">
+                        <h4 style="margin-bottom: 12px;"><i class="fas fa-user-check" style="color: var(--primary);"></i> Pending Mentor Approvals</h4>
+                        <div id="pendingApprovals">
+                            <p style="color: var(--text-light);">Loading...</p>
+                        </div>
+                    </div>
+                    <div style="background: var(--bg-white); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border-color);">
+                        <h4 style="margin-bottom: 12px;"><i class="fas fa-chart-bar" style="color: var(--primary);"></i> Program Stats</h4>
+                        <div id="adminStats">
+                            <p style="color: var(--text-light);">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; background: var(--bg-white); border-radius: var(--radius); padding: 24px; border: 1px solid var(--border-color);">
+                    <h4 style="margin-bottom: 12px;"><i class="fas fa-users-cog" style="color: var(--primary);"></i> All Users</h4>
+                    <div id="allUsersList" style="max-height: 300px; overflow-y: auto;">
+                        <p style="color: var(--text-light);">Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================
+    FOOTER
+    ============================ -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Mentors</a>
+            <a href="#">Programs</a>
+            <a href="#">Events</a>
+            <a href="#">Contact</a>
+        </div>
+        <p>&copy; 2026 Rwanda Tech Learning Hub. Empowering the next generation of African innovators.</p>
+    </footer>
+
+    <!-- ============================
+    AUTH MODALS
+    ============================ -->
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="icon"><i class="fas fa-sign-in-alt"></i></div>
+                <h2>Welcome Back</h2>
+                <p>Sign in to your mentorship dashboard</p>
+            </div>
+            <div class="error-msg" id="loginError"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+            <div class="auth-toggle">
+                Don't have an account? <a id="switchToSignup">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal-overlay" id="signupModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="icon"><i class="fas fa-user-plus"></i></div>
+                <h2>Join the Hub</h2>
+                <p>Create your account and start your mentorship journey</p>
+            </div>
+            <div class="error-msg" id="signupError"></div>
+            <div class="success-msg" id="signupSuccess"></div>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" placeholder="Your full name" required />
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="you@example.com" required />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" placeholder="Min 6 characters" minlength="6" required />
+                </div>
+                <div class="form-group">
+                    <label>I want to join as a...</label>
+                    <select id="signupRole">
+                        <option value="mentee">Mentee (seeking guidance)</option>
+                        <option value="mentor">Mentor (offering guidance)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            </form>
+            <div class="auth-toggle">
+                Already have an account? <a id="switchToLogin">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-title" id="toastTitle">Success</div>
+        <div class="toast-msg" id="toastMsg">Action completed</div>
+    </div>
+
+    <!-- ============================
+    JAVASCRIPT - FULL FIREBASE INTEGRATION
+    ============================ -->
+    <script>
+        // ============================================================
+        // 1. FIREBASE CONFIG - REPLACE WITH YOUR OWN
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // ============================================================
+        // 2. STATE
+        // ============================================================
+        let currentUser = null;
+        let currentUserData = null;
+        let allMentors = [];
+
+        // ============================================================
+        // 3. DOM REFS
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+        const loginBtn = $('loginBtn');
+        const signupBtn = $('signupBtn');
+        const loginModal = $('loginModal');
+        const signupModal = $('signupModal');
+        const loginForm = $('loginForm');
+        const signupForm = $('signupForm');
+        const loginError = $('loginError');
+        const signupError = $('signupError');
+        const signupSuccess = $('signupSuccess');
+        const switchToSignup = $('switchToSignup');
+        const switchToLogin = $('switchToLogin');
+        const navUser = $('navUser');
+        const dashboardSection = $('dashboardSection');
+        const mentorsGrid = $('mentorsGrid');
+        const mentorshipList = $('mentorshipList');
+        const requestsList = $('requestsList');
+        const profileForm = $('profileForm');
+        const profileName = $('profileName');
+        const profileRole = $('profileRole');
+        const profileSkills = $('profileSkills');
+        const profileBio = $('profileBio');
+        const profileAvailability = $('profileAvailability');
+        const mentorAvailabilityGroup = $('mentorAvailabilityGroup');
+        const adminTabBtn = $('adminTabBtn');
+        const pendingApprovals = $('pendingApprovals');
+        const adminStats = $('adminStats');
+        const allUsersList = $('allUsersList');
+        const statMentors = $('statMentors');
+        const statMentees = $('statMentees');
+        const statMatches = $('statMatches');
+        const toast = $('toast');
+        const toastTitle = $('toastTitle');
+        const toastMsg = $('toastMsg');
+
+        // Tab buttons
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                const target = $('tab' + this.dataset.tab.charAt(0).toUpperCase() + this.dataset.tab.slice(1));
+                if (target) target.classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // 4. TOAST
+        // ============================================================
+        function showToast(title, msg, type = 'success') {
+            toastTitle.textContent = title;
+            toastMsg.textContent = msg;
+            toast.className = 'toast ' + type;
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ============================================================
+        // 5. AUTH
+        // ============================================================
+        // Open modals
+        loginBtn.addEventListener('click', () => loginModal.classList.add('active'));
+        signupBtn.addEventListener('click', () => signupModal.classList.add('active'));
+
+        // Switch between modals
+        switchToSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.remove('active');
+            signupModal.classList.add('active');
+        });
+        switchToLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.classList.remove('active');
+            loginModal.classList.add('active');
+        });
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.classList.remove('active');
+            });
+        });
+
+        // Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = $('loginEmail').value.trim();
+            const password = $('loginPassword').value;
+            loginError.classList.remove('show');
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                loginModal.classList.remove('active');
+                showToast('Welcome back!', 'You are now signed in.', 'success');
+                loginForm.reset();
+            } catch (err) {
+                loginError.textContent = err.message;
+                loginError.classList.add('show');
+            }
+        });
+
+        // Signup
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = $('signupName').value.trim();
+            const email = $('signupEmail').value.trim();
+            const password = $('signupPassword').value;
+            const role = $('signupRole').value;
+            signupError.classList.remove('show');
+            signupSuccess.classList.remove('show');
+            try {
+                const cred = await auth.createUserWithEmailAndPassword(email, password);
+                // Save user data to Firestore
+                await db.collection('users').doc(cred.user.uid).set({
+                    uid: cred.user.uid,
+                    name: name,
+                    email: email,
+                    role: role,
+                    skills: '',
+                    bio: '',
+                    availability: 'available',
+                    isApproved: role === 'mentee' ? true : false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    profilePhoto: ''
+                });
+                signupSuccess.textContent = 'Account created! You can now sign in.';
+                signupSuccess.classList.add('show');
+                signupForm.reset();
+                setTimeout(() => {
+                    signupModal.classList.remove('active');
+                    signupSuccess.classList.remove('show');
+                }, 1500);
+            } catch (err) {
+                signupError.textContent = err.message;
+                signupError.classList.add('show');
+            }
+        });
+
+        // ============================================================
+        // 6. AUTH STATE LISTENER
+        // ============================================================
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                currentUser = user;
+                // Fetch user data
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists) {
+                    currentUserData = doc.data();
+                    updateUIForLoggedIn();
+                } else {
+                    // Fallback - create basic profile
+                    await db.collection('users').doc(user.uid).set({
+                        uid: user.uid,
+                        name: user.displayName || 'User',
+                        email: user.email,
+                        role: 'mentee',
+                        skills: '',
+                        bio: '',
+                        availability: 'available',
+                        isApproved: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        profilePhoto: ''
+                    });
+                    const doc2 = await db.collection('users').doc(user.uid).get();
+                    currentUserData = doc2.data();
+                    updateUIForLoggedIn();
+                }
+                // Load mentorship data
+                loadMentors();
+                loadUserMentorships();
+                loadRequests();
+                loadStats();
+                // Check if admin
+                if (currentUserData && currentUserData.role === 'admin') {
+                    adminTabBtn.style.display = 'inline-block';
+                    loadAdminData();
+                } else {
+                    adminTabBtn.style.display = 'none';
+                }
+            } else {
+                currentUser = null;
+                currentUserData = null;
+                updateUIForLoggedOut();
+                // Still load mentors for public view
+                loadMentors();
+            }
+        });
+
+        // ============================================================
+        // 7. UI UPDATES
+        // ============================================================
+        function updateUIForLoggedIn() {
+            // Update navbar
+            navUser.innerHTML = `
+                <span style="font-size:0.85rem; color: var(--text-gray);">${currentUserData?.name || 'User'}</span>
+                <div class="user-avatar" title="Dashboard">${(currentUserData?.name || 'U').charAt(0).toUpperCase()}</div>
+                <button class="btn btn-danger btn-sm" id="logoutBtn"><i class="fas fa-sign-out-alt"></i></button>
+            `;
+            document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+                await auth.signOut();
+                showToast('Signed out', 'See you soon!', 'success');
+            });
+            // Show dashboard
+            dashboardSection.style.display = 'block';
+            // Pre-fill profile
+            if (currentUserData) {
+                profileName.value = currentUserData.name || '';
+                profileRole.value = currentUserData.role || 'mentee';
+                profileSkills.value = currentUserData.skills || '';
+                profileBio.value = currentUserData.bio || '';
+                profileAvailability.value = currentUserData.availability || 'available';
+                if (currentUserData.role === 'mentor' || currentUserData.role === 'admin') {
+                    mentorAvailabilityGroup.style.display = 'block';
+                } else {
+                    mentorAvailabilityGroup.style.display = 'none';
+                }
+            }
+        }
+
+        function updateUIForLoggedOut() {
+            navUser.innerHTML = `
+                <button class="btn btn-primary btn-sm" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                <button class="btn btn-secondary btn-sm" id="signupBtn"><i class="fas fa-user-plus"></i> Register</button>
+            `;
+            document.getElementById('loginBtn')?.addEventListener('click', () => loginModal.classList.add('active'));
+            document.getElementById('signupBtn')?.addEventListener('click', () => signupModal.classList.add('active'));
+            dashboardSection.style.display = 'none';
+        }
+
+        // ============================================================
+        // 8. LOAD MENTORS (Public)
+        // ============================================================
+        async function loadMentors() {
+            try {
+                const snapshot = await db.collection('users')
+                    .where('role', 'in', ['mentor', 'admin'])
+                    .where('isApproved', '==', true)
+                    .get();
+                allMentors = [];
+                snapshot.forEach(doc => {
+                    allMentors.push({ id: doc.id, ...doc.data() });
+                });
+                renderMentors(allMentors);
+                // Update stats
+                statMentors.textContent = allMentors.length;
+            } catch (err) {
+                console.error('Load mentors error:', err);
+            }
+        }
+
+        function renderMentors(mentors) {
+            if (mentors.length === 0) {
+                mentorsGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; color: var(--text-gray); padding: 40px;">
+                        <i class="fas fa-users" style="font-size:2rem; display:block; margin-bottom:12px;"></i>
+                        <p>No mentors available yet. Check back soon!</p>
+                    </div>
+                `;
+                return;
+            }
+            mentorsGrid.innerHTML = mentors.map(m => `
+                <div class="mentor-card">
+                    <div class="mentor-header">
+                        <div class="mentor-avatar">${(m.name || 'M').charAt(0).toUpperCase()}</div>
+                        <div class="mentor-info">
+                            <h4>${m.name || 'Mentor'}</h4>
+                            <div class="role">${m.role === 'admin' ? 'Lead Mentor' : 'Mentor'}</div>
+                        </div>
+                    </div>
+                    <div class="skills">
+                        ${(m.skills || '').split(',').filter(s => s.trim()).map(s => `<span class="badge">${s.trim()}</span>`).join('') || '<span style="color:var(--text-light);font-size:0.8rem;">No skills listed</span>'}
+                    </div>
+                    <div class="bio">${m.bio || 'Experienced professional ready to guide you.'}</div>
+                    <div class="status">
+                        <span class="dot ${m.availability || 'available'}"></span>
+                        ${m.availability || 'Available'}
+                        ${currentUser && currentUserData?.role === 'mentee' ? `
+                            <button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="requestMentorship('${m.id}')">
+                                <i class="fas fa-paper-plane"></i> Request
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================
+        // 9. REQUEST MENTORSHIP
+        // ============================================================
+        window.requestMentorship = async function(mentorId) {
+            if (!currentUser) {
+                loginModal.classList.add('active');
+                showToast('Sign in required', 'Please sign in to request a mentor.', 'error');
+                return;
+            }
+            if (currentUserData.role !== 'mentee') {
+                showToast('Only mentees can request', 'Please switch to mentee role.', 'error');
+                return;
+            }
+            try {
+                // Check if already requested
+                const existing = await db.collection('mentorships')
+                    .where('menteeId', '==', currentUser.uid)
+                    .where('mentorId', '==', mentorId)
+                    .where('status', 'in', ['pending', 'active'])
+                    .get();
+                if (!existing.empty) {
+                    showToast('Already requested', 'You already have a pending or active mentorship with this mentor.', 'error');
+                    return;
+                }
+                await db.collection('mentorships').add({
+                    mentorId: mentorId,
+                    menteeId: currentUser.uid,
+                    menteeName: currentUserData.name || 'Mentee',
+                    status: 'pending',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                showToast('Request sent!', 'The mentor will review your request.', 'success');
+                loadUserMentorships();
+                loadRequests();
+            } catch (err) {
+                console.error(err);
+                showToast('Error', err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // 10. LOAD USER MENTORSHIPS
+        // ============================================================
+        async function loadUserMentorships() {
+            if (!currentUser) return;
+            try {
+                let query;
+                if (currentUserData.role === 'mentee') {
+                    query = db.collection('mentorships')
+                        .where('menteeId', '==', currentUser.uid)
+                        .orderBy('createdAt', 'desc');
+                } else if (currentUserData.role === 'mentor' || currentUserData.role === 'admin') {
+                    query = db.collection('mentorships')
+                        .where('mentorId', '==', currentUser.uid)
+                        .orderBy('createdAt', 'desc');
+                } else {
+                    mentorshipList.innerHTML = '<p style="color:var(--text-light);">No mentorships.</p>';
+                    return;
+                }
+                const snapshot = await query.get();
+                if (snapshot.empty) {
+                    mentorshipList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-handshake"></i>
+                            <h3>No mentorships yet</h3>
+                            <p>Browse mentors above and send a request to get started.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                let html = '';
+                for (const doc of snapshot.docs) {
+                    const data = doc.data();
+                    // Fetch mentor/mentee name
+                    let otherName = 'User';
+                    if (currentUserData.role === 'mentee') {
+                        const mentorDoc = await db.collection('users').doc(data.mentorId).get();
+                        if (mentorDoc.exists) otherName = mentorDoc.data().name || 'Mentor';
+                    } else {
+                        const menteeDoc = await db.collection('users').doc(data.menteeId).get();
+                        if (menteeDoc.exists) otherName = menteeDoc.data().name || 'Mentee';
+                    }
+                    const statusColors = {
+                        pending: '#f39c12',
+                        active: '#00A86B',
+                        completed: '#3498db',
+                        rejected: '#e74c3c'
+                    };
+                    html += `
+                        <div class="mentorship-card">
+                            <div class="info">
+                                <h4>${currentUserData.role === 'mentee' ? 'Mentor' : 'Mentee'}: ${otherName}</h4>
+                                <p>Status: <span style="color:${statusColors[data.status] || '#555'}; font-weight:600;">${data.status.toUpperCase()}</span></p>
+                                <div class="meta">
+                                    <span><i class="far fa-calendar-alt"></i> ${data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</span>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                ${data.status === 'pending' && currentUserData.role === 'mentor' ? `
+                                    <button class="btn btn-primary btn-sm" onclick="updateMentorship('${doc.id}','active')"><i class="fas fa-check"></i> Accept</button>
+                                    <button class="btn btn-danger btn-sm" onclick="updateMentorship('${doc.id}','rejected')"><i class="fas fa-times"></i> Reject</button>
+                                ` : ''}
+                                ${data.status === 'active' ? `
+                                    <button class="btn btn-secondary btn-sm" onclick="updateMentorship('${doc.id}','completed')"><i class="fas fa-check-double"></i> Complete</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+                mentorshipList.innerHTML = html;
+            } catch (err) {
+                console.error(err);
+                mentorshipList.innerHTML = '<p style="color:var(--text-light);">Error loading mentorships.</p>';
+            }
+        }
+
+        // ============================================================
+        // 11. UPDATE MENTORSHIP STATUS
+        // ============================================================
+        window.updateMentorship = async function(id, status) {
+            if (!currentUser) return;
+            try {
+                await db.collection('mentorships').doc(id).update({
+                    status: status,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                showToast('Updated!', `Mentorship status changed to ${status}.`, 'success');
+                loadUserMentorships();
+                loadRequests();
+                loadStats();
+            } catch (err) {
+                console.error(err);
+                showToast('Error', err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // 12. LOAD REQUESTS (for mentors)
+        // ============================================================
+        async function loadRequests() {
+            if (!currentUser || (currentUserData.role !== 'mentor' && currentUserData.role !== 'admin')) {
+                requestsList.innerHTML = '<p style="color:var(--text-light);">Only mentors can view requests.</p>';
+                return;
+            }
+            try {
+                const snapshot = await db.collection('mentorships')
+                    .where('mentorId', '==', currentUser.uid)
+                    .where('status', '==', 'pending')
+                    .orderBy('createdAt', 'desc')
+                    .get();
+                if (snapshot.empty) {
+                    requestsList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>No pending requests</h3>
+                            <p>You have no mentorship requests at the moment.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                let html = '';
+                for (const doc of snapshot.docs) {
+                    const data = doc.data();
+                    const menteeDoc = await db.collection('users').doc(data.menteeId).get();
+                    const menteeName = menteeDoc.exists ? menteeDoc.data().name : 'Mentee';
+                    html += `
+                        <div class="mentorship-card">
+                            <div class="info">
+                                <h4><i class="fas fa-user"></i> ${menteeName}</h4>
+                                <p>Requested mentorship</p>
+                                <div class="meta">
+                                    <span><i class="far fa-calendar-alt"></i> ${data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</span>
+                                </div>
+                            </div>
+                            <div class="actions">
+                                <button class="btn btn-primary btn-sm" onclick="updateMentorship('${doc.id}','active')"><i class="fas fa-check"></i> Accept</button>
+                                <button class="btn btn-danger btn-sm" onclick="updateMentorship('${doc.id}','rejected')"><i class="fas fa-times"></i> Reject</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                requestsList.innerHTML = html;
+            } catch (err) {
+                console.error(err);
+                requestsList.innerHTML = '<p style="color:var(--text-light);">Error loading requests.</p>';
+            }
+        }
+
+        // ============================================================
+        // 13. PROFILE UPDATE
+        // ============================================================
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) {
+                showToast('Sign in required', 'Please sign in to update your profile.', 'error');
+                return;
+            }
+            try {
+                const updates = {
+                    name: profileName.value.trim(),
+                    role: profileRole.value,
+                    skills: profileSkills.value.trim(),
+                    bio: profileBio.value.trim(),
+                    availability: profileAvailability.value,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                await db.collection('users').doc(currentUser.uid).update(updates);
+                currentUserData = { ...currentUserData, ...updates };
+                showToast('Profile updated!', 'Your changes have been saved.', 'success');
+                // Refresh UI
+                updateUIForLoggedIn();
+                loadMentors();
+                // Show/hide availability
+                if (updates.role === 'mentor' || updates.role === 'admin') {
+                    mentorAvailabilityGroup.style.display = 'block';
+                } else {
+                    mentorAvailabilityGroup.style.display = 'none';
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Error', err.message, 'error');
+            }
+        });
+
+        // Role change handler for profile
+        profileRole.addEventListener('change', function() {
+            if (this.value === 'mentor' || this.value === 'admin') {
+                mentorAvailabilityGroup.style.display = 'block';
+            } else {
+                mentorAvailabilityGroup.style.display = 'none';
+            }
+        });
+
+        // ============================================================
+        // 14. STATS
+        // ============================================================
+        async function loadStats() {
+            try {
+                // Total mentees
+                const menteesSnap = await db.collection('users').where('role', '==', 'mentee').get();
+                statMentees.textContent = menteesSnap.size;
+                // Total matches (active mentorships)
+                const matchesSnap = await db.collection('mentorships').where('status', '==', 'active').get();
+                statMatches.textContent = matchesSnap.size;
+            } catch (err) {
+                console.error('Stats error:', err);
+            }
+        }
+
+        // ============================================================
+        // 15. ADMIN FUNCTIONS
+        // ============================================================
+        async function loadAdminData() {
+            if (!currentUser || currentUserData.role !== 'admin') return;
+            try {
+                // Pending mentor approvals
+                const pendingSnap = await db.collection('users')
+                    .where('role', '==', 'mentor')
+                    .where('isApproved', '==', false)
+                    .get();
+                if (pendingSnap.empty) {
+                    pendingApprovals.innerHTML = '<p style="color:var(--text-light);">No pending approvals.</p>';
+                } else {
+                    let html = '';
+                    pendingSnap.forEach(doc => {
+                        const data = doc.data();
+                        html += `
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border-color);">
+                                <span><strong>${data.name || 'Unnamed'}</strong> (${data.email})</span>
+                                <div>
+                                    <button class="btn btn-primary btn-sm" onclick="approveMentor('${doc.id}')"><i class="fas fa-check"></i> Approve</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    pendingApprovals.innerHTML = html;
+                }
+
+                // Admin stats
+                const allUsers = await db.collection('users').get();
+                const mentors = await db.collection('users').where('role', '==', 'mentor').get();
+                const mentees = await db.collection('users').where('role', '==', 'mentee').get();
+                const activeMentorships = await db.collection('mentorships').where('status', '==', 'active').get();
+                adminStats.innerHTML = `
+                    <p><strong>Total Users:</strong> ${allUsers.size}</p>
+                    <p><strong>Mentors:</strong> ${mentors.size}</p>
+                    <p><strong>Mentees:</strong> ${mentees.size}</p>
+                    <p><strong>Active Mentorships:</strong> ${activeMentorships.size}</p>
+                `;
+
+                // All users list
+                let usersHtml = '';
+                allUsers.forEach(doc => {
+                    const data = doc.data();
+                    usersHtml += `
+                        <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border-color); font-size:0.85rem;">
+                            <span>${data.name || 'Unknown'} (${data.role || 'N/A'})</span>
+                            <span style="color:var(--text-light);">${data.email}</span>
+                        </div>
+                    `;
+                });
+                allUsersList.innerHTML = usersHtml || '<p style="color:var(--text-light);">No users found.</p>';
+
+            } catch (err) {
+                console.error('Admin load error:', err);
+            }
+        }
+
+        window.approveMentor = async function(uid) {
+            try {
+                await db.collection('users').doc(uid).update({
+                    isApproved: true,
+                    approvedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                showToast('Mentor approved!', 'The mentor can now appear in the directory.', 'success');
+                loadAdminData();
+                loadMentors();
+            } catch (err) {
+                console.error(err);
+                showToast('Error', err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // 16. HERO BUTTONS
+        // ============================================================
+        $('heroFindMentorBtn').addEventListener('click', () => {
+            document.querySelector('.mentors-grid').scrollIntoView({ behavior: 'smooth' });
+        });
+        $('heroBecomeMentorBtn').addEventListener('click', () => {
+            if (currentUser) {
+                // Switch to profile tab
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('[data-tab="profile"]').classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                $('tabProfile').classList.add('active');
+                profileRole.value = 'mentor';
+                mentorAvailabilityGroup.style.display = 'block';
+                dashboardSection.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                signupModal.classList.add('active');
+                $('signupRole').value = 'mentor';
+            }
+        });
+
+        // ============================================================
+        // 17. INITIAL LOAD
+        // ============================================================
+        console.log('🚀 Rwanda Tech Learning Hub - Mentorship Program');
+        console.log('💡 Firebase connected. Customize firebaseConfig with your own credentials.');
+    </script>
+
+</body>
+</html>
