@@ -715,6 +715,26 @@ textarea{ min-height:100px; resize:vertical; }
     .tab-bar{ flex-wrap:nowrap; }
     .tab-btn{ font-size:13px; padding:8px 14px; }
 }
+
+/* RTLH E-Class live-learning polish */
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{overflow-x:hidden}
+.card,.class-card,.stat-card,.tab-content,.page-header,.learner-mini{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.card:hover,.stat-card:hover{transform:translateY(-4px);box-shadow:0 18px 45px rgba(12,49,82,.14)}
+.nav-item{transition:transform .2s ease,background .2s ease,color .2s ease}
+.nav-item:hover{transform:translateX(4px)}
+.class-card{will-change:transform}
+.class-cover{background-size:cover;background-position:center}
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#20a464;margin-right:6px;box-shadow:0 0 0 5px rgba(32,164,100,.12)}
+.content-card{padding:18px;border:1px solid var(--border);border-radius:15px;margin-bottom:12px;background:#fff}
+.content-card h4{margin-bottom:7px}
+.content-card p{color:#64748b;font-size:14px;line-height:1.55}
+.content-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.content-actions a,.content-actions button{display:inline-flex;align-items:center;gap:6px}
+.notice{padding:14px 16px;border-radius:14px;background:#edf7ff;border:1px solid #cfeaff;margin-bottom:12px}
+.error-notice{background:#fff1f2;border-color:#fecdd3;color:#9f1239}
+.refresh-chip{float:right;border:0;background:#fff;padding:8px 12px;border-radius:999px;box-shadow:0 3px 12px rgba(0,0,0,.08);cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -724,7 +744,7 @@ textarea{ min-height:100px; resize:vertical; }
     <div class="auth-card">
         <div class="auth-logo">RTLH</div>
         <h2>RTLH E-Class</h2>
-        <p>Discover, learn, and grow with Rwanda Tech Learning Hub.</p>
+        <p>Use your existing RTLH account to enter E-Class directly. New learners can create an account first.</p>
         <div id="authError" class="auth-error"></div>
         <div class="auth-tabs">
             <button class="auth-tab active" id="loginTab">Sign In</button>
@@ -917,423 +937,558 @@ textarea{ min-height:100px; resize:vertical; }
 ========================================================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs, query, where, serverTimestamp, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword,
+  createUserWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect,
+  getRedirectResult, signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {
+  getFirestore, collection, doc, setDoc, addDoc, getDoc, getDocs,
+  query, where, serverTimestamp, updateDoc, arrayUnion, onSnapshot,
+  orderBy, limit
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-// ===== YOUR REAL FIREBASE CONFIG =====
-const apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
+const firebaseConfig = {
+  apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
   authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
   projectId: "rwanda-tech-learning-hub",
   storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
   messagingSenderId: "785118659917",
-  appId: "1:785118659917:web:7ada98356d213a3fad2304",
+  appId: "1:785118659917:web:86de5cad6a85372ead2304",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
 
 let currentUser = null;
 let currentLearner = null;
-let isAuthLoading = false;
 let allClasses = [];
 let enrolledClasses = [];
+let selectedClassId = null;
+let contentUnsubscribers = [];
+let classUnsubscriber = null;
 
-// --- Sample fallback classes (always available) ---
 const SAMPLE_CLASSES = [
-    { id: 'c1', title: 'Digital Kwiga 101 with Theoneste', type: 'free', teacher: 'Theoneste', description: 'Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.', image: '💻', lessons: 5, students: 120 },
-    { id: 'c2', title: 'The Remote Worker Blueprint', type: 'paid', teacher: 'Theoneste', description: 'Win Upwork clients, write proposals, and get paid via MoMo.', image: '🌍', lessons: 8, students: 85 },
-    { id: 'c3', title: 'Data Analytics for Rwandan Business', type: 'premium', teacher: 'Theoneste', description: 'Excel, Power BI, and Rwandan datasets. Includes 1-on-1 coaching.', image: '📊', lessons: 12, students: 40 }
+  {id:"c1",title:"Digital Kwiga 101 with Theoneste",type:"free",teacher:"Theoneste",description:"Master Google Workspace, Canva, and Zoom. Built for Rwandan beginners.",lessons:5,students:120},
+  {id:"c2",title:"The Remote Worker Blueprint",type:"paid",teacher:"Theoneste",description:"Win Upwork clients, write proposals, and get paid via MoMo.",lessons:8,students:85},
+  {id:"c3",title:"Data Analytics for Rwandan Business",type:"premium",teacher:"Theoneste",description:"Excel, Power BI, and Rwandan datasets. Includes 1-on-1 coaching.",lessons:12,students:40}
 ];
 
-// --- UI Helpers ---
-window.openModal = (id) => document.getElementById(id).classList.add('show');
-window.closeModal = (id) => document.getElementById(id).classList.remove('show');
-window.showSection = (id) => {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const t = document.getElementById(id);
-    if(t) t.classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.section === id));
-    document.getElementById('sidebar').classList.remove('open');
-    if(id === 'discover') renderDiscover();
-    if(id === 'myclasses') renderMyClasses();
+const esc = v => String(v ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+const fmtDate = ts => {
+  try { return ts?.toDate ? ts.toDate().toLocaleString() : (ts ? new Date(ts).toLocaleString() : ""); }
+  catch { return ""; }
 };
-window.toggleAI = () => document.getElementById('aiModal').classList.toggle('open');
-
-function toast(msg) {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.add('show');
-    clearTimeout(el._timer);
-    el._timer = setTimeout(() => el.classList.remove('show'), 3500);
+function toast(msg){
+  const el=document.getElementById("toast");
+  el.textContent=msg; el.classList.add("show");
+  clearTimeout(el._timer); el._timer=setTimeout(()=>el.classList.remove("show"),3500);
 }
-function showAuthError(msg) {
-    const el = document.getElementById('authError');
-    el.textContent = msg;
-    el.style.display = 'block';
+function authError(err){
+  const c=err?.code||"";
+  const map={
+    "auth/invalid-credential":"The email or password is incorrect.",
+    "auth/user-not-found":"No account was found with this email.",
+    "auth/wrong-password":"Incorrect password.",
+    "auth/email-already-in-use":"This email is already registered. Please sign in instead.",
+    "auth/weak-password":"Password must be at least 6 characters.",
+    "auth/operation-not-allowed":"This sign-in method is not enabled in Firebase Authentication.",
+    "auth/unauthorized-domain":"This website domain is not authorised in Firebase Authentication.",
+    "auth/popup-blocked":"The browser blocked the Google sign-in window."
+  };
+  return map[c] || err?.message || "Authentication failed.";
 }
-function clearAuthError() { document.getElementById('authError').style.display = 'none'; }
-function escapeHtml(v) { return String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;'); }
-function formatDate(ts) {
-    if(!ts) return '-';
-    try { return typeof ts.toDate === 'function' ? ts.toDate().toLocaleDateString() : new Date(ts).toLocaleDateString(); } catch { return '-'; }
+function showAuthError(msg){
+  const el=document.getElementById("authError"); el.textContent=msg; el.style.display="block";
+}
+function clearAuthError(){document.getElementById("authError").style.display="none"}
+
+window.openModal=id=>document.getElementById(id).classList.add("show");
+window.closeModal=id=>document.getElementById(id).classList.remove("show");
+window.toggleAI=()=>document.getElementById("aiModal").classList.toggle("open");
+
+window.showSection=async id=>{
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id)?.classList.add("active");
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.toggle("active",n.dataset.section===id));
+  document.getElementById("sidebar").classList.remove("open");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(id==="discover") await renderDiscover();
+  if(id==="myclasses") await renderMyClasses();
+  if(["lessons","quizzes","tests","projects","results","messages","live","payments","certificates"].includes(id))
+    await refreshLearnerSections();
+};
+
+document.querySelectorAll(".nav-item").forEach(n=>n.addEventListener("click",()=>showSection(n.dataset.section)));
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("sidebar").classList.toggle("open"));
+
+let authMode="login";
+document.getElementById("loginTab").onclick=()=>{
+  authMode="login";
+  document.getElementById("loginTab").classList.add("active");
+  document.getElementById("registerTab").classList.remove("active");
+  document.getElementById("registerFields").style.display="none";
+  document.getElementById("authSubmit").textContent="Sign In";
+};
+document.getElementById("registerTab").onclick=()=>{
+  authMode="register";
+  document.getElementById("registerTab").classList.add("active");
+  document.getElementById("loginTab").classList.remove("active");
+  document.getElementById("registerFields").style.display="block";
+  document.getElementById("authSubmit").textContent="Create Account";
+};
+
+async function createLearnerProfile(user,extra={}){
+  await setDoc(doc(db,"users",user.uid),{
+    uid:user.uid,
+    fullName:extra.fullName||user.displayName||"RTLH Learner",
+    email:user.email||"",
+    phone:extra.phone||"",
+    photoURL:user.photoURL||"",
+    country:"Rwanda",
+    role:"learner",
+    accountType:"e-class",
+    enrolled:[],
+    progress:0,
+    certificates:[],
+    createdAt:serverTimestamp(),
+    updatedAt:serverTimestamp()
+  },{merge:true});
 }
 
-// --- Navigation ---
-document.querySelectorAll('.nav-item').forEach(item => item.addEventListener('click', () => { showSection(item.dataset.section); }));
-document.getElementById('menuBtn').addEventListener('click', () => document.getElementById('sidebar').classList.toggle('open'));
-
-// --- Auth Tabs ---
-let authMode = 'login';
-document.getElementById('loginTab').addEventListener('click', () => { authMode='login'; document.getElementById('loginTab').classList.add('active'); document.getElementById('registerTab').classList.remove('active'); document.getElementById('registerFields').style.display='none'; document.getElementById('authSubmit').textContent='Sign In'; });
-document.getElementById('registerTab').addEventListener('click', () => { authMode='register'; document.getElementById('registerTab').classList.add('active'); document.getElementById('loginTab').classList.remove('active'); document.getElementById('registerFields').style.display='block'; document.getElementById('authSubmit').textContent='Create Account'; });
-
-// --- Email Auth ---
-document.getElementById('authForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (isAuthLoading) return;
-    isAuthLoading = true;
-    clearAuthError();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    try {
-        if (authMode === 'login') {
-            await signInWithEmailAndPassword(auth, email, password);
-        } else {
-            const name = document.getElementById('fullName').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            if (!name) { showAuthError('Please enter your full name.'); isAuthLoading=false; return; }
-            const cred = await createUserWithEmailAndPassword(auth, email, password);
-            await createLearnerProfile(cred.user, { fullName: name, phone });
-        }
-        isAuthLoading = false;
-    } catch (err) {
-        console.error(err);
-        showAuthError(friendlyAuthError(err));
-        isAuthLoading = false;
+document.getElementById("authForm").addEventListener("submit",async e=>{
+  e.preventDefault(); clearAuthError();
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  try{
+    if(authMode==="login") await signInWithEmailAndPassword(auth,email,password);
+    else{
+      const name=document.getElementById("fullName").value.trim();
+      const phone=document.getElementById("phone").value.trim();
+      if(!name) throw new Error("Please enter your full name.");
+      const cred=await createUserWithEmailAndPassword(auth,email,password);
+      await createLearnerProfile(cred.user,{fullName:name,phone});
     }
+  }catch(err){console.error(err);showAuthError(authError(err))}
 });
 
-// --- Google Auth (Redirect) ---
-document.getElementById('googleBtn').addEventListener('click', async () => {
-    if (isAuthLoading) return;
-    isAuthLoading = true;
-    clearAuthError();
-    try {
-        await signInWithRedirect(auth, googleProvider);
-    } catch (err) {
-        console.error(err);
-        showAuthError(friendlyAuthError(err));
-        isAuthLoading = false;
-    }
+document.getElementById("googleBtn").addEventListener("click",async()=>{
+  clearAuthError();
+  try{await signInWithRedirect(auth,googleProvider)}
+  catch(err){console.error(err);showAuthError(authError(err))}
 });
 
-// --- Handle Redirect Result ---
-getRedirectResult(auth).then(async (result) => {
-    if (result) {
-        const user = result.user;
-        const ref = doc(db, 'users', user.uid);
-        const snap = await getDoc(ref);
-        if (!snap.exists()) {
-            await createLearnerProfile(user, { fullName: user.displayName || '', phone: '' });
-        }
-        toast('Signed in with Google!');
-        isAuthLoading = false;
-    }
-}).catch((err) => { console.error('Redirect error:', err); showAuthError(friendlyAuthError(err)); isAuthLoading = false; });
-
-function friendlyAuthError(err) {
-    const code = err.code || '';
-    const map = {
-        'auth/invalid-credential': 'The email or password is incorrect.',
-        'auth/user-not-found': 'No account found with this email.',
-        'auth/wrong-password': 'Incorrect password.',
-        'auth/email-already-in-use': 'This email is already registered. Please sign in instead.',
-        'auth/weak-password': 'Password must be at least 6 characters.',
-        'auth/popup-blocked': 'Popup blocked. Please allow popups or use email/password.',
-        'auth/operation-not-allowed': 'This sign-in method is not enabled.',
-        'auth/unauthorized-domain': 'This domain is not authorized in Firebase. Add "localhost" to authorized domains.'
-    };
-    return map[code] || err.message || 'Authentication failed.';
-}
-
-// --- Create Learner Profile ---
-async function createLearnerProfile(user, extra = {}) {
-    await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        fullName: extra.fullName || user.displayName || 'RTLH Learner',
-        email: user.email || '',
-        phone: extra.phone || '',
-        photoURL: user.photoURL || '',
-        country: 'Rwanda',
-        role: 'learner',
-        accountType: 'e-class',
-        enrolled: [],
-        progress: 0,
-        certificates: [],
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-    }, { merge: true });
-}
-
-// --- Auth State ---
-onAuthStateChanged(auth, async (user) => {
-    isAuthLoading = false;
-    if (!user) {
-        currentUser = null;
-        document.getElementById('authScreen').style.display = 'flex';
-        document.getElementById('application').style.display = 'none';
-        return;
-    }
-    currentUser = user;
-    try {
-        await ensureLearnerProfile(user);
-        await loadLearner();
-        document.getElementById('authScreen').style.display = 'none';
-        document.getElementById('application').style.display = 'block';
-        await loadDashboard();
-    } catch (err) {
-        console.error(err);
-        showAuthError('Could not load your account. Please try again.');
-    }
+getRedirectResult(auth).catch(err=>{
+  if(err?.code) { console.error(err); showAuthError(authError(err)); }
 });
 
-async function ensureLearnerProfile(user) {
-    const ref = doc(db, 'users', user.uid);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) { await createLearnerProfile(user); return; }
-    const data = snap.data();
-    if (data.role !== 'learner') {
-        await updateDoc(ref, { role: 'learner', accountType: 'e-class', updatedAt: serverTimestamp() });
-    }
+async function ensureLearnerProfile(user){
+  const ref=doc(db,"users",user.uid);
+  const snap=await getDoc(ref);
+  if(!snap.exists()) return createLearnerProfile(user);
+  const d=snap.data();
+  if(d.role!=="learner") await updateDoc(ref,{role:"learner",accountType:"e-class",updatedAt:serverTimestamp()});
 }
 
-// --- Load Learner ---
-async function loadLearner() {
-    const ref = doc(db, 'users', currentUser.uid);
-    const snap = await getDoc(ref);
-    if (!snap.exists()) { await createLearnerProfile(currentUser); return loadLearner(); }
-    currentLearner = snap.data();
-    const name = currentLearner.fullName || currentUser.displayName || 'Learner';
-    document.getElementById('welcomeName').textContent = name.split(' ')[0];
-    document.getElementById('sideLearnerName').textContent = name;
-    document.getElementById('sideLearnerEmail').textContent = currentLearner.email || currentUser.email || '';
-    document.getElementById('profileName').value = name;
-    document.getElementById('profileEmail').value = currentLearner.email || currentUser.email || '';
-    document.getElementById('profilePhone').value = currentLearner.phone || '';
-    document.getElementById('profileCountry').value = currentLearner.country || 'Rwanda';
-    document.getElementById('profileBio').value = currentLearner.bio || '';
-    const avatar = document.getElementById('sideAvatar');
-    if (currentLearner.photoURL) {
-        avatar.innerHTML = `<img src="${escapeHtml(currentLearner.photoURL)}" alt="Learner">`;
-    } else {
-        avatar.textContent = name.charAt(0).toUpperCase();
-    }
-    enrolledClasses = currentLearner.enrolled || [];
+async function loadLearner(){
+  const snap=await getDoc(doc(db,"users",currentUser.uid));
+  if(!snap.exists()){await createLearnerProfile(currentUser);return loadLearner()}
+  currentLearner=snap.data();
+  const name=currentLearner.fullName||currentUser.displayName||"Learner";
+  document.getElementById("welcomeName").textContent=name.split(" ")[0];
+  document.getElementById("sideLearnerName").textContent=name;
+  document.getElementById("sideLearnerEmail").textContent=currentUser.email||"";
+  document.getElementById("profileName").value=name;
+  document.getElementById("profileEmail").value=currentUser.email||"";
+  document.getElementById("profilePhone").value=currentLearner.phone||"";
+  document.getElementById("profileCountry").value=currentLearner.country||"Rwanda";
+  document.getElementById("profileBio").value=currentLearner.bio||"";
+  const av=document.getElementById("sideAvatar");
+  if(currentLearner.photoURL) av.innerHTML=`<img src="${esc(currentLearner.photoURL)}" alt="Learner">`;
+  else av.textContent=name.charAt(0).toUpperCase();
+  enrolledClasses=currentLearner.enrolled||[];
 }
 
-// --- Fetch Classes (with fallback) ---
-async function fetchClasses() {
-    try {
-        const snap = await getDocs(collection(db, 'classes'));
-        const results = [];
-        snap.forEach(d => results.push({ id: d.id, ...d.data() }));
-        if (results.length > 0) {
-            allClasses = results;
-            return results;
-        }
-        // If Firestore returns empty, use sample
-        allClasses = SAMPLE_CLASSES;
-        return SAMPLE_CLASSES;
-    } catch (e) {
-        // Fallback to sample if permission denied or any error
-        console.warn('Using fallback class data (Firestore not accessible).');
-        allClasses = SAMPLE_CLASSES;
-        return SAMPLE_CLASSES;
-    }
+async function fetchClasses(){
+  try{
+    const snap=await getDocs(collection(db,"classes"));
+    allClasses=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!allClasses.length) allClasses=SAMPLE_CLASSES;
+  }catch(err){
+    console.error("Firestore classes:",err);
+    allClasses=SAMPLE_CLASSES;
+  }
+  return allClasses;
 }
 
-// --- Discover Render ---
-let currentFilter = 'all';
-window.setFilter = (f) => {
-    currentFilter = f;
-    document.querySelectorAll('.filter-chip').forEach(el => el.classList.toggle('active', el.dataset.filter === f));
-    renderDiscover();
-};
-window.renderDiscover = async function() {
-    const classes = await fetchClasses();
-    const search = document.getElementById('searchInput').value.toLowerCase();
-    const grid = document.getElementById('discoverGrid');
-    let filtered = classes.filter(c => {
-        const matchType = currentFilter === 'all' || c.type === currentFilter;
-        const matchSearch = (c.title || '').toLowerCase().includes(search) || (c.description || '').toLowerCase().includes(search);
-        return matchType && matchSearch;
-    });
-    if (filtered.length === 0) {
-        grid.innerHTML = `<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>No classes found. Try a different filter.</p></div>`;
-        return;
-    }
-    grid.innerHTML = filtered.map(c => {
-        const isEnrolled = enrolledClasses.includes(c.id);
-        return `<div class="class-card" onclick="viewClass('${c.id}')">
-            <div class="class-cover"><small>${escapeHtml(c.teacher || 'RTLH')}</small><h3>${escapeHtml(c.title || 'Class')}</h3></div>
-            <div class="class-body">
-                <span class="badge badge-${c.type}">${(c.type || 'free').toUpperCase()}</span>
-                <p style="font-size:14px;color:#64748b;margin:8px 0;">${escapeHtml((c.description || '').substring(0,100))}</p>
-                <div class="class-meta"><span>👥 ${c.students || 0}</span><span>📖 ${c.lessons || 0} lessons</span>${isEnrolled ? '<span style="color:var(--green);font-weight:700;">✅ Enrolled</span>' : ''}</div>
-            </div>
-        </div>`;
-    }).join('');
+let currentFilter="all";
+window.setFilter=f=>{
+  currentFilter=f;
+  document.querySelectorAll(".filter-chip").forEach(x=>x.classList.toggle("active",x.dataset.filter===f));
+  renderDiscover();
 };
 
-// --- View Class (Join modal) ---
-window.viewClass = function(id) {
-    // Ensure we have classes loaded
-    const classes = allClasses.length ? allClasses : SAMPLE_CLASSES;
-    const c = classes.find(cls => cls.id === id);
-    if (!c) return;
-    document.getElementById('joinClassInfo').textContent = `You are about to join: ${c.title} (${c.type})`;
-    document.getElementById('confirmJoinBtn').onclick = () => joinClass(id);
-    openModal('joinModal');
-};
-
-// --- Join Class ---
-window.joinClass = async function(id) {
-    if (!currentUser) { toast('Please sign in first.'); return; }
-    if (enrolledClasses.includes(id)) { toast('You are already enrolled.'); closeModal('joinModal'); return; }
-    try {
-        const ref = doc(db, 'users', currentUser.uid);
-        await updateDoc(ref, { enrolled: arrayUnion(id), updatedAt: serverTimestamp() });
-        enrolledClasses.push(id);
-        toast('🎉 You have joined the class!');
-        closeModal('joinModal');
-        renderDiscover();
-        renderMyClasses();
-        loadDashboard();
-    } catch (err) {
-        console.error(err);
-        toast('Could not join class: ' + err.message);
-    }
-};
-
-// --- My Classes ---
-window.renderMyClasses = function() {
-    const container = document.getElementById('myClassesList');
-    if (enrolledClasses.length === 0) {
-        container.innerHTML = `<div class="card empty"><div class="empty-icon">📚</div><p>You haven't joined any classes. Go to <strong>Discover</strong> to enroll!</p></div>`;
-        document.getElementById('myClassDetail').innerHTML = '';
-        return;
-    }
-    const classes = allClasses.length ? allClasses : SAMPLE_CLASSES;
-    const myCourses = classes.filter(c => enrolledClasses.includes(c.id));
-    if (myCourses.length === 0) {
-        container.innerHTML = `<div class="card empty"><div class="empty-icon">📚</div><p>No enrolled classes found. Try refreshing.</p></div>`;
-        document.getElementById('myClassDetail').innerHTML = '';
-        return;
-    }
-    container.innerHTML = myCourses.map(c => `<div class="class-card" onclick="showClassDetail('${c.id}')" style="margin-bottom:14px;">
-        <div class="class-cover" style="height:80px;padding:12px 16px;"><small>${escapeHtml(c.teacher || '')}</small><h3 style="font-size:18px;">${escapeHtml(c.title)}</h3></div>
-        <div class="class-body"><div class="progress-bar"><div class="fill" style="width:${Math.floor(Math.random()*40+20)}%;"></div></div></div>
-    </div>`).join('');
-    if (myCourses.length > 0) showClassDetail(myCourses[0].id);
-};
-
-window.showClassDetail = function(id) {
-    const classes = allClasses.length ? allClasses : SAMPLE_CLASSES;
-    const c = classes.find(cls => cls.id === id);
-    if (!c) return;
-    const container = document.getElementById('myClassDetail');
-    container.innerHTML = `<div class="card"><h3>${escapeHtml(c.title)}</h3><p class="text-muted">Teacher: ${escapeHtml(c.teacher || 'RTLH')}</p>
-        <div class="tab-bar">
-            <button class="tab-btn active" data-tab="announce" onclick="switchClassTab('announce',this)">📢 Announce</button>
-            <button class="tab-btn" data-tab="lessons" onclick="switchClassTab('lessons',this)">📖 Lessons</button>
-            <button class="tab-btn" data-tab="hw" onclick="switchClassTab('hw',this)">📝 Homework</button>
-            <button class="tab-btn" data-tab="quiz" onclick="switchClassTab('quiz',this)">🧪 Quizzes</button>
-            <button class="tab-btn" data-tab="test" onclick="switchClassTab('test',this)">📊 Tests</button>
-            <button class="tab-btn" data-tab="project" onclick="switchClassTab('project',this)">🚀 Projects</button>
-            <button class="tab-btn" data-tab="live" onclick="switchClassTab('live',this)">📹 Live</button>
-        </div>
-        <div id="classTabsContainer">
-            <div class="tab-content active" data-tab="announce"><p>📢 Welcome to ${escapeHtml(c.title)}! Check back for updates.</p></div>
-            <div class="tab-content" data-tab="lessons"><ul style="list-style:none;padding:0;"><li style="padding:8px 0;border-bottom:1px solid #eee;">✅ Lesson 1: Introduction</li><li style="padding:8px 0;">📄 Lesson 2: Materials (PDF)</li></ul></div>
-            <div class="tab-content" data-tab="hw"><p>📝 Homework #1: Complete exercise on page 5. Due Sunday.</p></div>
-            <div class="tab-content" data-tab="quiz"><p>🧪 Quiz 1: Basics - Score: 80%</p></div>
-            <div class="tab-content" data-tab="test"><p>📊 Mid-term test available next week.</p></div>
-            <div class="tab-content" data-tab="project"><p>🚀 Final project: Build a dashboard using Rwandan data.</p></div>
-            <div class="tab-content" data-tab="live"><p>📹 Next live session: Friday 4:00 PM (Zoom). <button class="primary-btn" style="padding:8px 16px;font-size:14px;margin-top:8px;">Join Live</button></p></div>
-        </div>
+window.renderDiscover=async()=>{
+  const classes=await fetchClasses();
+  const search=(document.getElementById("searchInput").value||"").toLowerCase();
+  const grid=document.getElementById("discoverGrid");
+  const filtered=classes.filter(c=>{
+    const type=currentFilter==="all"||c.type===currentFilter;
+    const q=[c.title,c.description,c.teacher,c.subject].join(" ").toLowerCase();
+    return type&&q.includes(search);
+  });
+  if(!filtered.length){
+    grid.innerHTML=`<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>No classes found.</p></div>`;
+    return;
+  }
+  grid.innerHTML=filtered.map(c=>{
+    const joined=enrolledClasses.includes(c.id);
+    return `<div class="class-card" onclick="viewClass('${esc(c.id)}')">
+      <div class="class-cover"><small>${esc(c.teacher||"RTLH Teacher")}</small><h3>${esc(c.title||"Class")}</h3></div>
+      <div class="class-body">
+        <span class="badge badge-${esc(c.type||"free")}">${esc((c.type||"free").toUpperCase())}</span>
+        <p style="font-size:14px;color:#64748b;margin:8px 0;">${esc((c.description||"").slice(0,120))}</p>
+        <div class="class-meta"><span>👥 ${c.students||0}</span><span>📖 ${c.lessons||0} lessons</span>${joined?'<span style="color:var(--green);font-weight:700">✅ Joined</span>':""}</div>
+      </div>
     </div>`;
+  }).join("");
 };
 
-window.switchClassTab = function(tab, btn) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    const target = document.querySelector(`.tab-content[data-tab="${tab}"]`);
-    if (target) target.classList.add('active');
+window.viewClass=async id=>{
+  const c=allClasses.find(x=>x.id===id);
+  if(!c)return;
+  selectedClassId=id;
+  if(!currentUser){
+    localStorage.setItem("rtlh_pending_class",id);
+    document.getElementById("joinClassInfo").textContent=`Sign in or create your RTLH account to join “${c.title}”. After authentication you will be taken directly into the E-Class.`;
+    document.getElementById("confirmJoinBtn").textContent="Go to Sign In / Create Account";
+    document.getElementById("confirmJoinBtn").onclick=()=>{
+      closeModal("joinModal");
+      document.getElementById("authScreen").style.display="flex";
+      window.scrollTo({top:0,behavior:"smooth"});
+    };
+    openModal("joinModal");
+    return;
+  }
+  if(enrolledClasses.includes(id)){
+    await enterClass(id);
+    return;
+  }
+  document.getElementById("joinClassInfo").textContent=`Join “${c.title}” and receive its lessons, homework, quizzes, tests, projects, announcements and live sessions from the E-Teacher.`;
+  document.getElementById("confirmJoinBtn").textContent="Join Class";
+  document.getElementById("confirmJoinBtn").onclick=()=>joinClass(id);
+  openModal("joinModal");
 };
 
-// --- Dashboard ---
-async function loadDashboard() {
-    await fetchClasses();
-    document.getElementById('statClasses').textContent = enrolledClasses.length;
-    document.getElementById('statCerts').textContent = currentLearner?.certificates?.length || 0;
-    document.getElementById('statProgress').textContent = (currentLearner?.progress || 0) + '%';
-    document.getElementById('statDue').textContent = Math.floor(Math.random() * 3);
-    renderDiscover();
-    renderMyClasses();
+window.joinClass=async id=>{
+  if(!currentUser){localStorage.setItem("rtlh_pending_class",id);return}
+  try{
+    const userRef=doc(db,"users",currentUser.uid);
+    await updateDoc(userRef,{enrolled:arrayUnion(id),updatedAt:serverTimestamp()});
+    enrolledClasses=[...new Set([...enrolledClasses,id])];
+    await loadLearner();
+    closeModal("joinModal");
+    toast("🎉 Class joined successfully.");
+    await enterClass(id);
+  }catch(err){console.error(err);toast("Could not join class: "+err.message)}
+};
+
+async function enterClass(id){
+  selectedClassId=id;
+  await fetchClasses();
+  showSection("myclasses");
+  await renderMyClasses();
+  await showClassDetail(id);
+  toast("📚 Welcome to your class.");
 }
 
-// --- Logout ---
-document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await signOut(auth);
-    toast('Signed out.');
-});
+window.renderMyClasses=async()=>{
+  await fetchClasses();
+  const container=document.getElementById("myClassesList");
+  const mine=allClasses.filter(c=>enrolledClasses.includes(c.id));
+  if(!mine.length){
+    container.innerHTML=`<div class="card empty"><div class="empty-icon">📚</div><p>You have not joined a class yet. Go to <strong>Discover</strong> and choose Join.</p></div>`;
+    document.getElementById("myClassDetail").innerHTML="";
+    return;
+  }
+  container.innerHTML=mine.map(c=>`<div class="class-card" onclick="showClassDetail('${esc(c.id)}')" style="margin-bottom:14px">
+    <div class="class-cover" style="height:95px;padding:15px"><small>${esc(c.teacher||"RTLH Teacher")}</small><h3 style="font-size:19px">${esc(c.title)}</h3></div>
+    <div class="class-body"><span class="live-dot"></span><strong>Connected to E-Teacher</strong><div class="progress-bar"><div class="fill" style="width:${Number(c.progress||0)}%"></div></div></div>
+  </div>`).join("");
+  const first=mine.find(c=>c.id===selectedClassId)||mine[0];
+  await showClassDetail(first.id);
+};
 
-// --- Profile Save ---
-document.getElementById('profileForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    try {
-        await setDoc(doc(db, 'users', currentUser.uid), {
-            fullName: document.getElementById('profileName').value.trim(),
-            phone: document.getElementById('profilePhone').value.trim(),
-            country: document.getElementById('profileCountry').value.trim(),
-            bio: document.getElementById('profileBio').value.trim(),
-            updatedAt: serverTimestamp()
-        }, { merge: true });
-        await loadLearner();
-        toast('Profile updated!');
-    } catch (err) { toast('Error: ' + err.message); }
-});
+async function showClassDetail(id){
+  const c=allClasses.find(x=>x.id===id);
+  if(!c||!enrolledClasses.includes(id))return;
+  selectedClassId=id;
+  const container=document.getElementById("myClassDetail");
+  container.innerHTML=`<div class="card">
+    <div style="display:flex;justify-content:space-between;gap:15px;align-items:flex-start;flex-wrap:wrap">
+      <div><h3>${esc(c.title)}</h3><p style="color:#64748b">Teacher: ${esc(c.teacher||"RTLH Teacher")}</p></div>
+      <button class="secondary-btn" onclick="refreshClassContent()">↻ Refresh</button>
+    </div>
+    <div class="notice"><span class="live-dot"></span><strong>Live connection:</strong> anything published by the E-Teacher in this class is read from Firebase and appears here automatically.</div>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="announce" onclick="switchClassTab('announce',this)">📢 Announcements</button>
+      <button class="tab-btn" data-tab="lessons" onclick="switchClassTab('lessons',this)">📖 Lessons</button>
+      <button class="tab-btn" data-tab="hw" onclick="switchClassTab('hw',this)">📝 Homework</button>
+      <button class="tab-btn" data-tab="quiz" onclick="switchClassTab('quiz',this)">🧪 Quizzes</button>
+      <button class="tab-btn" data-tab="test" onclick="switchClassTab('test',this)">📊 Tests</button>
+      <button class="tab-btn" data-tab="project" onclick="switchClassTab('project',this)">🚀 Projects</button>
+      <button class="tab-btn" data-tab="live" onclick="switchClassTab('live',this)">📹 Live</button>
+    </div>
+    <div id="classTabsContainer">
+      <div class="tab-content active" data-tab="announce" id="tab-announce"></div>
+      <div class="tab-content" data-tab="lessons" id="tab-lessons"></div>
+      <div class="tab-content" data-tab="hw" id="tab-hw"></div>
+      <div class="tab-content" data-tab="quiz" id="tab-quiz"></div>
+      <div class="tab-content" data-tab="test" id="tab-test"></div>
+      <div class="tab-content" data-tab="project" id="tab-project"></div>
+      <div class="tab-content" data-tab="live" id="tab-live"></div>
+    </div>
+  </div>`;
+  subscribeToClassContent(id);
+}
 
-// --- Settings Save ---
-document.getElementById('saveSettingsBtn').addEventListener('click', async () => {
-    try {
-        await setDoc(doc(db, 'users', currentUser.uid, 'settings', 'preferences'), {
-            emailNotifications: document.getElementById('emailNotifications').value,
-            language: document.getElementById('langPref').value,
-            updatedAt: serverTimestamp()
-        }, { merge: true });
-        toast('Settings saved!');
-    } catch (err) { toast('Error: ' + err.message); }
-});
+window.showClassDetail=showClassDetail;
+window.switchClassTab=(tab,btn)=>{
+  const root=document.getElementById("classTabsContainer");
+  root?.querySelectorAll(".tab-content").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(x=>x.classList.remove("active"));
+  root?.querySelector(`.tab-content[data-tab="${tab}"]`)?.classList.add("active");
+  btn.classList.add("active");
+};
 
-// --- Close modals on outside click ---
-document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('show'); }));
-document.getElementById('aiModal').addEventListener('click', (e) => { if (e.target === e.currentTarget) toggleAI(); });
+function clearContentListeners(){
+  contentUnsubscribers.forEach(fn=>{try{fn()}catch{}});
+  contentUnsubscribers=[];
+  if(classUnsubscriber){try{classUnsubscriber()}catch{};classUnsubscriber=null}
+}
 
-// --- Initial load ---
-(async function init() {
-    await fetchClasses();
-    if (auth.currentUser) {
-        await loadDashboard();
-    } else {
-        // Show discover with sample data even when not logged in
-        renderDiscover();
+function normalizeType(t){
+  const s=String(t||"").toLowerCase();
+  if(["announcement","announcements","notice","post"].includes(s))return"announce";
+  if(["lesson","lessons","material","materials"].includes(s))return"lessons";
+  if(["homework","assignment","assignments"].includes(s))return"hw";
+  if(["quiz","quizzes"].includes(s))return"quiz";
+  if(["test","tests","exam","exams"].includes(s))return"test";
+  if(["project","projects"].includes(s))return"project";
+  if(["live","live_session","livesession","meeting"].includes(s))return"live";
+  return s;
+}
+
+function renderContentItems(target,items,type){
+  const el=document.getElementById(target);
+  if(!el)return;
+  if(!items.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📭</div><p>No ${type} have been published by the teacher yet.</p></div>`;
+    return;
+  }
+  el.innerHTML=items.map(x=>{
+    const title=esc(x.title||x.name||"Untitled");
+    const body=esc(x.description||x.content||x.instructions||x.text||"");
+    const due=x.dueDate||x.deadline||x.date;
+    const url=x.url||x.link||x.materialUrl||x.fileUrl;
+    const action=url?`<a class="secondary-btn" href="${esc(url)}" target="_blank" rel="noopener">🔗 Open resource</a>`:"";
+    const live=x.meetingUrl||x.zoomLink||x.liveUrl;
+    const liveAction=live?`<a class="primary-btn" href="${esc(live)}" target="_blank" rel="noopener">📹 Join live</a>`:"";
+    return `<div class="content-card"><h4>${title}</h4>${body?`<p>${body}</p>`:""}${due?`<p><strong>Due:</strong> ${esc(fmtDate(due)||due)}</p>`:""}<small style="color:#94a3b8">Published ${esc(fmtDate(x.createdAt)||"recently")}</small><div class="content-actions">${action}${liveAction}</div></div>`;
+  }).join("");
+}
+
+async function readContentCollection(classId,subcollection,type){
+  try{
+    const q=query(collection(db,"classes",classId,subcollection),orderBy("createdAt","desc"));
+    const snap=await getDocs(q);
+    return snap.docs.map(d=>({id:d.id,...d.data()}));
+  }catch{
+    try{
+      const snap=await getDocs(collection(db,"classes",classId,subcollection));
+      return snap.docs.map(d=>({id:d.id,...d.data()}));
+    }catch{return[]}
+  }
+}
+
+function subscribeToClassContent(classId){
+  clearContentListeners();
+  const mappings=[
+    ["announcements","tab-announce","announce"],
+    ["lessons","tab-lessons","lessons"],
+    ["homework","tab-hw","hw"],
+    ["quizzes","tab-quiz","quiz"],
+    ["tests","tab-test","test"],
+    ["projects","tab-project","project"],
+    ["liveSessions","tab-live","live"]
+  ];
+  mappings.forEach(([sub,target,type])=>{
+    const q=query(collection(db,"classes",classId,sub),orderBy("createdAt","desc"));
+    const unsub=onSnapshot(q,snap=>{
+      renderContentItems(target,snap.docs.map(d=>({id:d.id,...d.data()})),type);
+      refreshLearnerSections();
+    },async()=>{
+      const items=await readContentCollection(classId,sub,type);
+      renderContentItems(target,items,type);
+    });
+    contentUnsubscribers.push(unsub);
+  });
+  // Also support teacher implementations that put content in one "content" subcollection.
+  const contentQ=query(collection(db,"classes",classId,"content"),orderBy("createdAt","desc"));
+  const contentUnsub=onSnapshot(contentQ,snap=>{
+    const buckets={announce:[],lessons:[],hw:[],quiz:[],test:[],project:[],live:[]};
+    snap.docs.forEach(d=>{
+      const x={id:d.id,...d.data()}; const t=normalizeType(x.type||x.contentType);
+      if(buckets[t]) buckets[t].push(x);
+    });
+    Object.entries(buckets).forEach(([type,items])=>{
+      if(items.length) renderContentItems(`tab-${type}`,items,type);
+    });
+  },()=>{});
+  contentUnsubscribers.push(contentUnsub);
+}
+
+window.refreshClassContent=async()=>{
+  if(selectedClassId){await showClassDetail(selectedClassId);toast("Content refreshed.")}
+};
+
+async function refreshLearnerSections(){
+  if(!currentUser)return;
+  const classes=enrolledClasses;
+  const types=[
+    ["lessonsContent","lessons","lessons"],
+    ["quizzesContent","quizzes","quizzes"],
+    ["testsContent","tests","tests"],
+    ["projectsContent","projects","projects"]
+  ];
+  for(const [target,sub,type] of types){
+    const el=document.getElementById(target); if(!el)continue;
+    let items=[];
+    for(const cid of classes) items.push(...await readContentCollection(cid,sub,type));
+    renderContentItems(target,items,type);
+  }
+  await renderMessages();
+  await renderLive();
+  await renderPayments();
+  await renderCertificates();
+  await renderResults();
+}
+
+async function renderMessages(){
+  const el=document.querySelector("#messages .empty")||document.querySelector("#messages .card");
+  if(!el)return;
+  try{
+    const snap=await getDocs(query(collection(db,"messages"),where("toUid","==",currentUser.uid),orderBy("createdAt","desc")));
+    const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+    el.innerHTML=items.length?items.map(x=>`<div class="content-card"><h4>${esc(x.subject||"Message")}</h4><p>${esc(x.message||x.body||"")}</p><small>${esc(fmtDate(x.createdAt))}</small></div>`).join(""):`<div class="empty"><div class="empty-icon">💬</div><p>No personal messages yet.</p></div>`;
+  }catch{}
+}
+async function renderLive(){
+  const el=document.getElementById("liveContent"); if(!el)return;
+  let items=[];
+  for(const cid of enrolledClasses) items.push(...await readContentCollection(cid,"liveSessions","live"));
+  renderContentItems("liveContent",items,"live sessions");
+}
+async function renderPayments(){
+  const el=document.getElementById("paymentRecords"); if(!el)return;
+  try{
+    const snap=await getDocs(query(collection(db,"users",currentUser.uid,"payments"),orderBy("createdAt","desc")));
+    const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+    el.innerHTML=items.length?items.map(x=>`<div class="content-card"><h4>${esc(x.reference||x.transactionId||"Payment")}</h4><p>${esc(x.status||"Recorded")} — ${esc(x.amount||"")} ${esc(x.currency||"RWF")}</p><small>${esc(fmtDate(x.createdAt))}</small></div>`).join(""):`<div class="empty"><div class="empty-icon">💳</div><p>No payment records found.</p></div>`;
+  }catch{}
+}
+async function renderCertificates(){
+  const el=document.getElementById("certList"); if(!el)return;
+  try{
+    const snap=await getDocs(collection(db,"users",currentUser.uid,"certificates"));
+    const items=snap.docs.map(d=>({id:d.id,...d.data()}));
+    el.innerHTML=items.length?items.map(x=>`<div class="content-card"><h4>🎓 ${esc(x.title||"RTLH Certificate")}</h4><p>${esc(x.classTitle||"Completed learning programme")}</p><small>${esc(fmtDate(x.issuedAt||x.createdAt))}</small>${x.url?`<div class="content-actions"><a class="primary-btn" href="${esc(x.url)}" target="_blank" rel="noopener">View Certificate</a></div>`:""}</div>`).join(""):`<div class="empty"><div class="empty-icon">🎓</div><p>Complete a class to earn a certificate.</p></div>`;
+  }catch{}
+}
+async function renderResults(){
+  const el=document.getElementById("resultsContent"); if(!el)return;
+  let items=[];
+  for(const cid of enrolledClasses){
+    for(const sub of ["quizResults","testResults","results"]){
+      try{
+        const snap=await getDocs(collection(db,"classes",cid,sub));
+        snap.docs.forEach(d=>{const x=d.data();if(x.studentId===currentUser.uid||x.uid===currentUser.uid)items.push({id:d.id,...x})});
+      }catch{}
     }
-    console.log('🚀 RTLH E-Class loaded with Firebase config successfully.');
-})();
+  }
+  el.innerHTML=items.length?items.map(x=>`<div class="content-card"><h4>🏆 ${esc(x.title||x.assessmentTitle||"Assessment result")}</h4><p>Score: <strong>${esc(x.score??x.percentage??"-")}${x.percentage!=null?"%":""}</strong></p><small>${esc(fmtDate(x.createdAt))}</small></div>`).join(""):`<div class="empty"><div class="empty-icon">🏆</div><p>Complete quizzes and tests to see results here.</p></div>`;
+}
+
+async function loadDashboard(){
+  await fetchClasses();
+  document.getElementById("statClasses").textContent=enrolledClasses.length;
+  document.getElementById("statCerts").textContent=currentLearner?.certificates?.length||0;
+  document.getElementById("statProgress").textContent=(currentLearner?.progress||0)+"%";
+  document.getElementById("statDue").textContent="—";
+  await renderDiscover(); await renderMyClasses(); await refreshLearnerSections();
+}
+
+document.getElementById("logoutBtn").onclick=async()=>{
+  clearContentListeners(); await signOut(auth); toast("Signed out.");
+};
+
+document.getElementById("profileForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  try{
+    await setDoc(doc(db,"users",currentUser.uid),{
+      fullName:document.getElementById("profileName").value.trim(),
+      phone:document.getElementById("profilePhone").value.trim(),
+      country:document.getElementById("profileCountry").value.trim(),
+      bio:document.getElementById("profileBio").value.trim(),
+      updatedAt:serverTimestamp()
+    },{merge:true});
+    await loadLearner(); toast("Profile updated.");
+  }catch(err){toast("Error: "+err.message)}
+});
+document.getElementById("saveSettingsBtn").onclick=async()=>{
+  try{
+    await setDoc(doc(db,"users",currentUser.uid,"settings","preferences"),{
+      emailNotifications:document.getElementById("emailNotifications").value,
+      language:document.getElementById("langPref").value,
+      updatedAt:serverTimestamp()
+    },{merge:true});
+    toast("Settings saved.");
+  }catch(err){toast("Error: "+err.message)}
+};
+
+document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show")}));
+document.getElementById("aiModal").addEventListener("click",e=>{if(e.target===e.currentTarget)toggleAI()});
+
+onAuthStateChanged(auth,async user=>{
+  currentUser=user;
+  if(!user){
+    document.getElementById("authScreen").style.display="flex";
+    document.getElementById("application").style.display="none";
+    return;
+  }
+  try{
+    await ensureLearnerProfile(user);
+    await loadLearner();
+    document.getElementById("authScreen").style.display="none";
+    document.getElementById("application").style.display="block";
+    await loadDashboard();
+
+    const pending=localStorage.getItem("rtlh_pending_class");
+    if(pending){
+      localStorage.removeItem("rtlh_pending_class");
+      const exists=allClasses.some(c=>c.id===pending);
+      if(exists) await viewClass(pending);
+    }
+  }catch(err){
+    console.error(err); showAuthError("Could not load your RTLH account: "+err.message);
+  }
+});
+
+document.getElementById("searchInput").addEventListener("input",renderDiscover);
+console.log("RTLH E-Class connected to Firebase: Authentication + Firestore + Google sign-in.");
 </script>
 </body>
 </html>
