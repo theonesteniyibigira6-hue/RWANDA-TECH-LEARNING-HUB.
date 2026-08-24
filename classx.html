@@ -532,7 +532,7 @@ textarea{ min-height:100px; resize:vertical; }
     font-size:15px;
 }
 .auth-tab.active{ background:white; box-shadow:0 2px 7px rgba(0,0,0,.08); font-weight:700; }
-.primary-btn:disabled,.google-btn:disabled{opacity:.65;cursor:not-allowed;transform:none!important}.google-btn{
+.google-btn{
     width:100%;
     display:flex;
     align-items:center;
@@ -1073,7 +1073,6 @@ document.getElementById("authForm").addEventListener("submit",async e=>{
       await createLearnerProfile(cred.user,{fullName:name,phone});
     }
   }catch(err){console.error(err);showAuthError(authError(err))}
-  finally{button.disabled=false;button.textContent=oldText;}
 });
 
 document.getElementById("googleBtn").addEventListener("click",async()=>{
@@ -1087,35 +1086,30 @@ getRedirectResult(auth).catch(err=>{
 });
 
 async function ensureLearnerProfile(user){
-  try{
-    const ref=doc(db,"users",user.uid);
-    const snap=await getDoc(ref);
-    if(!snap.exists()) await createLearnerProfile(user);
-  }catch(err){
-    console.warn("Firestore profile unavailable; continuing with authenticated session.",err);
-  }
+  const ref=doc(db,"users",user.uid);
+  const snap=await getDoc(ref);
+  if(!snap.exists()) return createLearnerProfile(user);
+  const d=snap.data();
+  if(d.role!=="learner") await updateDoc(ref,{role:"learner",accountType:"e-class",updatedAt:serverTimestamp()});
 }
 
 async function loadLearner(){
-  let data={uid:currentUser.uid,fullName:currentUser.displayName||"RTLH Learner",email:currentUser.email||"",country:"Rwanda",enrolled:[],progress:0,certificates:[]};
-  try{
-    const snap=await getDoc(doc(db,"users",currentUser.uid));
-    if(snap.exists()) data={...data,...snap.data()};
-  }catch(err){ console.warn("Could not read Firestore learner profile:",err); }
-  currentLearner=data;
-  const name=data.fullName||currentUser.displayName||"Learner";
+  const snap=await getDoc(doc(db,"users",currentUser.uid));
+  if(!snap.exists()){await createLearnerProfile(currentUser);return loadLearner()}
+  currentLearner=snap.data();
+  const name=currentLearner.fullName||currentUser.displayName||"Learner";
   document.getElementById("welcomeName").textContent=name.split(" ")[0];
   document.getElementById("sideLearnerName").textContent=name;
   document.getElementById("sideLearnerEmail").textContent=currentUser.email||"";
   document.getElementById("profileName").value=name;
   document.getElementById("profileEmail").value=currentUser.email||"";
-  document.getElementById("profilePhone").value=data.phone||"";
-  document.getElementById("profileCountry").value=data.country||"Rwanda";
-  document.getElementById("profileBio").value=data.bio||"";
+  document.getElementById("profilePhone").value=currentLearner.phone||"";
+  document.getElementById("profileCountry").value=currentLearner.country||"Rwanda";
+  document.getElementById("profileBio").value=currentLearner.bio||"";
   const av=document.getElementById("sideAvatar");
-  if(data.photoURL) av.innerHTML=`<img src="${esc(data.photoURL)}" alt="Learner">`;
+  if(currentLearner.photoURL) av.innerHTML=`<img src="${esc(currentLearner.photoURL)}" alt="Learner">`;
   else av.textContent=name.charAt(0).toUpperCase();
-  enrolledClasses=Array.isArray(data.enrolled)?data.enrolled:[];
+  enrolledClasses=currentLearner.enrolled||[];
 }
 
 async function fetchClasses(){
@@ -1124,7 +1118,7 @@ async function fetchClasses(){
     allClasses=snap.docs.map(d=>({id:d.id,...d.data()}));
     if(!allClasses.length) allClasses=SAMPLE_CLASSES;
   }catch(err){
-    console.warn("Firestore classes unavailable:",err);
+    console.error("Firestore classes:",err);
     allClasses=SAMPLE_CLASSES;
   }
   return allClasses;
@@ -1190,15 +1184,16 @@ window.viewClass=async id=>{
 };
 
 window.joinClass=async id=>{
-  if(!currentUser){localStorage.setItem("rtlh_pending_class",id);return;}
-  enrolledClasses=[...new Set([...enrolledClasses,id])];
-  currentLearner={...(currentLearner||{}),enrolled:enrolledClasses};
+  if(!currentUser){localStorage.setItem("rtlh_pending_class",id);return}
   try{
-    await updateDoc(doc(db,"users",currentUser.uid),{enrolled:arrayUnion(id),updatedAt:serverTimestamp()});
-  }catch(err){console.warn("Firestore enrollment write unavailable:",err);}
-  closeModal("joinModal");
-  toast("🎉 Class joined successfully.");
-  await enterClass(id);
+    const userRef=doc(db,"users",currentUser.uid);
+    await updateDoc(userRef,{enrolled:arrayUnion(id),updatedAt:serverTimestamp()});
+    enrolledClasses=[...new Set([...enrolledClasses,id])];
+    await loadLearner();
+    closeModal("joinModal");
+    toast("🎉 Class joined successfully.");
+    await enterClass(id);
+  }catch(err){console.error(err);toast("Could not join class: "+err.message)}
 };
 
 async function enterClass(id){
@@ -1474,28 +1469,21 @@ onAuthStateChanged(auth,async user=>{
     document.getElementById("application").style.display="none";
     return;
   }
-
-  // Authentication succeeded: open E-Class immediately.
-  // Firestore/network/rules errors must not trap the learner on "processing".
-  document.getElementById("authScreen").style.display="none";
-  document.getElementById("application").style.display="block";
-
   try{
     await ensureLearnerProfile(user);
     await loadLearner();
+    document.getElementById("authScreen").style.display="none";
+    document.getElementById("application").style.display="block";
     await loadDashboard();
 
     const pending=localStorage.getItem("rtlh_pending_class");
     if(pending){
       localStorage.removeItem("rtlh_pending_class");
-      if(allClasses.some(c=>c.id===pending)){
-        if(!enrolledClasses.includes(pending)) await joinClass(pending);
-        else await enterClass(pending);
-      }
+      const exists=allClasses.some(c=>c.id===pending);
+      if(exists) await viewClass(pending);
     }
   }catch(err){
-    console.error("E-Class loading error:",err);
-    toast("You are signed in. Some Firebase data is temporarily unavailable.");
+    console.error(err); showAuthError("Could not load your RTLH account: "+err.message);
   }
 });
 
