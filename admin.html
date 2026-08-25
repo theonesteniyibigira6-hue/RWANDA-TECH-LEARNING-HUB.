@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RTLH Admin Control Centre</title>
+<meta name="description" content="Rwanda Tech Learning Hub administration control centre">
+<meta name="theme-color" content="#071a2b">
+<style>
+:root{--navy:#071a2b;--blue:#1685e5;--yellow:#f6c928;--green:#1ea765;--red:#d93b4b;--bg:#f4f7fb;--card:#fff;--text:#132235;--muted:#66758a;--line:#dfe7f0;--shadow:0 14px 40px rgba(7,26,43,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 85% 0%,rgba(22,133,229,.13),transparent 28%),radial-gradient(circle at 0% 20%,rgba(246,201,40,.10),transparent 24%),var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.top-flag{height:6px;background:linear-gradient(90deg,#1685e5 0 55%,#f6c928 55% 78%,#1ea765 78%)}
+.layout{min-height:100vh;display:grid;grid-template-columns:280px 1fr}.sidebar{position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#061827,#0b263b 70%,#071a2b);color:#fff;padding:20px 14px;overflow:auto;z-index:30}
+.brand{display:flex;align-items:center;gap:12px;padding:7px 8px 22px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:15px}.logo{width:48px;height:48px;border-radius:15px;object-fit:cover;background:#fff}.logo-fallback{display:grid;place-items:center;background:linear-gradient(135deg,#1685e5,#1ea765);font-weight:900;color:#fff}.brand strong{display:block;font-size:14px}.brand small{display:block;color:#a9bdce;margin-top:3px}
+.nav-group{margin:15px 5px 7px;color:#7891a5;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800}.navbtn{width:100%;border:0;background:transparent;color:#dce8f1;text-align:left;padding:10px 12px;border-radius:12px;display:flex;align-items:center;gap:10px;margin:3px 0;transition:.2s}.navbtn:hover{background:rgba(255,255,255,.08);transform:translateX(3px)}.navbtn.active{background:linear-gradient(90deg,rgba(22,133,229,.35),rgba(30,167,101,.12));box-shadow:inset 3px 0 #f6c928}
+.main{min-width:0}.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:13px 24px}.header-left{display:flex;align-items:center;gap:12px}.menu-mobile{display:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px}.header h1{font-size:19px;margin:0}.header p{margin:3px 0 0;color:var(--muted);font-size:12px}.userbox{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#1685e5,#1ea765);color:#fff;font-weight:800}
+.content{padding:25px;max-width:1700px;margin:auto}.hero{background:linear-gradient(135deg,#09243a,#0d4665 62%,#11784f);color:#fff;border-radius:26px;padding:30px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero h2{margin:10px 0 7px;font-size:29px}.hero p{color:#d6e7f2;max-width:820px;margin:0}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:11px;padding:10px 14px;font-weight:700;transition:.2s}.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(7,26,43,.10)}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.btn.yellow{background:var(--yellow);color:#162130;border-color:var(--yellow)}.btn.danger{color:var(--red);border-color:#f0c4c9}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px;box-shadow:0 7px 25px rgba(7,26,43,.05);transition:.22s}.stat:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.stat b{display:block;font-size:28px;margin-top:7px}.stat span{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 7px 25px rgba(7,26,43,.045)}.card h2,.card h3{margin-top:0}.section{margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:12px}.muted{color:var(--muted)}
+.activity{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.dot{width:10px;height:10px;border-radius:50%;margin-top:6px;background:var(--blue);flex:none}.activity small{color:var(--muted)}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:760px}.table th,.table td{padding:11px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:top}.table th{background:#f7f9fc}.searchbar{display:flex;gap:10px;margin-bottom:15px}.searchbar input,.field input,.field select,.field textarea{width:100%;border:1px solid #ccd7e3;background:#fff;border-radius:11px;padding:11px 12px;outline:none}.searchbar input{max-width:520px}.field{margin-bottom:13px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}.field textarea{min-height:120px;resize:vertical}
+.view{display:none}.view.active{display:block}.pill{display:inline-flex;padding:5px 9px;border-radius:99px;background:#edf5ff;color:#0b65b2;font-size:11px;font-weight:800}.pill.green{background:#e8f7ef;color:#177c4a}.collection-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.collection-card{border:1px solid var(--line);border-radius:15px;padding:16px;background:#fff;transition:.2s}.collection-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.collection-card b{display:block;font-size:16px}.collection-card span{color:var(--muted);font-size:12px}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.drawer{position:fixed;inset:0;background:rgba(2,12,22,.55);z-index:100;display:none;justify-content:flex-end}.drawer.open{display:flex}.drawer-panel{width:min(760px,100%);height:100%;background:#fff;padding:22px;overflow:auto;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.toast{position:fixed;right:20px;bottom:20px;z-index:200;background:var(--navy);color:#fff;padding:13px 17px;border-radius:12px;box-shadow:var(--shadow);max-width:430px}.notice{padding:12px 14px;border-radius:12px;background:#eef7ff;border:1px solid #cfe7fb;color:#235475;font-size:13px}.alert{padding:12px 14px;border-radius:12px;margin-bottom:14px;background:#fff2f3;color:#a32936;border:1px solid #f3cbd0}.kpi-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.kpi{padding:13px;border:1px solid var(--line);border-radius:12px}.kpi b{font-size:18px;display:block}.json{white-space:pre-wrap;background:#081827;color:#d9eef9;padding:15px;border-radius:12px;max-height:420px;overflow:auto;font-size:12px}
+.login{min-height:100vh;display:grid;place-items:center;padding:25px;background:radial-gradient(circle at 20% 20%,rgba(246,201,40,.22),transparent 26%),radial-gradient(circle at 80% 80%,rgba(30,167,101,.18),transparent 28%),linear-gradient(135deg,#061827,#0b3855)}.login-card{width:min(470px,100%);background:#fff;border-radius:25px;padding:30px;box-shadow:0 25px 70px rgba(0,0,0,.28)}.login-brand{text-align:center}.login-brand img{width:75px;height:75px;border-radius:22px}.login-brand h1{font-size:24px;margin:12px 0 4px}.login-brand p{color:var(--muted);margin:0 0 22px}.footer{padding:30px;text-align:center;color:var(--muted);font-size:12px}
+@media(max-width:1100px){.layout{grid-template-columns:235px}.stats{grid-template-columns:repeat(2,1fr)}.collection-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:800px){.layout{display:block}.sidebar{position:fixed;left:-290px;transition:.25s;width:280px}.sidebar.open{left:0}.menu-mobile{display:block}.header{padding:11px 15px}.content{padding:15px}.grid,.grid.three,.form-grid{grid-template-columns:1fr}.collection-grid{grid-template-columns:1fr}}@media(max-width:520px){.stats{grid-template-columns:1fr}.userbox .email{display:none}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login">
+  <div class="login-card">
+    <div class="login-brand">
+      <img src="https://chatgpt.com/s/m_6a8d46da0e90819197a5afe535c3a0ef" alt="RTLH logo" onerror="this.style.display='none'">
+      <h1>RTLH Admin Control Centre</h1>
+      <p>RWANDA TECH LEARNING HUB</p>
+    </div>
+    <div id="loginAlert" class="alert hidden"></div>
+    <div class="notice" style="margin-bottom:16px"><b>Authorised administrator</b><br>Sign in through Firebase Authentication. Your password is never stored in this HTML file.</div>
+    <form id="loginForm">
+      <div class="field"><label>Administrator email</label><input id="adminEmail" type="email" value="theonesteniyibigira6@gmail.com" readonly></div>
+      <div class="field"><label>Firebase Authentication password</label><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter your Firebase account password"></div>
+      <button class="btn primary" style="width:100%;padding:13px" id="loginBtn">Sign in securely</button>
+    </form>
+  </div>
+</div>
+
+<div id="adminApp" class="hidden">
+<div class="top-flag"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><img class="logo" src="https://chatgpt.com/s/m_6a8d46da0e90819197a5afe535c3a0ef" alt="RTLH" onerror="this.style.display='none'"><div><strong>RTLH ADMIN</strong><small>Control Centre</small></div></div>
+  <button class="navbtn active" data-view="dashboard">🏠 Dashboard</button>
+  <div class="nav-group">Users</div>
+  <button class="navbtn" data-view="users">👥 All Users</button><button class="navbtn" data-view="students">🎓 Students</button><button class="navbtn" data-view="teachers">👨‍🏫 Teachers</button><button class="navbtn" data-view="schools">🏫 Schools</button><button class="navbtn" data-view="organisations">🏢 Organisations</button>
+  <div class="nav-group">Education</div>
+  <button class="navbtn" data-view="classes">🏫 E-Classes</button><button class="navbtn" data-view="courses">📚 Courses</button><button class="navbtn" data-view="lessons">📖 Lessons</button><button class="navbtn" data-view="assignments">📝 Assignments</button><button class="navbtn" data-view="quizzes">❓ Quizzes</button><button class="navbtn" data-view="assessments">📊 Assessments</button><button class="navbtn" data-view="tests">🧪 Tests</button><button class="navbtn" data-view="exams">📋 Exams</button><button class="navbtn" data-view="projects">🚀 Projects</button><button class="navbtn" data-view="submissions">📤 Submissions</button><button class="navbtn" data-view="grades">🏆 Results / Grades</button>
+  <div class="nav-group">Learning</div>
+  <button class="navbtn" data-view="enrollments">👥 Enrollments</button><button class="navbtn" data-view="progress">📈 Progress</button><button class="navbtn" data-view="attendance">🗓️ Attendance</button><button class="navbtn" data-view="analytics">📊 Analytics</button>
+  <div class="nav-group">Communication</div>
+  <button class="navbtn" data-view="announcements">📢 Announcements</button><button class="navbtn" data-view="messages">💬 Messages</button><button class="navbtn" data-view="notifications">🔔 Notifications</button><button class="navbtn" data-view="meetings">📹 Meetings / Live</button><button class="navbtn" data-view="discussions">🗣️ Discussions</button>
+  <div class="nav-group">Finance</div>
+  <button class="navbtn" data-view="payments">💳 Payments</button><button class="navbtn" data-view="transactions">💰 Transactions</button><button class="navbtn" data-view="payouts">💸 Teacher Payouts</button>
+  <div class="nav-group">Certificates & Resources</div>
+  <button class="navbtn" data-view="certificates">🎓 Certificates</button><button class="navbtn" data-view="elibrary">📚 E-Library</button><button class="navbtn" data-view="feedback">⭐ Feedback / Reviews</button>
+  <div class="nav-group">AI & Platform</div>
+  <button class="navbtn" data-view="ai">🤖 Theo Learn Wise AI</button><button class="navbtn" data-view="website">🌐 Website Content</button><button class="navbtn" data-view="reports">📑 Reports / Export</button><button class="navbtn" data-view="problems">🛠️ Reports / Problems</button><button class="navbtn" data-view="auditLogs">🛡️ Audit Logs</button><button class="navbtn" data-view="security">🔐 Security Center</button><button class="navbtn" data-view="roles">👮 Roles & Permissions</button><button class="navbtn" data-view="settings">⚙️ Platform Settings</button><button class="navbtn" data-view="policies">📜 Policies</button><button class="navbtn" id="logoutBtn">🚪 Sign out</button>
+</aside>
+
+<main class="main">
+<header class="header"><div class="header-left"><button class="menu-mobile" id="menuMobile">☰</button><div><h1 id="pageTitle">Admin Dashboard</h1><p id="pageSubtitle">Daily RTLH platform control and activity</p></div></div><div class="userbox"><div class="avatar">NT</div><div class="email" id="signedEmail">Administrator</div></div></header>
+<div class="content">
+
+<section class="view active" id="view-dashboard">
+<div class="hero"><span class="pill" style="background:rgba(255,255,255,.14);color:#fff">SUPER ADMIN CONTROL CENTRE</span><h2>Welcome to RTLH Administration</h2><p>Monitor users, E-Teacher, E-Class, learning, finance, communication, content, Theo Learn Wise AI and daily RTLH operations from one place.</p><div class="toolbar"><button class="btn yellow" data-view-link="users">Manage users</button><button class="btn" data-view-link="classes">Manage E-Classes</button><button class="btn" data-view-link="auditLogs">View audit log</button></div></div>
+<div class="stats" id="dashboardStats"></div>
+<div class="grid"><div class="card"><div class="section-head"><h3>Daily activity</h3><button class="btn" data-view-link="auditLogs">View all</button></div><div id="dailyActivity">Loading activity…</div></div><div class="card"><h3>Platform health</h3><div id="healthBox" class="kpi-list"></div></div></div>
+<div class="section grid three"><div class="card"><h3>Pending work</h3><div id="pendingBox"></div></div><div class="card"><h3>Finance snapshot</h3><div id="financeBox"></div></div><div class="card"><h3>Learning snapshot</h3><div id="learningBox"></div></div></div>
+</section>
+
+<section class="view" id="view-collection">
+<div class="section-head"><div><h2 id="collectionTitle">Collection</h2><p class="muted" id="collectionDescription">Firestore records</p></div><div class="toolbar" style="margin:0"><button class="btn primary" id="newRecordBtn">+ Add record</button><button class="btn" id="refreshCollectionBtn">↻ Refresh</button></div></div>
+<div class="card"><div class="searchbar"><input id="collectionSearch" placeholder="Search this collection…"><select id="collectionLimit" style="width:150px"><option value="100">100 records</option><option value="250">250 records</option><option value="500">500 records</option></select></div><div id="collectionTable"></div></div>
+</section>
+
+<section class="view" id="view-analytics"><div class="section-head"><div><h2>Platform Analytics</h2><p class="muted">Operational metrics from Firestore.</p></div><button class="btn" data-view-link="reports">Open reports</button></div><div class="stats" id="analyticsStats"></div><div class="grid"><div class="card"><h3>Education distribution</h3><div id="educationDistribution"></div></div><div class="card"><h3>Platform activity</h3><div id="analyticsActivity"></div></div></div></section>
+
+<section class="view" id="view-ai"><div class="hero"><span class="pill" style="background:rgba(255,255,255,.15);color:#fff">THEO LEARN WISE AI</span><h2>AI learning facilitator</h2><p>Monitor and configure Theo Learn Wise AI used across RTLH learning.</p></div><div class="section grid"><div class="card"><h3>AI controls</h3><div class="field"><label>AI availability</label><select id="aiEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div><div class="field"><label>AI role</label><select id="aiRole"><option>Teacher & Learner Facilitator</option><option>Learner Facilitator</option><option>Teacher Assistant</option></select></div><button class="btn primary" id="saveAiSettings">Save AI settings</button></div><div class="card"><h3>AI monitoring</h3><div id="aiStats" class="kpi-list"></div></div></div><div class="section card"><h3>AI assistant</h3><p class="muted">Keep your existing Theo Learn Wise AI embed in E-Teacher/E-Class. This panel controls platform-level AI settings.</p><div class="notice">Never put a private AI API key in this HTML file.</div></div></section>
+
+<section class="view" id="view-settings"><div class="section-head"><div><h2>Platform Settings</h2><p class="muted">Manage the central <code>platformSettings/main</code> document.</p></div></div><div class="card"><form id="settingsForm"><div class="form-grid"><div class="field"><label>Platform name</label><input id="setName" value="RWANDA TECH LEARNING HUB"></div><div class="field"><label>Default currency</label><input id="setCurrency" value="RWF"></div><div class="field"><label>Default language</label><select id="setLanguage"><option>English</option><option>Kinyarwanda</option><option>French</option></select></div><div class="field"><label>Class approval</label><select id="setClassApproval"><option value="manual">Manual approval</option><option value="automatic">Automatic</option></select></div><div class="field"><label>Teacher approval</label><select id="setTeacherApproval"><option value="manual">Manual verification</option><option value="automatic">Automatic</option></select></div><div class="field"><label>Maintenance mode</label><select id="setMaintenance"><option value="false">Off</option><option value="true">On</option></select></div></div><div class="field"><label>Admin notice</label><textarea id="setNotice"></textarea></div><button class="btn primary">Save platform settings</button></form></div></section>
+
+<section class="view" id="view-roles"><div class="section-head"><div><h2>Roles & Permissions</h2><p class="muted">Permissions must be enforced by Firebase Security Rules, not only by this UI.</p></div></div><div class="grid three"><div class="card"><h3>Super Admin</h3><p class="muted">Full platform administration.</p></div><div class="card"><h3>Platform Admin</h3><p class="muted">Users, platform and operations.</p></div><div class="card"><h3>Education Admin</h3><p class="muted">Courses, classes, teachers and learners.</p></div><div class="card"><h3>Finance Admin</h3><p class="muted">Payments, transactions and payouts.</p></div><div class="card"><h3>Support Admin</h3><p class="muted">Learner support and reports.</p></div><div class="card"><h3>Moderator</h3><p class="muted">Community and content moderation.</p></div></div><div class="section card"><h3>Current administrator</h3><pre class="json" id="adminIdentityJson"></pre></div></section>
+
+<section class="view" id="view-reports"><div class="section-head"><div><h2>Reports & Export</h2><p class="muted">Create CSV snapshots from collections you can read.</p></div></div><div class="card"><div class="form-grid"><div class="field"><label>Collection</label><select id="reportCollection"></select></div><div class="field"><label>Filename</label><input id="reportFilename" value="rtlh-report"></div></div><button class="btn primary" id="exportCsv">Download CSV</button></div><div class="section card"><h3>Report shortcuts</h3><div class="collection-grid" id="reportCards"></div></div></section>
+
+<section class="view" id="view-policies"><div class="section-head"><div><h2>Policies & Legal</h2><p class="muted">Manage policy versions and public policy content through your platform settings/content records.</p></div></div><div class="grid"><div class="card"><h3>Privacy Policy</h3><p class="muted">Privacy and data handling.</p></div><div class="card"><h3>Terms of Use</h3><p class="muted">Platform terms.</p></div><div class="card"><h3>Cookie Policy</h3><p class="muted">Cookie and consent wording.</p></div><div class="card"><h3>Refund Policy</h3><p class="muted">Payment and refund terms.</p></div><div class="card"><h3>Certificate Verification Policy</h3><p class="muted">Certificate rules.</p></div><div class="card"><h3>Community Guidelines</h3><p class="muted">Moderation standards.</p></div></div></section>
+
+<section class="view" id="view-website"><div class="card"><h2>Website Content</h2><p class="muted">Manage homepage, featured courses/teachers, comments, sponsorship, partnerships and opportunities through <code>websiteContent</code>.</p><button class="btn primary" data-open-collection="websiteContent">Open websiteContent</button></div></section>
+<section class="view" id="view-security"><div class="grid"><div class="card"><h2>Security Center</h2><div class="notice">This dashboard cannot replace Firestore Security Rules. Protect the database using Firebase Authentication plus role-based rules.</div><div id="securityInfo" class="section"></div></div><div class="card"><h2>Security checklist</h2><ul><li>Firebase Authentication enabled.</li><li>Exact admin account restricted.</li><li>Role-based Firestore rules.</li><li>No passwords in source code.</li><li>Private learner data protected.</li><li>Audit logs reviewed.</li></ul></div></div></section>
+<section class="view" id="view-elibrary"><div class="card"><h2>E-Library Administration</h2><p class="muted">Manage books, authors, subjects, languages, education levels and resources.</p><button class="btn primary" data-open-collection="library">Open library collection</button></div></section>
+<section class="view" id="view-problems"><div class="card"><h2>Reports / Problems</h2><p class="muted">Use the <code>reports</code> collection for technical problems, content reports, account issues and complaints.</p><button class="btn primary" data-open-collection="reports">Open reports</button></div></section>
+
+<footer class="footer">RWANDA TECH LEARNING HUB · ADMIN CONTROL CENTRE · Secure administration</footer>
+</div></main></div></div>
+
+<div class="drawer" id="recordDrawer"><div class="drawer-panel"><div class="section-head"><div><h2 id="drawerTitle">Record</h2><p class="muted" id="drawerSubtitle"></p></div><button class="btn" id="closeDrawer">✕</button></div><div id="drawerBody"></div></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,getDoc,doc,setDoc,addDoc,updateDoc,deleteDoc,query,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+/* Use the EXACT SAME Firebase Web App config as e-teacher.html/e-class.html.
+   You can define window.RTLH_FIREBASE_CONFIG before this script or replace these placeholders. */
+const firebaseConfig=window.RTLH_FIREBASE_CONFIG||{
+ apiKey:"PASTE_YOUR_FIREBASE_API_KEY",
+ authDomain:"PASTE_YOUR_PROJECT.firebaseapp.com",
+ projectId:"PASTE_YOUR_PROJECT_ID",
+ storageBucket:"PASTE_YOUR_PROJECT.firebasestorage.app",
+ messagingSenderId:"PASTE_YOUR_SENDER_ID",
+ appId:"PASTE_YOUR_APP_ID"
+};
+const ADMIN_EMAIL="theonesteniyibigira6@gmail.com";
+const COLLECTIONS=["users","students","teachers","schools","organisations","classes","courses","lessons","assignments","quizzes","assessments","tests","exams","projects","submissions","grades","enrollments","progress","attendance","announcements","messages","notifications","meetings","discussions","payments","transactions","payouts","certificates","feedback","reviews","library","books","resources","auditLogs","reports","adminNotifications","adminRoles","platformSettings","websiteContent"];
+const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])),pretty=v=>typeof v==="object"?JSON.stringify(v):String(v??"");
+let app=null,auth=null,db=null,currentUser=null,currentProfile=null,currentCollection="",currentRows=[];
+
+function toast(m,bad=false){$("toast").textContent=m;$("toast").classList.remove("hidden");$("toast").style.background=bad?"#a32936":"#071a2b";setTimeout(()=>$("toast").classList.add("hidden"),3500)}
+function loginError(m){$("loginAlert").textContent=m;$("loginAlert").classList.remove("hidden")}
+function dateVal(v){if(!v)return 0;const d=v?.toDate?v.toDate():new Date(v);return d.getTime()||0}
+function fmt(v){if(!v)return"—";const d=v?.toDate?v.toDate():new Date(v);return Number.isNaN(d.getTime())?"—":d.toLocaleString()}
+function authMsg(e){const c=e?.code||"";if(c.includes("invalid-credential")||c.includes("wrong-password"))return"The administrator email/password is incorrect.";if(c.includes("user-not-found"))return"This email is not registered in Firebase Authentication.";if(c.includes("too-many-requests"))return"Too many attempts. Please wait and try again.";return e?.message||"Sign-in failed."}
+
+if(!Object.values(firebaseConfig).some(v=>String(v).includes("PASTE_YOUR"))){
+ try{app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}catch(e){loginError("Firebase could not initialise: "+e.message)}
+}else loginError("Add the same Firebase Web App configuration used by your E-Class and E-Teacher.");
+
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();$("loginAlert").classList.add("hidden");
+ if(!auth)return loginError("Firebase is not configured yet.");
+ $("loginBtn").disabled=true;$("loginBtn").textContent="Signing in…";
+ try{await signInWithEmailAndPassword(auth,ADMIN_EMAIL,$("adminPassword").value)}catch(e){loginError(authMsg(e));$("loginBtn").disabled=false;$("loginBtn").textContent="Sign in securely"}
+});
+onAuthStateChanged(auth,async user=>{
+ if(!user){$("loginScreen").classList.remove("hidden");$("adminApp").classList.add("hidden");return}
+ if((user.email||"").toLowerCase()!==ADMIN_EMAIL){await signOut(auth);return loginError("Only the authorised RTLH administrator email can enter this panel.")}
+ try{
+  const s=await getDoc(doc(db,"users",user.uid));currentProfile=s.exists()?s.data():{};
+  const role=String(currentProfile.role||currentProfile.accountRole||"").toLowerCase();
+  const isAdmin=["admin","superadmin","platformadmin"].includes(role)||currentProfile.admin===true||currentProfile.isAdmin===true;
+  if(!s.exists()){await setDoc(doc(db,"users",user.uid),{email:user.email,fullName:user.displayName||"RTLH Administrator",role:"admin",admin:true,createdAt:serverTimestamp(),updatedAt:serverTimestamp()},{merge:true});currentProfile={role:"admin",admin:true,email:user.email}}
+  else if(!isAdmin)throw new Error("Your Firebase account is authenticated, but users/"+user.uid+" does not have an admin role.");
+  currentUser=user;$("signedEmail").textContent=user.email;$("adminIdentityJson").textContent=JSON.stringify({uid:user.uid,email:user.email,role:currentProfile.role||"admin",admin:currentProfile.admin??true},null,2);
+  $("loginScreen").classList.add("hidden");$("adminApp").classList.remove("hidden");await dashboard();
+ }catch(e){await signOut(auth);loginError(e.message)}
+});
+
+const titles={dashboard:["Admin Dashboard","Daily RTLH platform control and activity"],users:["All Users","Manage accounts and access"],students:["Students","Learner accounts"],teachers:["Teachers","E-Teacher profiles and activity"],schools:["Schools","School accounts"],organisations:["Organisations","Organisation accounts"],classes:["E-Classes","Teacher-created classes delivered by E-Class"],courses:["Courses","Course catalogue"],lessons:["Lessons","Learning content"],assignments:["Assignments","Assignments and submissions"],quizzes:["Quizzes","Quiz content and attempts"],assessments:["Assessments","Assessments and scores"],tests:["Tests","Tests"],exams:["Exams","Exams and results"],projects:["Projects","Projects and submissions"],submissions:["Submissions","Learner work"],grades:["Results / Grades","Released results"],enrollments:["Enrollments","Learner-class membership"],progress:["Progress","Learning progress"],attendance:["Attendance","Attendance records"],announcements:["Announcements","Platform/class announcements"],messages:["Messages","Messaging"],notifications:["Notifications","Notifications"],meetings:["Meetings / Live","Live sessions"],discussions:["Discussions","Community/class discussions"],payments:["Payments","Payments"],transactions:["Transactions","Transactions"],payouts:["Teacher Payouts","Teacher earnings"],certificates:["Certificates","Certificates"],feedback:["Feedback / Reviews","Feedback and reviews"],analytics:["Analytics","Platform analytics"],ai:["Theo Learn Wise AI","AI facilitator administration"],website:["Website Content","Public website content"],reports:["Reports / Export","Reports and CSV export"],problems:["Reports / Problems","Technical and content reports"],auditLogs:["Audit Logs","Administrative activity"],security:["Security Center","Authentication and authorization"],roles:["Roles & Permissions","Admin roles"],settings:["Platform Settings","Central platform configuration"],policies:["Policies","Legal and policy content"],elibrary:["E-Library","Books and resources"]};
+
+function openView(name){
+ document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+ const generic=COLLECTIONS.includes(name);
+ if(generic){$("view-collection").classList.add("active");loadCollection(name)}else{$("view-"+name)?.classList.add("active")}
+ document.querySelectorAll(".navbtn[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
+ $("pageTitle").textContent=titles[name]?.[0]||name;$("pageSubtitle").textContent=titles[name]?.[1]||"RTLH administration";$("sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"});
+ if(name==="dashboard")dashboard();if(name==="analytics")analytics();if(name==="settings")loadSettings();if(name==="ai")loadAI();if(name==="reports")reports();if(name==="security")security();
+}
+document.querySelectorAll(".navbtn[data-view]").forEach(b=>b.onclick=()=>openView(b.dataset.view));document.querySelectorAll("[data-view-link]").forEach(b=>b.onclick=()=>openView(b.dataset.viewLink));document.querySelectorAll("[data-open-collection]").forEach(b=>b.onclick=()=>openView(b.dataset.openCollection));$("menuMobile").onclick=()=>$("sidebar").classList.toggle("open");$("logoutBtn").onclick=()=>signOut(auth);
+
+async function rows(name,n=1000){const s=await getDocs(query(collection(db,name),limit(n)));return s.docs.map(d=>({id:d.id,...d.data()}))}
+async function dashboard(){
+ const names=["users","students","teachers","classes","courses","lessons","assignments","quizzes","tests","exams","projects","submissions","grades","enrollments","certificates","payments","transactions","announcements","messages"];
+ const c={};for(const n of names){try{c[n]=(await rows(n)).length}catch{c[n]="—"}}
+ const cards=[["👥","Users"],["🎓","Students"],["👨‍🏫","Teachers"],["🏫","E-Classes"],["📚","Courses"],["📖","Lessons"],["📝","Assignments"],["❓","Quizzes"],["📤","Submissions"],["🏆","Grades"],["👥","Enrollments"],["🎓","Certificates"],["💳","Payments"],["💰","Transactions"],["📢","Announcements"],["💬","Messages"]];
+ $("dashboardStats").innerHTML=cards.map(x=>`<div class="stat"><div>${x[0]}</div><b>${c[x[1].toLowerCase().replaceAll(" ","")]??"—"}</b><span>${x[1]}</span></div>`).join("");
+ $("healthBox").innerHTML=[["Firebase Authentication","Connected"],["Cloud Firestore","Connected"],["Admin account",currentUser.email],["Authorisation",currentProfile.role||"admin"]].map(x=>`<div class="kpi"><span class="muted">${esc(x[0])}</span><b>${esc(x[1])}</b></div>`).join("");
+ const acts=[];for(const n of ["auditLogs","announcements","messages","submissions"]){try{(await rows(n,40)).forEach(r=>acts.push({collection:n,...r}))}catch{}}
+ acts.sort((a,b)=>dateVal(b.createdAt||b.updatedAt||b.timestamp)-dateVal(a.createdAt||a.updatedAt||a.timestamp));
+ $("dailyActivity").innerHTML=acts.slice(0,8).map(r=>`<div class="activity"><span class="dot"></span><div><b>${esc(r.action||r.title||r.subject||r.collection)}</b><div class="muted">${esc(r.message||r.description||r.email||r.classId||"Activity recorded")}</div><small>${fmt(r.createdAt||r.updatedAt||r.timestamp)}</small></div></div>`).join("")||"<p class='muted'>No activity records yet.</p>";
+ $("pendingBox").innerHTML=`<div class="kpi-list"><div class="kpi"><span>Submissions</span><b>${c.submissions}</b></div><div class="kpi"><span>Feedback</span><b>${c.feedback||"—"}</b></div></div>`;
+ let revenue=0;try{revenue=(await rows("transactions")).reduce((s,r)=>s+Number(r.amount||0),0)}catch{}$("financeBox").innerHTML=`<div class="kpi"><span>Transaction amount read</span><b>${revenue.toLocaleString()} RWF</b></div>`;
+ $("learningBox").innerHTML=`<div class="kpi-list"><div class="kpi"><span>Lessons</span><b>${c.lessons}</b></div><div class="kpi"><span>Enrollments</span><b>${c.enrollments}</b></div></div>`;
+}
+
+async function loadCollection(name){currentCollection=name;$("collectionTitle").textContent=titles[name]?.[0]||name;$("collectionDescription").textContent="Firestore collection: "+name;document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$("view-collection").classList.add("active");try{currentRows=await rows(name,Number($("collectionLimit").value));renderCollection()}catch(e){$("collectionTable").innerHTML=`<div class="alert">Could not read <b>${esc(name)}</b>: ${esc(e.message)}<br>Check Firestore Security Rules and the admin role.</div>`}}
+function renderCollection(){const t=$("collectionSearch").value.toLowerCase(),r=currentRows.filter(x=>!t||JSON.stringify(x).toLowerCase().includes(t));if(!r.length){$("collectionTable").innerHTML="<div class='muted' style='padding:25px;text-align:center'>No records found.</div>";return}const keys=[...new Set(r.flatMap(x=>Object.keys(x)))].slice(0,9);$("collectionTable").innerHTML=`<div class="table-wrap"><table class="table"><thead><tr><th>ID</th>${keys.map(k=>`<th>${esc(k)}</th>`).join("")}<th>Actions</th></tr></thead><tbody>${r.map(x=>`<tr><td><code>${esc(x.id)}</code></td>${keys.map(k=>`<td>${esc(pretty(x[k])).slice(0,220)}</td>`).join("")}<td><button class="btn" data-edit="${esc(x.id)}">Edit</button> <button class="btn danger" data-del="${esc(x.id)}">Delete</button></td></tr>`).join("")}</tbody></table></div>`;document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editRecord(currentCollection,currentRows.find(x=>x.id===b.dataset.edit)));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteRecord(currentCollection,b.dataset.del))}
+$("collectionSearch").oninput=renderCollection;$("collectionLimit").onchange=()=>loadCollection(currentCollection);$("refreshCollectionBtn").onclick=()=>loadCollection(currentCollection);$("newRecordBtn").onclick=()=>editRecord(currentCollection,null);
+
+function editRecord(col,row){$("drawerTitle").textContent=row?"Edit record":"Add record";$("drawerSubtitle").textContent=col;const d=row?{...row}:{createdAt:"__SERVER_TIMESTAMP__"};delete d.id;$("drawerBody").innerHTML=`<div class="notice">JSON editor. Use <code>__SERVER_TIMESTAMP__</code> for server timestamps.</div><div class="field" style="margin-top:14px"><label>Document ID</label><input id="recordId" value="${row?esc(row.id):""}" ${row?"readonly":""}></div><div class="field"><label>Document JSON</label><textarea id="recordJson" style="min-height:430px;font-family:monospace">${esc(JSON.stringify(d,null,2))}</textarea></div><button class="btn primary" id="saveRecord">Save record</button>`;$("recordDrawer").classList.add("open");$("saveRecord").onclick=()=>saveRecord(col,row)}
+$("closeDrawer").onclick=()=>$("recordDrawer").classList.remove("open");
+async function saveRecord(col,row){try{const d=JSON.parse($("recordJson").value);for(const k of Object.keys(d))if(d[k]==="__SERVER_TIMESTAMP__")d[k]=serverTimestamp();d.updatedAt=serverTimestamp();const id=$("recordId").value.trim();if(row)await updateDoc(doc(db,col,row.id),d);else if(id)await setDoc(doc(db,col,id),d);else await addDoc(collection(db,col),d);await audit("record_saved",{collection:col,documentId:id||row?.id||"auto"});toast("Record saved.");$("recordDrawer").classList.remove("open");loadCollection(col)}catch(e){toast("Save failed: "+e.message,true)}}
+async function deleteRecord(col,id){if(!confirm(`Delete ${col}/${id}?`))return;try{await deleteDoc(doc(db,col,id));await audit("record_deleted",{collection:col,documentId:id});toast("Record deleted.");loadCollection(col)}catch(e){toast("Delete failed: "+e.message,true)}}
+async function audit(action,details){try{await addDoc(collection(db,"auditLogs"),{action,adminId:currentUser.uid,adminEmail:currentUser.email,details,createdAt:serverTimestamp()})}catch(e){console.warn("Audit log unavailable",e)}}
+
+async function analytics(){const ns=["users","students","teachers","classes","courses","lessons","enrollments","submissions","grades","certificates","payments"];const o={};for(const n of ns){try{o[n]=(await rows(n)).length}catch{o[n]="—"}}$("analyticsStats").innerHTML=ns.map(n=>`<div class="stat"><b>${o[n]}</b><span>${n}</span></div>`).join("");$("educationDistribution").innerHTML=`<div class="kpi-list"><div class="kpi"><span>Classes</span><b>${o.classes}</b></div><div class="kpi"><span>Courses</span><b>${o.courses}</b></div><div class="kpi"><span>Lessons</span><b>${o.lessons}</b></div><div class="kpi"><span>Enrollments</span><b>${o.enrollments}</b></div></div>`;$("analyticsActivity").innerHTML="<p class='muted'>Use auditLogs for detailed time-based activity.</p>"}
+
+async function loadSettings(){try{const s=await getDoc(doc(db,"platformSettings","main"));if(s.exists()){const x=s.data();$("setName").value=x.platformName||"RWANDA TECH LEARNING HUB";$("setCurrency").value=x.currency||"RWF";$("setLanguage").value=x.defaultLanguage||"English";$("setClassApproval").value=x.classApproval||"manual";$("setTeacherApproval").value=x.teacherApproval||"manual";$("setMaintenance").value=String(!!x.maintenanceMode);$("setNotice").value=x.adminNotice||""}}catch(e){toast(e.message,true)}}
+$("settingsForm").onsubmit=async e=>{e.preventDefault();try{await setDoc(doc(db,"platformSettings","main"),{platformName:$("setName").value,currency:$("setCurrency").value,defaultLanguage:$("setLanguage").value,classApproval:$("setClassApproval").value,teacherApproval:$("setTeacherApproval").value,maintenanceMode:$("setMaintenance").value==="true",adminNotice:$("setNotice").value,updatedBy:currentUser.uid,updatedAt:serverTimestamp()},{merge:true});await audit("platform_settings_updated",{});toast("Platform settings saved.")}catch(e){toast(e.message,true)}};
+
+async function loadAI(){try{const s=await getDoc(doc(db,"platformSettings","main"));const x=s.exists()?s.data():{};$("aiEnabled").value=String(x.theoAIEnabled!==false);$("aiRole").value=x.theoAIRole||"Teacher & Learner Facilitator"}catch{}$("aiStats").innerHTML="<div class='kpi'><span>AI configuration</span><b>Ready</b></div><div class='kpi'><span>Platform collection</span><b>platformSettings</b></div>"}
+$("saveAiSettings").onclick=async()=>{try{await setDoc(doc(db,"platformSettings","main"),{theoAIEnabled:$("aiEnabled").value==="true",theoAIRole:$("aiRole").value,updatedBy:currentUser.uid,updatedAt:serverTimestamp()},{merge:true});await audit("theo_ai_settings_updated",{});toast("Theo Learn Wise AI settings saved.")}catch(e){toast(e.message,true)}};
+async function security(){$("securityInfo").innerHTML=`<div class="kpi-list"><div class="kpi"><span>Signed in</span><b>${esc(currentUser.email)}</b></div><div class="kpi"><span>UID</span><b style="font-size:12px;word-break:break-all">${esc(currentUser.uid)}</b></div><div class="kpi"><span>Role</span><b>${esc(currentProfile.role||"admin")}</b></div></div>`}
+
+function reports(){$("reportCollection").innerHTML=COLLECTIONS.map(c=>`<option value="${c}">${c}</option>`).join("");$("reportCards").innerHTML=["users","classes","courses","enrollments","submissions","payments","certificates","auditLogs"].map(c=>`<div class="collection-card"><b>${c}</b><span>CSV snapshot</span><br><button class="btn" data-report="${c}">Export</button></div>`).join("");document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>exportCsv(b.dataset.report))}
+$("exportCsv").onclick=()=>exportCsv($("reportCollection").value);
+async function exportCsv(name){try{const r=await rows(name,5000);if(!r.length)return toast("No records found.",true);const keys=[...new Set(r.flatMap(x=>Object.keys(x)))],csv=[keys,...r.map(x=>keys.map(k=>`"${pretty(x[k]).replaceAll('"','""')}"`))].map(x=>x.join(",")).join("\\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=(`${$("reportFilename").value||"rtlh-report"}-${name}.csv`);a.click();await audit("report_exported",{collection:name,count:r.length});toast("CSV downloaded.")}catch(e){toast("Export failed: "+e.message,true)}}
+</script>
+</body>
+</html>
