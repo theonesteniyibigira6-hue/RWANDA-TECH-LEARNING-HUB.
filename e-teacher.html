@@ -1001,15 +1001,11 @@ textarea{
             <button class="primary-btn" id="authSubmit" type="submit" style="width:100%">
                 Sign In
             </button>
-            <button type="button" id="resetPasswordBtn" class="secondary-btn" style="width:100%;margin-top:9px">
-                Forgot password?
-            </button>
 
         </form>
 
         <div class="auth-footer">
             By continuing, you agree to the RTLH Terms of Use and Privacy Policy.
-            <br><span style="color:#20a464;font-weight:700">● Firebase Authentication connected · Google Sign-In available</span>
         </div>
 
     </div>
@@ -1039,9 +1035,9 @@ textarea{
 
     <div class="top-actions">
 
-        <a class="home-btn" href="index.html">🏠 RTLH Home</a>
-        <a class="home-btn" href="e-class.html" title="Open RTLH E-Class">🎓 E-Class</a>
-        <a class="home-btn" href="admin.html" title="Open RTLH Admin">🛡️ Admin</a>
+        <a class="home-btn" href="index.html">
+            🏠 RTLH Home
+        </a>
 
         <button class="logout-btn" id="logoutBtn">
             Sign Out
@@ -2504,12 +2500,10 @@ import {
     onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    updateProfile,
-    sendPasswordResetEmail,
     GoogleAuthProvider,
     signInWithPopup,
-    signInWithRedirect,
-    getRedirectResult,
+    signInWithRedirect,          // *** CHANGED: popup → redirect ***
+    getRedirectResult,          // *** NEW: handle redirect result ***
     signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
@@ -2525,7 +2519,8 @@ import {
     where,
     orderBy,
     serverTimestamp,
-    updateDoc
+    updateDoc,
+    writeBatch
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
@@ -2535,28 +2530,45 @@ import {
    REPLACE THESE VALUES WITH YOUR FIREBASE WEB APP CONFIG.
 ========================================================= */
 
-const firebaseConfig = window.RTLH_FIREBASE_CONFIG || {
+const firebaseConfig = {
+
     apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
-    authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
-    projectId: "rwanda-tech-learning-hub",
-    storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
-    messagingSenderId: "785118659917",
-    appId: "1:785118659917:web:7ada98356d213a3fad2304"
+
+    authDomain:
+        "rwanda-tech-learning-hub.firebaseapp.com",
+
+    projectId:
+        "rwanda-tech-learning-hub",
+
+    storageBucket:
+        "rwanda-tech-learning-hub.firebasestorage.app",
+    messagingSenderId:
+        "785118659917",
+
+    appId:
+        "1:785118659917:web:7ada98356d213a3fad2304",
+
 };
 
-const RTLH_TEACHER_EMAIL = "theonesteniyibigira6@gmail.com";
+
+/* =========================================================
+   INITIALISE FIREBASE
+========================================================= */
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({prompt:"select_account"});
 
 let currentUser = null;
 let currentTeacher = null;
+
+// --- Cooldown flag to prevent 429 errors ---
 let isAuthLoading = false;
-let redirectHandled = false;
+
 
 /* =========================================================
    BASIC UI FUNCTIONS
@@ -2712,265 +2724,249 @@ document.getElementById("registerTab")
 
 
 /* =========================================================
-   EMAIL / GOOGLE AUTHENTICATION
+   EMAIL AUTHENTICATION
 ========================================================= */
 
-document.getElementById("authForm").addEventListener("submit", async event => {
+document.getElementById("authForm")
+.addEventListener("submit", async event => {
+
     event.preventDefault();
-    if (isAuthLoading) return;
 
+    if (isAuthLoading) return;   // prevent double submission
     isAuthLoading = true;
+
     clearAuthError();
 
-    const email = document.getElementById("email").value.trim().toLowerCase();
-    const password = document.getElementById("password").value;
+    const email =
+        document.getElementById("email").value.trim();
 
-    try {
-        if (authMode === "login") {
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                if (
-                    email === RTLH_TEACHER_EMAIL &&
-                    ["auth/invalid-credential","auth/user-not-found","auth/wrong-password"]
-                        .includes(error.code)
-                ) {
-                    showAuthError(
-                        "This RTLH teacher account uses Google Sign-In. " +
-                        "Click “Continue with Google” and choose " +
-                        RTLH_TEACHER_EMAIL + "."
-                    );
-                } else {
-                    throw error;
+    const password =
+        document.getElementById("password").value;
+
+    try{
+
+        if(authMode === "login"){
+
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+        }else{
+
+            const name =
+                document.getElementById("fullName")
+                .value.trim();
+
+            const phone =
+                document.getElementById("phone")
+                .value.trim();
+
+            if(!name){
+
+                showAuthError(
+                    "Please enter your full name."
+                );
+                isAuthLoading = false;
+                return;
+            }
+
+            const credential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            await createTeacherProfile(
+                credential.user,
+                {
+                    fullName:name,
+                    phone:phone
                 }
-            }
-        } else {
-            const name = document.getElementById("fullName").value.trim();
-            const phone = document.getElementById("phone").value.trim();
-
-            if (!name) {
-                showAuthError("Please enter your full name.");
-                return;
-            }
-
-            const credential = await createUserWithEmailAndPassword(
-                auth, email, password
             );
 
-            await updateProfile(credential.user, {displayName:name});
-
-            await createTeacherProfile(credential.user, {
-                fullName:name,
-                phone:phone
-            });
         }
-    } catch (error) {
-        console.error("Email authentication:", error);
-        showAuthError(friendlyAuthError(error));
-    } finally {
+
+        // Reset loading flag on success (auth state listener will handle UI)
+        isAuthLoading = false;
+
+    }catch(error){
+
+        console.error(error);
+
+        showAuthError(
+            friendlyAuthError(error)
+        );
         isAuthLoading = false;
     }
+
 });
 
 
-document.getElementById("resetPasswordBtn").addEventListener("click", async () => {
-    clearAuthError();
+/* =========================================================
+   GOOGLE AUTHENTICATION (switched to redirect)
+========================================================= */
 
-    const email = document.getElementById("email").value.trim().toLowerCase();
-
-    if (!email) {
-        showAuthError("Enter your email address first.");
-        return;
-    }
-
-    try {
-        await sendPasswordResetEmail(auth, email);
-        toast("Password reset email sent. Check your inbox.");
-    } catch (error) {
-        console.error("Password reset:", error);
-        showAuthError(friendlyAuthError(error));
-    }
-});
-
-
-document.getElementById("googleBtn").addEventListener("click", async () => {
+document.getElementById("googleBtn")
+.addEventListener("click", async () => {
     if (isAuthLoading) return;
-
-    isAuthLoading = true;
-    clearAuthError();
-
-    const enteredEmail =
-        document.getElementById("email").value.trim().toLowerCase();
-
-    try {
-        googleProvider.setCustomParameters({
-            prompt:"select_account",
-            ...(enteredEmail === RTLH_TEACHER_EMAIL
-                ? {login_hint:RTLH_TEACHER_EMAIL}
-                : {})
-        });
-
-        const result = await signInWithPopup(auth, googleProvider);
-
-        await createTeacherProfile(result.user, {
-            fullName:result.user.displayName || "",
-            phone:""
-        });
-
-        toast("Signed in with Google successfully.");
-
-    } catch (error) {
-        console.error("Google authentication:", error);
-
-        if (error.code === "auth/popup-blocked") {
-            try {
-                await signInWithRedirect(auth, googleProvider);
-                return;
-            } catch (redirectError) {
-                showAuthError(friendlyAuthError(redirectError));
-            }
-        } else if (error.code === "auth/account-exists-with-different-credential") {
-            showAuthError(
-                "This email already has a different Firebase sign-in method. " +
-                "Use the existing sign-in method for this account."
-            );
-        } else {
-            showAuthError(friendlyAuthError(error));
+    isAuthLoading=true; clearAuthError();
+    const provider=new GoogleAuthProvider();
+    provider.setCustomParameters({prompt:"select_account"});
+    try{
+        await signInWithPopup(auth,provider);
+    }catch(error){
+        if(error?.code==="auth/popup-blocked" || error?.code==="auth/operation-not-supported-in-this-environment"){
+            try{ await signInWithRedirect(auth,provider); return; }catch(fallback){ error=fallback; }
         }
-    } finally {
-        isAuthLoading = false;
+        console.error(error); showAuthError(friendlyAuthError(error));
+        isAuthLoading=false;
     }
 });
 
+
+/* =========================================================
+   HANDLE REDIRECT RESULT (NEW)
+========================================================= */
 
 getRedirectResult(auth)
-    .then(async result => {
-        if (!result || redirectHandled) return;
-        redirectHandled = true;
+  .then(async (result) => {
+    if (result) {
+      // User successfully signed in via redirect
+      const user = result.user;
+      // The onAuthStateChanged listener below will automatically handle the rest
+      // But we need to ensure profile creation happens
+      await ensureTeacherReady(user);
+      toast("Signed in with Google successfully!");
+      // Reset loading flag
+      isAuthLoading = false;
+    }
+  })
+  .catch((error) => {
+    console.error("Redirect error:", error);
+    showAuthError(friendlyAuthError(error));
+    isAuthLoading = false;
+  });
 
-        await createTeacherProfile(result.user, {
-            fullName:result.user.displayName || "",
-            phone:""
-        });
 
-        toast("Signed in with Google successfully.");
-    })
-    .catch(error => {
-        console.error("Google redirect result:", error);
-        showAuthError(friendlyAuthError(error));
-    });
+/* =========================================================
+   FRIENDLY AUTH ERROR MESSAGES
+========================================================= */
 
+function friendlyAuthError(error){
 
-function friendlyAuthError(error) {
-    const code = error?.code || "";
+    const code = error.code || "";
 
     const messages = {
+
         "auth/invalid-credential":
-            "The email or password is incorrect. If this account uses Google, click Continue with Google.",
+            ((document.getElementById("email")?.value||"").trim().toLowerCase()==="theonesteniyibigira6@gmail.com"
+                ? "This RTLH teacher account is registered with Google. Use Continue with Google for this email."
+                : "The email or password is incorrect."),
+
         "auth/user-not-found":
-            "No Firebase account was found with this email.",
+            "No account was found with this email.",
+
         "auth/wrong-password":
-            "The password is incorrect. If this is the Google account, use Continue with Google.",
+            "The password is incorrect.",
+
         "auth/email-already-in-use":
-            "This email already has a Firebase account. Sign in with its existing provider.",
+            "An account with this email already exists.",
+
         "auth/weak-password":
-            "Password must contain at least 6 characters.",
-        "auth/operation-not-allowed":
-            "This Firebase sign-in provider is not enabled. Enable Email/Password and Google in Firebase Authentication.",
-        "auth/unauthorized-domain":
-            "This website domain is not authorised in Firebase Authentication → Settings → Authorised domains.",
+            "Password should contain at least 6 characters.",
+
         "auth/popup-closed-by-user":
             "Google Sign-In was cancelled.",
+
+        "auth/operation-not-allowed":
+            "This sign-in method has not been enabled in Firebase.",
+
+        "auth/unauthorized-domain":
+            "This website domain is not authorised in Firebase Authentication.",
+
         "auth/popup-blocked":
-            "Google Sign-In was blocked by the browser. Allow pop-ups for this site.",
-        "auth/too-many-requests":
-            "Too many sign-in attempts. Wait a few minutes and try again.",
-        "auth/network-request-failed":
-            "Network error. Check your internet connection and try again.",
-        "permission-denied":
-            "Authentication succeeded, but Firestore denied access. Check the Firestore Security Rules for teacher accounts."
+            "The sign-in popup was blocked by the browser. Please allow popups or use the email/password method."
+
     };
 
     return messages[code] ||
-        error?.message ||
+        error.message ||
         "Authentication failed. Please try again.";
+
 }
 
 
 /* =========================================================
-   CREATE / SYNC TEACHER PROFILE
+   CREATE TEACHER PROFILE
 ========================================================= */
 
-async function createTeacherProfile(user, extra = {}) {
-    const fullName =
-        extra.fullName ||
-        user.displayName ||
-        (user.email === RTLH_TEACHER_EMAIL
-            ? "Niyibigira Theoneste"
-            : "RTLH Teacher");
+async function createTeacherProfile(user, extra = {}){
 
     const teacherData = {
         uid:user.uid,
-        fullName,
-        displayName:user.displayName || fullName,
+        fullName:extra.fullName || user.displayName || "RTLH Teacher",
+        displayName:extra.fullName || user.displayName || "RTLH Teacher",
         email:user.email || "",
         phone:extra.phone || "",
         photoURL:user.photoURL || "",
         country:"Rwanda",
         role:"teacher",
+        roles:["teacher"],
         accountType:"e-teacher",
-        verificationStatus:"pending",
-        isVerified:user.email === RTLH_TEACHER_EMAIL,
-        isPublic:true,
         teachingSubject:"",
-        subjects:[],
-        languages:["English","Kinyarwanda"],
         qualification:"",
-        qualifications:"",
-        experience:0,
         bio:"",
+        isVerified:false,
+        verificationStatus:"pending",
+        isPublic:false,
+        createdAt:serverTimestamp(),
         updatedAt:serverTimestamp()
     };
 
-    try {
-        const userRef = doc(db,"users",user.uid);
-        const existing = await getDoc(userRef);
-
-        await setDoc(
-            userRef,
-            {
-                ...teacherData,
-                createdAt:existing.exists()
-                    ? (existing.data().createdAt || serverTimestamp())
-                    : serverTimestamp()
-            },
-            {merge:true}
-        );
-
-        await setDoc(
-            doc(db,"teachers",user.uid),
-            {
-                ...teacherData,
-                createdAt:existing.exists()
-                    ? (existing.data().createdAt || serverTimestamp())
-                    : serverTimestamp()
-            },
-            {merge:true}
-        );
-
-    } catch (error) {
-        console.error("Teacher profile sync:",error);
-
-        if (error.code === "permission-denied") {
-            toast(
-                "Authentication succeeded, but Firestore permissions need to be fixed."
-            );
-            return;
-        }
-
-        throw error;
-    }
+    const batch = writeBatch(db);
+    batch.set(doc(db,"users",user.uid), teacherData, {merge:true});
+    batch.set(doc(db,"teachers",user.uid), teacherData, {merge:true});
+    await batch.commit();
 }
+
+function isTeacherRole(profile){
+    const r=String(profile?.role||profile?.accountRole||"").toLowerCase();
+    return ["teacher","e-teacher","eteacher"].includes(r);
+}
+
+async function ensureTeacherReady(user){
+    const userRef=doc(db,"users",user.uid);
+    const teacherRef=doc(db,"teachers",user.uid);
+    const userSnap=await getDoc(userRef);
+    const existing=userSnap.exists()?userSnap.data():null;
+
+    if(existing && !isTeacherRole(existing) && !["admin","superadmin","platformadmin"].includes(String(existing.role||"").toLowerCase())){
+        throw new Error("This RTLH account is registered as a learner/member. Use a teacher account to enter E-Teacher.");
+    }
+
+    const teacherSnap=await getDoc(teacherRef);
+    const existingRoles=Array.isArray(existing?.roles)?existing.roles:[];
+    const mergedRoles=[...new Set([...existingRoles,"teacher"])];
+    const preservedRole=String(existing?.role||"").toLowerCase();
+    const base={
+        uid:user.uid, fullName:user.displayName||existing?.fullName||"RTLH Teacher",
+        displayName:user.displayName||existing?.displayName||existing?.fullName||"RTLH Teacher",
+        email:user.email||existing?.email||"", phone:existing?.phone||"", photoURL:user.photoURL||existing?.photoURL||"",
+        country:existing?.country||"Rwanda", role:(preservedRole==="admin"||preservedRole==="superadmin"||preservedRole==="platformadmin")?preservedRole:"teacher", roles:mergedRoles, accountType:"e-teacher",
+        verificationStatus:existing?.verificationStatus||"pending", isVerified:existing?.isVerified||false,
+        isPublic:existing?.isPublic||false, updatedAt:serverTimestamp()
+    };
+    const batch=writeBatch(db);
+    batch.set(userRef,{...base, roles:mergedRoles, accountType:"e-teacher"},{merge:true});
+    batch.set(teacherRef,{...base},{merge:true});
+    if(!teacherSnap.exists()) batch.set(teacherRef,{...base,createdAt:serverTimestamp()},{merge:true});
+    await batch.commit();
+    return {...base, ...(teacherSnap.exists()?teacherSnap.data():{})};
+}
+
 
 
 /* =========================================================
@@ -2978,116 +2974,55 @@ async function createTeacherProfile(user, extra = {}) {
 ========================================================= */
 
 onAuthStateChanged(auth, async user => {
+
+    // Reset loading flag whenever auth state changes
     isAuthLoading = false;
 
-    if (!user) {
+    if(!user){
+
         currentUser = null;
-        currentTeacher = null;
-        document.getElementById("authScreen").style.display = "flex";
-        document.getElementById("application").style.display = "none";
+
+        document.getElementById("authScreen")
+            .style.display = "flex";
+
+        document.getElementById("application")
+            .style.display = "none";
+
         return;
+
     }
 
     currentUser = user;
 
-    try {
+    try{
+
         await ensureTeacherProfile(user);
+
         await loadTeacher();
 
-        document.getElementById("authScreen").style.display = "none";
-        document.getElementById("application").style.display = "block";
+        document.getElementById("authScreen")
+            .style.display = "none";
+
+        document.getElementById("application")
+            .style.display = "block";
 
         await loadDashboard();
 
-    } catch (error) {
-        console.error("Teacher session:",error);
+    }catch(error){
 
-        /*
-         * A Firestore rules problem must not sign the user out after
-         * Firebase Authentication has already succeeded.
-         */
-        currentTeacher = {
-            uid:user.uid,
-            fullName:user.displayName || "RTLH Teacher",
-            email:user.email || "",
-            role:"teacher",
-            accountType:"e-teacher"
-        };
+        console.error(error);
 
-        document.getElementById("authScreen").style.display = "none";
-        document.getElementById("application").style.display = "block";
-
-        document.getElementById("welcomeName").textContent =
-            (user.displayName || "Teacher").split(" ")[0];
-
-        document.getElementById("sideTeacherName").textContent =
-            user.displayName || "RTLH Teacher";
-
-        document.getElementById("sideTeacherEmail").textContent =
-            user.email || "";
-
-        toast(
-            "You are signed in. Some Firebase data is unavailable until Firestore rules are corrected."
+        showAuthError(
+            "Your account could not be loaded. Please try again."
         );
+
     }
+
 });
 
 
-async function ensureTeacherProfile(user) {
-    const ref = doc(db,"users",user.uid);
-    const snap = await getDoc(ref);
-
-    if (!snap.exists()) {
-        await createTeacherProfile(user);
-        return;
-    }
-
-    const data = snap.data();
-    const role = String(
-        data.role || data.accountRole || ""
-    ).toLowerCase();
-
-    if (
-        role !== "teacher" &&
-        !["admin","superadmin","platformadmin"].includes(role)
-    ) {
-        await setDoc(
-            ref,
-            {
-                role:"teacher",
-                accountType:"e-teacher",
-                updatedAt:serverTimestamp()
-            },
-            {merge:true}
-        );
-    }
-
-    try {
-        await setDoc(
-            doc(db,"teachers",user.uid),
-            {
-                uid:user.uid,
-                fullName:data.fullName ||
-                    user.displayName ||
-                    "RTLH Teacher",
-                displayName:data.displayName ||
-                    user.displayName ||
-                    "",
-                email:user.email || data.email || "",
-                phone:data.phone || "",
-                photoURL:user.photoURL ||
-                    data.photoURL ||
-                    "",
-                role:"teacher",
-                accountType:"e-teacher",
-                updatedAt:serverTimestamp()
-            },
-            {merge:true}
-        );
-    } catch (error) {
-        if (error.code !== "permission-denied") throw error;
-        console.warn("Teacher collection write denied by Firestore rules.");
-    }
+async function ensureTeacherProfile(user){
+    await ensureTeacherReady(user);
 }
 
 
@@ -3096,24 +3031,22 @@ async function ensureTeacherProfile(user) {
 ========================================================= */
 
 async function loadTeacher(){
-    const ref = doc(db,"users",currentUser.uid);
-    const snap = await getDoc(ref);
 
-    if (!snap.exists()) {
+    const ref =
+        doc(db,"users",currentUser.uid);
+
+    const snap =
+        await getDoc(ref);
+
+    if(!snap.exists()){
+
         await createTeacherProfile(currentUser);
+
+        return loadTeacher();
+
     }
 
-    const refreshed = await getDoc(ref);
-
-    currentTeacher = refreshed.exists()
-        ? refreshed.data()
-        : {
-            uid:currentUser.uid,
-            fullName:currentUser.displayName || "RTLH Teacher",
-            email:currentUser.email || "",
-            role:"teacher",
-            accountType:"e-teacher"
-        };
+    currentTeacher = snap.data();
 
     const name =
         currentTeacher.fullName ||
@@ -3125,40 +3058,54 @@ async function loadTeacher(){
         currentUser.email ||
         "";
 
-    document.getElementById("welcomeName").textContent =
-        name.split(" ")[0];
+    document.getElementById("welcomeName")
+        .textContent = name.split(" ")[0];
 
-    document.getElementById("sideTeacherName").textContent = name;
-    document.getElementById("sideTeacherEmail").textContent = email;
+    document.getElementById("sideTeacherName")
+        .textContent = name;
 
-    document.getElementById("profileName").value = name;
-    document.getElementById("profileEmail").value = email;
-    document.getElementById("profilePhone").value =
-        currentTeacher.phone || "";
-    document.getElementById("profileCountry").value =
-        currentTeacher.country || "Rwanda";
-    document.getElementById("profileSubject").value =
-        currentTeacher.teachingSubject ||
-        (Array.isArray(currentTeacher.subjects)
-            ? currentTeacher.subjects.join(", ")
-            : "");
-    document.getElementById("profileQualification").value =
-        currentTeacher.qualification ||
-        currentTeacher.qualifications ||
-        "";
-    document.getElementById("profileBio").value =
-        currentTeacher.bio || "";
+    document.getElementById("sideTeacherEmail")
+        .textContent = email;
 
-    const avatar = document.getElementById("sideAvatar");
+    document.getElementById("profileName")
+        .value = name;
 
-    if (currentTeacher.photoURL || currentUser.photoURL) {
+    document.getElementById("profileEmail")
+        .value = email;
+
+    document.getElementById("profilePhone")
+        .value = currentTeacher.phone || "";
+
+    document.getElementById("profileCountry")
+        .value = currentTeacher.country || "Rwanda";
+
+    document.getElementById("profileSubject")
+        .value =
+            currentTeacher.teachingSubject || "";
+
+    document.getElementById("profileQualification")
+        .value =
+            currentTeacher.qualification || "";
+
+    document.getElementById("profileBio")
+        .value =
+            currentTeacher.bio || "";
+
+    const avatar =
+        document.getElementById("sideAvatar");
+
+    if(currentTeacher.photoURL){
+
         avatar.innerHTML =
-            `<img src="${escapeHtml(
-                currentTeacher.photoURL || currentUser.photoURL
-            )}" alt="Teacher">`;
-    } else {
-        avatar.textContent = name.charAt(0).toUpperCase();
+            `<img src="${escapeHtml(currentTeacher.photoURL)}" alt="Teacher">`;
+
+    }else{
+
+        avatar.textContent =
+            name.charAt(0).toUpperCase();
+
     }
+
 }
 
 
@@ -3178,6 +3125,53 @@ async function loadDashboard(){
 
 }
 
+
+/* =========================================================
+   FIRESTORE TEACHER CONTENT HELPERS
+   Every teacher-created item is written atomically to the top-level
+   collection used by Admin/E-Teacher and to the class subcollection
+   used by E-Class.
+========================================================= */
+
+async function requireTeacherClass(classId){
+    if(!classId) throw new Error("Please provide a Class ID so this content can appear in E-Class.");
+    const snap=await getDoc(doc(db,"classes",classId));
+    if(!snap.exists()) throw new Error("The Class ID does not exist in Firestore. Create/select the class first.");
+    const c=snap.data();
+    if(c.teacherId!==currentUser.uid) throw new Error("You can only publish content to a class that belongs to your teacher account.");
+    return {id:classId,...c};
+}
+
+async function atomicTeacherContent({topCollection, classId, data, nestedCollections=[]}){
+    await requireTeacherClass(classId);
+    const batch=writeBatch(db);
+    const topRef=doc(collection(db,topCollection));
+    const payload={...data, classId, teacherId:currentUser.uid, updatedAt:serverTimestamp()};
+    batch.set(topRef,payload);
+    for(const nested of nestedCollections){
+        batch.set(doc(db,"classes",classId,nested,topRef.id),payload);
+    }
+    await batch.commit();
+    return {id:topRef.id,...payload};
+}
+
+async function atomicAssessment({type,classId,data}){
+    await requireTeacherClass(classId);
+    const batch=writeBatch(db);
+    const assessmentRef=doc(collection(db,"assessments"));
+    const typeCollection=type==="quiz"?"quizzes":type==="test"?"tests":"exams";
+    const typeRef=doc(db,typeCollection,assessmentRef.id);
+    const payload={...data,classId,teacherId:currentUser.uid,type,updatedAt:serverTimestamp()};
+    batch.set(assessmentRef,payload);
+    batch.set(typeRef,payload);
+    // E-Class currently renders both tests and exams from its Tests tab.
+    const nestedTargets=type==="exam"?["tests","exams"]:[typeCollection];
+    for(const nested of nestedTargets){
+        batch.set(doc(db,"classes",classId,nested,assessmentRef.id),payload);
+    }
+    await batch.commit();
+    return {id:assessmentRef.id,...payload};
+}
 
 /* =========================================================
    CLASSES
@@ -3296,122 +3290,46 @@ async function loadClasses(){
 
 document.getElementById("classForm")
 .addEventListener("submit", async event => {
-
     event.preventDefault();
-    if (!currentUser) return;
-
-    try {
-        const className =
-            document.getElementById("className").value.trim();
-
-        const classData = {
-            title:className,
-            name:className,
+    if(!currentUser) return showAuthError("Please sign in first.");
+    try{
+        const name=document.getElementById("className").value.trim();
+        if(!name) throw new Error("Enter a class name.");
+        const classData={
+            name, title:name,
             subject:document.getElementById("classSubject").value.trim(),
             level:document.getElementById("classLevel").value,
-            classType:"online",
-            type:"Online class",
-            price:Number(
-                document.getElementById("classPrice").value || 0
-            ),
+            type:"free",
+            classType:"live",
+            price:Number(document.getElementById("classPrice").value||0),
             currency:"RWF",
             startDate:document.getElementById("classStartDate").value,
-            status:
-                document.getElementById("classStatus").value === "active"
-                    ? "open"
-                    : "draft",
+            schedule:document.getElementById("classStartDate").value,
+            status:document.getElementById("classStatus").value,
             description:document.getElementById("classDescription").value.trim(),
             teacherId:currentUser.uid,
-            teacherName:
-                currentTeacher?.fullName ||
-                currentUser.displayName ||
-                "RTLH Teacher",
-            teacherEmail:currentUser.email || "",
-            visibility:"public",
-            isPublic:true,
-            studentIds:[],
-            enrolledCount:0,
-            studentCount:0,
-            enrolledStudents:0,
-            createdAt:serverTimestamp(),
-            updatedAt:serverTimestamp()
+            teacherName:currentTeacher?.fullName||currentTeacher?.displayName||currentUser.displayName||"RTLH Teacher",
+            teacherEmail:currentUser.email||"",
+            visibility:"public", isPublic:true,
+            studentIds:[], enrolledStudents:0, studentCount:0, students:0,
+            lessons:0, maxStudents:30,
+            createdAt:serverTimestamp(), updatedAt:serverTimestamp()
         };
-
-        const ref = await addDoc(
-            collection(db,"classes"),
-            classData
-        );
-
-        await setDoc(
-            doc(
-                db,
-                "users",
-                currentUser.uid,
-                "teacherClasses",
-                ref.id
-            ),
-            {
-                classId:ref.id,
-                className,
-                title:className,
-                teacherId:currentUser.uid,
-                createdAt:serverTimestamp()
-            },
-            {merge:true}
-        );
-
-        try {
-            await setDoc(
-                doc(db,"teachers",currentUser.uid),
-                {
-                    uid:currentUser.uid,
-                    email:currentUser.email || "",
-                    fullName:
-                        currentTeacher?.fullName ||
-                        currentUser.displayName ||
-                        "RTLH Teacher",
-                    role:"teacher",
-                    accountType:"e-teacher",
-                    updatedAt:serverTimestamp()
-                },
-                {merge:true}
-            );
-        } catch (e) {
-            if (e.code !== "permission-denied") throw e;
-        }
-
+        const batch=writeBatch(db);
+        const ref=doc(collection(db,"classes"));
+        batch.set(ref,classData);
+        batch.set(doc(db,"users",currentUser.uid,"teacherClasses",ref.id),{classId:ref.id,className:name,title:name,createdAt:serverTimestamp()});
+        await batch.commit();
         document.getElementById("classForm").reset();
         closeModal("classModal");
-
-        toast(
-            "E-Class created and published to the shared RTLH E-Class collection."
-        );
-
+        toast("E-Class created successfully. It is now available to E-Class learners.");
         await loadClasses();
         showSection("classes");
-
-    } catch (error) {
+    }catch(error){
         console.error(error);
-        toast(
-            "Could not create the class: " +
-            friendlyFirestoreError(error)
-        );
+        toast("Could not create the class: "+(error.message||"Permission denied."));
     }
 });
-
-
-function friendlyFirestoreError(error) {
-    if (error?.code === "permission-denied") {
-        return "Permission denied by Firestore. Check the teacher rules for users, teachers and classes.";
-    }
-    if (error?.code === "failed-precondition") {
-        return "Firestore needs an index. Open the Firebase Console and follow the index link shown in the browser console.";
-    }
-    if (error?.code === "unavailable") {
-        return "Firestore is temporarily unavailable. Check your internet connection.";
-    }
-    return error?.message || "Unknown Firebase error.";
-}
 
 
 window.copyClassCode = async function(classId){
@@ -3516,53 +3434,18 @@ async function loadLessons(){
 
 document.getElementById("lessonForm")
 .addEventListener("submit", async event => {
-
     event.preventDefault();
-
-    try {
-        const classId =
-            document.getElementById("lessonClassId").value.trim();
-
-        const lessonData = {
-            title:document.getElementById("lessonTitle").value.trim(),
-            classId,
-            type:document.getElementById("lessonType").value,
-            content:document.getElementById("lessonContent").value.trim(),
-            description:document.getElementById("lessonContent").value.trim(),
-            contentType:document.getElementById("lessonType").value,
-            teacherId:currentUser.uid,
-            isPublished:true,
-            status:"published",
-            createdAt:serverTimestamp(),
-            updatedAt:serverTimestamp()
-        };
-
-        const ref = await addDoc(
-            collection(db,"lessons"),
-            lessonData
-        );
-
-        if (classId) {
-            await setDoc(
-                doc(db,"classes",classId,"lessons",ref.id),
-                {...lessonData,id:ref.id},
-                {merge:true}
-            );
-        }
-
-        document.getElementById("lessonForm").reset();
-        closeModal("lessonModal");
-
-        toast("Lesson created and made available to E-Class.");
-        await loadLessons();
-
-    } catch (error) {
-        console.error(error);
-        toast(
-            "Could not save lesson: " +
-            friendlyFirestoreError(error)
-        );
-    }
+    try{
+        const title=document.getElementById("lessonTitle").value.trim();
+        const classId=document.getElementById("lessonClassId").value.trim();
+        if(!title) throw new Error("Enter a lesson title.");
+        const item=await atomicTeacherContent({
+            topCollection:"lessons", classId, nestedCollections:["lessons"],
+            data:{title, name:title, type:document.getElementById("lessonType").value, content:document.getElementById("lessonContent").value.trim(), isPublished:true, published:true, createdAt:serverTimestamp()}
+        });
+        document.getElementById("lessonForm").reset(); closeModal("lessonModal");
+        toast("Lesson created and connected to E-Class."); await loadLessons();
+    }catch(error){console.error(error);toast("Could not save lesson: "+(error.message||"Permission denied."));}
 });
 
 
@@ -3648,90 +3531,20 @@ async function loadAssessments(){
 
 document.getElementById("assessmentForm")
 .addEventListener("submit", async event => {
-
     event.preventDefault();
-
-    try {
-        const classId =
-            document.getElementById("assessmentClassId").value.trim();
-
-        const type =
-            document.getElementById("assessmentType").value;
-
-        const assessmentData = {
-            title:document.getElementById("assessmentTitle").value.trim(),
-            classId,
-            courseId:"",
-            type,
-            duration:Number(
-                document.getElementById("assessmentDuration").value || 30
-            ),
-            durationMinutes:Number(
-                document.getElementById("assessmentDuration").value || 30
-            ),
+    try{
+        const title=document.getElementById("assessmentTitle").value.trim();
+        const classId=document.getElementById("assessmentClassId").value.trim();
+        if(!title) throw new Error("Enter an assessment title.");
+        const type=document.getElementById("assessmentType").value;
+        const item=await atomicAssessment({type,classId,data:{
+            title, duration:Number(document.getElementById("assessmentDuration").value||30),
             questions:document.getElementById("assessmentQuestions").value.trim(),
-            teacherId:currentUser.uid,
-            autoGrading:true,
-            autoGrade:true,
-            timed:true,
-            isPublished:true,
-            status:"published",
-            createdAt:serverTimestamp(),
-            updatedAt:serverTimestamp()
-        };
-
-        const ref = await addDoc(
-            collection(db,"assessments"),
-            assessmentData
-        );
-
-        const target =
-            type === "quiz" ? "quizzes" :
-            type === "test" ? "tests" :
-            type === "exam" ? "exams" : "assessments";
-
-        const eclassRef = await addDoc(
-            collection(db,target),
-            {
-                ...assessmentData,
-                sourceAssessmentId:ref.id
-            }
-        );
-
-        if (classId) {
-            const nestedType =
-                target === "assessments" ? "assessments" : target;
-
-            await setDoc(
-                doc(
-                    db,
-                    "classes",
-                    classId,
-                    nestedType,
-                    eclassRef.id
-                ),
-                {
-                    ...assessmentData,
-                    sourceAssessmentId:ref.id,
-                    id:eclassRef.id
-                },
-                {merge:true}
-            );
-        }
-
-        document.getElementById("assessmentForm").reset();
-        closeModal("assessmentModal");
-
-        toast("Assessment created and connected to E-Class.");
-        await loadAssessments();
-
-    } catch (error) {
-        console.error(error);
-        toast(
-            "Could not create assessment: " +
-            friendlyFirestoreError(error)
-        );
-    }
+            autoGrading:true, timed:true, status:"published", isPublished:true, createdAt:serverTimestamp()
+        }});
+        document.getElementById("assessmentForm").reset(); closeModal("assessmentModal");
+        toast(`${type.charAt(0).toUpperCase()+type.slice(1)} created and connected to E-Class.`); await loadAssessments();
+    }catch(error){console.error(error);toast("Could not create assessment: "+(error.message||"Permission denied."));}
 });
 
 
@@ -3741,57 +3554,18 @@ document.getElementById("assessmentForm")
 
 document.getElementById("assignmentForm")
 .addEventListener("submit", async event => {
-
     event.preventDefault();
-
-    try {
-        const classId =
-            document.getElementById("assignmentClassId").value.trim();
-
-        const assignmentData = {
-            title:document.getElementById("assignmentTitle").value.trim(),
-            classId,
-            type:document.getElementById("assignmentType").value,
-            dueDate:document.getElementById("assignmentDueDate").value,
-            instructions:document.getElementById("assignmentInstructions").value.trim(),
-            teacherId:currentUser.uid,
-            status:"published",
-            isPublished:true,
-            createdAt:serverTimestamp(),
-            updatedAt:serverTimestamp()
-        };
-
-        const ref = await addDoc(
-            collection(db,"assignments"),
-            assignmentData
-        );
-
-        if (classId) {
-            await setDoc(
-                doc(
-                    db,
-                    "classes",
-                    classId,
-                    "assignments",
-                    ref.id
-                ),
-                {...assignmentData,id:ref.id},
-                {merge:true}
-            );
-        }
-
-        document.getElementById("assignmentForm").reset();
-        closeModal("assignmentModal");
-
-        toast("Assignment published and connected to E-Class.");
-
-    } catch (error) {
-        console.error(error);
-        toast(
-            "Could not publish assignment: " +
-            friendlyFirestoreError(error)
-        );
-    }
+    try{
+        const title=document.getElementById("assignmentTitle").value.trim();
+        const classId=document.getElementById("assignmentClassId").value.trim();
+        if(!title) throw new Error("Enter an assignment title.");
+        const type=document.getElementById("assignmentType").value;
+        const base={title,type,dueDate:document.getElementById("assignmentDueDate").value,description:document.getElementById("assignmentInstructions").value.trim(),instructions:document.getElementById("assignmentInstructions").value.trim(),isPublished:true,published:true,createdAt:serverTimestamp()};
+        if(type==="project") await atomicTeacherContent({topCollection:"projects",classId,nestedCollections:["projects"],data:base});
+        else await atomicTeacherContent({topCollection:"assignments",classId,nestedCollections:["homework"],data:base});
+        document.getElementById("assignmentForm").reset(); closeModal("assignmentModal");
+        toast("Homework/assignment published and connected to E-Class.");
+    }catch(error){console.error(error);toast("Could not publish assignment: "+(error.message||"Permission denied."));}
 });
 
 
@@ -3871,54 +3645,18 @@ async function loadAnnouncements(){
 
 document.getElementById("announcementForm")
 .addEventListener("submit", async event => {
-
     event.preventDefault();
-
     try{
-
-        await addDoc(
-            collection(db,"announcements"),
-            {
-
-                classId:
-                    document.getElementById("announcementClassId")
-                    .value.trim(),
-
-                message:
-                    document.getElementById("announcementText")
-                    .value.trim(),
-
-                teacherId:
-                    currentUser.uid,
-
-                teacherName:
-                    currentTeacher?.fullName || "",
-
-                createdAt:
-                    serverTimestamp()
-
-            }
-        );
-
-        document.getElementById("announcementForm").reset();
-
-        closeModal("announcementModal");
-
-        toast("Announcement published.");
-
-        await loadAnnouncements();
-
-    }catch(error){
-
-        console.error(error);
-
-        toast(
-            "Could not publish announcement: " +
-            error.message
-        );
-
-    }
-
+        const classId=document.getElementById("announcementClassId").value.trim();
+        const message=document.getElementById("announcementText").value.trim();
+        if(!classId) throw new Error("Enter the Class ID for this announcement.");
+        if(!message) throw new Error("Enter an announcement message.");
+        await atomicTeacherContent({topCollection:"announcements",classId,nestedCollections:["announcements"],data:{
+            title:"Class Announcement", message, teacherName:currentTeacher?.fullName||currentUser.displayName||"RTLH Teacher", priority:"normal", isPublished:true, publishedAt:serverTimestamp(), createdAt:serverTimestamp()
+        }});
+        document.getElementById("announcementForm").reset(); closeModal("announcementModal");
+        toast("Announcement published and connected to E-Class."); await loadAnnouncements();
+    }catch(error){console.error(error);toast("Could not publish announcement: "+(error.message||"Permission denied."));}
 });
 
 
@@ -3928,61 +3666,17 @@ document.getElementById("announcementForm")
 
 document.getElementById("meetingForm")
 .addEventListener("submit", async event => {
-
     event.preventDefault();
-
     try{
-
-        await addDoc(
-            collection(db,"meetings"),
-            {
-
-                title:
-                    document.getElementById("meetingTitle")
-                    .value.trim(),
-
-                classId:
-                    document.getElementById("meetingClassId")
-                    .value.trim(),
-
-                scheduledAt:
-                    document.getElementById("meetingDate")
-                    .value,
-
-                meetingUrl:
-                    document.getElementById("meetingUrl")
-                    .value.trim(),
-
-                teacherId:
-                    currentUser.uid,
-
-                status:"scheduled",
-
-                createdAt:
-                    serverTimestamp()
-
-            }
-        );
-
-        document.getElementById("meetingForm").reset();
-
-        closeModal("meetingModal");
-
-        toast(
-            "Meeting scheduled successfully."
-        );
-
-    }catch(error){
-
-        console.error(error);
-
-        toast(
-            "Could not schedule meeting: " +
-            error.message
-        );
-
-    }
-
+        const title=document.getElementById("meetingTitle").value.trim();
+        const classId=document.getElementById("meetingClassId").value.trim();
+        if(!title) throw new Error("Enter a meeting title.");
+        await atomicTeacherContent({topCollection:"meetings",classId,nestedCollections:["liveSessions"],data:{
+            title,classId,scheduledAt:document.getElementById("meetingDate").value,meetingUrl:document.getElementById("meetingUrl").value.trim(),status:"scheduled",platform:"Live",createdAt:serverTimestamp()
+        }});
+        document.getElementById("meetingForm").reset(); closeModal("meetingModal");
+        toast("Live session scheduled and connected to E-Class.");
+    }catch(error){console.error(error);toast("Could not schedule meeting: "+(error.message||"Permission denied."));}
 });
 
 
@@ -4261,6 +3955,17 @@ window.jotformEmbedHandler(
   "iframe[id='JotFormIFrame-019e5d473d3a7b3389d34ebcf58152d4cd4e']",
   "https://www.jotform.com"
 );
+
+
+// Project helper: writes to the shared top-level collection and E-Class projects subcollection.
+window.publishProjectToClass=async function({title,classId,description="",dueDate="",maxScore=100}={}){
+  try{
+    if(!title) throw new Error("Enter a project title.");
+    await atomicTeacherContent({topCollection:"projects",classId,nestedCollections:["projects"],data:{title,description,dueDate,maxScore:Number(maxScore||100),type:"project",status:"published",isPublished:true,createdAt:serverTimestamp()}});
+    toast("Project created and connected to E-Class.");
+    return true;
+  }catch(error){toast("Could not create project: "+(error.message||"Permission denied."));return false;}
+};
 </script>
 
 </body>
