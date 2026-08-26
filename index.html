@@ -342,21 +342,1029 @@
     </section>
 
     <section class="legal" id="policies">
-      <div class="container">
-        <div class="section-head">
-          <span class="eyebrow">Trust & safety</span>
-          <h2>Policies & Community Standards</h2>
-          <p>Clear rules help protect learners, teachers, partners and the integrity of the platform.</p>
+  <div class="container">
+
+    <div class="section-head">
+      <span class="eyebrow">Trust & Safety</span>
+      <h2>Policies & Community Standards</h2>
+      <p>
+        Clear and transparent policies help protect learners, teachers,
+        partners, creators, and the integrity of Rwanda Tech Learning Hub.
+      </p>
+    </div>
+
+    <div class="legal-grid">
+
+      <!-- Privacy Policy -->
+      <article class="legal-card">
+        <div class="legal-icon">🔐</div>
+        <div class="legal-content">
+          <span class="legal-label">Privacy & Data</span>
+          <h3>Privacy Policy</h3>
+          <p>
+            Learn how Rwanda Tech Learning Hub collects, uses, protects,
+            and manages information while providing a safe and personalized
+            learning experience.
+          </p>
+
+          <button class="legal-btn" onclick="openPolicy('privacy')">
+            Read More <span>→</span>
+          </button>
         </div>
-        <div class="legal-grid">
-          <a href="privacy-policy.html">🔐 Privacy Policy</a>
-          <a href="certificate-verification.html">🎓 Certificate Verification</a>
-          <a href="terms.html">📜 Terms & Conditions</a>
-          <a href="cookie-policy.html">🍪 Cookie Policy</a>
-          <a href="community-guidelines.html">🤝 Community Guidelines</a>
+      </article>
+
+      <!-- Certificate Verification -->
+      <article class="legal-card">
+        <div class="legal-icon">🎓</div>
+        <div class="legal-content">
+          <span class="legal-label">Certificates</span>
+          <h3>Certificate Verification</h3>
+          <p>
+            Learn how RTLH certificates can be verified and how certificate
+            authenticity helps learners, institutions, and employers.
+          </p>
+
+          <button class="legal-btn" onclick="openPolicy('certificate')">
+            Read More <span>→</span>
+          </button>
         </div>
-      </div>
-    </section>
+      </article>
+
+      <!-- Terms -->
+      <article class="legal-card">
+        <div class="legal-icon">📜</div>
+        <div class="legal-content">
+          <span class="legal-label">Platform Rules</span>
+          <h3>Terms & Conditions</h3>
+          <p>
+            Understand the rules governing the use of Rwanda Tech Learning
+            Hub, including accounts, content, learning resources and services.
+          </p>
+
+          <button class="legal-btn" onclick="openPolicy('terms')">
+            Read More <span>→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Cookie Policy -->
+      <article class="legal-card">
+        <div class="legal-icon">🍪</div>
+        <div class="legal-content">
+          <span class="legal-label">Website Technology</span>
+          <h3>Cookie Policy</h3>
+          <p>
+            Understand how cookies and similar technologies can improve
+            website functionality, preferences and the overall user experience.
+          </p>
+
+          <button class="legal-btn" onclick="openPolicy('cookies')">
+            Read More <span>→</span>
+          </button>
+        </div>
+      </article>
+
+      <!-- Community Guidelines -->
+      <article class="legal-card">
+        <div class="legal-icon">🤝</div>
+        <div class="legal-content">
+          <span class="legal-label">Community</span>
+          <h3>Community Guidelines</h3>
+          <p>
+            Help us maintain a respectful, inclusive, constructive and
+            technology-focused community where everyone can learn and collaborate.
+          </p>
+
+          <button class="legal-btn" onclick="openPolicy('community')">
+            Read More <span>→</span>
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     RTLH POLICY READING MODAL
+     ========================================================= -->
+
+<div class="policy-modal" id="policyModal" aria-hidden="true">
+
+  <div class="policy-overlay" onclick="closePolicy()"></div>
+
+  <div class="policy-dialog" role="dialog" aria-modal="true">
+
+    <button class="policy-close" onclick="closePolicy()" aria-label="Close">
+      ×
+    </button>
+
+    <div class="policy-dialog-icon" id="policyIcon">🔐</div>
+
+    <span class="policy-dialog-label" id="policyLabel">
+      Privacy & Data
+    </span>
+
+    <h2 id="policyTitle">
+      Privacy Policy
+    </h2>
+
+    <div class="policy-reading" id="policyContent">
+      <!-- Content inserted automatically -->
+    </div>
+
+    <button class="policy-done" onclick="closePolicy()">
+      ✓ Done Reading
+    </button>
+
+  </div>
+</div>
+
+
+<style>
+
+/* =========================================================
+   RTLH POLICY CARDS
+   ========================================================= */
+
+.legal {
+  position: relative;
+  padding: 90px 20px;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(0, 103, 177, 0.08),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(0, 140, 69, 0.08),
+      transparent 32%
+    ),
+    #f7fafc;
+  overflow: hidden;
+}
+
+.legal .container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.legal .section-head {
+  max-width: 800px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.legal .eyebrow {
+  display: inline-flex;
+  padding: 7px 14px;
+  margin-bottom: 12px;
+  border-radius: 50px;
+  background: rgba(0, 103, 177, 0.09);
+  color: #0067b1;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.legal .section-head h2 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #102a43;
+}
+
+.legal .section-head p {
+  margin: auto;
+  max-width: 720px;
+  color: #60758a;
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   CARD GRID
+   ========================================================= */
+
+.legal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.legal-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 320px;
+  padding: 30px;
+  overflow: hidden;
+
+  background: rgba(255,255,255,.94);
+  border: 1px solid rgba(16,42,67,.08);
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 30px rgba(16,42,67,.07);
+
+  transition:
+    transform .45s cubic-bezier(.2,.8,.2,1),
+    box-shadow .45s ease,
+    border-color .45s ease;
+}
+
+.legal-card::before {
+  content: "";
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  top: -70px;
+  right: -70px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,103,177,.15),
+      rgba(0,140,69,.12)
+    );
+
+  border-radius: 50%;
+
+  transition: transform .5s ease;
+}
+
+.legal-card:hover {
+  transform: translateY(-10px);
+
+  border-color:
+    rgba(0,103,177,.22);
+
+  box-shadow:
+    0 22px 55px rgba(16,42,67,.14);
+}
+
+.legal-card:hover::before {
+  transform: scale(2.1);
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.legal-icon {
+  position: relative;
+  z-index: 1;
+
+  width: 64px;
+  height: 64px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 22px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,103,177,.1),
+      rgba(0,140,69,.1)
+    );
+
+  font-size: 2rem;
+
+  transition:
+    transform .45s ease,
+    box-shadow .45s ease;
+}
+
+.legal-card:hover .legal-icon {
+  transform:
+    translateY(-4px)
+    rotate(-3deg);
+
+  box-shadow:
+    0 10px 25px rgba(0,103,177,.12);
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.legal-content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.legal-label {
+  margin-bottom: 8px;
+
+  color: #008c45;
+
+  font-size: .75rem;
+  font-weight: 800;
+
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.legal-card h3 {
+  margin: 0 0 12px;
+
+  color: #102a43;
+
+  font-size: 1.35rem;
+}
+
+.legal-card p {
+  margin: 0 0 24px;
+
+  color: #60758a;
+
+  font-size: .94rem;
+  line-height: 1.75;
+}
+
+
+/* =========================================================
+   READ MORE BUTTON
+   ========================================================= */
+
+.legal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  width: fit-content;
+
+  margin-top: auto;
+  padding: 11px 17px;
+
+  border: none;
+  border-radius: 11px;
+
+  background: #0067b1;
+  color: #fff;
+
+  font-size: .88rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform .3s ease,
+    background .3s ease,
+    box-shadow .3s ease;
+}
+
+.legal-btn span {
+  font-size: 1.1rem;
+
+  transition:
+    transform .3s ease;
+}
+
+.legal-btn:hover {
+  background: #008c45;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(0,103,177,.2);
+}
+
+.legal-btn:hover span {
+  transform:
+    translateX(5px);
+}
+
+
+/* =========================================================
+   POLICY MODAL
+   ========================================================= */
+
+.policy-modal {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 99999;
+
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+}
+
+.policy-modal.active {
+  display: flex;
+}
+
+.policy-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    rgba(4,18,31,.72);
+
+  backdrop-filter:
+    blur(8px);
+
+  animation:
+    policyFade .25s ease;
+}
+
+.policy-dialog {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(850px,100%);
+
+  max-height: 88vh;
+
+  overflow-y: auto;
+
+  padding: 42px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f7fbfd
+    );
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 35px 90px rgba(0,0,0,.28);
+
+  animation:
+    policySlide .35s cubic-bezier(.2,.8,.2,1);
+}
+
+.policy-close {
+  position: absolute;
+
+  top: 18px;
+  right: 20px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #edf3f7;
+
+  color: #102a43;
+
+  font-size: 1.7rem;
+
+  cursor: pointer;
+
+  transition:
+    transform .25s ease,
+    background .25s ease;
+}
+
+.policy-close:hover {
+  transform: rotate(90deg);
+
+  background: #0067b1;
+  color: #fff;
+}
+
+.policy-dialog-icon {
+  width: 68px;
+  height: 68px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 18px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,103,177,.1),
+      rgba(0,140,69,.1)
+    );
+
+  font-size: 2.2rem;
+}
+
+.policy-dialog-label {
+  color: #008c45;
+
+  font-size: .78rem;
+  font-weight: 800;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+}
+
+.policy-dialog h2 {
+  margin: 8px 0 24px;
+
+  color: #102a43;
+
+  font-size: clamp(1.8rem,4vw,2.6rem);
+}
+
+.policy-reading {
+  color: #425b70;
+
+  font-size: 1rem;
+
+  line-height: 1.85;
+}
+
+.policy-reading h4 {
+  margin: 25px 0 8px;
+
+  color: #102a43;
+
+  font-size: 1.15rem;
+}
+
+.policy-reading p {
+  margin: 0 0 14px;
+}
+
+.policy-reading ul {
+  padding-left: 22px;
+}
+
+.policy-reading li {
+  margin-bottom: 8px;
+}
+
+.policy-done {
+  margin-top: 28px;
+
+  padding: 12px 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #008c45;
+  color: white;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.policy-done:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(0,140,69,.22);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes policyFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes policySlide {
+  from {
+    opacity: 0;
+    transform:
+      translateY(35px)
+      scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width:950px) {
+
+  .legal-grid {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+}
+
+@media (max-width:620px) {
+
+  .legal {
+    padding: 65px 15px;
+  }
+
+  .legal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .legal-card {
+    min-height: auto;
+    padding: 25px;
+  }
+
+  .policy-dialog {
+    padding: 30px 22px;
+
+    max-height: 92vh;
+  }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .legal-card,
+  .legal-card::before,
+  .legal-icon,
+  .legal-btn,
+  .legal-btn span,
+  .policy-dialog,
+  .policy-overlay {
+    animation: none !important;
+    transition: none !important;
+  }
+
+}
+
+</style>
+
+
+<script>
+/* =========================================================
+   RTLH — POLICY CONTENT
+   ========================================================= */
+
+const rtlhPolicies = {
+
+  privacy: {
+    icon: "🔐",
+    label: "Privacy & Data",
+    title: "Privacy Policy",
+
+    content: `
+      <p>
+        Rwanda Tech Learning Hub respects your privacy and is committed
+        to protecting the information you provide while using our learning
+        platform.
+      </p>
+
+      <h4>What information may be collected?</h4>
+
+      <p>
+        Depending on the features you use, RTLH may collect information
+        such as your name, email address, learning activity, account
+        information, feedback and other information you voluntarily provide.
+      </p>
+
+      <h4>Why do we use information?</h4>
+
+      <p>
+        Information may be used to provide learning services, improve the
+        platform, personalize learning experiences, communicate with users,
+        provide support, protect the community and improve our technology.
+      </p>
+
+      <h4>Protecting your information</h4>
+
+      <p>
+        RTLH aims to use appropriate technical and organizational measures
+        to protect user information from unauthorized access, misuse,
+        alteration or disclosure.
+      </p>
+
+      <h4>Your responsibility</h4>
+
+      <p>
+        Users should avoid sharing passwords, private credentials or other
+        sensitive information publicly through comments, community posts
+        or other areas of the platform.
+      </p>
+
+      <h4>Privacy questions</h4>
+
+      <p>
+        If you have questions about privacy or how your information is
+        handled, please contact the Rwanda Tech Learning Hub support team.
+      </p>
+    `
+  },
+
+
+  certificate: {
+    icon: "🎓",
+    label: "Certificates",
+    title: "Certificate Verification",
+
+    content: `
+      <p>
+        Rwanda Tech Learning Hub provides learning opportunities designed
+        to help users develop practical knowledge and technology skills.
+      </p>
+
+      <h4>Certificate authenticity</h4>
+
+      <p>
+        Certificates issued through RTLH should correspond to genuine
+        learning achievements recorded by the platform.
+      </p>
+
+      <h4>Verification</h4>
+
+      <p>
+        Certificate verification allows a learner, institution, employer
+        or other authorized person to check whether a certificate is
+        associated with a valid RTLH achievement.
+      </p>
+
+      <h4>Responsible use</h4>
+
+      <p>
+        Users must not alter, duplicate, falsify or misrepresent RTLH
+        certificates or achievements.
+      </p>
+
+      <h4>Learning achievement</h4>
+
+      <p>
+        Certificates are intended to recognize learning participation
+        and achievement according to the requirements of the relevant
+        RTLH course or program.
+      </p>
+    `
+  },
+
+
+  terms: {
+    icon: "📜",
+    label: "Platform Rules",
+    title: "Terms & Conditions",
+
+    content: `
+      <p>
+        By using Rwanda Tech Learning Hub, users agree to use the platform
+        responsibly and in accordance with applicable laws and these
+        platform rules.
+      </p>
+
+      <h4>Responsible use</h4>
+
+      <p>
+        Users should use RTLH for legitimate learning, educational,
+        technological, professional and community purposes.
+      </p>
+
+      <h4>Accounts</h4>
+
+      <p>
+        Users are responsible for keeping their account information
+        accurate and protecting their login credentials.
+      </p>
+
+      <h4>Content</h4>
+
+      <p>
+        Users must not upload, publish or distribute content that is
+        unlawful, abusive, fraudulent, harmful, discriminatory or
+        deliberately misleading.
+      </p>
+
+      <h4>Learning resources</h4>
+
+      <p>
+        RTLH learning materials should be used according to their
+        applicable copyright, licensing and usage conditions.
+      </p>
+
+      <h4>Platform integrity</h4>
+
+      <p>
+        Attempts to disrupt, damage, abuse or compromise RTLH services,
+        accounts or systems are not permitted.
+      </p>
+    `
+  },
+
+
+  cookies: {
+    icon: "🍪",
+    label: "Website Technology",
+    title: "Cookie Policy",
+
+    content: `
+      <p>
+        Cookies and similar technologies may be used to help Rwanda Tech
+        Learning Hub provide a smoother and more useful website experience.
+      </p>
+
+      <h4>What are cookies?</h4>
+
+      <p>
+        Cookies are small pieces of information that websites can store
+        in a user's browser.
+      </p>
+
+      <h4>Why may RTLH use them?</h4>
+
+      <ul>
+        <li>To support essential website functionality.</li>
+        <li>To remember certain user preferences.</li>
+        <li>To help improve website performance.</li>
+        <li>To understand how parts of the platform are used.</li>
+        <li>To support security and account functionality.</li>
+      </ul>
+
+      <h4>Managing cookies</h4>
+
+      <p>
+        Depending on your browser and device, you may be able to control
+        or delete cookies through your browser settings.
+      </p>
+
+      <h4>Important note</h4>
+
+      <p>
+        Disabling certain cookies may affect the functionality of some
+        website features.
+      </p>
+    `
+  },
+
+
+  community: {
+    icon: "🤝",
+    label: "Community",
+    title: "Community Guidelines",
+
+    content: `
+      <p>
+        Rwanda Tech Learning Hub is designed to be a respectful learning
+        community where learners, teachers, creators and technology
+        enthusiasts can exchange knowledge and ideas.
+      </p>
+
+      <h4>Be respectful</h4>
+
+      <p>
+        Treat other community members with dignity. Disagreements are
+        welcome when they remain constructive and respectful.
+      </p>
+
+      <h4>Share useful information</h4>
+
+      <p>
+        Try to contribute information, questions, experiences and ideas
+        that can help other learners.
+      </p>
+
+      <h4>Do not post harmful content</h4>
+
+      <p>
+        Do not use the community for harassment, threats, hate,
+        deliberately harmful content, scams or inappropriate material.
+      </p>
+
+      <h4>Respect intellectual property</h4>
+
+      <p>
+        Do not claim someone else's work as your own or distribute
+        copyrighted material without appropriate permission.
+      </p>
+
+      <h4>Help build RTLH</h4>
+
+      <p>
+        Suggestions, constructive criticism, success stories, learning
+        experiences and ideas for improving Rwanda Tech Learning Hub
+        are encouraged.
+      </p>
+
+      <h4>Community moderation</h4>
+
+      <p>
+        Content that violates community standards may be reviewed,
+        restricted or removed to protect the RTLH community.
+      </p>
+    `
+  }
+
+};
+
+
+/* =========================================================
+   OPEN POLICY
+   ========================================================= */
+
+function openPolicy(policyName) {
+
+  const policy = rtlhPolicies[policyName];
+
+  if (!policy) return;
+
+  document.getElementById("policyIcon").textContent =
+    policy.icon;
+
+  document.getElementById("policyLabel").textContent =
+    policy.label;
+
+  document.getElementById("policyTitle").textContent =
+    policy.title;
+
+  document.getElementById("policyContent").innerHTML =
+    policy.content;
+
+  const modal =
+    document.getElementById("policyModal");
+
+  modal.classList.add("active");
+
+  modal.setAttribute("aria-hidden", "false");
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+/* =========================================================
+   CLOSE POLICY
+   ========================================================= */
+
+function closePolicy() {
+
+  const modal =
+    document.getElementById("policyModal");
+
+  modal.classList.remove("active");
+
+  modal.setAttribute("aria-hidden", "true");
+
+  document.body.style.overflow = "";
+
+}
+
+
+/* =========================================================
+   ESCAPE KEY
+   ========================================================= */
+
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "Escape") {
+
+    closePolicy();
+
+  }
+
+});
+
+</script>
 
     <section id="why">
       <div class="container">
