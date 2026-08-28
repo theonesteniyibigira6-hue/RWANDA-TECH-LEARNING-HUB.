@@ -33,7 +33,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 <div id="loginScreen" class="login">
   <div class="login-card">
     <div class="login-brand">
-      <img src="https://chatgpt.com/s/m_6a8d46da0e90819197a5afe535c3a0ef" alt="RTLH logo" onerror="this.style.display='none'">
+      <img src="https://drive.google.com/thumbnail?id=1j2qHCGflCfaidxgC4wSsW0FG-ukfb7K3&sz=w1000" alt="RTLH logo" onerror="this.style.display='none'">
       <h1>RTLH Admin Control Centre</h1>
       <p>RWANDA TECH LEARNING HUB</p>
     </div>
@@ -53,16 +53,18 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 <div class="top-flag"></div>
 <div class="layout">
 <aside class="sidebar" id="sidebar">
-  <div class="brand"><img class="logo" src="https://chatgpt.com/s/m_6a8d46da0e90819197a5afe535c3a0ef" alt="RTLH" onerror="this.style.display='none'"><div><strong>RTLH ADMIN</strong><small>Control Centre</small></div></div>
+  <div class="brand"><img class="logo" src="https://drive.google.com/thumbnail?id=1j2qHCGflCfaidxgC4wSsW0FG-ukfb7K3&sz=w1000" alt="RTLH" onerror="this.style.display='none'"><div><strong>RTLH ADMIN</strong><small>Control Centre</small></div></div>
   <button class="navbtn active" data-view="dashboard">🏠 Dashboard</button>
   <div class="nav-group">Users</div>
   <button class="navbtn" data-view="users">👥 All Users</button><button class="navbtn" data-view="students">🎓 Students</button><button class="navbtn" data-view="teachers">👨‍🏫 Teachers</button><button class="navbtn" data-view="schools">🏫 Schools</button><button class="navbtn" data-view="organisations">🏢 Organisations</button>
   <div class="nav-group">Education</div>
-  <button class="navbtn" data-view="classes">🏫 E-Classes</button><button class="navbtn" data-view="courses">📚 Courses</button><button class="navbtn" data-view="lessons">📖 Lessons</button><button class="navbtn" data-view="assignments">📝 Assignments</button><button class="navbtn" data-view="quizzes">❓ Quizzes</button><button class="navbtn" data-view="assessments">📊 Assessments</button><button class="navbtn" data-view="tests">🧪 Tests</button><button class="navbtn" data-view="exams">📋 Exams</button><button class="navbtn" data-view="projects">🚀 Projects</button><button class="navbtn" data-view="submissions">📤 Submissions</button><button class="navbtn" data-view="grades">🏆 Results / Grades</button>
+  <button class="navbtn" data-view="classes">🏫 E-Classes</button><button class="navbtn" data-view="courses">📚 Courses</button><button class="navbtn" data-view="courseStudio">🧩 Course Studio</button><button class="navbtn" data-view="lessons">📖 Lessons</button><button class="navbtn" data-view="assignments">📝 Assignments</button><button class="navbtn" data-view="quizzes">❓ Quizzes</button><button class="navbtn" data-view="assessments">📊 Assessments</button><button class="navbtn" data-view="tests">🧪 Tests</button><button class="navbtn" data-view="exams">📋 Exams</button><button class="navbtn" data-view="projects">🚀 Projects</button><button class="navbtn" data-view="submissions">📤 Submissions</button><button class="navbtn" data-view="grades">🏆 Results / Grades</button>
   <div class="nav-group">Learning</div>
   <button class="navbtn" data-view="enrollments">👥 Enrollments</button><button class="navbtn" data-view="progress">📈 Progress</button><button class="navbtn" data-view="attendance">🗓️ Attendance</button><button class="navbtn" data-view="analytics">📊 Analytics</button>
   <div class="nav-group">Communication</div>
   <button class="navbtn" data-view="announcements">📢 Announcements</button><button class="navbtn" data-view="messages">💬 Messages</button><button class="navbtn" data-view="notifications">🔔 Notifications</button><button class="navbtn" data-view="meetings">📹 Meetings / Live</button><button class="navbtn" data-view="discussions">🗣️ Discussions</button>
+  <div class="nav-group">Public Website</div>
+  <button class="navbtn" data-view="webManager">🌐 Website Manager</button><button class="navbtn" data-view="webAnnouncements">📣 Public Web Announcements</button><button class="navbtn" data-view="communityManager">🗣️ Community & Posts</button><button class="navbtn" data-view="partnersManager">🤝 Partners</button><button class="navbtn" data-view="sponsorsManager">🏆 Sponsors</button><button class="navbtn" data-view="opportunitiesManager">💼 Opportunities</button><button class="navbtn" data-view="mentorshipManager">🧭 Mentorship</button>
   <div class="nav-group">Finance</div>
   <button class="navbtn" data-view="payments">💳 Payments</button><button class="navbtn" data-view="transactions">💰 Transactions</button><button class="navbtn" data-view="payouts">💸 Teacher Payouts</button>
   <div class="nav-group">Certificates & Resources</div>
@@ -82,6 +84,114 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 <div class="section grid three"><div class="card"><h3>Pending work</h3><div id="pendingBox"></div></div><div class="card"><h3>Finance snapshot</h3><div id="financeBox"></div></div><div class="card"><h3>Learning snapshot</h3><div id="learningBox"></div></div></div>
 </section>
 
+<section class="view" id="view-courseStudio">
+  <div class="hero">
+    <span class="pill" style="background:rgba(255,255,255,.15);color:#fff">RTLH COURSE STUDIO</span>
+    <h2>Course creator & publishing centre</h2>
+    <p>Create the complete learning experience — course details, modules, lessons, videos, PDFs, quizzes, final assessments, publishing and learner progress — from one secure Admin workspace.</p>
+  </div>
+  <div class="section grid">
+    <div class="card">
+      <div class="section-head"><div><h3>1. Course details</h3><p class="muted">Everything required for the RTLH course catalogue and course details page.</p></div></div>
+      <form id="courseForm">
+        <input type="hidden" id="courseId">
+        <div class="form-grid">
+          <div class="field"><label>Course title *</label><input id="courseTitle" required placeholder="Python Programming"></div>
+          <div class="field"><label>Course code / ID *</label><input id="courseCode" required placeholder="PY-101"></div>
+          <div class="field"><label>Category *</label><input id="courseCategory" required placeholder="ICT & Technology"></div>
+          <div class="field"><label>Subcategory</label><input id="courseSubcategory" placeholder="Programming"></div>
+          <div class="field" style="grid-column:1/-1"><label>Description *</label><textarea id="courseDescription" required placeholder="Describe the course..."></textarea></div>
+          <div class="field"><label>Learning objectives</label><textarea id="courseObjectives" placeholder="One objective per line"></textarea></div>
+          <div class="field"><label>Requirements</label><textarea id="courseRequirements" placeholder="One requirement per line"></textarea></div>
+          <div class="field"><label>Difficulty</label><select id="courseDifficulty"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>All levels</option></select></div>
+          <div class="field"><label>Language</label><input id="courseLanguage" value="English"></div>
+          <div class="field"><label>Instructor</label><input id="courseInstructor" placeholder="Teacher / RTLH"></div>
+          <div class="field"><label>Course duration</label><input id="courseDuration" placeholder="8 weeks / 24 hours"></div>
+          <div class="field"><label>Number of lessons</label><input id="courseLessonCount" type="number" min="0" value="0"></div>
+          <div class="field"><label>Skills gained</label><textarea id="courseSkills" placeholder="One skill per line"></textarea></div>
+          <div class="field"><label>Tags</label><input id="courseTags" placeholder="python, programming, coding"></div>
+          <div class="field"><label>Certificate available</label><select id="courseCertificate"><option value="true">Yes</option><option value="false">No</option></select></div>
+          <div class="field"><label>Free / Paid</label><select id="coursePricing"><option value="free">Free</option><option value="paid">Paid</option></select></div>
+          <div class="field"><label>Price</label><input id="coursePrice" type="number" min="0" step="0.01" value="0"></div>
+          <div class="field"><label>Currency</label><input id="courseCurrency" value="RWF"></div>
+          <div class="field"><label>Status</label><select id="courseStatus"><option value="draft">Draft</option><option value="published">Published</option></select></div>
+          <div class="field"><label>Featured course</label><select id="courseFeatured"><option value="false">No</option><option value="true">Yes</option></select></div>
+          <div class="field" style="grid-column:1/-1"><label>Course thumbnail</label><input id="courseThumbnail" type="url" placeholder="https://... image URL"></div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" type="submit">💾 Save Course</button><button class="btn" type="button" id="resetCourseForm">Clear</button></div>
+      </form>
+    </div>
+    <div class="card">
+      <div class="section-head"><div><h3>Course library</h3><p class="muted">Open an existing course to edit, duplicate or publish it.</p></div><button class="btn" id="refreshCourseStudio">↻ Refresh</button></div>
+      <div id="courseStudioList"><p class="muted">Loading courses…</p></div>
+    </div>
+  </div>
+
+  <div class="section grid three">
+    <div class="card">
+      <h3>2. Modules</h3>
+      <form id="moduleForm">
+        <div class="field"><label>Course *</label><select id="moduleCourseId" required></select></div>
+        <div class="field"><label>Module title *</label><input id="moduleTitle" required placeholder="Module 1: Introduction"></div>
+        <div class="field"><label>Description</label><textarea id="moduleDescription"></textarea></div>
+        <div class="field"><label>Order</label><input id="moduleOrder" type="number" min="1" value="1"></div>
+        <button class="btn primary">+ Add Module</button>
+      </form>
+      <div id="moduleList" class="section"></div>
+    </div>
+    <div class="card">
+      <h3>3. Lessons</h3>
+      <form id="lessonBuilderForm">
+        <div class="field"><label>Course *</label><select id="lessonCourseId" required></select></div>
+        <div class="field"><label>Module</label><select id="lessonModuleId"></select></div>
+        <div class="field"><label>Lesson title *</label><input id="lessonBuilderTitle" required></div>
+        <div class="field"><label>Lesson type</label><select id="lessonBuilderType"><option value="text">📝 Text</option><option value="video">🎥 Video</option><option value="pdf">📄 PDF</option><option value="external">🔗 External resource</option><option value="code">💻 Code example</option><option value="interactive">🧪 Interactive exercise</option><option value="quiz">❓ Quiz</option><option value="assignment">📊 Assignment</option><option value="download">📎 Downloadable material</option><option value="image">🖼️ Images</option><option value="audio">🎧 Audio</option></select></div>
+        <div class="field"><label>Lesson content / URL</label><textarea id="lessonBuilderContent"></textarea></div>
+        <div class="field"><label>External URL (optional)</label><input id="lessonBuilderUrl" type="url"></div>
+        <div class="form-grid"><div class="field"><label>Order</label><input id="lessonBuilderOrder" type="number" min="1" value="1"></div><div class="field"><label>Published</label><select id="lessonBuilderPublished"><option value="true">Yes</option><option value="false">No</option></select></div></div>
+        <button class="btn primary">+ Add Lesson</button>
+      </form>
+      <div id="lessonBuilderList" class="section"></div>
+    </div>
+    <div class="card">
+      <h3>4. Files & resources</h3>
+      <form id="resourceForm">
+        <div class="field"><label>Course *</label><select id="resourceCourseId" required></select></div>
+        <div class="field"><label>Module</label><select id="resourceModuleId"></select></div>
+        <div class="field"><label>Resource title *</label><input id="resourceTitle" required></div>
+        <div class="field"><label>Type</label><select id="resourceType"><option value="pdf">PDF</option><option value="video">Video</option><option value="document">Document</option><option value="audio">Audio</option><option value="image">Image</option><option value="download">Download</option></select></div>
+        <div class="field"><label>Upload file</label><input id="resourceFile" type="file"></div>
+        <div class="field"><label>OR external URL</label><input id="resourceUrl" type="url"></div>
+        <div class="form-grid"><div class="field"><label>Download allowed</label><select id="resourceDownload"><option value="true">Yes</option><option value="false">No</option></select></div><div class="field"><label>Print allowed</label><select id="resourcePrint"><option value="true">Yes</option><option value="false">No</option></select></div></div>
+        <button class="btn primary">⬆ Add Resource</button>
+      </form>
+      <div id="resourceList" class="section"></div>
+    </div>
+  </div>
+
+  <div class="section grid">
+    <div class="card">
+      <h3>5. Quizzes / Final Assessment</h3>
+      <form id="quizBuilderForm">
+        <div class="form-grid"><div class="field"><label>Course *</label><select id="quizCourseId" required></select></div><div class="field"><label>Module</label><select id="quizModuleId"></select></div></div>
+        <div class="field"><label>Title *</label><input id="quizTitle" required placeholder="Module Quiz / Final Assessment"></div>
+        <div class="form-grid"><div class="field"><label>Type</label><select id="quizType"><option value="quiz">Quiz</option><option value="test">Test</option><option value="exam">Final Assessment</option></select></div><div class="field"><label>Passing score (%)</label><input id="quizPassing" type="number" min="0" max="100" value="70"></div></div>
+        <div class="field"><label>Duration (minutes)</label><input id="quizDuration" type="number" min="1" value="30"></div>
+        <div class="field"><label>Questions JSON</label><textarea id="quizQuestions" placeholder='[{"question":"What is Python?","options":["A","B"],"answer":0}]'></textarea></div>
+        <div class="form-grid"><div class="field"><label>Published</label><select id="quizPublished"><option value="true">Yes</option><option value="false">No</option></select></div><div class="field"><label>Final assessment</label><select id="quizFinal"><option value="false">No</option><option value="true">Yes</option></select></div></div>
+        <button class="btn primary">+ Add Assessment</button>
+      </form>
+      <div id="quizBuilderList" class="section"></div>
+    </div>
+    <div class="card">
+      <h3>6. Publish & learner progress</h3>
+      <div class="notice">Publishing a course makes it eligible for the public RTLH course catalogue. Learner progress remains in Firebase under the learner/course relationship.</div>
+      <div id="courseProgressSummary" class="section"></div>
+      <button class="btn yellow" id="refreshProgressSummary">↻ Refresh progress summary</button>
+    </div>
+  </div>
+</section>
+
 <section class="view" id="view-collection">
 <div class="section-head"><div><h2 id="collectionTitle">Collection</h2><p class="muted" id="collectionDescription">Firestore records</p></div><div class="toolbar" style="margin:0"><button class="btn primary" id="newRecordBtn">+ Add record</button><button class="btn" id="refreshCollectionBtn">↻ Refresh</button></div></div>
 <div class="card"><div class="searchbar"><input id="collectionSearch" placeholder="Search this collection…"><select id="collectionLimit" style="width:150px"><option value="100">100 records</option><option value="250">250 records</option><option value="500">500 records</option></select></div><div id="collectionTable"></div></div>
@@ -91,6 +201,59 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 <div class="section-head"><div><h2>Public Announcements</h2><p class="muted">Publish messages that your public RTLH website and learner areas can read from Firestore.</p></div><button class="btn" id="refreshAnnouncements">↻ Refresh</button></div>
 <div class="grid"><div class="card"><h3>Create public announcement</h3><form id="announcementForm"><div class="field"><label>Title *</label><input id="announcementTitle" required maxlength="180" placeholder="Important RTLH announcement"></div><div class="field"><label>Message *</label><textarea id="announcementMessage" required placeholder="Write the announcement for learners and the public..."></textarea></div><div class="form-grid"><div class="field"><label>Priority</label><select id="announcementPriority"><option value="normal">Normal</option><option value="important">Important</option><option value="urgent">Urgent</option></select></div><div class="field"><label>Audience</label><select id="announcementAudience"><option value="public">Public</option><option value="learners">Learners</option><option value="teachers">Teachers</option></select></div></div><div class="form-grid"><div class="field"><label>Publish now</label><select id="announcementPublished"><option value="true">Yes — publish immediately</option><option value="false">No — save as draft</option></select></div><div class="field"><label>Optional expiry</label><input id="announcementExpires" type="datetime-local"></div></div><button class="btn primary" id="publishAnnouncementBtn">📢 Publish announcement</button></form></div><div class="card"><h3>Recent announcements</h3><div id="announcementList"><p class="muted">Loading…</p></div></div></div></section>
 <section class="view" id="view-meetings"><div class="section-head"><div><h2>Go Live</h2><p class="muted">Start a live session at any time. E-Class can display active sessions from the <code>meetings</code> collection.</p></div><button class="btn" id="refreshMeetings">↻ Refresh</button></div><div class="grid"><div class="card live-card"><h3><span class="live-dot"></span>Start RTLH Live</h3><div class="notice">The live room uses a Jitsi Meet room. The room link is stored in Firestore so learners can open the same live session.</div><form id="liveForm" style="margin-top:15px"><div class="field"><label>Live session title *</label><input id="liveTitle" required value="RTLH Live Learning Session"></div><div class="field"><label>Description</label><textarea id="liveDescription" placeholder="What will learners learn or discuss?"></textarea></div><div class="form-grid"><div class="field"><label>Audience</label><select id="liveAudience"><option value="public">Public</option><option value="learners">RTLH Learners</option><option value="teachers">RTLH Teachers</option></select></div><div class="field"><label>Room name</label><input id="liveRoom" placeholder="Leave blank to generate"></div></div><button class="btn primary" id="startLiveBtn">🔴 Start Live Now</button></form></div><div class="card"><h3>Current / recent live sessions</h3><div id="meetingList"><p class="muted">Loading…</p></div></div></div></section>
+
+<section class="view" id="view-webManager">
+  <div class="hero"><span class="pill" style="background:rgba(255,255,255,.15);color:#fff">WHOLE WEBSITE MANAGER</span><h2>RWANDA TECH LEARNING HUB — Public Website Control</h2><p>Control homepage content, featured courses, partners, sponsors, opportunities, announcements, Community moderation, navigation, footer content and public settings from one place.</p></div>
+  <div class="section collection-grid">
+    <div class="collection-card"><b>Homepage Content</b><span>Hero, vision, mission, featured sections</span><br><button class="btn primary" data-open-collection="homeContent">Manage</button></div>
+    <div class="collection-card"><b>Navigation</b><span>Public menus and links</span><br><button class="btn primary" data-open-collection="navigation">Manage</button></div>
+    <div class="collection-card"><b>Footer</b><span>Footer links and public information</span><br><button class="btn primary" data-open-collection="footerContent">Manage</button></div>
+    <div class="collection-card"><b>Partners</b><span>Approved public partner directory</span><br><button class="btn primary" data-view-link="partnersManager">Manage</button></div>
+    <div class="collection-card"><b>Sponsors</b><span>Approved public sponsor directory</span><br><button class="btn primary" data-view-link="sponsorsManager">Manage</button></div>
+    <div class="collection-card"><b>Opportunities</b><span>Jobs, internships, scholarships and events</span><br><button class="btn primary" data-view-link="opportunitiesManager">Manage</button></div>
+    <div class="collection-card"><b>Community</b><span>Posts, replies and ratings</span><br><button class="btn primary" data-view-link="communityManager">Moderate</button></div>
+    <div class="collection-card"><b>Public Announcements</b><span>Homepage/public notices</span><br><button class="btn primary" data-view-link="webAnnouncements">Publish</button></div>
+    <div class="collection-card"><b>Policies</b><span>Public legal and policy content</span><br><button class="btn primary" data-view-link="policies">Manage</button></div>
+  </div>
+</section>
+
+<section class="view" id="view-webAnnouncements">
+  <div class="section-head"><div><h2>📣 Public Web Announcements</h2><p class="muted">Publish notices that can be read by the public RTLH website and learner areas.</p></div><button class="btn" id="refreshWebAnnouncements">↻ Refresh</button></div>
+  <div class="grid"><div class="card"><form id="webAnnouncementForm">
+    <div class="field"><label>Announcement title *</label><input id="webAnnouncementTitle" required placeholder="New RTLH course registration is open"></div>
+    <div class="field"><label>Message *</label><textarea id="webAnnouncementBody" required placeholder="Write the public announcement…"></textarea></div>
+    <div class="form-grid"><div class="field"><label>Audience</label><select id="webAnnouncementAudience"><option value="public">Public</option><option value="learners">RTLH Learners</option><option value="teachers">RTLH Teachers</option><option value="all">Everyone</option></select></div><div class="field"><label>Publish</label><select id="webAnnouncementPublished"><option value="true">Publish now</option><option value="false">Save draft</option></select></div></div>
+    <div class="form-grid"><div class="field"><label>CTA label</label><input id="webAnnouncementCta" placeholder="Learn more"></div><div class="field"><label>CTA URL</label><input id="webAnnouncementUrl" type="url" placeholder="https://..."></div></div>
+    <button class="btn primary">📢 Publish Announcement</button>
+  </form></div><div class="card"><h3>Recent public announcements</h3><div id="webAnnouncementList"><p class="muted">Loading…</p></div></div></div>
+</section>
+
+<section class="view" id="view-communityManager">
+  <div class="section-head"><div><h2>🗣️ Community & Public Posts</h2><p class="muted">Moderate posts, replies and platform ratings from Community.</p></div><button class="btn" id="refreshCommunity">↻ Refresh</button></div>
+  <div class="notice">New Community posts should start as <b>approved: false</b>. Admin reviews them and can approve, hide or delete them. Approved posts can appear on the public homepage.</div>
+  <div class="section card"><div id="communityAdminList"><p class="muted">Loading…</p></div></div>
+</section>
+
+<section class="view" id="view-partnersManager">
+  <div class="section-head"><div><h2>🤝 Partners</h2><p class="muted">Approved partners shown on the public RTLH website.</p></div><button class="btn primary" id="newPartner">＋ Add Partner</button></div>
+  <div class="card"><div id="partnersAdminList"><p class="muted">Loading…</p></div></div>
+</section>
+
+<section class="view" id="view-sponsorsManager">
+  <div class="section-head"><div><h2>🏆 Sponsors</h2><p class="muted">Approved sponsors shown on the public RTLH website.</p></div><button class="btn primary" id="newSponsor">＋ Add Sponsor</button></div>
+  <div class="card"><div id="sponsorsAdminList"><p class="muted">Loading…</p></div></div>
+</section>
+
+<section class="view" id="view-opportunitiesManager">
+  <div class="section-head"><div><h2>💼 Opportunities</h2><p class="muted">Jobs, internships, scholarships, competitions, events and career opportunities.</p></div><button class="btn primary" id="newOpportunity">＋ Add Opportunity</button></div>
+  <div class="card"><div id="opportunitiesAdminList"><p class="muted">Loading…</p></div></div>
+</section>
+
+<section class="view" id="view-mentorshipManager">
+  <div class="section-head"><div><h2>🧭 Mentorship</h2><p class="muted">Manage mentors, mentorship programmes, applications and sessions.</p></div><div><button class="btn" data-open-collection="mentors">Mentors</button> <button class="btn" data-open-collection="mentorshipApplications">Applications</button> <button class="btn" data-open-collection="mentorshipSessions">Sessions</button></div></div>
+  <div class="grid three"><div class="card"><h3>Mentors</h3><p class="muted">Profiles and expertise.</p></div><div class="card"><h3>Applications</h3><p class="muted">Mentorship requests.</p></div><div class="card"><h3>Sessions</h3><p class="muted">Appointments and activity.</p></div></div>
+</section>
+
 <section class="view" id="view-analytics"><div class="section-head"><div><h2>Platform Analytics</h2><p class="muted">Operational metrics from Firestore.</p></div><button class="btn" data-view-link="reports">Open reports</button></div><div class="stats" id="analyticsStats"></div><div class="grid"><div class="card"><h3>Education distribution</h3><div id="educationDistribution"></div></div><div class="card"><h3>Platform activity</h3><div id="analyticsActivity"></div></div></div></section>
 
 <section class="view" id="view-ai"><div class="hero"><span class="pill" style="background:rgba(255,255,255,.15);color:#fff">THEO LEARN WISE AI</span><h2>AI learning facilitator</h2><p>Monitor and configure Theo Learn Wise AI used across RTLH learning.</p></div><div class="section grid"><div class="card"><h3>AI controls</h3><div class="field"><label>AI availability</label><select id="aiEnabled"><option value="true">Enabled</option><option value="false">Disabled</option></select></div><div class="field"><label>AI role</label><select id="aiRole"><option>Teacher & Learner Facilitator</option><option>Learner Facilitator</option><option>Teacher Assistant</option></select></div><button class="btn primary" id="saveAiSettings">Save AI settings</button></div><div class="card"><h3>AI monitoring</h3><div id="aiStats" class="kpi-list"></div></div></div><div class="section card"><h3>AI assistant</h3><p class="muted">Keep your existing Theo Learn Wise AI embed in E-Teacher/E-Class. This panel controls platform-level AI settings.</p><div class="notice">Never put a private AI API key in this HTML file.</div></div></section>
@@ -117,7 +280,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup,linkWithCredential}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import{getFirestore,collection,getDocs,getDoc,doc,setDoc,addDoc,updateDoc,deleteDoc,query,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import{getFirestore,collection,getDocs,getDoc,doc,setDoc,addDoc,updateDoc,deleteDoc,query,limit,serverTimestamp,where,writeBatch}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import{getStorage,ref as storageRef,uploadBytes,getDownloadURL,deleteObject}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
 
 /* Use the EXACT SAME Firebase Web App config as e-teacher.html/e-class.html.
    You can define window.RTLH_FIREBASE_CONFIG before this script or replace these placeholders. */
@@ -130,7 +294,7 @@ const firebaseConfig=window.RTLH_FIREBASE_CONFIG||{
  appId:"1:785118659917:web:7ada98356d213a3fad2304"
 };
 const ADMIN_EMAIL="theonesteniyibigira6@gmail.com";
-const COLLECTIONS=["users","students","teachers","schools","organisations","classes","courses","lessons","assignments","quizzes","assessments","tests","exams","projects","submissions","grades","enrollments","progress","attendance","announcements","messages","notifications","meetings","discussions","payments","transactions","payouts","certificates","feedback","reviews","library","books","resources","auditLogs","reports","adminNotifications","adminRoles","platformSettings","websiteContent"];
+const COLLECTIONS=["users","students","teachers","schools","organisations","classes","courses","lessons","assignments","quizzes","assessments","tests","exams","projects","submissions","grades","enrollments","progress","attendance","announcements","messages","notifications","meetings","discussions","payments","transactions","payouts","certificates","feedback","reviews","library","books","resources","auditLogs","reports","adminNotifications","adminRoles","platformSettings","websiteContent","siteSettings","homeContent","navigation","footerContent","communityPosts","platformRatings","publicAnnouncements","partners","partnershipApplications","sponsors","sponsorshipApplications","opportunities","mentors","mentorshipApplications","mentorshipSessions","courseModules","courseResources","courseProgress"];
 const $=id=>document.getElementById(id),esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c])),pretty=v=>typeof v==="object"?JSON.stringify(v):String(v??"");
 let app=null,auth=null,db=null,currentUser=null,currentProfile=null,currentCollection="",currentRows=[],pendingGoogleCredential=null;
 
@@ -141,10 +305,10 @@ function fmt(v){if(!v)return"—";const d=v?.toDate?v.toDate():new Date(v);retur
 function authMsg(e){const c=e?.code||"";if(c.includes("invalid-credential")||c.includes("wrong-password"))return"The administrator email/password is incorrect.";if(c.includes("user-not-found"))return"This email is not registered in Firebase Authentication.";if(c.includes("too-many-requests"))return"Too many attempts. Please wait and try again.";return e?.message||"Sign-in failed."}
 
 if(!Object.values(firebaseConfig).some(v=>String(v).includes("PASTE_YOUR"))){
- try{app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app)}catch(e){loginError("Firebase could not initialise: "+e.message)}
+ try{app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);storage=getStorage(app)}catch(e){loginError("Firebase could not initialise: "+e.message)}
 }else loginError("Add the same Firebase Web App configuration used by your E-Class and E-Teacher.");
 
-async function finishGoogleAdminLogin(user){if((user.email||"").toLowerCase()!==ADMIN_EMAIL){await signOut(auth);throw new Error("Only the authorised RTLH administrator Google account can enter this panel.")}const s=await getDoc(doc(db,"users",user.uid));if(!s.exists()){await signOut(auth);throw new Error("Google sign-in succeeded, but the existing users profile for this Firebase UID was not found. Do not create another document; use users/"+user.uid+" and set role to admin.")}const profile=s.data(),role=String(profile.role||profile.accountRole||"").toLowerCase(),ok=["admin","superadmin","platformadmin"].includes(role)||profile.admin===true||profile.isAdmin===true;if(!ok){await signOut(auth);throw new Error("Google authentication succeeded, but this account is not authorised as an RTLH administrator. Set role to admin in users/"+user.uid+".")}currentUser=user;currentProfile=profile;$("signedEmail").textContent=user.email;$("adminIdentityJson").textContent=JSON.stringify({uid:user.uid,email:user.email,role:profile.role||"admin",admin:profile.admin??true,provider:"google"},null,2);$("loginScreen").classList.add("hidden");$("adminApp").classList.remove("hidden");await dashboard();}
+async function finishGoogleAdminLogin(user){if((user.email||"").toLowerCase()!==ADMIN_EMAIL){await signOut(auth);throw new Error("Only the authorised RTLH administrator Google account can enter this panel.")}const s=await getDoc(doc(db,"users",user.uid));if(!s.exists()){await signOut(auth);throw new Error("Google sign-in succeeded, but the existing users profile for this Firebase UID was not found. Do not create another document; use users/"+user.uid+" and set role to admin.")}const profile=s.data(),role=String(profile.role||profile.accountRole||"").toLowerCase(),ok=["admin","superadmin","platformadmin"].includes(role)||profile.admin===true||profile.isAdmin===true;if(!ok){await signOut(auth);throw new Error("Google authentication succeeded, but this account is not authorised as an RTLH administrator. Set role to admin in users/"+user.uid+".")}currentUser=user;currentProfile=profile;$("signedEmail").textContent=user.email;$("adminIdentityJson").textContent=JSON.stringify({uid:user.uid,email:user.email,role:profile.role||"admin",admin:profile.admin??true,provider:"google"},null,2);$("loginScreen").classList.add("hidden");$("adminApp").classList.remove("hidden");await dashboard();await loadStudioCourses();}
 $("googleAdminBtn").onclick=async()=>{if(!auth)return loginError("Firebase is not configured yet.");const btn=$("googleAdminBtn");btn.disabled=true;btn.innerHTML="<span>Opening Google sign-in…</span>";$("loginAlert").classList.add("hidden");try{const provider=new GoogleAuthProvider();provider.setCustomParameters({login_hint:ADMIN_EMAIL,prompt:"select_account"});const result=await signInWithPopup(auth,provider);await finishGoogleAdminLogin(result.user);}catch(e){console.error("Google Admin Login",e);if(e.code==="auth/account-exists-with-different-credential"){pendingGoogleCredential=GoogleAuthProvider.credentialFromError(e);loginError("This Firebase email already uses another sign-in method. Sign in once with the Firebase password above to link Google to the same account, then use Continue with Google next time.")}else if(e.code==="auth/popup-blocked"){loginError("Google sign-in popup was blocked. Allow pop-ups for this site and try again.")}else if(e.code==="auth/popup-closed-by-user"){loginError("Google sign-in was cancelled.")}else{loginError(e.message||"Google administrator sign-in failed.")}btn.disabled=false;btn.innerHTML='<span class="google-mark">G</span><span>Continue with Google</span>';}};
 $("loginForm").addEventListener("submit",async e=>{
  e.preventDefault();$("loginAlert").classList.add("hidden");
@@ -166,7 +330,7 @@ onAuthStateChanged(auth,async user=>{
  }catch(e){await signOut(auth);loginError(e.message)}
 });
 
-const titles={dashboard:["Admin Dashboard","Daily RTLH platform control and activity"],users:["All Users","Manage accounts and access"],students:["Students","Learner accounts"],teachers:["Teachers","E-Teacher profiles and activity"],schools:["Schools","School accounts"],organisations:["Organisations","Organisation accounts"],classes:["E-Classes","Teacher-created classes delivered by E-Class"],courses:["Courses","Course catalogue"],lessons:["Lessons","Learning content"],assignments:["Assignments","Assignments and submissions"],quizzes:["Quizzes","Quiz content and attempts"],assessments:["Assessments","Assessments and scores"],tests:["Tests","Tests"],exams:["Exams","Exams and results"],projects:["Projects","Projects and submissions"],submissions:["Submissions","Learner work"],grades:["Results / Grades","Released results"],enrollments:["Enrollments","Learner-class membership"],progress:["Progress","Learning progress"],attendance:["Attendance","Attendance records"],announcements:["Announcements","Platform/class announcements"],messages:["Messages","Messaging"],notifications:["Notifications","Notifications"],meetings:["Meetings / Live","Live sessions"],discussions:["Discussions","Community/class discussions"],payments:["Payments","Payments"],transactions:["Transactions","Transactions"],payouts:["Teacher Payouts","Teacher earnings"],certificates:["Certificates","Certificates"],feedback:["Feedback / Reviews","Feedback and reviews"],analytics:["Analytics","Platform analytics"],ai:["Theo Learn Wise AI","AI facilitator administration"],website:["Website Content","Public website content"],reports:["Reports / Export","Reports and CSV export"],problems:["Reports / Problems","Technical and content reports"],auditLogs:["Audit Logs","Administrative activity"],security:["Security Center","Authentication and authorization"],roles:["Roles & Permissions","Admin roles"],settings:["Platform Settings","Central platform configuration"],policies:["Policies","Legal and policy content"],elibrary:["E-Library","Books and resources"]};
+const titles={dashboard:["Admin Dashboard","Daily RTLH platform control and activity"],users:["All Users","Manage accounts and access"],students:["Students","Learner accounts"],teachers:["Teachers","E-Teacher profiles and activity"],schools:["Schools","School accounts"],organisations:["Organisations","Organisation accounts"],classes:["E-Classes","Teacher-created classes delivered by E-Class"],courses:["Courses","Course catalogue"],courseStudio:["Course Studio","Create, build, publish and manage complete courses"],lessons:["Lessons","Learning content"],assignments:["Assignments","Assignments and submissions"],quizzes:["Quizzes","Quiz content and attempts"],assessments:["Assessments","Assessments and scores"],tests:["Tests","Tests"],exams:["Exams","Exams and results"],projects:["Projects","Projects and submissions"],submissions:["Submissions","Learner work"],grades:["Results / Grades","Released results"],enrollments:["Enrollments","Learner-class membership"],progress:["Progress","Learning progress"],attendance:["Attendance","Attendance records"],announcements:["Announcements","Platform/class announcements"],messages:["Messages","Messaging"],notifications:["Notifications","Notifications"],meetings:["Meetings / Live","Live sessions"],discussions:["Discussions","Community/class discussions"],webManager:["Website Manager","Control public RTLH website content"],webAnnouncements:["Public Web Announcements","Publish announcements for the public website"],communityManager:["Community & Posts","Moderate public community posts and replies"],partnersManager:["Partners","Manage approved RTLH partners"],sponsorsManager:["Sponsors","Manage approved RTLH sponsors"],opportunitiesManager:["Opportunities","Manage public jobs, internships and scholarships"],mentorshipManager:["Mentorship","Manage mentors, programmes and applications"],payments:["Payments","Payments"],transactions:["Transactions","Transactions"],payouts:["Teacher Payouts","Teacher earnings"],certificates:["Certificates","Certificates"],feedback:["Feedback / Reviews","Feedback and reviews"],analytics:["Analytics","Platform analytics"],ai:["Theo Learn Wise AI","AI facilitator administration"],website:["Website Content","Public website content"],reports:["Reports / Export","Reports and CSV export"],problems:["Reports / Problems","Technical and content reports"],auditLogs:["Audit Logs","Administrative activity"],security:["Security Center","Authentication and authorization"],roles:["Roles & Permissions","Admin roles"],settings:["Platform Settings","Central platform configuration"],policies:["Policies","Legal and policy content"],elibrary:["E-Library","Books and resources"]};
 
 function openView(name){
  document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
@@ -174,13 +338,13 @@ function openView(name){
  if(generic){$("view-collection").classList.add("active");loadCollection(name)}else{$("view-"+name)?.classList.add("active")}
  document.querySelectorAll(".navbtn[data-view]").forEach(b=>b.classList.toggle("active",b.dataset.view===name));
  $("pageTitle").textContent=titles[name]?.[0]||name;$("pageSubtitle").textContent=titles[name]?.[1]||"RTLH administration";$("sidebar").classList.remove("open");window.scrollTo({top:0,behavior:"smooth"});
- if(name==="dashboard")dashboard();if(name==="analytics")analytics();if(name==="settings")loadSettings();if(name==="ai")loadAI();if(name==="reports")reports();if(name==="security")security();if(name==="announcements")loadAnnouncements();if(name==="meetings")loadMeetings();
+ if(name==="dashboard")dashboard();if(name==="analytics")analytics();if(name==="settings")loadSettings();if(name==="ai")loadAI();if(name==="reports")reports();if(name==="security")security();if(name==="announcements")loadAnnouncements();if(name==="meetings")loadMeetings();if(name==="webAnnouncements")loadWebAnnouncements();if(name==="communityManager")loadCommunityAdmin();if(name==="partnersManager")loadSimpleManager("partners","partnersAdminList");if(name==="sponsorsManager")loadSimpleManager("sponsors","sponsorsAdminList");if(name==="opportunitiesManager")loadSimpleManager("opportunities","opportunitiesAdminList");if(name==="webManager"){}if(name==="courseStudio")loadStudioCourses();
 }
 document.querySelectorAll(".navbtn[data-view]").forEach(b=>b.onclick=()=>openView(b.dataset.view));document.querySelectorAll("[data-view-link]").forEach(b=>b.onclick=()=>openView(b.dataset.viewLink));document.querySelectorAll("[data-open-collection]").forEach(b=>b.onclick=()=>openView(b.dataset.openCollection));$("menuMobile").onclick=()=>$("sidebar").classList.toggle("open");$("logoutBtn").onclick=()=>signOut(auth);$("announcementForm").onsubmit=publishAnnouncement;$("refreshAnnouncements").onclick=loadAnnouncements;$("liveForm").onsubmit=startLive;$("refreshMeetings").onclick=loadMeetings;
 
 async function rows(name,n=1000){const s=await getDocs(query(collection(db,name),limit(n)));return s.docs.map(d=>({id:d.id,...d.data()}))}
 async function dashboard(){
- const names=["users","students","teachers","classes","courses","lessons","assignments","quizzes","tests","exams","projects","submissions","grades","enrollments","certificates","payments","transactions","announcements","messages"];
+ const names=["users","students","teachers","classes","courses","lessons","assignments","quizzes","tests","exams","projects","submissions","grades","enrollments","certificates","payments","transactions","announcements","messages","communityPosts","platformRatings","partners","sponsors","opportunities","partnershipApplications","sponsorshipApplications","publicAnnouncements"];
  const c={};for(const n of names){try{c[n]=(await rows(n)).length}catch{c[n]="—"}}
  const cards=[["👥","Users"],["🎓","Students"],["👨‍🏫","Teachers"],["🏫","E-Classes"],["📚","Courses"],["📖","Lessons"],["📝","Assignments"],["❓","Quizzes"],["📤","Submissions"],["🏆","Grades"],["👥","Enrollments"],["🎓","Certificates"],["💳","Payments"],["💰","Transactions"],["📢","Announcements"],["💬","Messages"]];
  $("dashboardStats").innerHTML=cards.map(x=>`<div class="stat"><div>${x[0]}</div><b>${c[x[1].toLowerCase().replaceAll(" ","")]??"—"}</b><span>${x[1]}</span></div>`).join("");
@@ -200,6 +364,129 @@ function makeLiveRoom(){return "RTLH-Live-"+crypto.randomUUID().replaceAll("-","
 async function startLive(e){e.preventDefault();try{const room=($("liveRoom").value.trim()||makeLiveRoom()).replace(/[^a-zA-Z0-9_-]/g,"");const joinUrl="https://meet.jit.si/"+encodeURIComponent(room),data={title:$("liveTitle").value.trim(),description:$("liveDescription").value.trim(),audience:$("liveAudience").value,status:"live",isLive:true,hostId:currentUser.uid,hostEmail:currentUser.email,provider:"jitsi",roomName:room,joinUrl,startedAt:serverTimestamp(),createdAt:serverTimestamp(),updatedAt:serverTimestamp()};const ref=await addDoc(collection(db,"meetings"),data);await audit("live_session_started",{meetingId:ref.id,roomName:room});toast("Live session started. Learners can use the live session link from E-Class.");window.open(joinUrl,"_blank","noopener,noreferrer");loadMeetings();dashboard()}catch(e){toast("Could not start live session: "+e.message,true)}}
 async function loadMeetings(){try{const arr=await rows("meetings",100);arr.sort((a,b)=>dateVal(b.startedAt||b.createdAt)-dateVal(a.startedAt||a.createdAt));$("meetingList").innerHTML=arr.slice(0,12).map(r=>{const live=r.status==="live"&&r.isLive!==false;return `<div class="activity"><span class="dot" style="background:${live?'#e53935':'#8b98a8'}"></span><div style="flex:1"><b>${esc(r.title||"Live session")}</b><div class="muted">${esc(r.description||"").slice(0,180)}</div><small>${live?"LIVE":"Ended"} · ${esc(r.audience||"public")} · ${fmt(r.startedAt||r.createdAt)}</small><div style="margin-top:8px;display:flex;gap:7px;flex-wrap:wrap">${r.joinUrl?`<a class="btn" href="${esc(r.joinUrl)}" target="_blank" rel="noopener">Open room</a>`:""}${live?`<button class="btn danger" data-live-stop="${esc(r.id)}">Stop Live</button>`:""}</div></div></div>`}).join("")||'<p class="muted">No live sessions yet.</p>';document.querySelectorAll("[data-live-stop]").forEach(b=>b.onclick=()=>stopLive(b.dataset.liveStop))}catch(e){$("meetingList").innerHTML=`<div class="alert">Could not load meetings: ${esc(e.message)}</div>`}}
 async function stopLive(id){if(!confirm("Stop this live session?"))return;try{await updateDoc(doc(db,"meetings",id),{status:"ended",isLive:false,endedAt:serverTimestamp(),updatedAt:serverTimestamp()});await audit("live_session_ended",{meetingId:id});toast("Live session ended.");loadMeetings();dashboard()}catch(e){toast("Could not stop live session: "+e.message,true)}}
+
+/* =========================================================
+   RTLH COURSE STUDIO
+   ========================================================= */
+const $id=id=>document.getElementById(id);
+let studioCourses=[];
+
+function csvLines(value){
+  return String(value||'').split(/\r?\n|,/).map(s=>s.trim()).filter(Boolean);
+}
+function jsonSafe(text){
+  if(!String(text||'').trim()) return [];
+  const parsed=JSON.parse(text);
+  if(!Array.isArray(parsed)) throw new Error('Questions JSON must be an array.');
+  return parsed;
+}
+function coursePayload(){
+  return {
+    title:$id('courseTitle').value.trim(),
+    code:$id('courseCode').value.trim(),
+    category:$id('courseCategory').value.trim(),
+    subcategory:$id('courseSubcategory').value.trim(),
+    description:$id('courseDescription').value.trim(),
+    learningObjectives:csvLines($id('courseObjectives').value),
+    difficulty:$id('courseDifficulty').value,
+    language:$id('courseLanguage').value.trim()||'English',
+    instructor:$id('courseInstructor').value.trim()||'RTLH',
+    thumbnailUrl:$id('courseThumbnail').value.trim(),
+    duration:$id('courseDuration').value.trim(),
+    numberOfLessons:Number($id('courseLessonCount').value||0),
+    requirements:csvLines($id('courseRequirements').value),
+    skillsGained:csvLines($id('courseSkills').value),
+    certificateAvailable:$id('courseCertificate').value==='true',
+    pricing:$id('coursePricing').value,
+    free:$id('coursePricing').value==='free',
+    price:Number($id('coursePrice').value||0),
+    currency:$id('courseCurrency').value.trim()||'RWF',
+    status:$id('courseStatus').value,
+    isPublished:$id('courseStatus').value==='published',
+    featured:$id('courseFeatured').value==='true',
+    tags:csvLines($id('courseTags').value),
+    updatedBy:currentUser.uid,
+    updatedAt:serverTimestamp()
+  };
+}
+
+function clearCourseForm(){
+  ['courseId','courseTitle','courseCode','courseCategory','courseSubcategory','courseDescription','courseObjectives','courseRequirements','courseInstructor','courseDuration','courseSkills','courseTags','courseThumbnail'].forEach(id=>{if($id(id))$id(id).value=''});
+  $id('courseLanguage').value='English';$id('courseLessonCount').value=0;$id('courseCertificate').value='true';$id('coursePricing').value='free';$id('coursePrice').value=0;$id('courseCurrency').value='RWF';$id('courseStatus').value='draft';$id('courseFeatured').value='false';
+}
+
+async function loadStudioCourses(){
+  try{
+    studioCourses=await rows('courses',5000);
+    studioCourses.sort((a,b)=>(a.title||'').localeCompare(b.title||''));
+    const options='<option value="">Select course</option>'+studioCourses.map(c=>`<option value="${esc(c.id)}">${esc(c.title||c.code||c.id)}</option>`).join('');
+    ['moduleCourseId','lessonCourseId','resourceCourseId','quizCourseId'].forEach(id=>{const el=$id(id);if(el){el.innerHTML=options;}});
+    $('courseStudioList').innerHTML=studioCourses.length?studioCourses.map(c=>`<div class="activity"><div class="dot" style="background:${c.isPublished||c.status==='published'?'#1ea765':'#f6c928'}"></div><div style="flex:1"><b>${esc(c.title||c.code||'Untitled course')}</b><div class="muted">${esc(c.code||'')} · ${esc(c.category||'')} · ${esc(c.difficulty||'')}</div><small>${c.status==='published'||c.isPublished?'Published':'Draft'} · ${c.featured?'Featured':'Standard'} · ${esc(c.instructor||'')}</small><div style="margin-top:8px;display:flex;gap:7px;flex-wrap:wrap"><button class="btn" data-course-edit="${esc(c.id)}">Edit</button><button class="btn" data-course-publish="${esc(c.id)}">${c.status==='published'||c.isPublished?'Unpublish':'Publish'}</button><button class="btn danger" data-course-delete="${esc(c.id)}">Delete</button></div></div></div>`).join(''):'<p class="muted">No courses yet.</p>';
+    document.querySelectorAll('[data-course-edit]').forEach(b=>b.onclick=()=>editStudioCourse(b.dataset.courseEdit));
+    document.querySelectorAll('[data-course-publish]').forEach(b=>b.onclick=()=>toggleCoursePublish(b.dataset.coursePublish));
+    document.querySelectorAll('[data-course-delete]').forEach(b=>b.onclick=()=>deleteStudioCourse(b.dataset.courseDelete));
+    await loadStudioModules();
+    await loadStudioLessons();
+    await loadStudioResources();
+    await loadStudioQuizzes();
+    await loadCourseProgressSummary();
+  }catch(e){toast('Course Studio could not load: '+e.message,true)}
+}
+
+async function editStudioCourse(id){
+  const c=studioCourses.find(x=>x.id===id); if(!c)return;
+  $id('courseId').value=id;$id('courseTitle').value=c.title||'';$id('courseCode').value=c.code||c.courseCode||'';$id('courseCategory').value=c.category||'';$id('courseSubcategory').value=c.subcategory||'';$id('courseDescription').value=c.description||'';$id('courseObjectives').value=(c.learningObjectives||[]).join('\n');$id('courseDifficulty').value=c.difficulty||'Beginner';$id('courseLanguage').value=c.language||'English';$id('courseInstructor').value=c.instructor||'';$id('courseThumbnail').value=c.thumbnailUrl||c.thumbnail||'';$id('courseDuration').value=c.duration||'';$id('courseLessonCount').value=c.numberOfLessons||0;$id('courseRequirements').value=(c.requirements||[]).join('\n');$id('courseSkills').value=(c.skillsGained||[]).join('\n');$id('courseCertificate').value=String(c.certificateAvailable!==false);$id('coursePricing').value=c.free!==false?'free':'paid';$id('coursePrice').value=c.price||0;$id('courseCurrency').value=c.currency||'RWF';$id('courseStatus').value=c.status||((c.isPublished)?'published':'draft');$id('courseFeatured').value=String(!!c.featured);$id('courseTags').value=(c.tags||[]).join(', ');window.scrollTo({top:0,behavior:'smooth'});}
+
+async function saveStudioCourse(e){
+  e.preventDefault();
+  try{
+    const data=coursePayload(); if(!data.title||!data.code||!data.category||!data.description)throw new Error('Course title, code, category and description are required.');
+    let id=$id('courseId').value.trim();
+    if(id){await updateDoc(doc(db,'courses',id),data);await audit('course_updated',{courseId:id,title:data.title});toast('Course updated.');}
+    else{data.createdBy=currentUser.uid;data.createdAt=serverTimestamp();data.organization='Rwanda Tech Learning Hub';const ref=await addDoc(collection(db,'courses'),data);id=ref.id;await audit('course_created',{courseId:id,title:data.title});toast('Course created.');}
+    clearCourseForm();await loadStudioCourses();
+  }catch(e){toast('Could not save course: '+e.message,true)}
+}
+async function toggleCoursePublish(id){const c=studioCourses.find(x=>x.id===id);if(!c)return;const publish=!(c.status==='published'||c.isPublished);try{await updateDoc(doc(db,'courses',id),{status:publish?'published':'draft',isPublished:publish,publishedAt:publish?serverTimestamp():null,updatedBy:currentUser.uid,updatedAt:serverTimestamp()});await audit(publish?'course_published':'course_unpublished',{courseId:id});toast(publish?'Course published.':'Course unpublished.');await loadStudioCourses();}catch(e){toast('Could not change publish status: '+e.message,true)}}
+async function deleteStudioCourse(id){if(!confirm('Delete this course and its top-level course record? Nested module/content records will remain for safety unless explicitly deleted. Continue?'))return;try{await deleteDoc(doc(db,'courses',id));await audit('course_deleted',{courseId:id});toast('Course deleted.');await loadStudioCourses();}catch(e){toast('Could not delete course: '+e.message,true)}}
+
+async function loadStudioModules(){
+  const cid=$id('moduleCourseId')?.value||$id('lessonCourseId')?.value||$id('resourceCourseId')?.value||$id('quizCourseId')?.value; if(!cid)return;
+  try{const arr=await rows('courseModules',5000);studioModuleRows=arr;const mine=arr.filter(x=>x.courseId===cid).sort((a,b)=>(a.order||0)-(b.order||0));const opts='<option value="">Course-level</option>'+mine.map(m=>`<option value="${esc(m.id)}">${esc(m.title||m.id)}</option>`).join('');['lessonModuleId','resourceModuleId','quizModuleId'].forEach(id=>{if($id(id))$id(id).innerHTML=opts});$('moduleList').innerHTML=mine.length?mine.map(m=>`<div class="activity"><div class="dot"></div><div style="flex:1"><b>${esc(m.title||'Module')}</b><small> · ${m.order||0}</small></div><div><button class="btn" data-module-edit="${esc(m.id)}">Edit</button> <button class="btn danger" data-module-del="${esc(m.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No modules yet.</p>';}catch(e){$('moduleList').innerHTML='<p class="muted">Could not load modules.</p>'}
+}
+
+async function saveModule(e){e.preventDefault();try{const courseId=$id('moduleCourseId').value;if(!courseId)throw new Error('Select a course.');const data={courseId,title:$id('moduleTitle').value.trim(),description:$id('moduleDescription').value.trim(),order:Number($id('moduleOrder').value||1),createdBy:currentUser.uid,status:'published',createdAt:serverTimestamp(),updatedAt:serverTimestamp()};if(!data.title)throw new Error('Module title is required.');const batch=writeBatch(db);const ref=doc(collection(db,'courseModules'));batch.set(ref,data);batch.set(doc(db,'courses',courseId,'modules',ref.id),data);await batch.commit();await audit('module_created',{moduleId:ref.id,courseId});toast('Module added.');$id('moduleForm').reset();$id('moduleOrder').value=1;await loadStudioModules();}catch(e){toast('Could not add module: '+e.message,true)}}
+
+async function saveLessonBuilder(e){e.preventDefault();try{const courseId=$id('lessonCourseId').value;if(!courseId)throw new Error('Select a course.');const moduleId=$id('lessonModuleId').value||null;const data={courseId,moduleId,title:$id('lessonBuilderTitle').value.trim(),type:$id('lessonBuilderType').value,content:$id('lessonBuilderContent').value.trim(),externalUrl:$id('lessonBuilderUrl').value.trim(),order:Number($id('lessonBuilderOrder').value||1),isPublished:$id('lessonBuilderPublished').value==='true',teacherId:currentUser.uid,createdBy:currentUser.uid,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};if(!data.title)throw new Error('Lesson title is required.');const batch=writeBatch(db);const top=doc(collection(db,'lessons'));batch.set(top,data);if(moduleId){const nested=doc(db,'courseModules',moduleId,'lessons',top.id);batch.set(nested,{...data,courseLessonId:top.id});}batch.set(doc(db,'courses',courseId,'lessons',top.id),data);await batch.commit();await audit('course_lesson_created',{lessonId:top.id,courseId,moduleId});toast('Lesson added and connected to the course.');$id('lessonBuilderForm').reset();$id('lessonBuilderOrder').value=1;await loadStudioLessons();}catch(e){toast('Could not add lesson: '+e.message,true)}}
+async function loadStudioLessons(){const cid=$id('lessonCourseId')?.value;if(!cid){$('lessonBuilderList').innerHTML='<p class="muted">Select a course to view lessons.</p>';return}try{const arr=(await rows('lessons',5000)).filter(x=>x.courseId===cid);currentLessonRows=arr;arr.sort((a,b)=>(a.order||0)-(b.order||0));$('lessonBuilderList').innerHTML=arr.length?arr.map(x=>`<div class="activity"><div class="dot" style="background:${x.isPublished?'#1ea765':'#f6c928'}"></div><div style="flex:1"><b>${esc(x.title||'Lesson')}</b><small>${esc(x.type||'text')} · ${x.isPublished?'Published':'Draft'}</small></div><div><button class="btn" data-lesson-edit="${esc(x.id)}">Edit</button> <button class="btn danger" data-lesson-del="${esc(x.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No lessons yet.</p>'}catch(e){$('lessonBuilderList').innerHTML='<p class="muted">Could not load lessons.</p>'}}
+
+function bindStudioLessonActions(){document.querySelectorAll('[data-lesson-edit]').forEach(b=>b.onclick=()=>editRecord('lessons',currentLessonRows.find(x=>x.id===b.dataset.lessonEdit)));document.querySelectorAll('[data-lesson-del]').forEach(b=>b.onclick=()=>deleteRecord('lessons',b.dataset.lessonDel));}
+let currentLessonRows=[];
+
+async function saveResource(e){e.preventDefault();try{const courseId=$id('resourceCourseId').value;if(!courseId)throw new Error('Select a course.');const file=$id('resourceFile').files[0];const title=$id('resourceTitle').value.trim();if(!title)throw new Error('Resource title is required.');let url=$id('resourceUrl').value.trim(),storagePath='';if(file){storagePath=`courseResources/${currentUser.uid}/${courseId}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;const r=storageRef(storage,storagePath);await uploadBytes(r,file,{contentType:file.type||undefined});url=await getDownloadURL(r);}if(!url)throw new Error('Provide a file or external URL.');const moduleId=$id('resourceModuleId').value||null;const data={courseId,moduleId,title,type:$id('resourceType').value,fileUrl:url,storagePath,downloadAllowed:$id('resourceDownload').value==='true',printAllowed:$id('resourcePrint').value==='true',isPublished:true,createdBy:currentUser.uid,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};const batch=writeBatch(db);const ref=doc(collection(db,'courseResources'));batch.set(ref,data);batch.set(doc(db,'courses',courseId,'resources',ref.id),data);if(moduleId)batch.set(doc(db,'courseModules',moduleId,'resources',ref.id),data);await batch.commit();await audit('course_resource_created',{resourceId:ref.id,courseId,storagePath});toast('Resource uploaded and linked.');$id('resourceForm').reset();await loadStudioResources();}catch(e){toast('Could not upload resource: '+e.message,true)}}
+async function loadStudioResources(){const cid=$id('resourceCourseId')?.value;if(!cid){$('resourceList').innerHTML='<p class="muted">Select a course to view resources.</p>';return}try{const arr=(await rows('courseResources',5000)).filter(x=>x.courseId===cid);currentResourceRows=arr.sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));$('resourceList').innerHTML=arr.length?arr.map(x=>`<div class="activity"><div class="dot"></div><div style="flex:1"><b>${esc(x.title||'Resource')}</b><small>${esc(x.type||'file')} · download ${x.downloadAllowed?'yes':'no'} · print ${x.printAllowed?'yes':'no'}</small></div><div><button class="btn" data-resource-edit="${esc(x.id)}">Edit</button> <button class="btn danger" data-resource-del="${esc(x.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No resources yet.</p>'}catch(e){$('resourceList').innerHTML='<p class="muted">Could not load resources.</p>'}}
+
+function bindStudioQuizActions(){document.querySelectorAll('[data-assessment-edit]').forEach(b=>b.onclick=()=>editRecord('assessments',currentAssessmentRows.find(x=>x.id===b.dataset.assessmentEdit)));document.querySelectorAll('[data-assessment-del]').forEach(b=>b.onclick=()=>deleteRecord('assessments',b.dataset.assessmentDel));}
+let currentAssessmentRows=[];
+
+function bindStudioResourceActions(){document.querySelectorAll('[data-resource-edit]').forEach(b=>b.onclick=()=>editRecord('courseResources',currentResourceRows.find(x=>x.id===b.dataset.resourceEdit)));document.querySelectorAll('[data-resource-del]').forEach(b=>b.onclick=()=>deleteRecord('courseResources',b.dataset.resourceDel));}
+let currentResourceRows=[];
+
+async function saveQuizBuilder(e){e.preventDefault();try{const courseId=$id('quizCourseId').value;if(!courseId)throw new Error('Select a course.');const questions=jsonSafe($id('quizQuestions').value);const moduleId=$id('quizModuleId').value||null;const data={courseId,moduleId,title:$id('quizTitle').value.trim(),type:$id('quizType').value,questions,duration:Number($id('quizDuration').value||30),passingScore:Number($id('quizPassing').value||70),isPublished:$id('quizPublished').value==='true',finalAssessment:$id('quizFinal').value==='true',teacherId:currentUser.uid,createdBy:currentUser.uid,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),status:$id('quizPublished').value==='true'?'published':'draft'};if(!data.title)throw new Error('Assessment title is required.');const batch=writeBatch(db);const a=doc(collection(db,'assessments'));const typed=doc(collection(db,data.type==='quiz'?'quizzes':data.type==='test'?'tests':'exams'));batch.set(a,data);batch.set(typed,{...data,assessmentId:a.id});batch.set(doc(db,'courses',courseId,'assessments',typed.id),{...data,assessmentId:a.id});if(moduleId)batch.set(doc(db,'courseModules',moduleId,data.type==='quiz'?'quizzes':'assessments',typed.id),{...data,assessmentId:a.id});await batch.commit();await audit('course_assessment_created',{assessmentId:a.id,courseId,type:data.type});toast('Assessment added and connected.');$id('quizBuilderForm').reset();$id('quizPassing').value=70;$id('quizDuration').value=30;await loadStudioQuizzes();}catch(e){toast('Could not add assessment: '+e.message,true)}}
+async function loadStudioQuizzes(){const cid=$id('quizCourseId')?.value;if(!cid){$('quizBuilderList').innerHTML='<p class="muted">Select a course to view assessments.</p>';return}try{const arr=(await rows('assessments',5000)).filter(x=>x.courseId===cid);currentAssessmentRows=arr.sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));$('quizBuilderList').innerHTML=arr.length?arr.map(x=>`<div class="activity"><div class="dot" style="background:${x.finalAssessment?'#d93b4b':'#1685e5'}"></div><div style="flex:1"><b>${esc(x.title||'Assessment')}</b><small>${esc(x.type||'quiz')} · pass ${x.passingScore||0}% · ${x.finalAssessment?'Final':''}</small></div><div><button class="btn" data-assessment-edit="${esc(x.id)}">Edit</button> <button class="btn danger" data-assessment-del="${esc(x.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No assessments yet.</p>'}catch(e){$('quizBuilderList').innerHTML='<p class="muted">Could not load assessments.</p>'}}
+
+async function loadCourseProgressSummary(){try{const p=await rows('progress',5000);const groups={};p.forEach(x=>{const key=x.courseId||'unknown';groups[key]=(groups[key]||0)+1});$('courseProgressSummary').innerHTML=studioCourses.length?studioCourses.slice(0,8).map(c=>`<div class="kpi"><span>${esc(c.title||c.code||'Course')}</span><b>${groups[c.id]||0} progress records</b></div>`).join(''):'<p class="muted">No courses available.</p>'}catch{$('courseProgressSummary').innerHTML='<p class="muted">Progress data unavailable.</p>'}}
+
+['moduleCourseId','lessonCourseId','resourceCourseId','quizCourseId'].forEach(id=>{const el=$id(id);if(el)el.addEventListener('change',loadStudioModules)});
+$id('courseForm').addEventListener('submit',saveStudioCourse);
+$id('moduleForm').addEventListener('submit',saveModule);
+$id('lessonBuilderForm').addEventListener('submit',saveLessonBuilder);
+$id('resourceForm').addEventListener('submit',saveResource);
+$id('quizBuilderForm').addEventListener('submit',saveQuizBuilder);
+$id('refreshCourseStudio').onclick=loadStudioCourses;
+$id('refreshProgressSummary').onclick=loadCourseProgressSummary;
+$id('resetCourseForm').onclick=clearCourseForm;
+
 async function loadCollection(name){currentCollection=name;$("collectionTitle").textContent=titles[name]?.[0]||name;$("collectionDescription").textContent="Firestore collection: "+name;document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$("view-collection").classList.add("active");try{currentRows=await rows(name,Number($("collectionLimit").value));renderCollection()}catch(e){$("collectionTable").innerHTML=`<div class="alert">Could not read <b>${esc(name)}</b>: ${esc(e.message)}<br>Check Firestore Security Rules and the admin role.</div>`}}
 function renderCollection(){const t=$("collectionSearch").value.toLowerCase(),r=currentRows.filter(x=>!t||JSON.stringify(x).toLowerCase().includes(t));if(!r.length){$("collectionTable").innerHTML="<div class='muted' style='padding:25px;text-align:center'>No records found.</div>";return}const keys=[...new Set(r.flatMap(x=>Object.keys(x)))].slice(0,9);$("collectionTable").innerHTML=`<div class="table-wrap"><table class="table"><thead><tr><th>ID</th>${keys.map(k=>`<th>${esc(k)}</th>`).join("")}<th>Actions</th></tr></thead><tbody>${r.map(x=>`<tr><td><code>${esc(x.id)}</code></td>${keys.map(k=>`<td>${esc(pretty(x[k])).slice(0,220)}</td>`).join("")}<td><button class="btn" data-edit="${esc(x.id)}">Edit</button> <button class="btn danger" data-del="${esc(x.id)}">Delete</button></td></tr>`).join("")}</tbody></table></div>`;document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editRecord(currentCollection,currentRows.find(x=>x.id===b.dataset.edit)));document.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteRecord(currentCollection,b.dataset.del))}
 $("collectionSearch").oninput=renderCollection;$("collectionLimit").onchange=()=>loadCollection(currentCollection);$("refreshCollectionBtn").onclick=()=>loadCollection(currentCollection);$("newRecordBtn").onclick=()=>editRecord(currentCollection,null);
@@ -219,7 +506,26 @@ async function loadAI(){try{const s=await getDoc(doc(db,"platformSettings","main
 $("saveAiSettings").onclick=async()=>{try{await setDoc(doc(db,"platformSettings","main"),{theoAIEnabled:$("aiEnabled").value==="true",theoAIRole:$("aiRole").value,updatedBy:currentUser.uid,updatedAt:serverTimestamp()},{merge:true});await audit("theo_ai_settings_updated",{});toast("Theo Learn Wise AI settings saved.")}catch(e){toast(e.message,true)}};
 async function security(){$("securityInfo").innerHTML=`<div class="kpi-list"><div class="kpi"><span>Signed in</span><b>${esc(currentUser.email)}</b></div><div class="kpi"><span>UID</span><b style="font-size:12px;word-break:break-all">${esc(currentUser.uid)}</b></div><div class="kpi"><span>Role</span><b>${esc(currentProfile.role||"admin")}</b></div></div>`}
 
-function reports(){$("reportCollection").innerHTML=COLLECTIONS.map(c=>`<option value="${c}">${c}</option>`).join("");$("reportCards").innerHTML=["users","classes","courses","enrollments","submissions","payments","certificates","auditLogs"].map(c=>`<div class="collection-card"><b>${c}</b><span>CSV snapshot</span><br><button class="btn" data-report="${c}">Export</button></div>`).join("");document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>exportCsv(b.dataset.report))}
+
+async function loadWebAnnouncements(){
+  try{const arr=await rows('publicAnnouncements',200);arr.sort((a,b)=>dateVal(b.createdAt)-dateVal(a.createdAt));
+    $('webAnnouncementList').innerHTML=arr.length?arr.map(x=>`<div class="activity"><div class="dot" style="background:${x.published?'#1ea765':'#f6c928'}"></div><div style="flex:1"><b>${esc(x.title||'Untitled')}</b><small>${esc(x.audience||'public')} · ${x.published?'Published':'Draft'} · ${esc(fmt(x.createdAt))}</small></div><div><button class="btn" data-wa-edit="${esc(x.id)}">Edit</button> <button class="btn danger" data-wa-del="${esc(x.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No public announcements yet.</p>';
+    document.querySelectorAll('[data-wa-edit]').forEach(b=>b.onclick=async()=>{const x=arr.find(r=>r.id===b.dataset.waEdit);if(!x)return;$('webAnnouncementTitle').value=x.title||'';$('webAnnouncementBody').value=x.body||'';$('webAnnouncementAudience').value=x.audience||'public';$('webAnnouncementPublished').value=String(x.published!==false);$('webAnnouncementCta').value=x.ctaLabel||'';$('webAnnouncementUrl').value=x.ctaUrl||'';$('webAnnouncementForm').dataset.editId=x.id;window.scrollTo({top:0,behavior:'smooth'})});
+    document.querySelectorAll('[data-wa-del]').forEach(b=>b.onclick=async()=>{if(confirm('Delete this announcement?')){await deleteDoc(doc(db,'publicAnnouncements',b.dataset.waDel));await audit('public_announcement_deleted',{id:b.dataset.waDel});loadWebAnnouncements();toast('Announcement deleted.')}})
+  }catch(e){$('webAnnouncementList').innerHTML='<p class="alert">Could not load public announcements: '+esc(e.message)+'</p>'}
+}
+$('webAnnouncementForm').onsubmit=async e=>{e.preventDefault();try{const editId=e.currentTarget.dataset.editId;const data={organization:'Rwanda Tech Learning Hub',title:$('webAnnouncementTitle').value.trim(),body:$('webAnnouncementBody').value.trim(),audience:$('webAnnouncementAudience').value,published:$('webAnnouncementPublished').value==='true',ctaLabel:$('webAnnouncementCta').value.trim(),ctaUrl:$('webAnnouncementUrl').value.trim(),createdBy:currentUser.uid,updatedAt:serverTimestamp()};if(!data.title||!data.body)throw new Error('Title and message are required.');if(editId){await updateDoc(doc(db,'publicAnnouncements',editId),data);await audit('public_announcement_updated',{id:editId})}else{data.createdAt=serverTimestamp();await addDoc(collection(db,'publicAnnouncements'),data);await audit('public_announcement_created',{title:data.title})}e.currentTarget.reset();delete e.currentTarget.dataset.editId;toast('Public announcement saved.');loadWebAnnouncements()}catch(e){toast('Could not save announcement: '+e.message,true)}};
+$('refreshWebAnnouncements').onclick=loadWebAnnouncements;
+
+async function loadCommunityAdmin(){try{const arr=await rows('communityPosts',500);arr.sort((a,b)=>dateVal(b.createdAt)-dateVal(a.createdAt));$('communityAdminList').innerHTML=arr.length?arr.map(x=>`<div class="activity"><div class="dot" style="background:${x.approved?'#1ea765':'#f6c928'}"></div><div style="flex:1"><b>${esc(x.title||'Untitled')}</b><small>${esc(x.authorName||'RTLH User')} · ${esc(x.category||'community')} · ${x.approved?'Approved':'Pending'} · ${x.likes||0} likes · ${x.repliesCount||0} replies</small><div class="muted" style="margin-top:4px">${esc((x.body||'').slice(0,180))}</div></div><div><button class="btn" data-community-toggle="${esc(x.id)}">${x.approved?'Hide':'Approve'}</button> <button class="btn danger" data-community-del="${esc(x.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No Community posts yet.</p>';document.querySelectorAll('[data-community-toggle]').forEach(b=>b.onclick=async()=>{const x=arr.find(r=>r.id===b.dataset.communityToggle);if(!x)return;await updateDoc(doc(db,'communityPosts',x.id),{approved:!x.approved,moderatedBy:currentUser.uid,moderatedAt:serverTimestamp()});await audit('community_post_moderated',{id:x.id,approved:!x.approved});loadCommunityAdmin();toast(!x.approved?'Post approved.':'Post hidden.')});document.querySelectorAll('[data-community-del]').forEach(b=>b.onclick=async()=>{if(confirm('Delete this Community post?')){await deleteDoc(doc(db,'communityPosts',b.dataset.communityDel));await audit('community_post_deleted',{id:b.dataset.communityDel});loadCommunityAdmin();toast('Community post deleted.')}})}catch(e){$('communityAdminList').innerHTML='<p class="alert">Could not load Community: '+esc(e.message)+'</p>'}}
+$('refreshCommunity').onclick=loadCommunityAdmin;
+
+async function loadSimpleManager(col,el){try{const arr=await rows(col,500);arr.sort((a,b)=>dateVal(b.createdAt)-dateVal(a.createdAt));$(el).innerHTML=arr.length?arr.map(x=>`<div class="activity"><div class="dot" style="background:${x.status==='approved' || x.isPublic===true ? '#1ea765':'#1685e5'}"></div><div style="flex:1"><b>${esc(x.name||x.title||x.organisation||'Record')}</b><small>${esc(x.status||'record')} · ${esc(x.country||x.website||'')}</small></div><div><button class="btn" data-sm-edit="${esc(col)}:${esc(x.id)}">Edit</button> <button class="btn danger" data-sm-del="${esc(col)}:${esc(x.id)}">Delete</button></div></div>`).join(''):'<p class="muted">No records yet.</p>';document.querySelectorAll('[data-sm-edit]').forEach(b=>b.onclick=()=>{const [c,id]=b.dataset.smEdit.split(':');const x=arr.find(r=>r.id===id);openView(c);setTimeout(()=>editRecord(c,x),80)});document.querySelectorAll('[data-sm-del]').forEach(b=>b.onclick=async()=>{const [c,id]=b.dataset.smDel.split(':');if(confirm(`Delete ${c}/${id}?`)){await deleteDoc(doc(db,c,id));await audit('record_deleted',{collection:c,documentId:id});loadSimpleManager(c,el);toast('Record deleted.')}})}catch(e){$(el).innerHTML='<p class="alert">Could not load '+esc(col)+': '+esc(e.message)+'</p>'}}
+$('newPartner').onclick=()=>editRecord('partners',null);$('newSponsor').onclick=()=>editRecord('sponsors',null);$('newOpportunity').onclick=()=>editRecord('opportunities',null);
+async function refreshPublicManagers(){loadSimpleManager('partners','partnersAdminList');loadSimpleManager('sponsors','sponsorsAdminList');loadSimpleManager('opportunities','opportunitiesAdminList');}
+setInterval(()=>{if(!$('adminApp').classList.contains('hidden')){const v=document.querySelector('.view.active')?.id||'';if(v==='view-webAnnouncements')loadWebAnnouncements();if(v==='view-communityManager')loadCommunityAdmin();if(v==='view-partnersManager'||v==='view-sponsorsManager'||v==='view-opportunitiesManager')refreshPublicManagers()}},15000);
+
+function reports(){$("reportCollection").innerHTML=COLLECTIONS.map(c=>`<option value="${c}">${c}</option>`).join("");$("reportCards").innerHTML=["users","classes","courses","enrollments","submissions","payments","certificates","communityPosts","partners","sponsors","opportunities","publicAnnouncements","auditLogs"].map(c=>`<div class="collection-card"><b>${c}</b><span>CSV snapshot</span><br><button class="btn" data-report="${c}">Export</button></div>`).join("");document.querySelectorAll("[data-report]").forEach(b=>b.onclick=()=>exportCsv(b.dataset.report))}
 $("exportCsv").onclick=()=>exportCsv($("reportCollection").value);
 async function exportCsv(name){try{const r=await rows(name,5000);if(!r.length)return toast("No records found.",true);const keys=[...new Set(r.flatMap(x=>Object.keys(x)))],csv=[keys,...r.map(x=>keys.map(k=>`"${pretty(x[k]).replaceAll('"','""')}"`))].map(x=>x.join(",")).join("\\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download=(`${$("reportFilename").value||"rtlh-report"}-${name}.csv`);a.click();await audit("report_exported",{collection:name,count:r.length});toast("CSV downloaded.")}catch(e){toast("Export failed: "+e.message,true)}}
 </script>
