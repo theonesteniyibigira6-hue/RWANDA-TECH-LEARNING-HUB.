@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rwanda Tech Learning Hub - Certificate</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e0e5ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+        }
+
+        .certificate-wrapper {
+            max-width: 1000px;
+            width: 100%;
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .certificate {
+            background: #fafcff;
+            border: 3px solid #fadb00;
+            border-radius: 16px;
+            padding: 40px 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Scenic Background: Green Hills, Sun, and River */
+        .scenic-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            opacity: 0.08;
+            pointer-events: none;
+            background: 
+                /* Sun */
+                radial-gradient(circle at 80% 15%, #fadb00 0%, #fadb00 12%, transparent 12.5%),
+                /* Hills - Green */
+                radial-gradient(ellipse at 10% 100%, #206a2d 0%, #206a2d 20%, transparent 20.5%),
+                radial-gradient(ellipse at 40% 100%, #2d8a3e 0%, #2d8a3e 25%, transparent 25.5%),
+                radial-gradient(ellipse at 70% 100%, #1a5c24 0%, #1a5c24 18%, transparent 18.5%),
+                radial-gradient(ellipse at 95% 100%, #2d8a3e 0%, #2d8a3e 22%, transparent 22.5%),
+                /* River */
+                linear-gradient(135deg, transparent 45%, #00a1de 45%, #00a1de 55%, transparent 55%);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        /* Decorative Border Lines with Flag Colors */
+        .certificate::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(0, 161, 222, 0.3);
+            border-radius: 12px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Top Ribbon with Flag Colors */
+        .ribbon {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 10px;
+            background: linear-gradient(90deg, #00a1de 0%, #fadb00 40%, #206a2d 70%, #fadb00 100%);
+            border-radius: 0 0 12px 12px;
+            z-index: 2;
+        }
+
+        /* All content above background */
+        .cert-header, .cert-body, .cert-footer, .contact-row, .bottom-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header */
+        .cert-header {
+            text-align: center;
+            border-bottom: 2px solid #eef2f6;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-placeholder {
+            margin-bottom: 12px;
+        }
+
+        .logo-placeholder img {
+            max-height: 70px;
+            width: auto;
+            display: block;
+        }
+
+        /* Fallback if logo image is missing */
+        .logo-placeholder .logo-fallback {
+            display: none;
+            font-size: 14px;
+            color: #4a5b6e;
+        }
+
+        .institution-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0b2b4a;
+            letter-spacing: 1px;
+        }
+
+        .institution-name i {
+            color: #fadb00;
+            margin-right: 10px;
+        }
+
+        .institution-sub {
+            font-size: 14px;
+            color: #4a5b6e;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .gold-stamp {
+            display: inline-block;
+            margin-top: 8px;
+            background: linear-gradient(90deg, #206a2d, #2d8a3e);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 24px;
+            border-radius: 30px;
+            letter-spacing: 2px;
+        }
+
+        /* Main Body */
+        .cert-body {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .cert-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            color: #0b2b4a;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .cert-subtitle {
+            font-size: 18px;
+            color: #4a5b6e;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+        }
+
+        .recipient-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 44px;
+            color: #0b2b4a;
+            margin: 20px 0 8px;
+            padding: 0 20px 6px;
+            display: inline-block;
+            border-bottom: 3px double #fadb00;
+            line-height: 1.2;
+        }
+
+        .description {
+            font-size: 16px;
+            color: #2d3a4a;
+            max-width: 600px;
+            margin: 20px auto 10px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .description strong {
+            color: #0b2b4a;
+            font-weight: 600;
+        }
+
+        .course-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #206a2d;
+            background: #f0f7f0;
+            display: inline-block;
+            padding: 4px 28px;
+            border-radius: 40px;
+            margin: 8px 0 16px;
+            letter-spacing: 1px;
+            border: 1px solid #206a2d40;
+        }
+
+        .date-issued {
+            font-size: 15px;
+            color: #4a5b6e;
+            margin-top: 10px;
+        }
+
+        .date-issued span {
+            font-weight: 600;
+            color: #0b2b4a;
+        }
+
+        /* Footer with Verification */
+        .cert-footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 2px solid #eef2f6;
+        }
+
+        .signature-area {
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .signature-line {
+            width: 180px;
+            height: 2px;
+            background: #0b2b4a;
+            margin: 0 auto 6px;
+        }
+
+        .signature-name {
+            font-weight: 700;
+            color: #0b2b4a;
+            font-size: 16px;
+        }
+
+        .signature-title {
+            font-size: 12px;
+            color: #6b7a8e;
+            letter-spacing: 1px;
+        }
+
+        .verification-block {
+            text-align: right;
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .cert-id {
+            font-size: 13px;
+            color: #6b7a8e;
+            background: #f0f3f8;
+            padding: 4px 14px;
+            border-radius: 30px;
+            display: inline-block;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .qr-placeholder {
+            display: inline-block;
+            margin-top: 8px;
+            width: 60px;
+            height: 60px;
+            background: #0b2b4a;
+            color: #fff;
+            font-size: 10px;
+            text-align: center;
+            line-height: 60px;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Web Details / Contact Row */
+        .contact-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px 40px;
+            background: #f4f7fc;
+            border-radius: 60px;
+            padding: 14px 30px;
+            margin-top: 30px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #1e2c3a;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-item i {
+            color: #00a1de;
+            font-size: 18px;
+            width: 22px;
+            text-align: center;
+        }
+
+        .contact-item a {
+            color: #1e2c3a;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: #206a2d;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icons a {
+            color: #4a5b6e;
+            font-size: 18px;
+            transition: color 0.2s;
+        }
+
+        .social-icons a:hover {
+            color: #fadb00;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .certificate {
+                padding: 25px 20px 20px;
+            }
+            .cert-title {
+                font-size: 32px;
+            }
+            .recipient-name {
+                font-size: 30px;
+            }
+            .course-name {
+                font-size: 18px;
+                padding: 4px 18px;
+            }
+            .cert-footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .verification-block {
+                text-align: center;
+            }
+            .contact-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+                border-radius: 30px;
+                padding: 18px 20px;
+            }
+            .institution-name {
+                font-size: 20px;
+            }
+            .logo-placeholder img {
+                max-height: 50px;
+            }
+            .signature-line {
+                width: 120px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .certificate-wrapper {
+                box-shadow: none;
+                border-radius: 0;
+                padding: 0;
+                max-width: 100%;
+            }
+            .certificate {
+                border: 3px solid #fadb00;
+                border-radius: 0;
+                padding: 30px;
+                page-break-inside: avoid;
+            }
+            .contact-row {
+                background: #f4f7fc;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .gold-stamp, .course-name, .ribbon, .qr-placeholder, .scenic-bg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="certificate-wrapper">
+    <div class="certificate">
+
+        <!-- Scenic Background -->
+        <div class="scenic-bg"></div>
+
+        <!-- Decorative Ribbon -->
+        <div class="ribbon"></div>
+
+        <!-- HEADER -->
+        <div class="cert-header">
+            <!-- Logo Placeholder: Replace the src with your actual logo URL or local path -->
+            <div class="logo-placeholder">
+                <!-- 
+                    ************************************************************
+                    * INSTRUCTION: Replace the src attribute below with the      *
+                    * actual path to your logo image.                            *
+                    * Example: src="https://drive.google.com/file/d/1vMCSseyMy1Mt7fqxsigBsAX4ouSI3ItT/view?usp=sharing.png" or src="images/logo.png"    *
+                    ************************************************************
+                -->
+                <img src="https://drive.google.com/file/d/1vMCSseyMy1Mt7fqxsigBsAX4ouSI3ItT/view?usp=sharing" alt="Rwanda Tech Learning Hub Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="logo-fallback">
+                    <i class="fas fa-laptop-code"></i> RTLH Logo
+                </div>
+            </div>
+            <div class="institution-name">
+                <i class="fas fa-laptop-code"></i> Rwanda Tech Learning Hub
+            </div>
+            <div class="institution-sub">Empowering Digital Rwanda</div>
+            <div class="gold-stamp">✦ CERTIFICATE OF COMPLETION ✦</div>
+        </div>
+
+        <!-- BODY -->
+        <div class="cert-body">
+            <div class="cert-title">Certificate</div>
+            <div class="cert-subtitle">of Achievement</div>
+
+            <!-- Recipient Name (Dynamic) -->
+            <div class="recipient-name">Jean Paul Niyonshuti</div>
+
+            <p class="description">
+                This certifies that <strong>Jean Paul Niyonshuti</strong> has successfully completed the
+                comprehensive training program requirements and demonstrated proficiency in:
+            </p>
+
+            <!-- Course Name (Dynamic) -->
+            <div class="course-name">Full Stack Web Development (MERN)</div>
+
+            <p class="description" style="margin-top: 12px; font-size: 14px;">
+                With a focus on modern JavaScript, React, Node.js, and database management.
+                Completed all practical projects and assessments with distinction.
+            </p>
+
+            <div class="date-issued">
+                <i class="fas fa-calendar-alt" style="color: #fadb00; margin-right: 6px;"></i>
+                Issued on: <span>15th December 2026</span>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <i class="fas fa-clock" style="color: #00a1de; margin-right: 6px;"></i>
+                Duration: <span>12 Weeks</span>
+            </div>
+        </div>
+
+        <!-- FOOTER with Signatures & Verification -->
+        <div class="cert-footer">
+            <div class="signature-area">
+                <div class="signature-line"></div>
+                <div class="signature-name">NIYIBIGIRA Theoneste</div>
+                <div class="signature-title">Director, Rwanda Tech Learning Hub</div>
+            </div>
+
+            <div class="verification-block">
+                <div class="cert-id">
+                    <i class="fas fa-fingerprint"></i> ID: RTLH-2026-0789
+                </div>
+                <!-- QR Code Placeholder (you can replace with actual QR image) -->
+                <div class="qr-placeholder">
+                    <i class="fas fa-qrcode" style="font-size: 28px; line-height: 60px;"></i>
+                </div>
+                <div style="font-size: 10px; color: #6b7a8e; margin-top: 4px;">Verify at rtlh.rw/verify</div>
+            </div>
+        </div>
+
+        <!-- WEB DETAILS / CONTACT ROW (Updated with new info) -->
+        <div class="contact-row">
+            <span class="contact-item">
+                <i class="fas fa-globe-africa"></i>
+                <a href="#" target="_blank">rtlh.rw</a>
+            </span>
+            <span class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:rwandatechlearninghub@gmail.com">rwandatechlearninghub@gmail.com</a>
+            </span>
+            <span class="contact-item">
+                <i class="fas fa-phone-alt"></i>
+                <a href="tel:+250794204258">+250 794 204 258</a>
+            </span>
+            <span class="contact-item social-icons">
+                <a href="#" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" target="_blank" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            </span>
+        </div>
+
+        <!-- Bottom Text -->
+        <div class="bottom-text" style="text-align: center; margin-top: 16px; font-size: 11px; color: #8a9aa8; letter-spacing: 1px;">
+            <i class="fas fa-shield-alt"></i> This certificate is digitally verifiable. 
+            All rights reserved &copy; 2026 Rwanda Tech Learning Hub
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
