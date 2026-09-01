@@ -944,7 +944,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import {
   getFirestore, collection, doc, setDoc, getDoc, getDocs,
-  query, where, serverTimestamp, arrayUnion, onSnapshot
+  query, where, serverTimestamp, arrayUnion, onSnapshot, writeBatch
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1041,7 +1041,10 @@ document.getElementById("registerTab").onclick=()=>{
 };
 
 async function createLearnerProfile(user, extra={}){
-  await setDoc(doc(db,"users",user.uid),{
+  const ref=doc(db,"users",user.uid);
+  const existing=await getDoc(ref);
+  if(existing.exists()) return existing.data(); // Never downgrade teacher/admin roles.
+  const data={
     uid:user.uid,
     fullName:extra.fullName || user.displayName || "RTLH Learner",
     email:user.email || "",
@@ -1050,9 +1053,12 @@ async function createLearnerProfile(user, extra={}){
     country:"Rwanda",
     role:"learner",
     accountType:"e-class",
+    enrolled:[],
     updatedAt:serverTimestamp(),
     createdAt:serverTimestamp()
-  },{merge:true});
+  };
+  await setDoc(ref,data);
+  return data;
 }
 
 document.getElementById("authForm").addEventListener("submit",async e=>{
@@ -1090,7 +1096,7 @@ document.getElementById("googleBtn").addEventListener("click",async()=>{
   btn.textContent="Connecting to Google…";
   try{
     const result=await signInWithPopup(auth,googleProvider);
-    await createLearnerProfile(result.user);
+    await ensureLearnerProfile(result.user);
   }catch(err){
     console.error("Google sign-in:",err);
     if(err?.code==="auth/popup-blocked"){
@@ -1138,14 +1144,20 @@ async function loadLearner(){
 
 async function fetchClasses(){
   try{
-    const snap=await getDocs(collection(db,"classes"));
-    allClasses=snap.docs.map(d=>({id:d.id,...d.data()})).filter(c=>{
-      const status=String(c.status||"").toLowerCase();
-      return c.isPublic===true || c.visibility==="public" || status==="published" || status==="open";
-    });
+    // IMPORTANT: Firestore rules are not filters. Query the public field directly.
+    const publicQuery=query(collection(db,"classes"),where("visibility","==","public"));
+    const snap=await getDocs(publicQuery);
+    allClasses=snap.docs
+      .map(d=>({id:d.id,...d.data()}))
+      .filter(c=>{
+        const status=String(c.status||"active").toLowerCase();
+        return c.isPublic===true && !["draft","archived","closed","private"].includes(status);
+      });
   }catch(err){
-    console.error("Firestore classes unavailable:",err);
+    console.error("Firestore public class query unavailable:",err);
     allClasses=[];
+    const grid=document.getElementById("discoverGrid");
+    if(grid) grid.innerHTML=`<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><p>Classes could not be loaded securely. Confirm that the updated Firestore rules are published.</p></div>`;
   }
   return allClasses;
 }
@@ -1214,11 +1226,20 @@ window.viewClass=async id=>{
 window.joinClass=async id=>{
   if(!currentUser){localStorage.setItem("rtlh_pending_class",id);return;}
   const c=allClasses.find(x=>x.id===id);
-  if(!c)return;
+  if(!c) return toast("This class is not currently discoverable.");
+  const status=String(c.status||"active").toLowerCase();
+  if(c.visibility!=="public" || c.isPublic!==true || ["draft","archived","closed","private"].includes(status)){
+    return toast("This class is not open for joining.");
+  }
+
   const enrollmentId=`${currentUser.uid}_${id}`;
+  const enrollmentRef=doc(db,"enrollments",enrollmentId);
+  const studentRef=doc(db,"classes",id,"students",currentUser.uid);
+  const userRef=doc(db,"users",currentUser.uid);
   const enrollment={
     classId:id,
     studentId:currentUser.uid,
+    learnerId:currentUser.uid,
     studentName:currentLearner?.fullName||currentUser.displayName||"Learner",
     studentEmail:currentUser.email||"",
     teacherId:c.teacherId||"",
@@ -1229,10 +1250,19 @@ window.joinClass=async id=>{
     joinedAt:serverTimestamp(),
     createdAt:serverTimestamp()
   };
+
   try{
-    await setDoc(doc(db,"enrollments",enrollmentId),enrollment,{merge:true});
-    await setDoc(doc(db,"classes",id,"students",currentUser.uid),{
+    const existingEnrollment=await getDoc(enrollmentRef);
+    const batch=writeBatch(db);
+
+    // Top-level enrollment is the authoritative searchable record.
+    if(!existingEnrollment.exists()) batch.set(enrollmentRef,enrollment);
+
+    // Class roster record is controlled by the learner for their own UID,
+    // and by the owning teacher/admin after creation.
+    batch.set(studentRef,{
       studentId:currentUser.uid,
+      learnerId:currentUser.uid,
       studentName:enrollment.studentName,
       studentEmail:enrollment.studentEmail,
       classId:id,
@@ -1241,9 +1271,15 @@ window.joinClass=async id=>{
       progress:0,
       joinedAt:serverTimestamp()
     },{merge:true});
-    await setDoc(doc(db,"users",currentUser.uid),{
-      enrolled:arrayUnion(id),updatedAt:serverTimestamp()
+
+    // Only the learner's safe enrolled field is changed.
+    batch.set(userRef,{
+      enrolled:arrayUnion(id),
+      updatedAt:serverTimestamp()
     },{merge:true});
+
+    await batch.commit();
+
     enrolledClasses=[...new Set([...enrolledClasses,id])];
     currentLearner={...(currentLearner||{}),enrolled:enrolledClasses};
     closeModal("joinModal");
@@ -1251,7 +1287,9 @@ window.joinClass=async id=>{
     await enterClass(id);
   }catch(err){
     console.error("Join class failed:",err);
-    toast("Unable to join this class. Check your Firestore rules.");
+    toast(err?.code==="permission-denied"
+      ? "Unable to join: Firestore permissions rejected the enrollment. Publish the updated RTLH rules."
+      : "Unable to join this class. Please try again.");
   }
 };
 
