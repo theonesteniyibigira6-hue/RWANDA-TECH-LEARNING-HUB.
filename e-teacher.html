@@ -2566,6 +2566,14 @@ const googleProvider = new GoogleAuthProvider();
 let currentUser = null;
 let currentTeacher = null;
 
+function isCurrentAdmin(){
+    const role=String(currentTeacher?.role||"").toLowerCase();
+    return currentUser?.email?.toLowerCase()==="theonesteniyibigira6@gmail.com"
+        || ["admin","superadmin","platformadmin"].includes(role)
+        || currentTeacher?.isAdmin===true
+        || currentTeacher?.admin===true;
+}
+
 // --- Cooldown flag to prevent 429 errors ---
 let isAuthLoading = false;
 
@@ -3138,7 +3146,9 @@ async function requireTeacherClass(classId){
     const snap=await getDoc(doc(db,"classes",classId));
     if(!snap.exists()) throw new Error("The Class ID does not exist in Firestore. Create/select the class first.");
     const c=snap.data();
-    if(c.teacherId!==currentUser.uid) throw new Error("You can only publish content to a class that belongs to your teacher account.");
+    if(!isCurrentAdmin() && c.teacherId!==currentUser.uid){
+        throw new Error("You can only manage content for a class that belongs to your teacher account.");
+    }
     return {id:classId,...c};
 }
 
@@ -3181,107 +3191,107 @@ async function loadClasses(){
 
     if(!currentUser) return;
 
-    const q =
-        query(
-            collection(db,"classes"),
-            where(
-                "teacherId",
-                "==",
-                currentUser.uid
-            )
-        );
+    // Admin sees every class; a teacher sees only classes they own.
+    const snap = isCurrentAdmin()
+        ? await getDocs(collection(db,"classes"))
+        : await getDocs(query(collection(db,"classes"),where("teacherId","==",currentUser.uid)));
 
-    const snap =
-        await getDocs(q);
+    const classes = snap.docs
+        .map(d => ({id:d.id,...d.data()}))
+        .sort((a,b)=>(b.createdAt?.toMillis?.()??0)-(a.createdAt?.toMillis?.()??0));
 
-    const classes =
-        snap.docs.map(doc => ({
-            id:doc.id,
-            ...doc.data()
-        }));
-
-    document.getElementById("statClasses")
-        .textContent = classes.length;
-
-    const grid =
-        document.getElementById("classesGrid");
+    document.getElementById("statClasses").textContent = classes.length;
+    const grid = document.getElementById("classesGrid");
 
     if(classes.length === 0){
-
         grid.innerHTML = `
             <div class="card empty" style="grid-column:1/-1">
                 <div class="empty-icon">🏫</div>
-                <p>No classes created yet.</p>
-                <br>
-                <button class="primary-btn"
-                    onclick="openModal('classModal')">
-                    Create Your First Class
-                </button>
-            </div>
-        `;
-
+                <p>No classes created yet.</p><br>
+                <button class="primary-btn" onclick="openModal('classModal')">Create Your First Class</button>
+            </div>`;
         return;
-
     }
 
-    grid.innerHTML = classes.map(item => `
-
+    grid.innerHTML = classes.map(item => {
+        const status=String(item.status||"active").toLowerCase();
+        const publicNow=item.visibility==="public" && item.isPublic===true && !["draft","archived","closed","private"].includes(status);
+        const owner=item.teacherId===currentUser.uid;
+        const canManage=isCurrentAdmin() || owner;
+        return `
         <div class="class-card">
-
             <div class="class-cover">
-
-                <small>
-                    ${escapeHtml(item.subject || "General")}
-                </small>
-
-                <h3>
-                    ${escapeHtml(item.name || "Unnamed Class")}
-                </h3>
-
+                <small>${escapeHtml(item.subject || "General")}</small>
+                <h3>${escapeHtml(item.name || item.title || "Unnamed Class")}</h3>
             </div>
-
             <div class="class-body">
-
-                <p style="font-size:13px;color:#64748b">
-                    ${escapeHtml(
-                        item.description ||
-                        "No description available."
-                    )}
-                </p>
-
+                <p style="font-size:13px;color:#64748b">${escapeHtml(item.description || "No description available.")}</p>
                 <div class="class-meta">
-
-                    <span>
-                        👥 ${item.studentCount || 0}
-                    </span>
-
-                    <span>
-                        💰 ${item.price || 0} ${item.currency || "RWF"}
-                    </span>
-
-                    <span>
-                        ${item.status || "active"}
-                    </span>
-
+                    <span>👥 ${item.studentCount || item.enrolledStudents || 0}</span>
+                    <span>💰 ${item.price || 0} ${item.currency || "RWF"}</span>
+                    <span>${escapeHtml(status)}</span>
+                    <span>${publicNow ? "🌍 Discoverable" : "🔒 Not public"}</span>
+                    ${isCurrentAdmin()?`<span>👩‍🏫 ${escapeHtml(item.teacherName||item.teacherEmail||item.teacherId||"Teacher")}</span>`:""}
                 </div>
-
                 <div class="class-actions">
-
-                    <button
-                        class="secondary-btn"
-                        onclick="copyClassCode('${item.id}')">
-                        Copy Class ID
-                    </button>
-
+                    <button class="secondary-btn" onclick="copyClassCode('${item.id}')">Copy Class ID</button>
+                    ${canManage && publicNow ? `<button class="secondary-btn" onclick="setClassPublishing('${item.id}','draft')">Make Draft</button>` : ""}
+                    ${canManage && !publicNow && status!=="archived" ? `<button class="primary-btn" onclick="setClassPublishing('${item.id}','active')">Publish</button>` : ""}
+                    ${canManage && status!=="archived" ? `<button class="danger-btn" onclick="archiveClass('${item.id}')">Archive</button>` : ""}
+                    ${canManage && status==="archived" ? `<button class="secondary-btn" onclick="setClassPublishing('${item.id}','draft')">Restore as Draft</button>` : ""}
                 </div>
-
             </div>
-
-        </div>
-
-    `).join("");
-
+        </div>`;
+    }).join("");
 }
+
+window.setClassPublishing=async function(classId,status){
+    try{
+        const snap=await getDoc(doc(db,"classes",classId));
+        if(!snap.exists()) throw new Error("Class not found.");
+        const c=snap.data();
+        if(!isCurrentAdmin() && c.teacherId!==currentUser.uid) throw new Error("You do not control this class.");
+
+        const isPublic=status==="active";
+        await updateDoc(doc(db,"classes",classId),{
+            status,
+            visibility:isPublic?"public":"private",
+            isPublic,
+            published:isPublic,
+            isPublished:isPublic,
+            updatedAt:serverTimestamp()
+        });
+        toast(isPublic
+            ? "Class published. Learners can now discover and join it."
+            : "Class moved to draft. It is no longer publicly discoverable.");
+        await loadClasses();
+    }catch(error){
+        console.error(error);
+        toast("Could not change class publishing: "+(error.message||"Permission denied."));
+    }
+};
+
+window.archiveClass=async function(classId){
+    try{
+        const snap=await getDoc(doc(db,"classes",classId));
+        if(!snap.exists()) throw new Error("Class not found.");
+        const c=snap.data();
+        if(!isCurrentAdmin() && c.teacherId!==currentUser.uid) throw new Error("You do not control this class.");
+        await updateDoc(doc(db,"classes",classId),{
+            status:"archived",
+            visibility:"private",
+            isPublic:false,
+            published:false,
+            isPublished:false,
+            updatedAt:serverTimestamp()
+        });
+        toast("Class archived safely. Its learning records were kept.");
+        await loadClasses();
+    }catch(error){
+        console.error(error);
+        toast("Could not archive class: "+(error.message||"Permission denied."));
+    }
+};
 
 
 /* =========================================================
@@ -3295,22 +3305,27 @@ document.getElementById("classForm")
     try{
         const name=document.getElementById("className").value.trim();
         if(!name) throw new Error("Enter a class name.");
+        const classStatus=document.getElementById("classStatus").value;
+        const publicClass=classStatus==="active";
         const classData={
             name, title:name,
             subject:document.getElementById("classSubject").value.trim(),
             level:document.getElementById("classLevel").value,
-            type:"free",
+            type:Number(document.getElementById("classPrice").value||0)>0?"paid":"free",
             classType:"live",
             price:Number(document.getElementById("classPrice").value||0),
             currency:"RWF",
             startDate:document.getElementById("classStartDate").value,
             schedule:document.getElementById("classStartDate").value,
-            status:document.getElementById("classStatus").value,
+            status:classStatus,
             description:document.getElementById("classDescription").value.trim(),
             teacherId:currentUser.uid,
             teacherName:currentTeacher?.fullName||currentTeacher?.displayName||currentUser.displayName||"RTLH Teacher",
             teacherEmail:currentUser.email||"",
-            visibility:"public", isPublic:true,
+            visibility:publicClass?"public":"private",
+            isPublic:publicClass,
+            published:publicClass,
+            isPublished:publicClass,
             studentIds:[], enrolledStudents:0, studentCount:0, students:0,
             lessons:0, maxStudents:30,
             createdAt:serverTimestamp(), updatedAt:serverTimestamp()
@@ -3718,10 +3733,6 @@ document.getElementById("profileForm")
                 bio:
                     document.getElementById("profileBio")
                     .value.trim(),
-
-                role:"teacher",
-
-                accountType:"e-teacher",
 
                 updatedAt:
                     serverTimestamp()
