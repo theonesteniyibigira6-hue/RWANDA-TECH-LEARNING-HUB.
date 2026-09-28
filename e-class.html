@@ -1252,14 +1252,14 @@ window.joinClass=async id=>{
   };
 
   try{
+    // Keep enrollment, class roster, and learner profile writes atomic.
+    // If any one is rejected, Firestore rejects the whole batch; the detailed
+    // error is logged so the exact denied path can be identified.
     const existingEnrollment=await getDoc(enrollmentRef);
     const batch=writeBatch(db);
 
-    // Top-level enrollment is the authoritative searchable record.
     if(!existingEnrollment.exists()) batch.set(enrollmentRef,enrollment);
 
-    // Class roster record is controlled by the learner for their own UID,
-    // and by the owning teacher/admin after creation.
     batch.set(studentRef,{
       studentId:currentUser.uid,
       learnerId:currentUser.uid,
@@ -1272,7 +1272,6 @@ window.joinClass=async id=>{
       joinedAt:serverTimestamp()
     },{merge:true});
 
-    // Only the learner's safe enrolled field is changed.
     batch.set(userRef,{
       enrolled:arrayUnion(id),
       updatedAt:serverTimestamp()
@@ -1286,10 +1285,18 @@ window.joinClass=async id=>{
     toast("🎉 Class joined successfully.");
     await enterClass(id);
   }catch(err){
-    console.error("Join class failed:",err);
+    console.error("Join class failed — inspect Firebase error code and the three write paths:",{
+      code:err?.code,
+      message:err?.message,
+      uid:currentUser?.uid,
+      classId:id,
+      enrollmentPath:`enrollments/${currentUser?.uid}_${id}`,
+      rosterPath:`classes/${id}/students/${currentUser?.uid}`,
+      userPath:`users/${currentUser?.uid}`
+    });
     toast(err?.code==="permission-denied"
-      ? "Unable to join: Firestore permissions rejected the enrollment. Publish the updated RTLH rules."
-      : "Unable to join this class. Please try again.");
+      ? "Join was rejected by Firestore rules. Check learner role and permissions for enrollment, class roster, and users/{uid}."
+      : "Unable to join this class: "+(err?.message||"Please try again."));
   }
 };
 
