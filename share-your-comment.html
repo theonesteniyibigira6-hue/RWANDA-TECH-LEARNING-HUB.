@@ -55,12 +55,12 @@ import { getFirestore, doc, getDoc, addDoc, collection, serverTimestamp, getDocs
 
 /* Uses shared RTLH config when supplied; otherwise enter exact Firebase Web App config below. */
 const firebaseConfig = window.RTLH_FIREBASE_CONFIG || {
-  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+  apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
   authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
   projectId: "rwanda-tech-learning-hub",
   storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  messagingSenderId: "785118659917",
+  appId: "1:785118659917:web:7ada98356d213a3fad2304"
 };
 const configured = Object.values(firebaseConfig).every(v => v && !String(v).includes("PASTE_YOUR"));
 const statusEl=document.getElementById("status"), form=document.getElementById("commentForm");
