@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#071b2d">
+<title>My Account | Rwanda Tech Learning Hub</title>
+<style>
+:root{--blue:#00A1DE;--green:#20603D;--yellow:#FAD201;--ink:#102337;--muted:#657789;--panel:#102a40;--line:rgba(255,255,255,.12)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;font-family:Inter,Segoe UI,Arial,sans-serif;color:#f6fbff;background:radial-gradient(ellipse at 15% 0%,rgba(0,161,222,.22),transparent 38%),radial-gradient(ellipse at 90% 100%,rgba(32,96,61,.22),transparent 42%),#071b2d}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}.topbar{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(5vw,22px);background:rgba(5,20,34,.72);backdrop-filter:blur(16px);position:sticky;top:0;z-index:5}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}.mark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--green));color:white;font-weight:900;box-shadow:0 8px 25px #00a1de33}.brand small{display:block;color:#9bb2c5;font-weight:500;font-size:11px;letter-spacing:1.3px;margin-top:3px}.nav{display:flex;gap:23px;align-items:center;color:#c2d2df;font-size:14px}.nav a:hover{color:var(--yellow)}.wrap{width:min(1080px,92vw);margin:54px auto 80px}.eyebrow{color:var(--yellow);font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.hero{display:flex;justify-content:space-between;gap:30px;align-items:flex-end;margin-bottom:28px}.hero h1{font-size:clamp(34px,5vw,56px);letter-spacing:-1.8px;margin:10px 0}.hero p{color:#a9bdcc;max-width:600px;line-height:1.7;margin:0}.pill{border:1px solid #ffffff24;color:#c4d5e1;border-radius:30px;padding:10px 14px;font-size:12px;white-space:nowrap}.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}.card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(17,44,65,.94),rgba(10,30,47,.94));border-radius:23px;padding:28px;box-shadow:0 22px 60px #0002}.card h2{font-size:21px;margin:0 0 8px}.sub{color:#a6bbca;font-size:14px;line-height:1.65;margin:0 0 22px}.google{width:100%;display:flex;justify-content:center;align-items:center;gap:12px;background:#fff;color:#243746;border:0;border-radius:12px;padding:15px;font-weight:750;transition:.2s}.google:hover{transform:translateY(-2px);box-shadow:0 10px 25px #0003}.gmark{font-size:20px;font-weight:900;background:conic-gradient(from -45deg,#4285f4 0 25%,#34a853 25% 50%,#fbbc05 50% 75%,#ea4335 75%);background-clip:text;color:transparent}.separator{display:flex;align-items:center;gap:12px;color:#7890a3;font-size:12px;margin:20px 0}.separator:before,.separator:after{content:"";height:1px;background:#ffffff18;flex:1}.field{margin:14px 0}.field label{display:block;font-size:12px;color:#b7c9d6;margin:0 0 8px}.field input{width:100%;border:1px solid #ffffff20;border-radius:11px;background:#071b2d;color:white;padding:13px 14px;outline:none}.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #00a1de20}.btn{border:0;border-radius:11px;padding:13px 17px;font-weight:750}.primary{background:linear-gradient(100deg,var(--blue),#168bc0);color:white;width:100%}.secondary{background:#ffffff12;color:#eaf5fb;border:1px solid #ffffff20}.danger{background:#8d2b2b;color:white}.btn:disabled{opacity:.55;cursor:not-allowed}.message{display:none;padding:12px 14px;border-radius:10px;font-size:13px;line-height:1.5;margin-top:14px}.message.show{display:block}.message.error{background:#612b2b;color:#ffe0df}.message.success{background:#164a37;color:#d7ffeb}.profile{display:none}.profile.show{display:block}.avatar{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--green));font-size:27px;font-weight:800;border:3px solid #ffffff30;margin-bottom:17px}.identity{font-size:23px;font-weight:800;margin-bottom:5px;overflow-wrap:anywhere}.email{color:#a6bbca;font-size:14px;overflow-wrap:anywhere}.status{display:inline-flex;align-items:center;gap:7px;margin:17px 0 22px;background:#174a38;color:#b9f5d4;border-radius:30px;padding:8px 12px;font-size:12px}.dot{width:7px;height:7px;background:#50dc91;border-radius:50%}.details{border-top:1px solid var(--line);padding-top:17px;display:grid;gap:12px}.detail{display:flex;justify-content:space-between;gap:12px;font-size:13px}.detail span:first-child{color:#8fa7b9}.detail strong{text-align:right;overflow-wrap:anywhere}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.shortcut{border:1px solid #ffffff16;background:#ffffff08;border-radius:13px;padding:15px;transition:.2s}.shortcut:hover{background:#00a1de1b;border-color:#00a1de66;transform:translateY(-2px)}.shortcut b{display:block;font-size:14px;margin-bottom:5px}.shortcut small{color:#91a9ba;font-size:12px;line-height:1.5}.notice{margin-top:18px;color:#8fa7b9;font-size:12px;line-height:1.6}.footer{text-align:center;color:#7890a3;font-size:12px;padding:0 20px 28px}.footer b{color:#c7d8e4}@media(max-width:760px){.nav{display:none}.wrap{margin-top:35px}.hero{display:block}.pill{display:inline-block;margin-top:18px}.layout{grid-template-columns:1fr}.card{padding:22px}.actions{grid-template-columns:1fr}.shortcuts{grid-template-columns:1fr 1fr}}@media(max-width:390px){.shortcuts{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="index.html"><span class="mark">R</span><span>RTLH<small>RWANDA TECH LEARNING HUB</small></span></a>
+<nav class="nav"><a href="index.html">Home</a><a href="course.html">Courses</a><a href="e-library.html">E-Library</a><a href="community.html">Community</a></nav>
+</header>
+<main class="wrap">
+<section class="hero"><div><div class="eyebrow">Your learning identity</div><h1>My Account</h1><p>Sign in once with Google to access your RTLH learning spaces. Your account status and available learning links are shown here.</p></div><div class="pill">Learn • Create • Grow</div></section>
+<div class="layout">
+<section class="card">
+<div id="signedOut">
+<h2>Welcome to RTLH</h2><p class="sub">Continue securely with your Google account. If you already signed in through another RTLH page using the same Firebase project and browser, your account should appear automatically.</p>
+<button class="google" id="googleBtn" type="button"><span class="gmark">G</span> Continue with Google</button>
+<div class="separator">OR SIGN IN WITH EMAIL</div>
+<form id="emailForm">
+<div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+<div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Your account password" required></div>
+<button class="btn primary" id="emailBtn" type="submit">Sign in with email</button>
+</form>
+<div id="authMessage" class="message" role="status"></div>
+<p class="notice">New to RTLH? Use <a href="join.html" style="color:#61c9f2;text-decoration:underline">Join Now</a> to register. Google sign-in uses the same identity provider; a user profile is not automatically created here.</p>
+</div>
+<div class="profile" id="signedIn">
+<div class="avatar" id="avatar">T</div><div class="identity" id="displayName">Welcome</div><div class="email" id="displayEmail"></div>
+<div class="status"><span class="dot"></span> Signed in to RTLH</div>
+<div class="details">
+<div class="detail"><span>Account role</span><strong id="displayRole">Member</strong></div>
+<div class="detail"><span>Sign-in provider</span><strong id="displayProvider">Google</strong></div>
+<div class="detail"><span>Account UID</span><strong id="displayUid">—</strong></div>
+</div>
+<div class="actions"><button class="btn secondary" id="refreshBtn" type="button">Refresh account</button><button class="btn danger" id="logoutBtn" type="button">Log out</button></div>
+<div id="profileMessage" class="message" role="status"></div>
+<p class="notice">Logging out here signs out this Firebase account in this browser for RTLH pages that share the same Firebase project and Auth instance. Pages with separate Firebase projects or custom sessions must be connected separately.</p>
+</div>
+</section>
+<aside class="card">
+<h2>Explore your learning spaces</h2><p class="sub">Open an RTLH area. Protected pages should check your signed-in state and permissions before showing private content.</p>
+<div class="shortcuts">
+<a class="shortcut" href="course.html"><b>Courses</b><small>Self-paced learning</small></a>
+<a class="shortcut" href="e-library.html"><b>E-Library</b><small>Books and resources</small></a>
+<a class="shortcut" href="e-class.html"><b>E-Class</b><small>Classes and learning</small></a>
+<a class="shortcut" href="e-teacher.html"><b>E-Teacher</b><small>Teaching workspace</small></a>
+<a class="shortcut" href="opportunities.html"><b>Opportunities</b><small>Jobs and scholarships</small></a>
+<a class="shortcut" href="community.html"><b>Community</b><small>Connect and share</small></a>
+</div>
+<p class="notice"><b style="color:#dceaf3">Security note:</b> The account page provides sign-in and sign-out controls. Firestore rules and each protected page must enforce authorization; hiding a menu is not a security boundary.</p>
+</aside>
+</div>
+</main>
+<footer class="footer">© <span id="year"></span> <b>Rwanda Tech Learning Hub</b> • Empowering lifelong learning</footer>
+<script type="module">
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+// Replace these placeholders with the exact Firebase Web App config used by your RTLH pages.
+// Or define window.RTLH_FIREBASE_CONFIG before this module loads.
+const firebaseConfig = window.RTLH_FIREBASE_CONFIG || {
+  apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+  authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
+  projectId: "rwanda-tech-learning-hub",
+  storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
+  appId: "PASTE_YOUR_FIREBASE_APP_ID"
+};
+const configured = !Object.values(firebaseConfig).some(v => typeof v === "string" && v.startsWith("PASTE_YOUR_"));
+const $ = id => document.getElementById(id);
+const signedOut = $("signedOut"), signedIn = $("signedIn");
+function message(el,text,type="error"){el.textContent=text;el.className="message show "+type}
+function authError(e){
+ const code=e?.code||"";
+ if(code.includes("unauthorized-domain")) return "This website domain is not authorized in Firebase Authentication. Add it under Authentication → Settings → Authorized domains.";
+ if(code.includes("popup-blocked")) return "Your browser blocked the Google sign-in popup. Allow popups and try again.";
+ if(code.includes("popup-closed")) return "Google sign-in was closed before completion.";
+ if(code.includes("invalid-credential")||code.includes("wrong-password")||code.includes("user-not-found")) return "The email or password is incorrect, or this account uses Google sign-in.";
+ if(code.includes("operation-not-allowed")) return "Enable the selected sign-in provider in Firebase Authentication.";
+ if(code.includes("network-request-failed")) return "Network connection failed. Check your internet and try again.";
+ return e?.message || "Sign-in failed. Please try again.";
+}
+if(!configured){
+ $("googleBtn").disabled=true;$("emailBtn").disabled=true;
+ message($("authMessage"),"Firebase web configuration is missing. Add the exact config from Firebase Console → Project settings → Your apps.");
+}
+let app,auth,db;
+if(configured){
+ app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);
+ auth=getAuth(app);db=getFirestore(app);
+ const provider=new GoogleAuthProvider();provider.setCustomParameters({prompt:"select_account"});
+ $("googleBtn").addEventListener("click",async()=>{try{await signInWithPopup(auth,provider)}catch(e){message($("authMessage"),authError(e))}});
+ $("emailForm").addEventListener("submit",async e=>{e.preventDefault();try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}catch(err){message($("authMessage"),authError(err))}});
+ onAuthStateChanged(auth,async user=>{
+  if(!user){signedOut.style.display="block";signedIn.classList.remove("show");return}
+  signedOut.style.display="none";signedIn.classList.add("show");
+  $("displayName").textContent=user.displayName||"RTLH Member";
+  $("displayEmail").textContent=user.email||"Email not provided";
+  $("avatar").textContent=(user.displayName||user.email||"R").trim().charAt(0).toUpperCase();
+  $("displayUid").textContent=user.uid;
+  $("displayProvider").textContent=user.providerData.map(p=>p.providerId.replace(".com","")).join(", ")||"Firebase";
+  $("displayRole").textContent="Member";
+  try{
+   const snap=await getDoc(doc(db,"users",user.uid));
+   if(snap.exists()){const d=snap.data();$("displayRole").textContent=d.memberType||d.role||"Member";}
+  }catch(e){/* Account summary still works if profile reads are restricted. */}
+ });
+ $("logoutBtn").addEventListener("click",async()=>{try{await signOut(auth);message($("profileMessage"),"You have been logged out of RTLH on this browser.","success")}catch(e){message($("profileMessage"),authError(e))}});
+ $("refreshBtn").addEventListener("click",()=>{if(auth.currentUser){$("displayName").textContent=auth.currentUser.displayName||"RTLH Member";message($("profileMessage"),"Account status refreshed.","success")}});
+}
+$("year").textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
