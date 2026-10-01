@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b2a6b"><meta name="robots" content="noindex,nofollow">
+<title>Course Admin | Rwanda Tech Learning Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2a6b;--blue:#1565c0;--sky:#00a1de;--green:#0b7a3b;--yel:#fad201;--ink:#10223f;--mut:#5b6b85;--bg:#f3f7fc;--line:#dfe8f3;--r:18px}
+*{box-sizing:border-box}body{margin:0;font-family:Montserrat,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;overflow-x:hidden}
+button,input,select,textarea{font:inherit}button{cursor:pointer}[hidden]{display:none!important}
+.flag{height:5px;background:linear-gradient(90deg,var(--sky) 50%,var(--yel) 50% 75%,var(--green) 75%)}
+.btn{border:0;border-radius:99px;padding:11px 20px;font-weight:700;background:var(--yel);color:var(--navy);box-shadow:0 4px 0 #b8900a;transition:.15s;min-height:44px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b8900a}.btn.g{background:var(--green);color:#fff;box-shadow:0 4px 0 #065227}
+.btn.o{background:#fff;color:var(--navy);box-shadow:0 4px 0 #aab9d0}.btn.r{background:#c62828;color:#fff;box-shadow:0 4px 0 #8e1b1b}.btn.s{padding:7px 13px;min-height:36px;font-size:.78rem}
+/* gate */
+#gate{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 30%,#12398f,#07173d 70%);color:#fff;text-align:center;padding:20px}
+#gate p{color:#9fb4d8;font-size:.8rem;margin-top:8px}
+#phx{background:0;border:0;padding:0;width:min(78vw,340px);perspective:900px;filter:drop-shadow(0 0 24px #00a1de55)}
+#phx svg{width:100%;animation:drift 14s ease-in-out infinite}
+.wl,.wr{transform-box:fill-box;animation:flap 3.2s ease-in-out infinite}.wl{transform-origin:100% 60%}.wr{transform-origin:0 60%;animation-direction:reverse}
+@keyframes flap{50%{transform:rotate(-9deg) scaleY(.92)}}
+@keyframes drift{0%,100%{transform:translateY(0) rotateY(-24deg) rotateZ(-2deg)}50%{transform:translateY(-14px) rotateY(24deg) rotateZ(2deg)}}
+/* modal */
+.mod{position:fixed;inset:0;background:#07173dcc;display:grid;place-items:center;padding:14px;z-index:50;overflow:auto}
+.box{background:#fff;color:var(--ink);border-radius:22px;padding:22px;width:min(560px,100%);max-height:94vh;overflow:auto;box-shadow:0 30px 70px #0006;text-align:left}
+.box h2{margin:0 0 4px;color:var(--navy)}label{display:block;font-size:.76rem;font-weight:700;margin:10px 0 4px;color:var(--mut)}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#f9fbfe;font-size:16px;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--sky)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.err{color:#c62828;font-size:.8rem;min-height:1.1em;margin-top:6px}.lnk{background:0;border:0;color:var(--blue);font-weight:600;font-size:.8rem;padding:6px 0}
+/* app */
+header{position:sticky;top:0;z-index:30;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+.brand{font-weight:800;font-size:.9rem;line-height:1.1}.brand small{display:block;font:400 1.1rem "Great Vibes",cursive;color:var(--yel)}
+.tools{display:flex;gap:8px;align-items:center}.tools select{width:auto;background:#173a85;color:#fff;border-color:#ffffff44;padding:6px;font-size:.8rem}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line)}
+nav button{border:0;background:#eaf2fb;color:var(--navy);border-radius:99px;padding:9px 16px;font-weight:700;font-size:.82rem;white-space:nowrap}nav button.on{background:var(--blue);color:#fff}
+main{max-width:1100px;margin:auto;padding:16px 14px 80px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.st,.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px}.st b{display:block;font-size:1.6rem;color:var(--blue)}.st span{font-size:.74rem;color:var(--mut);font-weight:600}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.bar input{flex:1;min-width:150px}
+.list{display:grid;gap:10px}.cr{display:grid;gap:8px}.cr h3{margin:0;font-size:1rem;color:var(--navy)}.cr small{color:var(--mut)}
+.tag{display:inline-block;font-size:.68rem;font-weight:800;border-radius:99px;padding:3px 9px;background:#eaf2fb;color:var(--blue)}
+.tag.published{background:#dff5e6;color:var(--green)}.tag.archived{background:#eee;color:#666}.tag.draft{background:#fff6cf;color:#8a6d00}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 18px;border-radius:99px;font-size:.84rem;z-index:99;max-width:90vw}
+.skel{height:70px;border-radius:var(--r);background:linear-gradient(90deg,#e8eef6,#f6f9fd,#e8eef6);background-size:200% 100%;animation:sk 1.2s infinite}@keyframes sk{to{background-position:-200% 0}}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}.list{grid-template-columns:1fr 1fr}main{padding-top:24px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<!-- Hidden entry: the phoenix. UI only, real security = Firebase Auth + Firestore rules -->
+<div id="gate">
+  <div>
+    <button id="phx" aria-label="Open administrator sign-in">
+      <svg viewBox="0 0 300 220" aria-hidden="true">
+        <defs><linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2233"/><stop offset=".6" stop-color="#05070c"/><stop offset="1" stop-color="#0b3a2a"/></linearGradient>
+        <linearGradient id="ed" x1="0" x2="1"><stop offset="0" stop-color="#00a1de"/><stop offset=".5" stop-color="#20a060"/><stop offset="1" stop-color="#fad201"/></linearGradient></defs>
+        <g class="wl"><path d="M148 100C110 60 50 40 6 52c26 6 40 20 48 34-20-2-36 4-50 16 30-2 50 6 62 22-14 2-26 10-34 24 40-6 76-2 116-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/></g>
+        <g class="wr"><path d="M152 100C190 60 250 40 294 52c-26 6-40 20-48 34 20-2 36 4 50 16-30-2-50 6-62 22 14 2 26 10 34 24-40-6-76-2-116-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/></g>
+        <path d="M150 62c10 0 16 8 16 18 0 8-3 12-6 18 6 18 10 44 4 84-6 14-10 22-14 30-4-8-8-16-14-30-6-40-2-66 4-84-3-6-6-10-6-18 0-10 6-18 16-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/>
+        <path d="M150 62l-4-14 4 6 4-6zM142 70l10 4-2-6" fill="#fad201"/><circle cx="154" cy="78" r="2" fill="#fad201"/>
+        <path d="M144 204c-8 10-16 12-24 14 10 0 16-2 30-8 14 6 20 8 30 8-8-2-16-4-24-14z" fill="#0b7a3b" opacity=".9"/>
+      </svg>
+    </button>
+    <p data-t="guard">Guardian of RTLH</p>
+  </div>
+</div>
+
+<div class="mod" id="login" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="lt">
+    <h2 id="lt" data-t="signin">Administrator sign-in</h2>
+    <p style="margin:0 0 6px;color:var(--mut);font-size:.8rem" data-t="authOnly">Authorized RTLH administrators only.</p>
+    <button class="btn o" id="g" style="width:100%;margin:10px 0">Continue with Google</button>
+    <label for="em">Email</label><input id="em" type="email" autocomplete="username">
+    <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+    <div class="err" id="le" role="alert"></div>
+    <button class="btn g" id="si" style="width:100%;margin-top:6px">Sign in</button>
+    <div style="display:flex;justify-content:space-between"><button class="lnk" id="fp">Forgot password?</button><button class="lnk" id="lc">Close</button></div>
+  </div>
+</div>
+
+<div class="mod" id="denied" hidden><div class="box" style="text-align:center"><h2>🚫 Access denied</h2><p class="err" style="font-size:.9rem">This account is not an authorized RTLH administrator. Firestore rejected the admin check.</p><button class="btn" id="dout">Sign out</button></div></div>
+
+<div id="app" hidden>
+  <div class="flag"></div>
+  <header>
+    <div class="brand">RTLH <span data-t="admin">Course Admin</span><small>Learn · Create · Empower</small></div>
+    <div class="tools"><select id="lang" aria-label="Language"><option value="en">EN</option><option value="rw">RW</option><option value="fr">FR</option><option value="sw">SW</option></select><button class="btn s o" id="out" data-t="out">Sign out</button></div>
+  </header>
+  <nav id="nav"><button data-v="dash" class="on" data-t="dash">Dashboard</button><button data-v="courses" data-t="courses">Courses</button><button data-v="domains" data-t="domains">Domains</button></nav>
+  <main>
+    <section id="v-dash"><div class="stats" id="stats"></div>
+      <div class="bar"><button class="btn g" id="qc" data-t="newc">+ Create course</button><button class="btn o" id="qd" data-t="newd">+ Create domain</button></div>
+      <h3 data-t="recent">Recently edited</h3><div class="list" id="recent"></div></section>
+    <section id="v-courses" hidden><div class="bar"><input id="q" type="search" placeholder="Search…"><select id="sf" style="width:auto"><option value="">All</option><option>draft</option><option>published</option><option>archived</option></select><button class="btn g" id="nc" data-t="newc">+ Create course</button></div><div class="list" id="clist"></div></section>
+    <section id="v-domains" hidden><div class="bar"><input id="dn" placeholder="Domain / category name"><button class="btn g" id="da">Add</button></div><div class="list" id="dlist"></div></section>
+  </main>
+</div>
+
+<div class="mod" id="cm" hidden><div class="box"><h2 id="ct">Course</h2><div id="cf"></div><div class="err" id="ce" role="alert"></div>
+  <div class="acts" style="margin-top:12px"><button class="btn g" id="cs">Save</button><button class="btn o" id="cx">Cancel</button></div></div></div>
+<div id="toast" hidden></div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,collection,getDocs,getDoc,doc,setDoc,deleteDoc,addDoc,query,limit,serverTimestamp,getCountFromServer} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ===== PASTE YOUR FIREBASE WEB CONFIG (Console > Project settings > Your apps). It is public by design. ===== */
+const CFG={apiKey:"AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",authDomain:"rwanda-tech-learning-hub.firebaseapp.com",projectId:"rwanda-tech-learning-hub",storageBucket:"rwanda-tech-learning-hub.firebasestorage.app",messagingSenderId:"785118659917",appId:"1:785118659917:web:7ada98356d213a3fad23"};
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast=t=>{const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2800)};
+const configured=!CFG.apiKey.startsWith("PASTE");
+let auth,db,user,courses=[],domains=[],editing=null;
+
+/* ---- i18n (same codes as the site: rtlhLang) ---- */
+const TR={
+en:{guard:"Guardian of RTLH",signin:"Administrator sign-in",authOnly:"Authorized RTLH administrators only.",admin:"Course Admin",out:"Sign out",dash:"Dashboard",courses:"Courses",domains:"Domains",newc:"+ Create course",newd:"+ Create domain",recent:"Recently edited"},
+rw:{guard:"Umurinzi wa RTLH",signin:"Kwinjira kw'umuyobozi",authOnly:"Abayobozi bemewe ba RTLH gusa.",admin:"Ubuyobozi bw'Amasomo",out:"Sohoka",dash:"Incamake",courses:"Amasomo",domains:"Ibyiciro",newc:"+ Ongeraho isomo",newd:"+ Ongeraho icyiciro",recent:"Ibyahinduwe vuba"},
+fr:{guard:"Gardien de RTLH",signin:"Connexion administrateur",authOnly:"Réservé aux administrateurs RTLH autorisés.",admin:"Admin des cours",out:"Déconnexion",dash:"Tableau de bord",courses:"Cours",domains:"Domaines",newc:"+ Créer un cours",newd:"+ Créer un domaine",recent:"Modifiés récemment"},
+sw:{guard:"Mlinzi wa RTLH",signin:"Kuingia kwa msimamizi",authOnly:"Wasimamizi walioidhinishwa wa RTLH pekee.",admin:"Usimamizi wa Kozi",out:"Toka",dash:"Dashibodi",courses:"Kozi",domains:"Nyanja",newc:"+ Unda kozi",newd:"+ Unda nyanja",recent:"Zilizohaririwa hivi karibuni"}};
+function setLang(c){if(!TR[c])c="en";localStorage.rtlhLang=c;$("#lang").value=c;$$("[data-t]").forEach(e=>e.textContent=(TR[c][e.dataset.t]||TR.en[e.dataset.t]))}
+$("#lang").onchange=e=>setLang(e.target.value);setLang(localStorage.rtlhLang||"en");
+
+/* ---- phoenix -> login ---- */
+$("#phx").onclick=()=>{$("#login").hidden=false;$("#em").focus()};$("#lc").onclick=()=>$("#login").hidden=true;
+const AE={"auth/invalid-credential":"Wrong email or password.","auth/too-many-requests":"Too many attempts. Try later.","auth/popup-closed-by-user":"Sign-in cancelled.","auth/network-request-failed":"Network problem."};
+const lerr=e=>$("#le").textContent=configured?(AE[e.code]||"Sign-in failed."):"Add your Firebase config in course-admin.html first.";
+if(configured){auth=getAuth(initializeApp(CFG));db=getFirestore();
+ $("#si").onclick=async()=>{$("#le").textContent="";$("#si").disabled=true;try{await signInWithEmailAndPassword(auth,$("#em").value.trim(),$("#pw").value)}catch(e){lerr(e)}$("#si").disabled=false};
+ $("#g").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){lerr(e)}};
+ $("#fp").onclick=async()=>{const m=$("#em").value.trim();if(!m)return $("#le").textContent="Enter your email first.";try{await sendPasswordResetEmail(auth,m)}catch(e){}$("#le").textContent="If the account exists, a reset email was sent."};
+ const out=()=>signOut(auth);$("#out").onclick=out;$("#dout").onclick=out;
+ onAuthStateChanged(auth,async u=>{
+  user=u;$("#app").hidden=$("#denied").hidden=true;
+  if(!u){$("#gate").hidden=false;return}
+  /* Real check: only a rules-approved admin can read auditLogs. UI is NOT the security layer. */
+  try{await getDocs(query(collection(db,"auditLogs"),limit(1)))}catch(e){$("#login").hidden=true;$("#denied").hidden=false;return}
+  $("#login").hidden=$("#gate").hidden=true;$("#app").hidden=false;await boot()});
+}else{$("#si").onclick=$("#g").onclick=()=>lerr({})}
+
+/* ---- data ---- */
+const log=(a,id)=>addDoc(collection(db,"auditLogs"),{action:a,courseId:id||null,by:user.uid,email:user.email,at:serverTimestamp()}).catch(()=>{});
+const mirror=()=>{/* same-browser preview for the existing catalog, which reads rtlh_admin_courses */
+ localStorage.rtlh_admin_courses=JSON.stringify(courses.filter(c=>c.status==="published").map(c=>({id:c.id,title:c.title,audience:c.audience,field:c.field,mode:c.mode,price:c.price,difficulty:c.difficulty,lessons:+c.lessons||10,weeks:+c.weeks||4,icon:c.icon,desc:c.desc})))};
+async function load(){
+ $("#clist").innerHTML=$("#recent").innerHTML='<div class="skel"></div>'.repeat(3);
+ try{courses=(await getDocs(query(collection(db,"courses"),limit(300)))).docs.map(d=>({...d.data(),id:d.id}));
+  domains=(await getDocs(collection(db,"courseDomains"))).docs.map(d=>({...d.data(),id:d.id}))}catch(e){toast("Load failed: "+(e.code||e.message))}
+ courses.sort((a,b)=>(b.updatedAt?.seconds||0)-(a.updatedAt?.seconds||0));mirror()}
+async function boot(){await load();draw()}
+
+/* ---- render ---- */
+const card=c=>`<div class="card cr"><div><span class="tag ${esc(c.status)}">${esc(c.status)}</span> <span class="tag">${esc(c.field)}</span> <span class="tag">${esc(c.price)}</span></div><h3>${esc(c.icon)} ${esc(c.title)}</h3><small>${esc(c.id)} · ${esc(c.audience)} · ${esc(c.lessons)} lessons</small>
+<div class="acts"><button class="btn s o" data-a="edit" data-id="${esc(c.id)}">Edit</button><button class="btn s g" data-a="pub" data-id="${esc(c.id)}">${c.status==="published"?"Unpublish":"Publish"}</button><button class="btn s o" data-a="dup" data-id="${esc(c.id)}">Duplicate</button><button class="btn s o" data-a="arc" data-id="${esc(c.id)}">${c.status==="archived"?"Restore":"Archive"}</button><button class="btn s r" data-a="del" data-id="${esc(c.id)}">Delete</button></div></div>`;
+async function draw(){
+ const n=s=>courses.filter(c=>c.status===s).length;let en="–";
+ try{en=(await getCountFromServer(collection(db,"enrollments"))).data().count}catch(e){}
+ $("#stats").innerHTML=[["Total courses",courses.length],["Published",n("published")],["Drafts",n("draft")],["Archived",n("archived")],["Domains",domains.length],["Enrollments",en],["Lessons",courses.reduce((s,c)=>s+(+c.lessons||0),0)],["Free courses",courses.filter(c=>c.price==="Free").length]].map(x=>`<div class="st"><b>${x[1]}</b><span>${x[0]}</span></div>`).join("");
+ $("#recent").innerHTML=courses.slice(0,4).map(card).join("")||"<p>No courses yet.</p>";
+ const q=$("#q").value.toLowerCase(),f=$("#sf").value;
+ $("#clist").innerHTML=courses.filter(c=>(!f||c.status===f)&&(c.title+c.id).toLowerCase().includes(q)).map(card).join("")||"<p>No courses found.</p>";
+ $("#dlist").innerHTML=domains.map(d=>`<div class="card" style="display:flex;justify-content:space-between;align-items:center"><b>${esc(d.name)}</b><button class="btn s r" data-a="deld" data-id="${esc(d.id)}">Delete</button></div>`).join("")||"<p>No custom domains yet.</p>"}
+let dt;$("#q").oninput=()=>{clearTimeout(dt);dt=setTimeout(draw,250)};$("#sf").onchange=draw;
+$$("nav button").forEach(b=>b.onclick=()=>{$$("nav button").forEach(x=>x.classList.toggle("on",x===b));["dash","courses","domains"].forEach(v=>$("#v-"+v).hidden=v!==b.dataset.v)});
+
+/* ---- course form ---- */
+const FIELDS=[["title","Course title","text"],["id","Course ID / URL slug (a-z, 0-9, -)","text"],["desc","Short description","textarea"],
+["audience","Level","select",["nursery","primary","o-level","a-level","tvet","ttc","adult","university"]],["field","Domain","select",()=>["academic","technology","trade","life","health","business","science","teacher","arts",...domains.map(d=>d.slug)]],
+["mode","Mode","select",["Self-paced","E-Class","Live"]],["price","Access","select",["Free","Paid"]],["amount","Price amount (RWF, if paid)","number"],["difficulty","Difficulty","select",["Beginner","Intermediate","Advanced","All levels"]],
+["lessons","Lessons","number"],["weeks","Weeks","number"],["icon","Icon (emoji)","text"],["status","Status","select",["draft","published","archived"]]];
+const slug=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+function openForm(c){
+ editing=c?c.id:null;const v=c||JSON.parse(localStorage.rtlhDraft||"null")||{audience:"adult",field:"technology",mode:"Self-paced",price:"Free",difficulty:"Beginner",lessons:10,weeks:4,icon:"📚",status:"draft"};
+ $("#ct").textContent=c?"Edit course":"New course";
+ $("#cf").innerHTML=FIELDS.map(([k,l,t,o])=>{const val=esc(v[k]??"");const op=typeof o==="function"?o():o;
+  return `<label for="f_${k}">${l}</label>`+(t==="textarea"?`<textarea id="f_${k}" rows="3">${val}</textarea>`:t==="select"?`<select id="f_${k}">${op.map(x=>`<option ${x===v[k]?"selected":""}>${esc(x)}</option>`).join("")}</select>`:`<input id="f_${k}" type="${t}" value="${val}" ${k==="id"&&c?"readonly":""}>`)}).join("");
+ $("#f_title").oninput=()=>{if(!editing&&!$("#f_id").dataset.m)$("#f_id").value=slug($("#f_title").value)};$("#f_id").oninput=()=>$("#f_id").dataset.m=1;
+ $("#cf").oninput=()=>{if(!editing)localStorage.rtlhDraft=JSON.stringify(read())}; /* autosave draft */
+ $("#ce").textContent="";$("#cm").hidden=false}
+const read=()=>Object.fromEntries(FIELDS.map(([k])=>[k,$("#f_"+k).value.trim()]));
+$("#cx").onclick=()=>$("#cm").hidden=true;
+$("#cs").onclick=async()=>{
+ const d=read(),e=!d.title?"Title is required.":!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(d.id)?"ID must be lowercase letters, numbers, dashes.":d.desc.length<10?"Add a short description (10+ chars).":!editing&&courses.some(c=>c.id===d.id)?"That ID already exists.":"";
+ $("#ce").textContent=e;if(e)return;
+ const pub=d.status==="published",now=serverTimestamp();
+ const data={...d,lessons:+d.lessons||0,weeks:+d.weeks||0,amount:+d.amount||0,price:d.price,isPublished:pub,visibility:pub?"public":"private",
+  teacherId:user.uid,createdBy:user.uid,updatedAt:now,...(pub?{publishedAt:now}:{})};
+ if(!editing)data.createdAt=now;
+ $("#cs").disabled=true;try{await setDoc(doc(db,"courses",d.id),data,{merge:true});await log(editing?"update":"create",d.id);localStorage.removeItem("rtlhDraft");$("#cm").hidden=true;toast("Saved ✓");await boot()}catch(x){$("#ce").textContent="Save failed: "+(x.code||x.message)}$("#cs").disabled=false};
+$("#nc").onclick=$("#qc").onclick=()=>openForm();
+$("#qd").onclick=()=>{$$("nav button")[2].click();$("#dn").focus()};
+
+/* ---- actions ---- */
+const setStatus=async(c,s)=>{await setDoc(doc(db,"courses",c.id),{status:s,isPublished:s==="published",visibility:s==="published"?"public":"private",updatedAt:serverTimestamp(),...(s==="published"?{publishedAt:serverTimestamp()}:{})},{merge:true});await log(s,c.id)};
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a,id=b.dataset.id,c=courses.find(x=>x.id===id);
+ try{
+  if(a==="edit")openForm(c);
+  else if(a==="pub"){if(c.status!=="published"&&(!c.title||(c.desc||"").length<10))return toast("Complete title & description first");await setStatus(c,c.status==="published"?"draft":"published");toast(c.status==="published"?"Unpublished":"Published ✓ live in catalog");await boot()}
+  else if(a==="arc"){await setStatus(c,c.status==="archived"?"draft":"archived");await boot()}
+  else if(a==="dup"){const nid=c.id+"-copy"+(Date.now()%1000);await setDoc(doc(db,"courses",nid),{...c,id:nid,title:c.title+" (copy)",status:"draft",isPublished:false,visibility:"private",createdAt:serverTimestamp(),updatedAt:serverTimestamp()});await log("duplicate",nid);toast("Duplicated as draft");await boot()}
+  else if(a==="del"){if(!confirm(`Delete "${c.title}" permanently?`))return;await deleteDoc(doc(db,"courses",id));await log("delete",id);toast("Deleted");await boot()}
+  else if(a==="deld"){const d=domains.find(x=>x.id===id);if(courses.some(x=>x.field===d.slug&&x.status!=="archived"))return toast("Domain has active courses");if(!confirm("Delete domain?"))return;await deleteDoc(doc(db,"courseDomains",id));await boot()}
+ }catch(x){toast("Action failed: "+(x.code||x.message))}});
+$("#da").onclick=async()=>{const n=$("#dn").value.trim();if(n.length<2)return toast("Enter a name");try{await setDoc(doc(db,"courseDomains",slug(n)),{name:n,slug:slug(n),createdAt:serverTimestamp(),by:user.uid});$("#dn").value="";await boot()}catch(x){toast("Failed: "+(x.code||x.message))}};
+window.addEventListener("offline",()=>toast("You are offline"));
+</script>
+</body>
+</html>
