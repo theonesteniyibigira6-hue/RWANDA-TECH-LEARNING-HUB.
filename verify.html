@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verify Certificate – Rwanda Tech Learning Hub</title>
+<style>
+body{margin:0;background:#eef2f7;font-family:Arial,sans-serif;color:#0b2a6b;padding:20px}
+.card{max-width:520px;margin:40px auto;background:#fff;border-radius:14px;padding:28px;border-top:8px solid #0b7a3b;box-shadow:0 4px 18px rgba(0,0,0,.08)}
+.card.bad{border-color:#c62828}
+h1{font-size:22px;margin:0 0 6px}
+.ok{color:#0b7a3b}.no{color:#c62828}
+dl{margin:18px 0 0}dt{font-size:13px;color:#667}dd{margin:0 0 12px;font-size:18px;font-weight:700}
+a{color:#0b7a3b;font-weight:700}
+</style>
+</head>
+<body>
+<div class="card" id="card"><h1>Checking certificate…</h1></div>
+<script src="course-progress.js"></script>
+<script>
+(function () {
+  var card = document.getElementById("card"), q = new URLSearchParams(location.search).get("c"), c = null;
+  try { c = RTLH.decode(q); } catch (e) {}
+  if (c && RTLH.valid(c)) {
+    card.innerHTML = '<h1 class="ok">&#10004; Verified &amp; Authentic</h1><p>This certificate was issued by Rwanda Tech Learning Hub.</p><dl>' +
+      "<dt>Awarded to</dt><dd>" + esc(c.n) + "</dd><dt>Course</dt><dd>" + esc(c.c) + "</dd>" +
+      "<dt>Completion date</dt><dd>" + RTLH.prettyDate(c.d) + "</dd><dt>Final score</dt><dd>" + esc(c.s) + "%</dd>" +
+      "<dt>Certificate ID</dt><dd>" + esc(c.i) + '</dd></dl><a href="./">Back to Rwanda Tech Learning Hub</a>';
+  } else {
+    card.className = "card bad";
+    card.innerHTML = '<h1 class="no">&#10008; Not verified</h1><p>This link is missing or has been changed, so we cannot confirm the certificate. Please scan the QR code on the original certificate.</p><a href="./">Back to home</a>';
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (m) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]; }); }
+})();
+</script>
+</body>
+</html>
