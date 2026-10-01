@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b2a6b">
+<title>Self-Paced Player | Rwanda Tech Learning Hub</title>
+<meta name="description" content="Interactive self-paced learning experience with video lessons, quiz checkpoints, and dynamic progress tracking on Rwanda Tech Learning Hub.">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2a6b;--blue:#1565c0;--sky:#00a1de;--green:#0b7a3b;--yel:#fad201;--ink:#10223f;--mut:#5b6b85;--bg:#f3f7fc;--line:#dfe8f3;--r:20px}
+*{box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+html{scroll-behavior:smooth}body{margin:0;font-family:Montserrat,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;overflow-x:hidden;top:0!important}
+a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cursor:pointer}.w{width:min(1200px,92%);margin:auto}
+.flag{height:5px;background:linear-gradient(90deg,var(--sky) 50%,var(--yel) 50% 75%,var(--green) 75%)}
+
+/* Header */
+header{position:sticky;top:0;z-index:40;background:rgba(11,42,107,.97);color:#fff;box-shadow:0 6px 24px #0b2a6b33;backdrop-filter:blur(8px)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:72px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;line-height:1.1;font-size:.95rem}.brand small{display:block;font:400 1.1rem "Great Vibes",cursive;color:var(--yel)}
+.logo-img{width:48px;height:48px;border-radius:50%;border:2px solid var(--sky);object-fit:cover;background:#fff}
+.links{display:flex;align-items:center;gap:18px;font-size:.84rem;font-weight:600}.links>a:hover,.dd>a:hover{color:var(--yel)}.links a.cur{color:var(--yel)}
+.dd{position:relative;padding:24px 0}.dd>a:after{content:" ▾";font-size:.65rem}.m2{display:none;position:absolute;top:100%;left:-14px;min-width:230px;background:#fff;color:var(--ink);border-radius:14px;padding:8px;box-shadow:0 20px 40px #0b2a6b44;border-top:4px solid var(--yel)}
+.dd:hover .m2,.dd:focus-within .m2{display:block}.m2 a{display:block;padding:9px 12px;border-radius:99px;font-weight:600}.m2 a:hover{background:#eaf2fb;color:var(--blue)}
+.tools{display:flex;align-items:center;gap:8px;font-size:.8rem}#lang{background:#173a85;color:#fff;border:1px solid #ffffff44;border-radius:8px;padding:6px;max-width:112px}.pill{background:#ffffff1a;border-radius:99px;padding:5px 10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:99px;padding:11px 20px;font-weight:700;font-size:.88rem;transition:.2s;background:var(--yel);color:var(--navy);box-shadow:0 5px 0 #b8900a,0 12px 20px #0003}
+.btn:hover{transform:translateY(-3px);box-shadow:0 8px 0 #b8900a,0 16px 24px #0003}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #b8900a}
+.btn.g{background:var(--green);color:#fff;box-shadow:0 5px 0 #065227,0 12px 20px #0003}.btn.o{background:#fff;color:var(--navy);box-shadow:0 5px 0 #aab9d0,0 12px 20px #0002}.btn.s{padding:8px 14px;font-size:.78rem;box-shadow:0 3px 0 #b8900a}
+.burger{display:none;background:0;border:1px solid #fff6;color:#fff;border-radius:10px;padding:7px 12px;font-size:1.2rem}
+
+/* Moving 3D Background Canvas */
+#bg-3d-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
+
+/* Secret Flying G-Clef Icon */
+.flying-gclef{
+  position:fixed;
+  bottom:30px;
+  right:-60px;
+  z-index:999;
+  font-size:2.2rem;
+  color:var(--yel);
+  text-shadow:0 0 12px rgba(250,210,1,0.7), 0 0 24px rgba(11,122,59,0.5);
+  cursor:pointer;
+  animation:flyAcross 18s linear infinite;
+  opacity:0.85;
+  transition:transform 0.2s, filter 0.2s;
+}
+.flying-gclef:hover{
+  opacity:1;
+  transform:scale(1.35) rotate(15deg);
+  filter:drop-shadow(0 0 10px var(--yel));
+}
+
+@keyframes flyAcross{
+  0%{ transform:translate(0, 0) rotate(0deg); right:-60px; bottom:25px; }
+  25%{ transform:translate(-25vw, -35px) rotate(-10deg); }
+  50%{ transform:translate(-50vw, 20px) rotate(10deg); }
+  75%{ transform:translate(-75vw, -25px) rotate(-5deg); }
+  100%{ transform:translate(-105vw, 10px) rotate(0deg); right:-60px; }
+}
+
+/* Page Layout */
+main{padding:30px 0 60px}
+.player-grid{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+
+/* 3D Container & Video Player */
+.player-card{
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  border-radius:var(--r);
+  border:1px solid var(--line);
+  padding:24px;
+  box-shadow:0 20px 50px rgba(11,42,107,0.12);
+  transform-style:preserve-3d;
+  transition:transform .2s ease;
+}
+.video-frame-box{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  background:#071b45;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 12px 30px rgba(0,0,0,0.3);
+  margin-bottom:20px;
+}
+.video-placeholder{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  background:linear-gradient(135deg, #0b2a6b, #0b7a3b);
+  text-align:center;
+  padding:20px;
+}
+.play-btn-lg{
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  background:var(--yel);
+  color:var(--navy);
+  display:grid;
+  place-items:center;
+  font-size:2rem;
+  margin-bottom:12px;
+  box-shadow:0 0 24px rgba(250,210,1,0.6);
+  cursor:pointer;
+  transition:.2s;
+}
+.play-btn-lg:hover{transform:scale(1.1) rotate(5deg)}
+
+.lesson-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.lesson-title{font-size:1.4rem;font-weight:800;color:var(--navy);margin:0}
+.progress-bar-wrap{background:#e2e8f0;border-radius:99px;height:10px;width:100%;overflow:hidden}
+.progress-bar-fill{background:linear-gradient(90deg,var(--sky),var(--green));height:100%;width:35%;transition:width .4s ease}
+
+.tab-nav{display:flex;gap:10px;border-bottom:2px solid var(--line);margin:20px 0 16px}
+.tab-btn{padding:10px 16px;font-weight:700;font-size:.88rem;color:var(--mut);background:0;border:0;border-bottom:3px solid transparent;cursor:pointer}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--blue)}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* Quiz Box */
+.quiz-card{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
+.quiz-opt{display:block;background:#fff;border:1px solid var(--line);padding:12px 16px;border-radius:10px;margin:8px 0;cursor:pointer;transition:.2s;font-size:.9rem}
+.quiz-opt:hover{border-color:var(--blue);background:#eaf2fb}
+
+/* Curriculum Sidebar */
+.sidebar-card{
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  border-radius:var(--r);
+  border:1px solid var(--line);
+  padding:20px;
+  box-shadow:0 12px 30px rgba(11,42,107,0.08);
+  position:sticky;
+  top:92px;
+}
+.sidebar-title{font-size:1.1rem;font-weight:800;color:var(--navy);margin:0 0 14px;display:flex;justify-content:space-between;align-items:center}
+
+.module-group{margin-bottom:12px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.module-head{background:#f1f5f9;padding:12px 14px;font-weight:700;font-size:.85rem;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between}
+.module-body{display:block;background:#fff}
+.playlist-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #f1f5f9;font-size:.84rem;cursor:pointer;transition:.2s}
+.playlist-item:hover{background:#eaf2fb;color:var(--blue)}
+.playlist-item.active{background:#e3effc;font-weight:700;color:var(--navy);border-left:4px solid var(--blue)}
+.playlist-item.completed .status-icon{color:var(--green)}
+.status-icon{font-size:1rem;color:var(--mut)}
+
+footer{background:#071b45;color:#c3d3ea;padding:42px 0 18px;margin-top:40px}.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}footer h4{color:#fff;margin:0 0 10px}footer a{display:block;font-size:.85rem;margin:7px 0}footer a:hover{color:var(--yel)}footer .brand{display:flex;margin:0}.cp{border-top:1px solid #ffffff22;margin-top:26px;padding-top:15px;font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:99px;z-index:90;display:none;font-size:.85rem}
+#gt,.goog-te-banner-frame,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}
+.goog-text-highlight{background-color:transparent!important;box-shadow:none!important}
+
+@media(max-width:1020px){
+.links{display:none;position:absolute;top:72px;left:0;right:0;background:var(--navy);padding:14px 5%;flex-direction:column;align-items:flex-start;gap:6px;max-height:75vh;overflow:auto}.links.open{display:flex}.dd{padding:6px 0}.m2{position:static;display:block;background:transparent;color:#fff;box-shadow:none;border:0;padding:0 0 0 10px}.m2 a:hover{background:#ffffff14;color:var(--yel)}.burger{display:block}
+.player-grid{grid-template-columns:1fr}.sidebar-card{position:static;margin-top:20px}
+.fg{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){.fg{grid-template-columns:1fr}.brand{font-size:.82rem}#lang{max-width:84px}}
+@media(prefers-reduced-motion:reduce){.player-card{transform:none!important};.flying-gclef{animation:none}}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div class="flag"></div>
+
+<!-- 3D Moving Particle Background Canvas -->
+<canvas id="bg-3d-canvas"></canvas>
+
+<!-- Secret Flying G-Clef Portal -->
+<div class="flying-gclef" id="secret-gclef" title="🎼">🎼</div>
+
+<header><div class="w nav">
+<a class="brand" href="learning-center.html"><img src="rtlh-logo.png" alt="RTLH Logo" class="logo-img"><span>Rwanda Tech Learning Hub<small>Learn · Create · Empower</small></span></a>
+<nav class="links" id="nav">
+<a href="learning-center.html">Home</a><a href="learning-center.html">Learning Center</a>
+<div class="dd"><a class="cur" href="course-catalog.html">Learn</a><div class="m2"><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced player</a><a href="eclass-center.html">E-Class (live)</a><a href="learning-dashboard.html">My learning</a></div></div>
+<a href="my-certificates.html">Certificates</a>
+</nav>
+<div class="tools"><select id="lang" class="notranslate" aria-label="Language"></select><span class="pill" id="streak">🔥 1</span><span id="auth"></span><button class="burger" id="bg" aria-label="Menu">☰</button></div>
+</div></header>
+
+<main><div class="w player-grid">
+  <!-- Left Side: Interactive Player Container -->
+  <div>
+    <div class="player-card" id="interactive-card">
+      <div class="video-frame-box">
+        <div class="video-placeholder" id="video-box">
+          <div class="play-btn-lg" id="play-btn">▶</div>
+          <h3 id="v-title" style="margin:0 0 6px">Lesson 1.1: Web Fundamentals & Structure</h3>
+          <p style="margin:0;font-size:.85rem;color:#d6e4f7">Click play to start interactive lesson player</p>
+        </div>
+      </div>
+
+      <div class="lesson-header">
+        <div>
+          <span class="pill" style="background:#eaf2fb;color:var(--blue);font-size:.75rem;font-weight:700" id="c-tag">Web Development</span>
+          <h1 class="lesson-title" id="lesson-h1">1.1 How the Web Works & RTLH Platform</h1>
+        </div>
+        <button class="btn g s" id="btn-complete">Mark as Complete ✓</button>
+      </div>
+
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--mut);margin-bottom:4px">
+          <span>Overall Course Progress</span>
+          <span id="prog-txt">35% Completed</span>
+        </div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar"></div></div>
+      </div>
+
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+        <button class="tab-btn" onclick="switchTab('quiz', this)">Knowledge Quiz</button>
+        <button class="tab-btn" onclick="switchTab('resources', this)">Resources</button>
+      </div>
+
+      <!-- Tab 1: Overview -->
+      <div class="tab-content active" id="tab-overview">
+        <h3 style="color:var(--navy);margin:0 0 8px">Lesson Summary</h3>
+        <p id="lesson-desc" style="font-size:.9rem;color:#334155">In this lesson, you will discover the foundational architecture of the internet, HTTP protocol request cycles, client-server models, and how HTML, CSS, and JavaScript interact to build interactive modern web portals.</p>
+      </div>
+
+      <!-- Tab 2: Quiz -->
+      <div class="tab-content" id="tab-quiz">
+        <h3 style="color:var(--navy);margin:0 0 8px">Quick Assessment</h3>
+        <div class="quiz-card">
+          <strong style="font-size:.92rem" id="q-text">What is the primary role of HTML in modern web development?</strong>
+          <div class="quiz-opt" onclick="checkAnswer(this, false)">A) Styles visual layout and colors</div>
+          <div class="quiz-opt" onclick="checkAnswer(this, true)">B) Defines basic structure and semantic content</div>
+          <div class="quiz-opt" onclick="checkAnswer(this, false)">C) Handles database connections and backend server storage</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Resources -->
+      <div class="tab-content" id="tab-resources">
+        <h3 style="color:var(--navy);margin:0 0 8px">Downloadable Attachments</h3>
+        <ul style="padding-left:20px;font-size:.88rem;color:var(--blue)">
+          <li><a href="#" onclick="toast('Downloading lesson cheat sheet...')">📄 Lesson_1_1_Cheatsheet.pdf</a></li>
+          <li><a href="#" onclick="toast('Opening GitHub starter template...')">💻 Starter_Code_Template.zip</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Playlist Sidebar -->
+  <aside>
+    <div class="sidebar-card">
+      <div class="sidebar-title">
+        <span>Course Modules</span>
+        <small style="font-size:.75rem;color:var(--mut)" id="lesson-count">4 Modules</small>
+      </div>
+
+      <div class="module-group">
+        <div class="module-head">Module 1: Getting Started</div>
+        <div class="module-body">
+          <div class="playlist-item active completed" onclick="selectLesson(this, '1.1 How the Web Works', 'In this lesson, you will discover the foundational architecture of the internet and web clients.')">
+            <span class="status-icon">✓</span>
+            <span>1.1 How the Web Works</span>
+          </div>
+          <div class="playlist-item" onclick="selectLesson(this, '1.2 HTML5 Semantic Structure', 'Learn HTML5 semantic layout tags like header, main, section, and footer.')">
+            <span class="status-icon">▶</span>
+            <span>1.2 HTML5 Semantic Tags</span>
+          </div>
+          <div class="playlist-item" onclick="selectLesson(this, '1.3 Mobile-First Page Setup', 'Design responsive structural templates optimized for mobile viewports.')">
+            <span class="status-icon">🔒</span>
+            <span>1.3 Building Mobile Layouts</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="module-group">
+        <div class="module-head">Module 2: CSS & Interactive 3D</div>
+        <div class="module-body">
+          <div class="playlist-item" onclick="selectLesson(this, '2.1 CSS Fundamentals', 'Master selectors, box sizing, margin collapse, and color schemes.')">
+            <span class="status-icon">🔒</span>
+            <span>2.1 CSS Box Model Basics</span>
+          </div>
+          <div class="playlist-item" onclick="selectLesson(this, '2.2 Flexbox & Grid Mastery', 'Construct flexible dynamic grid components for complex UI screens.')">
+            <span class="status-icon">🔒</span>
+            <span>2.2 Flexbox and CSS Grid</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div></main>
+
+<footer><div class="w"><div class="fg"><div><a class="brand" href="learning-center.html"><img src="rtlh-logo.png" alt="RTLH Logo" class="logo-img"><span>Rwanda Tech Learning Hub<small>Empowering Rwanda through education</small></span></a><p style="max-width:320px;font-size:.84rem;margin-top:10px">Learning without borders, for Rwanda and the world.</p></div>
+<div><h4>Learn</h4><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced</a><a href="eclass-center.html">E-Class center</a><a href="learning-dashboard.html">Dashboard</a></div>
+<div><h4>Achievements</h4><a href="my-certificates.html">My certificates</a><a href="course-details.html">Course details</a></div>
+<div><h4>RTLH</h4><a href="learning-center.html">Learning Center</a><a href="mailto:theonesteniyibigira6@gmail.com">Contact</a></div></div>
+<div class="cp"><span>© 2026 Rwanda Tech Learning Hub. Learn · Create · Empower.</span><span>Rwanda, Land of a Thousand Hills 🇷🇼</span></div></div></footer>
+
+<div id="toast"></div><div id="gt"></div><script src="https://translate.google.com/translate_a/element.js?cb=gtInit"></script>
+
+<script>
+/* Source Code & Inspection Protections */
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (e.keyCode === 123 || 
+     (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
+     (e.ctrlKey && e.keyCode === 85)) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+setInterval(() => {
+  (function() {
+    return false;
+  })["constructor"]("debugger")();
+}, 500);
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+/* Secret Flying G-Clef Navigation */
+$("#secret-gclef").onclick = () => {
+  window.location.href = "course-admin.html";
+};
+
+/* Animated Moving 3D Background Canvas */
+(function setup3DBackground(){
+  const canvas = document.getElementById("bg-3d-canvas");
+  const ctx = canvas.getContext("2d");
+  let width, height;
+  let particles = [];
+
+  function resize(){
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  for(let i = 0; i < 45; i++){
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      z: Math.random() * 3 + 1,
+      r: Math.random() * 3 + 1,
+      vx: (Math.random() - 0.5) * 0.8,
+      vy: (Math.random() - 0.5) * 0.8
+    });
+  }
+
+  function render(){
+    ctx.clearRect(0, 0, width, height);
+    
+    let grad = ctx.createLinearGradient(0, 0, width, height);
+    grad.addColorStop(0, "#f3f7fc");
+    grad.addColorStop(1, "#e2edf8");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "rgba(15, 101, 192, 0.25)";
+    ctx.strokeStyle = "rgba(11, 42, 107, 0.08)";
+    ctx.lineWidth = 1;
+
+    for(let i = 0; i < particles.length; i++){
+      let p = particles[i];
+      p.x += p.vx * p.z * 0.5;
+      p.y += p.vy * p.z * 0.5;
+
+      if(p.x < 0) p.x = width;
+      if(p.x > width) p.x = 0;
+      if(p.y < 0) p.y = height;
+      if(p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.z, 0, Math.PI * 2);
+      ctx.fill();
+
+      for(let j = i + 1; j < particles.length; j++){
+        let p2 = particles[j];
+        let dx = p.x - p2.x, dy = p.y - p2.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if(dist < 130){
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  render();
+})();
+
+/* Interactive 3D Card Hover Effect */
+document.addEventListener("mousemove", e => {
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches || matchMedia("(hover:none)").matches) return;
+  const card = $("#interactive-card");
+  if(!card) return;
+  const r = card.getBoundingClientRect();
+  if(e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom){
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-2px)`;
+  } else {
+    card.style.transform = "";
+  }
+});
+
+/* Tabs Navigation */
+function switchTab(name, btn){
+  $$(".tab-btn").forEach(b => b.classList.remove("active"));   $$
+(".tab-content").forEach(c => c.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  $("#tab-" + name).classList.add("active"); }  /* Playlist selection */ function selectLesson(el, title, desc){   $$(".playlist-item").forEach(i => i.classList.remove("active"));
+  el.classList.add("active");
+  $("#lesson-h1").textContent = title;
+  $("#v-title").textContent = title;
+  $("#lesson-desc").textContent = desc;
+  toast("Loaded: " + title);
+}
+
+function checkAnswer(el, isCorrect){
+  if(isCorrect){
+    el.style.background = "#d1fae5";
+    el.style.borderColor = "var(--green)";
+    toast("Correct Answer! 🎉");
+  } else {
+    el.style.background = "#fee2e2";
+    el.style.borderColor = "#ef4444";
+    toast("Try again!");
+  }
+}
+
+$("#play-btn").onclick = () => {
+  $("#video-box").innerHTML = '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/gT0LhB8L3bc?autoplay=1" title="Lesson Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;inset:0"></iframe>';
+};
+
+$("#btn-complete").onclick = () => {
+  $("#prog-bar").style.width = "60%";
+  $("#prog-txt").textContent = "60% Completed";
+  toast("Lesson Progress Saved ✓");
+};
+
+function toast(msg){
+  const e = $("#toast");
+  e.textContent = msg;
+  e.style.display = "block";
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => e.style.display = "none", 2200);
+}
+
+/* Multilingual Google Translate Active Toggle Logic */
+const LG=[["en","English"],["rw","Kinyarwanda"],["zh-CN","中文"],["hi","हिन्दी"],["es","Español"],["fr","Français"],["ar","العربية"],["bn","বাংলা"],["pt","Português"],["ru","Русский"],["ur","اردو"],["id","Indonesia"],["de","Deutsch"]];
+
+function gtInit(){
+  new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:LG.map(l=>l[0]).join(","),autoDisplay:false},"gt");
+  setTimeout(()=>setLang(localStorage.rtlhLang||"en"),900);
+}
+
+function setLang(c){
+  const s=$(".goog-te-combo");
+  $("#lang").value=c;
+  if(!s)return;
+  s.value=c==="en"?"":c;
+  s.dispatchEvent(new Event("change"));
+  localStorage.rtlhLang=c;
+}
+
+$("#lang").innerHTML=LG.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join("");
+$("#lang").onchange=e=>setLang(e.target.value);
+$("#bg").onclick=()=>$("#nav").classList.toggle("open");
+</script>
+</body>
+</html>
