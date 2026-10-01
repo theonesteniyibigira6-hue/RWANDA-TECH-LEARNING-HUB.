@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#030812"><meta name="robots" content="noindex,nofollow">
+<title>Admin Access | Rwanda Tech Learning Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--sky:#00a1de;--yel:#fad201;--green:#20603d;--navy:#0b2a6b}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#030812;color:#fff;font-family:Montserrat,Arial,sans-serif}
+[hidden]{display:none!important}canvas{position:fixed;inset:0;width:100%;height:100%;touch-action:none;display:block}
+.hud{position:fixed;inset:0;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;padding:calc(18px + env(safe-area-inset-top,0px)) 14px calc(18px + env(safe-area-inset-bottom,0px))}
+.logo{width:64px;height:64px;border-radius:50%;border:3px solid var(--sky);object-fit:cover;background:#0b2a6b;box-shadow:0 0 28px #00a1de88;animation:fl 5s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-8px)}}
+h1{margin:8px 0 2px;font-size:clamp(1rem,3.4vw,1.5rem);font-weight:800;letter-spacing:.18em}
+.name{font:400 clamp(1.7rem,6vw,2.8rem) "Great Vibes",cursive;color:var(--yel);text-shadow:0 0 18px #fad20088}
+.name span{display:inline-block;opacity:0;filter:blur(8px);transform:translateY(10px);animation:in .8s forwards}
+@keyframes in{to{opacity:1;filter:none;transform:none}}
+.sweep{height:2px;width:min(260px,60vw);margin:4px auto;background:linear-gradient(90deg,transparent,var(--sky),var(--yel),transparent);background-size:200%;animation:sw 3s linear infinite}@keyframes sw{to{background-position:-200%}}
+.tag{font-size:.62rem;letter-spacing:.3em;color:#9fc4e8}.acc{margin-top:6px;font-weight:800;letter-spacing:.4em;color:var(--sky);font-size:.8rem;text-shadow:0 0 14px var(--sky)}
+#lab{position:fixed;pointer-events:none;background:#030812dd;border:1px solid var(--sky);border-radius:10px;padding:8px 12px;font-size:.66rem;line-height:1.4;letter-spacing:.12em;white-space:nowrap;transform:translate(-50%,-130%);box-shadow:0 0 20px #00a1de66}
+#lab b{color:var(--yel);display:block}
+.ring{position:fixed;width:20px;height:20px;margin:-10px;border-radius:50%;border:3px solid var(--sky);box-shadow:0 0 30px var(--sky);pointer-events:none;animation:rg .9s ease-out forwards}
+.ring.gold{border-color:var(--yel);box-shadow:0 0 30px var(--yel)}@keyframes rg{to{transform:scale(22);opacity:0}}
+.fb{position:fixed;inset:0;display:flex;gap:26px;align-items:center;justify-content:center;flex-wrap:wrap;padding:20px}
+.fb button{background:#0b2a6b66;color:#fff;border:2px solid var(--sky);border-radius:18px;padding:22px 26px;font:800 .8rem Montserrat;letter-spacing:.2em;min-width:150px;min-height:90px}
+.mod{position:fixed;inset:0;background:#030812d9;display:grid;place-items:center;padding:14px;z-index:20;backdrop-filter:blur(6px)}
+.box{background:#0a1630;border:1px solid var(--sky);border-radius:20px;padding:22px;width:min(400px,100%);box-shadow:0 0 50px #00a1de44}
+.box h2{margin:0 0 4px;font-size:1.05rem;letter-spacing:.14em}.box p{margin:0 0 8px;color:#9fc4e8;font-size:.76rem}
+label{display:block;font-size:.7rem;font-weight:600;margin:10px 0 4px;color:#9fc4e8}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #2a4a8a;background:#050d20;color:#fff;font-size:16px}input:focus{outline:2px solid var(--sky)}
+.b{width:100%;margin-top:10px;border:0;border-radius:99px;padding:13px;font:700 .9rem Montserrat;min-height:46px;cursor:pointer;background:var(--yel);color:var(--navy)}.b.o{background:#fff}
+.lk{background:0;border:0;color:var(--sky);font-size:.76rem;padding:8px 0;cursor:pointer}.er{color:#ff7b7b;font-size:.78rem;min-height:1.2em;margin-top:6px}.ok{color:#6be39a}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<canvas id="c" aria-hidden="true"></canvas>
+<div class="hud">
+  <div><img class="logo" src="rtlh-logo.png" alt="RTLH" onerror="this.outerHTML='<div class=logo style=display:grid;place-items:center;font-weight:800>RTLH</div>'">
+    <h1>RWANDA TECH LEARNING HUB</h1><div class="name" id="nm">NIYIBIGIRA THEONESTE</div><div class="sweep"></div></div>
+  <div><div class="tag">INNOVATION • EDUCATION • TECHNOLOGY • CREATIVITY</div><div class="acc">ADMIN ACCESS</div></div>
+</div>
+<div id="lab" hidden></div>
+<div class="fb" id="fb" hidden><button data-a="1">ADMIN 01<br><small>Black Phoenix</small></button><button data-a="2">ADMIN 02<br><small>Squirrel</small></button></div>
+
+<div class="mod" id="lg" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="lt">
+  <h2 id="lt">SECURE SIGN-IN</h2><p id="who">Authorized administrators only.</p>
+  <button class="b o" id="g">Continue with Google</button>
+  <label for="em">Email</label><input id="em" type="email" autocomplete="username">
+  <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+  <div class="er" id="er" role="alert"></div><button class="b" id="si">Sign in</button>
+  <div style="display:flex;justify-content:space-between"><button class="lk" id="fp">Forgot password?</button><button class="lk" id="cl">Close</button></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,getDoc,collection,getDocs,query,limit} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const rtlhFirebaseConfig={apiKey:"AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",authDomain:"rwanda-tech-learning-hub.firebaseapp.com",projectId:"rwanda-tech-learning-hub",storageBucket:"rwanda-tech-learning-hub.firebasestorage.app",messagingSenderId:"785118659917",appId:"1:785118659917:web:7ada98356d213a3fad23"};
+const app=initializeApp(rtlhFirebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s);
+
+/* name letters assemble */
+$("#nm").innerHTML=[...$("#nm").textContent].map((c,i)=>`<span style="animation-delay:${.6+i*.07}s">${c===" "?"&nbsp;":c}</span>`).join("");
+
+/* ---------- secure access flow ---------- */
+let slot=1;const er=m=>$("#er").textContent=m;
+const ADMIN_ROLES=["admin","superadmin","platformadmin","courseadmin"];
+async function authorize(u){
+  er("");$("#er").className="er ok";er("Verifying authorization…");
+  let role="";try{const s=await getDoc(doc(db,"users",u.uid));role=s.exists()?String(s.data().role||""):""}catch(e){}
+  /* Real gate = Firestore rules: only rules-approved admins can read auditLogs. Role doc is informational. */
+  try{await getDocs(query(collection(db,"auditLogs"),limit(1)))}
+  catch(e){$("#er").className="er";er("Access denied. This account is not an authorized RTLH administrator.");await signOut(auth);return}
+  er("Access granted"+(role?` · role: ${role}`:"")+". Entering…");setTimeout(()=>location.href="course-admin.html",700);
+}
+const AE={"auth/invalid-credential":"Wrong email or password.","auth/too-many-requests":"Too many attempts. Try later.","auth/popup-closed-by-user":"Sign-in cancelled.","auth/network-request-failed":"Network problem."};
+const fail=e=>{$("#er").className="er";er(AE[e.code]||"Sign-in failed.")};
+$("#si").onclick=async()=>{$("#si").disabled=true;try{const r=await signInWithEmailAndPassword(auth,$("#em").value.trim(),$("#pw").value);await authorize(r.user)}catch(e){fail(e)}$("#si").disabled=false};
+$("#g").onclick=async()=>{try{const r=await signInWithPopup(auth,new GoogleAuthProvider());await authorize(r.user)}catch(e){fail(e)}};
+$("#fp").onclick=async()=>{const m=$("#em").value.trim();if(!m)return er("Enter your email first.");try{await sendPasswordResetEmail(auth,m)}catch(e){}$("#er").className="er ok";er("If the account exists, a reset email was sent.")};
+$("#cl").onclick=()=>$("#lg").hidden=true;
+function ring(x,y,gold){const r=document.createElement("div");r.className="ring"+(gold?" gold":"");r.style.left=x+"px";r.style.top=y+"px";document.body.append(r);setTimeout(()=>r.remove(),950)}
+function open(n,x=innerWidth/2,y=innerHeight/2){slot=n;ring(x,y,n===2);
+  $("#who").textContent=n===1?"ADMIN 01 · Founder gateway":"ADMIN 02 · Course management gateway";
+  setTimeout(()=>{if(auth.currentUser)authorize(auth.currentUser);$("#lg").hidden=false;$("#em").focus()},450)}
+$("#fb").onclick=e=>{const b=e.target.closest("button");if(b)open(+b.dataset.a)};
+
+/* ---------- 3D ---------- */
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let gl=!reduce&&window.THREE;if(gl){try{const t=document.createElement("canvas");gl=!!(t.getContext("webgl")||t.getContext("experimental-webgl"))}catch(e){gl=false}}
+if(!gl){$("#fb").hidden=false;$("#c").hidden=true}else{
+const low=innerWidth<640||(navigator.hardwareConcurrency||4)<=4;
+const R=new THREE.WebGLRenderer({canvas:$("#c"),antialias:!low,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,low?1.25:1.75));
+const S=new THREE.Scene();S.fog=new THREE.FogExp2(0x030812,.035);
+const cam=new THREE.PerspectiveCamera(55,1,.1,100);
+const fit=()=>{R.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;cam.position.set(0,innerWidth<640?3.6:2.6,innerWidth<640?15:10.5);cam.lookAt(0,-.2,0);cam.updateProjectionMatrix()};fit();addEventListener("resize",fit);
+S.add(new THREE.AmbientLight(0x6688aa,.7));const p1=new THREE.PointLight(0x00a1de,2.2,40);p1.position.set(-6,5,6);const p2=new THREE.PointLight(0xfad201,1.6,40);p2.position.set(6,-2,6);S.add(p1,p2);
+
+/* Rwanda outline (lon,lat), approximate */
+const RW=[[29.26,-1.68],[29.58,-1.39],[29.72,-1.36],[29.95,-1.12],[30.15,-1.05],[30.47,-1.06],[30.72,-1.4],[30.85,-1.58],[30.82,-2],[30.9,-2.28],[30.65,-2.41],[30.4,-2.3],[30.15,-2.4],[30.05,-2.6],[29.95,-2.8],[29.75,-2.84],[29.6,-2.82],[29.4,-2.8],[29.22,-2.62],[29,-2.8],[28.86,-2.5],[28.9,-2.2],[29.05,-1.9]];
+const K=3.2,P=([a,b])=>[(a-29.9)*K,(b+1.95)*K];
+const inside=(x,y)=>{let c=false;for(let i=0,j=RW.length-1;i<RW.length;j=i++){const[a,b]=RW[i],[d,e]=RW[j];if((b>y)!=(e>y)&&x<(d-a)*(y-b)/(e-b)+a)c=!c}return c};
+const tilt=new THREE.Group();tilt.rotation.x=-1.05;tilt.position.y=-.4;const spin=new THREE.Group();tilt.add(spin);S.add(tilt);
+const pos=[],col=[],step=low?.05:.03,C=[new THREE.Color(0x00a1de),new THREE.Color(0x20a060),new THREE.Color(0xfad201)];
+for(let x=28.85;x<30.95;x+=step)for(let y=-2.9;y<-1;y+=step)if(inside(x,y)){const[px,py]=P([x,y]);pos.push(px,py,Math.sin(x*9)*Math.cos(y*7)*.18+Math.random()*.03);const c=C[Math.floor(Math.random()*3.2)%3];col.push(c.r,c.g,c.b)}
+const geo=new THREE.BufferGeometry();geo.setAttribute("position",new THREE.Float32BufferAttribute(pos,3));geo.setAttribute("color",new THREE.Float32BufferAttribute(col,3));
+spin.add(new THREE.Points(geo,new THREE.PointsMaterial({size:low?.05:.04,vertexColors:true,transparent:true,opacity:.95,blending:THREE.AdditiveBlending,depthWrite:false})));
+const ol=RW.map(p=>{const[a,b]=P(p);return new THREE.Vector3(a,b,0)});
+spin.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(ol),new THREE.LineBasicMaterial({color:0x00a1de})));
+[.5,1,1.5].forEach((k,i)=>spin.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(ol.map(v=>new THREE.Vector3(v.x*(1-k*.06),v.y*(1-k*.06),k*.18))),new THREE.LineBasicMaterial({color:i?0x20a060:0xfad201,transparent:true,opacity:.35}))));
+
+/* glyph sprites: code rings + notes + hidden imagery */
+const tx={};const T=(ch,c)=>tx[ch+c]||(tx[ch+c]=(()=>{const k=document.createElement("canvas");k.width=k.height=64;const x=k.getContext("2d");x.font="44px monospace";x.textAlign="center";x.textBaseline="middle";x.fillStyle=c;x.shadowColor=c;x.shadowBlur=10;x.fillText(ch,32,34);return new THREE.CanvasTexture(k)})());
+const SP=(ch,c,s,op=1)=>{const m=new THREE.Sprite(new THREE.SpriteMaterial({map:T(ch,c),transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending}));m.scale.set(s,s,1);return m};
+const code="01{}</>;=#&".split(""),cc=["#00a1de","#fad201","#3ddc84"],rings=[];
+[[3.9,low?18:34,.25],[4.7,low?22:42,-.18],[5.5,low?26:50,.12]].forEach(([r,n,sp],k)=>{const g=new THREE.Group();for(let i=0;i<n;i++){const s=SP(code[(i*7+k)%code.length],cc[(i+k)%3],.34);const a=i/n*6.283;s.position.set(Math.cos(a)*r,Math.sin(a)*r,(k-1)*.35);g.add(s)}g.userData.sp=sp;spin.add(g);rings.push(g)});
+const og=new THREE.Group();og.rotation.set(.6,.4,0);S.add(og);const notes=[];
+"♪♫♬♩♪♫♬♩♪♫♬♩♭♪".split("").slice(0,low?8:14).forEach((n,i)=>{const s=SP(n,i%2?"#fad201":"#ffffff",.7);s.userData={r:3.2+(i%4)*.7,a:i*.9,sp:.3+(i%3)*.12};og.add(s);notes.push(s)});
+const hid=[];"🎓🏙️🧠💻📚🎹🔬🌐".split(/(?:)/u).filter(x=>x.trim()).slice(0,8).forEach((e,i)=>{const s=SP(e,"#9fd6ff",1.5,0);s.position.set((Math.random()-.5)*16,(Math.random()-.3)*7,-6-Math.random()*6);s.userData.o=i*.8;S.add(s);hid.push(s)});
+
+/* creatures */
+const mk=(c,e,m=.85,r=.25)=>new THREE.MeshStandardMaterial({color:c,emissive:e,emissiveIntensity:.7,metalness:m,roughness:r,side:2});
+const KB=mk(0x05070c,0x001a33),KG=mk(0x05070c,0x8a6a00),sph=(r,m,x,y,z,sx=1,sy=1,sz=1)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);return o};
+const hit=(g,r)=>{const h=new THREE.Mesh(new THREE.SphereGeometry(r,8,6),new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));g.add(h)};
+const eye=(g,c,x,y,z)=>g.add(sph(.04,new THREE.MeshBasicMaterial({color:c}),x,y,z));
+const phx=new THREE.Group(),wings=[];
+phx.add(sph(.28,KB,0,0,0,.8,.8,2.2),sph(.17,KB,0,.08,.62),sph(.05,mk(0xfad201,0x7a6000),0,.05,.84,1,1,2));eye(phx,0x00a1de,.08,.12,.74);eye(phx,0x00a1de,-.08,.12,.74);
+for(let i=0;i<5;i++){const L=1.5-Math.abs(i-2)*.2,g=new THREE.PlaneGeometry(.14,L);g.translate(0,-L/2,0);g.rotateX(-Math.PI/2);const f=new THREE.Mesh(g,i%2?KG:KB);f.position.z=-.5;f.rotation.y=(i-2)*.22;phx.add(f)}
+[1,-1].forEach(s=>{const w=new THREE.Group();for(let i=0;i<8;i++){const L=1.9-Math.abs(i-2.5)*.17,g=new THREE.PlaneGeometry(L,.3);g.translate(L/2,0,0);g.rotateX(-Math.PI/2);const f=new THREE.Mesh(g,i%2?KB:KG);f.rotation.y=(i-3.5)*.17;f.position.y=i*.004;w.add(f)}w.scale.x=s;w.position.set(s*.15,.05,.1);phx.add(w);wings.push([w,s])});
+hit(phx,1.6);phx.scale.setScalar(low?.8:1);S.add(phx);
+const sq=new THREE.Group(),legs=[];
+sq.add(sph(.2,KB,0,0,0,.8,.8,1.7),sph(.14,KB,0,.1,.38),sph(.04,KB,.07,.25,.34,1,2,1),sph(.04,KB,-.07,.25,.34,1,2,1));eye(sq,0x00a1de,.07,.14,.5);eye(sq,0x00a1de,-.07,.14,.5);
+for(let i=0;i<8;i++){const t=i/7;sq.add(sph(.15-t*.05,i%3?KB:KG,0,.2+Math.sin(t*2.6)*.55,-.3-t*.55))}
+[[.1,.25],[-.1,.25],[.1,-.2],[-.1,-.2]].forEach(([x,z])=>{const l=sph(.06,KG,x,-.18,z);sq.add(l);legs.push(l)});
+hit(sq,.8);sq.scale.setScalar(low?1.15:1.35);S.add(sq);
+/* trails */
+const TN=50,mkTrail=c=>{const g=new THREE.BufferGeometry();g.setAttribute("position",new THREE.BufferAttribute(new Float32Array(TN*3),3));const p=new THREE.Points(g,new THREE.PointsMaterial({size:.07,color:c,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));p.frustumCulled=false;S.add(p);return p};
+const tr1=mkTrail(0x00a1de),tr2=mkTrail(0xfad201);
+const push=(t,v)=>{const a=t.geometry.attributes.position.array;a.copyWithin(3,0,TN*3-3);a[0]=v.x;a[1]=v.y;a[2]=v.z;t.geometry.attributes.position.needsUpdate=true};
+
+/* flight paths: varied, non-repetitive */
+const pp=t=>new THREE.Vector3(Math.cos(t*.55)*(6.5+Math.sin(t*.31)*2),1.6+Math.sin(t*.9)*1.4+Math.sin(t*.13)*1,Math.sin(t*.55)*3.5+Math.sin(t*.23)*5.5);
+const sp=t=>{const a=t*.7,h=Math.abs(Math.sin(t*5))*.5;const leap=Math.max(0,Math.sin(t*1.4))**6*1.8;return new THREE.Vector3(Math.cos(a)*4.2,-1.3+h+leap,Math.sin(a)*2.6+1.5)};
+let pT=0,sT=0,hov=0,pS=1,sS=1,last=performance.now(),run=true;
+const RC=new THREE.Raycaster(),mv=new THREE.Vector2(),lab=$("#lab");
+const txt={1:"<b>ADMIN 01</b>FOUNDER / MASTER ADMIN<br>NIYIBIGIRA THEONESTE",2:"<b>ADMIN 02</b>SECONDARY ADMIN<br>RTLH COURSE MANAGEMENT"};
+const pick=e=>{mv.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);RC.setFromCamera(mv,cam);return RC.intersectObject(phx,true).length?1:RC.intersectObject(sq,true).length?2:0};
+addEventListener("pointermove",e=>{const h=pick(e);hov=h;if(h){lab.hidden=false;lab.innerHTML=txt[h];lab.style.left=e.clientX+"px";lab.style.top=e.clientY+"px";$("#c").style.cursor="pointer"}else{lab.hidden=true;$("#c").style.cursor=""}});
+$("#c").addEventListener("pointerdown",e=>{const h=pick(e);if(h){hov=h;open(h,e.clientX,e.clientY)}});
+document.addEventListener("visibilitychange",()=>{run=!document.hidden;last=performance.now();if(run)loop()});
+function loop(){if(!run)return;requestAnimationFrame(loop);const n=performance.now(),dt=Math.min((n-last)/1000,.05);last=n;
+ pS+=((hov===1?.25:1)-pS)*.1;sS+=((hov===2?.25:1)-sS)*.1;pT+=dt*pS;sT+=dt*sS;
+ const a=pp(pT),b=pp(pT+.05);phx.position.copy(a);phx.lookAt(b);phx.rotateZ(Math.sin(pT*.9)*.25);
+ const f=Math.sin(n*.009*(hov===1?.6:1))*.55;wings.forEach(([w,s])=>w.rotation.z=s*f);KB.emissiveIntensity=hov===1?1.6:.7;
+ const c=sp(sT),d=sp(sT+.05);sq.position.copy(c);sq.lookAt(d);legs.forEach((l,i)=>l.position.y=-.18+Math.sin(n*.02+i*1.6)*.07);KG.emissiveIntensity=hov===2?1.6:.8;
+ push(tr1,a);push(tr2,c);
+ spin.rotation.z+=dt*.08;rings.forEach(g=>g.rotation.z+=dt*g.userData.sp);notes.forEach(s=>{const u=s.userData;u.a+=dt*u.sp;s.position.set(Math.cos(u.a)*u.r,Math.sin(u.a*1.3)*1.5,Math.sin(u.a)*u.r*.7)});
+ hid.forEach(s=>s.material.opacity=Math.max(0,Math.sin(n*.0004+s.userData.o))*.28);
+ cam.position.x=Math.sin(n*.0002)*1.2;cam.lookAt(0,-.2,0);R.render(S,cam)}
+loop()}
+</script>
+</body>
+</html>
