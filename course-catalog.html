@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b2a6b">
-<title>Course Catalog | Rwanda Tech Learning Hub</title>
-<meta name="description" content="Search and filter courses from nursery to PhD, TVET, TTC and life skills at Rwanda Tech Learning Hub.">
+<title>Course Details | Rwanda Tech Learning Hub</title>
+<meta name="description" content="Detailed course overview, curriculum syllabus, instructor info, prerequisites, and interactive enrollment on Rwanda Tech Learning Hub.">
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0b2a6b;--blue:#1565c0;--sky:#00a1de;--green:#0b7a3b;--yel:#fad201;--ink:#10223f;--mut:#5b6b85;--bg:#f3f7fc;--line:#dfe8f3;--r:20px}
@@ -14,91 +14,226 @@ a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cur
 header{position:sticky;top:0;z-index:40;background:rgba(11,42,107,.97);color:#fff;box-shadow:0 6px 24px #0b2a6b33}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:72px}
 .brand{display:flex;align-items:center;gap:11px;font-weight:800;line-height:1.1;font-size:.95rem}.brand small{display:block;font:400 1.1rem "Great Vibes",cursive;color:var(--yel)}
-.logo{width:46px;height:46px;border-radius:50%;border:3px solid var(--sky);background:radial-gradient(circle at 50% 35%,#fff6c9,#7fc4ee 55%,#2e8b4e);display:grid;place-items:center;color:var(--navy);font-weight:800;font-size:.75rem;flex:none}
+.logo-img{width:48px;height:48px;border-radius:50%;border:2px solid var(--sky);object-fit:cover;background:#fff}
 .links{display:flex;align-items:center;gap:18px;font-size:.84rem;font-weight:600}.links>a:hover,.dd>a:hover{color:var(--yel)}.links a.cur{color:var(--yel)}
 .dd{position:relative;padding:24px 0}.dd>a:after{content:" ▾";font-size:.65rem}.m2{display:none;position:absolute;top:100%;left:-14px;min-width:230px;background:#fff;color:var(--ink);border-radius:14px;padding:8px;box-shadow:0 20px 40px #0b2a6b44;border-top:4px solid var(--yel)}
-.dd:hover .m2,.dd:focus-within .m2{display:block}.m2 a{display:block;padding:9px 12px;border-radius:9px;font-weight:600}.m2 a:hover{background:#eaf2fb;color:var(--blue)}
+.dd:hover .m2,.dd:focus-within .m2{display:block}.m2 a{display:block;padding:9px 12px;border-radius:99px;font-weight:600}.m2 a:hover{background:#eaf2fb;color:var(--blue)}
 .tools{display:flex;align-items:center;gap:8px;font-size:.8rem}#lang{background:#173a85;color:#fff;border:1px solid #ffffff44;border-radius:8px;padding:6px;max-width:112px}.pill{background:#ffffff1a;border-radius:99px;padding:5px 10px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:99px;padding:11px 20px;font-weight:700;font-size:.88rem;transition:.2s;background:var(--yel);color:var(--navy);box-shadow:0 5px 0 #b8900a,0 12px 20px #0003}
 .btn:hover{transform:translateY(-4px) rotateX(8deg);box-shadow:0 9px 0 #b8900a,0 18px 26px #0003}.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b8900a}
 .btn.g{background:var(--green);color:#fff;box-shadow:0 5px 0 #065227,0 12px 20px #0003}.btn.o{background:#fff;color:var(--navy);box-shadow:0 5px 0 #aab9d0,0 12px 20px #0002}.btn.s{padding:8px 14px;font-size:.78rem;box-shadow:0 3px 0 #b8900a}.btn.g.s{box-shadow:0 3px 0 #065227}.btn.o.s{box-shadow:0 3px 0 #aab9d0}
 .burger{display:none;background:0;border:1px solid #fff6;color:#fff;border-radius:10px;padding:7px 12px;font-size:1.2rem}
-.hero{position:relative;color:#fff;padding:54px 0 90px;overflow:hidden;background:var(--navy)}.bg{position:absolute;inset:0}
-.sl{position:absolute;inset:-4%;opacity:0;background-size:cover;background-position:center;animation:fd 30s infinite,kb 30s infinite}.sl:nth-child(2){animation-delay:6s}.sl:nth-child(3){animation-delay:12s}.sl:nth-child(4){animation-delay:18s}.sl:nth-child(5){animation-delay:24s}
-@keyframes fd{0%{opacity:0}4%,20%{opacity:1}26%,100%{opacity:0}}@keyframes kb{0%{transform:scale(1)}20%,100%{transform:scale(1.12) translateX(-2%)}}
-.bg:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,#0b2a6bf2 30%,#0b2a6bb5 65%,#0b7a3b66)}
-.hero .w{position:relative;z-index:2}.crumb{font-size:.78rem;color:#c7d9ee}.crumb a:hover{color:var(--yel)}
-h1{font-size:clamp(2rem,4.6vw,3.6rem);line-height:1.05;margin:10px 0;letter-spacing:-1px;font-weight:800}h1 em{font:400 1.15em "Great Vibes",cursive;color:var(--yel);letter-spacing:0}
-.hero p{color:#d6e4f7;max-width:620px;margin:0 0 20px}.sb{display:flex;background:#fff;border-radius:16px;padding:7px;gap:8px;max-width:680px;box-shadow:0 15px 40px #0004}.sb input{flex:1;min-width:0;border:0;outline:0;padding:12px;color:var(--ink)}.sb button{border:0;background:var(--blue);color:#fff;border-radius:11px;padding:0 20px;font-weight:700}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.quick a{background:#ffffff1c;border:1px solid #ffffff40;border-radius:99px;padding:5px 13px;font-size:.78rem;font-weight:600}.quick a:hover{background:var(--yel);color:var(--navy)}
-.wave{position:absolute;bottom:-1px;left:0;width:100%;height:50px;z-index:2}
-main{padding:34px 0 60px}.lay{display:grid;grid-template-columns:280px 1fr;gap:24px;align-items:start}
-.fb{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;position:sticky;top:92px;max-height:calc(100vh - 110px);overflow:auto}.fb h3{margin:0 0 4px;color:var(--navy)}.fb label{display:block;font-size:.74rem;font-weight:700;margin:12px 0 5px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
-.fb select,.fb input[type=search]{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}.fb .row2{display:flex;gap:8px;margin-top:16px}.fb .row2 .btn{flex:1}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.top p{margin:0;color:var(--mut);font-size:.88rem}.top select{padding:9px;border:1px solid var(--line);border-radius:10px;background:#fff}
-.vt{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}.vt button{border:0;background:#fff;padding:8px 12px}.vt .on{background:var(--navy);color:#fff}
-.fbtn{display:none}.act{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.act span{background:#e3effc;color:var(--navy);border-radius:99px;padding:4px 10px;font-size:.74rem;font-weight:700;cursor:pointer}.act span:after{content:" ✕"}
-.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:none}.chip{flex:none;border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-weight:700;font-size:.78rem;color:var(--navy)}.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.cg.list{grid-template-columns:1fr}
-.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 6px 22px #0b2a6b0d;transition:transform .15s,box-shadow .2s;transform-style:preserve-3d;display:flex;flex-direction:column}.card:hover{box-shadow:0 22px 44px #0b2a6b26}
-.art{height:96px;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;color:#fff;position:relative}.art .ic{font-size:2.2rem;transform:translateZ(30px)}.art .tg{background:#ffffff2a;border:1px solid #ffffff55;border-radius:99px;padding:4px 10px;font-size:.7rem;font-weight:700}
-.art:after{content:"";position:absolute;left:0;bottom:0;width:100%;height:4px;background:linear-gradient(90deg,var(--sky),var(--yel),var(--green))}
-.bd{padding:16px 18px;flex:1;display:flex;flex-direction:column}.bd h3{margin:0 0 5px;font-size:1rem;color:var(--navy);transform:translateZ(16px)}.bd p{margin:0 0 10px;color:var(--mut);font-size:.83rem;flex:1}.meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.meta span{background:#eaf2fb;border-radius:7px;padding:3px 8px;font-size:.7rem;color:#37506f}
-.ft{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.pr{font-weight:800;color:var(--green)}.hs{position:absolute;right:12px;top:12px;z-index:2;background:#fff;border:0;border-radius:50%;width:34px;height:34px;font-size:1rem;box-shadow:0 3px 10px #0003}
-.list .card{flex-direction:row}.list .art{width:130px;height:auto;flex:none}
-.empty{grid-column:1/-1;text-align:center;padding:50px 20px;background:#fff;border-radius:var(--r);border:1px dashed #b8c9e0;color:var(--mut)}.more{text-align:center;margin-top:22px}
-.cta{margin-top:50px;background:linear-gradient(110deg,var(--blue),var(--green));color:#fff;text-align:center;padding:44px 20px;border-radius:26px}.cta h2{margin:0 0 6px}.cta p{margin:0 auto 16px;max-width:560px;color:#e6f5f0}.cta .btn{margin:4px}
+
+.hero{position:relative;color:#fff;padding:40px 0 70px;overflow:hidden;background:var(--navy)}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(105deg,#0b2a6bf2 30%,#0b2a6bb5 65%,#0b7a3b66),url('rtlh-logo.png') center/cover no-repeat;opacity:0.18}
+.hero .w{position:relative;z-index:2}
+.crumb{font-size:.78rem;color:#c7d9ee;margin-bottom:12px}.crumb a:hover{color:var(--yel)}
+.hero-grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.badge{background:#ffffff22;border:1px solid #ffffff44;border-radius:99px;padding:4px 12px;font-size:.75rem;font-weight:700;color:#fff}
+.badge.gold{background:var(--yel);color:var(--navy);border-color:var(--yel)}
+h1{font-size:clamp(1.8rem,3.8vw,2.8rem);line-height:1.15;margin:0 0 12px;font-weight:800;letter-spacing:-0.5px}
+.hero-desc{color:#d6e4f7;font-size:1.05rem;max-width:700px;margin:0 0 20px}
+.stats-bar{display:flex;gap:18px;flex-wrap:wrap;font-size:.85rem;color:#c7d9ee;border-top:1px solid #ffffff22;padding-top:16px}
+.stats-bar span{display:inline-flex;align-items:center;gap:6px}
+
+/* Sticky Enrollment Box / 3D Card */
+.enroll-card{background:#fff;color:var(--ink);border-radius:var(--r);padding:24px;border:1px solid var(--line);box-shadow:0 20px 50px #0004;transform-style:preserve-3d;transition:transform .2s ease;position:sticky;top:92px;z-index:10}
+.preview-box{height:160px;border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:4rem;margin-bottom:18px;position:relative;overflow:hidden;box-shadow:inset 0 0 40px #0003}
+.preview-box .price-tag{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);padding:4px 12px;border-radius:99px;font-size:.85rem;font-weight:800;color:var(--yel)}
+.enroll-card .price{font-size:1.8rem;font-weight:800;color:var(--green);margin-bottom:14px;display:flex;align-items:baseline;gap:8px}
+.enroll-card .price small{font-size:.85rem;color:var(--mut);font-weight:500;text-decoration:line-through}
+.enroll-card .btn{width:100%;margin-bottom:10px}
+.guarantee{text-align:center;font-size:.78rem;color:var(--mut);margin-top:10px}
+
+/* Content Layout */
+main{padding:40px 0 70px}
+.det-grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start}
+.section-card{background:#fff;border-radius:var(--r);border:1px solid var(--line);padding:28px;margin-bottom:24px;box-shadow:0 6px 20px #0b2a6b08}
+.section-card h2{font-size:1.35rem;color:var(--navy);margin:0 0 16px;border-bottom:2px solid var(--bg);padding-bottom:10px;display:flex;align-items:center;gap:10px}
+.outcomes-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.outcomes-list li{list-style:none;position:relative;padding-left:26px;font-size:.9rem;color:#334155}
+.outcomes-list li::before{content:"✓";position:absolute;left:0;top:0;color:var(--green);font-weight:800;font-size:1rem}
+
+/* Accordion Curriculum */
+.acc-item{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:.2s}
+.acc-head{background:#f8fafc;padding:14px 18px;font-weight:700;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;font-size:.92rem}
+.acc-head:hover{background:#edf4fc;color:var(--blue)}
+.acc-body{padding:14px 18px;display:none;background:#fff;border-top:1px solid var(--line);font-size:.88rem;color:var(--mut)}
+.acc-item.open .acc-body{display:block}
+.acc-item.open .acc-head{background:#e3effc;color:var(--navy)}
+.acc-head::after{content:"＋";font-weight:800}
+.acc-item.open .acc-head::after{content:"－"}
+
+.lesson-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed #e2e8f0}
+.lesson-row:last-child{border-bottom:0}
+
+/* Instructor & Reviews */
+.instructor-box{display:flex;gap:18px;align-items:center}
+.inst-avatar{width:70px;height:70px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:1.8rem;font-weight:800;flex:none}
+.reviews-summary{display:flex;gap:20px;align-items:center;background:#f8fafc;padding:16px;border-radius:14px;margin-bottom:16px}
+.stars{color:#f59e0b;font-size:1.2rem}
+
+.wave{position:absolute;bottom:-1px;left:0;width:100%;height:40px;z-index:2}
 footer{background:#071b45;color:#c3d3ea;padding:42px 0 18px}.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}footer h4{color:#fff;margin:0 0 10px}footer a{display:block;font-size:.85rem;margin:7px 0}footer a:hover{color:var(--yel)}footer .brand{display:flex;margin:0}.cp{border-top:1px solid #ffffff22;margin-top:26px;padding-top:15px;font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
 #gate{position:fixed;inset:0;background:#071b45d0;display:none;place-items:center;z-index:99}#gate.on{display:grid}.gb{background:#fff;border-radius:24px;padding:28px;width:min(400px,92%);border-top:6px solid var(--yel)}.gb h2{margin:0 0 4px;color:var(--navy)}.gb input{width:100%;margin:6px 0 12px;padding:12px;border:1px solid var(--line);border-radius:10px}.gb small{color:var(--mut)}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:99px;z-index:90;display:none;font-size:.85rem}
 #gt,.goog-te-banner-frame,#goog-gt-tt{display:none!important}
-@media(max-width:1020px){.links{display:none;position:absolute;top:72px;left:0;right:0;background:var(--navy);padding:14px 5%;flex-direction:column;align-items:flex-start;gap:6px;max-height:75vh;overflow:auto}.links.open{display:flex}.dd{padding:6px 0}.m2{position:static;display:block;background:transparent;color:#fff;box-shadow:none;border:0;padding:0 0 0 10px}.m2 a:hover{background:#ffffff14;color:var(--yel)}.burger{display:block}
-.lay{grid-template-columns:1fr}.fb{position:fixed;inset:0 0 0 auto;width:min(340px,92%);max-height:none;z-index:70;border-radius:20px 0 0 20px;transform:translateX(105%);transition:.3s;box-shadow:-20px 0 50px #0006}.fb.open{transform:none}.fbtn{display:inline-flex}.cg{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.cg{grid-template-columns:1fr}.pill,.brand span span small{display:none}.sb{flex-wrap:wrap}.sb input{flex-basis:100%}.sb button{padding:12px;width:100%}.list .card{flex-direction:column}.list .art{width:auto;height:90px}.brand{font-size:.82rem}#lang{max-width:84px}}
-@media(prefers-reduced-motion:reduce){.sl{animation:none;opacity:.5}.card{transform:none!important}}
+
+@media(max-width:1020px){
+.links{display:none;position:absolute;top:72px;left:0;right:0;background:var(--navy);padding:14px 5%;flex-direction:column;align-items:flex-start;gap:6px;max-height:75vh;overflow:auto}.links.open{display:flex}.dd{padding:6px 0}.m2{position:static;display:block;background:transparent;color:#fff;box-shadow:none;border:0;padding:0 0 0 10px}.m2 a:hover{background:#ffffff14;color:var(--yel)}.burger{display:block}
+.hero-grid,.det-grid{grid-template-columns:1fr}.enroll-card{position:static;margin-top:20px}
+.outcomes-list{grid-template-columns:1fr}
+.fg{grid-template-columns:1fr 1fr}
+}
+@media(max-width:620px){.fg{grid-template-columns:1fr}.brand{font-size:.82rem}#lang{max-width:84px}}
+@media(prefers-reduced-motion:reduce){.enroll-card{transform:none!important}}
 </style>
 </head>
 <body>
 <div class="flag"></div>
 <header><div class="w nav">
-<a class="brand" href="index.html"><span class="logo">RTLH</span><span>Rwanda Tech Learning Hub<small>Learn · Create · Empower</small></span></a>
+<a class="brand" href="learning-center.html"><img src="rtlh-logo.png" alt="RTLH Logo" class="logo-img"><span>Rwanda Tech Learning Hub<small>Learn · Create · Empower</small></span></a>
 <nav class="links" id="nav">
-<a href="index.html">Home</a><a href="learning-center.html">Learning Center</a>
+<a href="learning-center.html">Home</a><a href="learning-center.html">Learning Center</a>
 <div class="dd"><a class="cur" href="course-catalog.html">Learn</a><div class="m2"><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced player</a><a href="eclass-center.html">E-Class (live)</a><a href="learning-dashboard.html">My learning</a></div></div>
 <a href="my-certificates.html">Certificates</a><a href="course-admin.html">Course admin</a>
 </nav>
-<div class="tools"><select id="lang" class="notranslate" aria-label="Language"></select><span class="pill" id="streak"></span><span id="auth"></span><button class="burger" id="bg" aria-label="Menu">☰</button></div>
+<div class="tools"><select id="lang" class="notranslate" aria-label="Language"></select><span class="pill" id="streak">🔥 1</span><span id="auth"></span><button class="burger" id="bg" aria-label="Menu">☰</button></div>
 </div></header>
 
 <section class="hero">
-<div class="bg">
-<div class="sl" style="background-image:url(images/coding-learners.jpg),linear-gradient(120deg,#0b2a6b,#1565c0)"></div>
-<div class="sl" style="background-image:url(images/group-learners.jpg),linear-gradient(120deg,#0b5a55,#0b7a3b)"></div>
-<div class="sl" style="background-image:url(images/online-learning.jpg),linear-gradient(120deg,#1565c0,#0b2a6b)"></div>
-<div class="sl" style="background-image:url(images/classroom.jpg),linear-gradient(120deg,#0b7a3b,#0b2a6b)"></div>
-<div class="sl" style="background-image:url(images/tvet-practical.jpg),linear-gradient(120deg,#0b2a6b,#b8900a)"></div></div>
-<div class="w"><div class="crumb"><a href="learning-center.html">Learning Center</a> › Course catalog</div>
-<h1>Find your <em>perfect</em> course</h1><p>Nursery to PhD, TVET, TTC and life skills. Filter, save favourites, enroll free or paid, and learn at your pace or live.</p>
-<form class="sb" id="hs"><input id="q" type="search" placeholder="Search courses, e.g. web, health, maths…" aria-label="Search"><button>Search</button></form>
-<div class="quick"><a href="#" data-q="web">💻 Web</a><a href="#" data-q="health">🩺 Health</a><a href="#" data-q="research">🔬 Research</a><a href="#" data-q="business">💰 Business</a><a href="#" data-q="teach">🍎 Teaching</a></div></div>
-<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0 30C240 70 480 0 720 25S1200 60 1440 20V60H0Z" fill="#f3f7fc"/></svg>
+<div class="hero-bg"></div>
+<div class="w">
+  <div class="crumb"><a href="learning-center.html">Home</a> › <a href="course-catalog.html">Courses</a> › <span id="c-crumb-title">Course Details</span></div>
+  <div class="hero-grid">
+    <div>
+      <div class="badge-row">
+        <span class="badge gold" id="c-mode">Self-paced</span>
+        <span class="badge" id="c-aud">Professional</span>
+        <span class="badge" id="c-diff">Beginner</span>
+      </div>
+      <h1 id="c-title">Web Development Fundamentals</h1>
+      <p class="hero-desc" id="c-desc">Build modern web applications with HTML5, CSS3, JavaScript, and responsive design tailored for real-world projects in Rwanda and globally.</p>
+      <div class="stats-bar">
+        <span>⭐ <strong>4.9</strong> (128 reviews)</span>
+        <span>👥 <strong id="c-learners">1,240</strong> learners</span>
+        <span>📚 <strong id="c-lessons">42</strong> lessons</span>
+        <span>⏱️ <strong id="c-weeks">8</strong> weeks</span>
+      </div>
+    </div>
+  </div>
+</div>
+<svg class="wave" viewBox="0 0 1440 40" preserveAspectRatio="none"><path d="M0 20C240 50 480 0 720 18S1200 40 1440 15V40H0Z" fill="#f3f7fc"/></svg>
 </section>
 
-<main><div class="w lay">
-<aside class="fb" id="fb"><h3>Refine courses</h3>
-<label>Level</label><select id="fa"><option value="">All levels</option></select>
-<label>Learning area</label><select id="ff"><option value="">All areas</option><option value="academic">Academic</option><option value="technology">Technology & ICT</option><option value="trade">TVET & trades</option><option value="life">Social & life skills</option><option value="health">Health & wellbeing</option><option value="business">Business & finance</option><option value="science">Science & research</option><option value="teacher">Teaching</option><option value="arts">Arts & creativity</option></select>
-<label>Mode</label><select id="fm"><option value="">All modes</option><option>Self-paced</option><option>E-Class</option><option>Live online</option><option>Blended</option></select>
-<label>Access</label><select id="fp"><option value="">Any</option><option>Free</option><option>Paid</option><option>Scholarship</option></select>
-<label>Difficulty</label><select id="fd"><option value="">Any</option><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select>
-<div class="row2"><button class="btn s" id="apply">Show</button><button class="btn o s" id="reset" type="button">Reset</button></div></aside>
-<section><div class="tabs" id="tabs"></div>
-<div class="top"><p id="rc" aria-live="polite"></p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn o s fbtn" id="fo">⚙ Filters</button><select id="so" aria-label="Sort"><option value="r">Recommended</option><option value="a">A → Z</option><option value="f">Free first</option><option value="s">Shortest first</option><option value="h">Saved first</option></select><div class="vt"><button id="vg" class="on" aria-label="Grid">▦</button><button id="vl" aria-label="List">☰</button></div></div></div>
-<div class="act" id="act"></div><div class="cg" id="cg"></div><div class="more"><button class="btn o" id="more">Load more</button></div>
-<div class="cta"><h2>Can't find what you need?</h2><p>Ask for a course, join a live E-Class, or build your own on RTLH.</p><a class="btn" href="eclass-center.html">Live E-Class</a><a class="btn o" href="learning-dashboard.html">My learning</a><a class="btn g" href="course-admin.html">Create a course</a></div></section>
+<main><div class="w det-grid">
+  <div>
+    <!-- Overview / Outcomes -->
+    <div class="section-card">
+      <h2>🎯 What You Will Learn</h2>
+      <ul class="outcomes-list" id="c-outcomes">
+        <li>Understand core web protocols, HTML semantics, and accessible markup.</li>
+        <li>Master responsive layouts using Flexbox, CSS Grid, and mobile-first principles.</li>
+        <li>Build interactive dynamic interfaces using JavaScript (ES6+).</li>
+        <li>Deploy practical projects live using GitHub Pages and free cloud platforms.</li>
+        <li>Integrate localized digital services and API endpoints effectively.</li>
+        <li>Earn an officially verifiable RTLH certificate upon completion.</li>
+      </ul>
+    </div>
+
+    <!-- Syllabus / Curriculum -->
+    <div class="section-card">
+      <h2>📖 Course Syllabus</h2>
+      <div id="syllabus-container">
+        <div class="acc-item open">
+          <div class="acc-head">Module 1: Introduction to Web Technologies & Web Basics</div>
+          <div class="acc-body">
+            <div class="lesson-row"><span>1.1 How the Web Works & RTLH Platform Overview</span><small>15 mins</small></div>
+            <div class="lesson-row"><span>1.2 HTML5 Semantic Tags & Web Structure</span><small>25 mins</small></div>
+            <div class="lesson-row"><span>1.3 Building Your First Mobile-First Page</span><small>35 mins</small></div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-head">Module 2: Styling with Modern CSS & 3D Interactive UI</div>
+          <div class="acc-body">
+            <div class="lesson-row"><span>2.1 CSS Fundamentals & Box Model</span><small>30 mins</small></div>
+            <div class="lesson-row"><span>2.2 Flexbox and CSS Grid Mastery</span><small>45 mins</small></div>
+            <div class="lesson-row"><span>2.3 Creating 3D Card Animations & Interactive Buttons</span><small>40 mins</small></div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-head">Module 3: Dynamic JavaScript Programming</div>
+          <div class="acc-body">
+            <div class="lesson-row"><span>3.1 Variables, Functions, and DOM Manipulation</span><small>50 mins</small></div>
+            <div class="lesson-row"><span>3.2 LocalStorage Sync & User Authentication Logic</span><small>40 mins</small></div>
+            <div class="lesson-row"><span>3.3 Multilingual Google Translate API Integration</span><small>35 mins</small></div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-head">Module 4: Practical Capstone Project & Certification</div>
+          <div class="acc-body">
+            <div class="lesson-row"><span>4.1 Building a Rwandan Local Tech Hub Solution</span><small>90 mins</small></div>
+            <div class="lesson-row"><span>4.2 Final Exam & Certificate Generation</span><small>45 mins</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instructor Info -->
+    <div class="section-card">
+      <h2>👨‍🏫 Course Instructor</h2>
+      <div class="instructor-box">
+        <div class="inst-avatar" id="inst-avatar">R</div>
+        <div>
+          <h3 style="margin:0 0 4px;color:var(--navy)" id="inst-name">Rwanda Tech Hub Faculty</h3>
+          <p style="margin:0 0 6px;color:var(--mut);font-size:.85rem">Senior Software Engineers & Educators in Kigali</p>
+          <p style="margin:0;font-size:.88rem">Dedicated to empowering the next generation of Rwandan innovators and technical leaders through accessible high-quality instruction.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews -->
+    <div class="section-card">
+      <h2>💬 Learner Reviews</h2>
+      <div class="reviews-summary">
+        <div style="text-align:center">
+          <div style="font-size:2.4rem;font-weight:800;color:var(--navy)">4.9</div>
+          <div class="stars">★★★★★</div>
+          <small style="color:var(--mut)">Course Rating</small>
+        </div>
+        <div style="flex:1;font-size:.85rem;color:var(--mut)">
+          98% of learners recommended this course for practical career advancement in Rwanda's tech ecosystem.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar / 3D Action Card -->
+  <aside>
+    <div class="enroll-card t3" id="action-card">
+      <div class="preview-box" id="c-icon-bg" style="background:linear-gradient(120deg,var(--blue),var(--navy))">
+        <span id="c-icon" style="transform:translateZ(30px)">💻</span>
+        <span class="price-tag" id="c-price-badge">Free</span>
+      </div>
+      <div class="price" id="c-price">Free <small>$49.99</small></div>
+      <button class="btn g" id="btn-enroll">Enroll Now</button>
+      <button class="btn o" id="btn-fav">❤️ Save to Favourites</button>
+      <a class="btn o" id="btn-preview" href="self-paced.html" style="margin-top:6px;width:100%">▶ Interactive Player</a>
+      
+      <div style="margin-top:20px;border-top:1px solid var(--line);padding-top:16px;font-size:.84rem">
+        <p style="margin:6px 0;display:flex;justify-content:space-between"><span>📜 Certificate:</span> <strong>Included</strong></p>
+        <p style="margin:6px 0;display:flex;justify-content:space-between"><span>📱 Access:</span> <strong>Mobile & Desktop</strong></p>
+        <p style="margin:6px 0;display:flex;justify-content:space-between"><span>🌐 Languages:</span> <strong>13 Options</strong></p>
+        <p style="margin:6px 0;display:flex;justify-content:space-between"><span>⏳ Duration:</span> <strong id="c-wks-side">8 Weeks</strong></p>
+      </div>
+      <div class="guarantee">🔒 Full Lifetime Access & Official Certification</div>
+    </div>
+  </aside>
 </div></main>
 
-<footer><div class="w"><div class="fg"><div><a class="brand" href="index.html"><span class="logo">RTLH</span><span>Rwanda Tech Learning Hub<small>Empowering Rwanda through education</small></span></a><p style="max-width:320px;font-size:.84rem">Learning without borders, for Rwanda and the world.</p></div>
+<footer><div class="w"><div class="fg"><div><a class="brand" href="learning-center.html"><img src="rtlh-logo.png" alt="RTLH Logo" class="logo-img"><span>Rwanda Tech Learning Hub<small>Empowering Rwanda through education</small></span></a><p style="max-width:320px;font-size:.84rem;margin-top:10px">Learning without borders, for Rwanda and the world.</p></div>
 <div><h4>Learn</h4><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced</a><a href="eclass-center.html">E-Class center</a><a href="learning-dashboard.html">Dashboard</a></div>
 <div><h4>Achievements</h4><a href="my-certificates.html">My certificates</a><a href="course-details.html">Course details</a><a href="course-checkout.html">Enrollment</a></div>
 <div><h4>RTLH</h4><a href="learning-center.html">Learning Center</a><a href="course-admin.html">Course admin</a><a href="mailto:theonesteniyibigira6@gmail.com">Contact</a></div></div>
@@ -106,11 +241,11 @@ footer{background:#071b45;color:#c3d3ea;padding:42px 0 18px}.fg{display:grid;gri
 
 <div id="gate"><div class="gb"><h2>Log in to start learning</h2><small id="gm">Create a free account or log in to continue.</small><input id="gn" placeholder="Full name"><input id="ge" type="email" placeholder="Email"><button class="btn g" id="gg" style="width:100%">Log in / Sign up</button><p><a href="#" id="gx" style="color:var(--mut)">Not now</a></p></div></div>
 <div id="toast"></div><div id="gt"></div><script src="https://translate.google.com/translate_a/element.js?cb=gtInit"></script>
+
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],E=encodeURIComponent,J=(k,d)=>{try{return JSON.parse(localStorage[k])||d}catch(e){return d}};
-/* LEVELS + COURSES [id,title,audience,field,mode,price,difficulty,lessons,weeks,icon,desc]. Courses made in course-admin.html (localStorage "rtlh_admin_courses") are merged in automatically. */
-const LV=[["nursery","Nursery"],["primary","Primary"],["olevel","O-Level"],["alevel","A-Level"],["ttc","TTC"],["tvet","TVET"],["bachelor","Bachelor's (A0)"],["masters","Master's"],["phd","PhD"],["professional","Professional"],["adult","Adult learner"]];
-const COL={academic:"#1565c0,#0b2a6b",technology:"#0b2a6b,#00a1de",trade:"#b8700a,#0b2a6b",life:"#0b7a3b,#00a1de",health:"#0b7a3b,#0b5a55",business:"#0b5a55,#1565c0",science:"#1565c0,#0b7a3b",teacher:"#0b2a6b,#0b7a3b",arts:"#8a3fa0,#1565c0"};
+
+/* BASE COURSES DATA (Synced with course-catalog.html) */
 const BASE=[
 ["early-learning","Early Learning Foundations","nursery","academic","Self-paced","Free","Beginner",20,4,"🧸","Play-based literacy, numbers and discovery."],
 ["kinyarwanda-p","Kinyarwanda & English for Primary","primary","academic","Self-paced","Free","Beginner",30,6,"📘","Reading, writing and speaking in two languages."],
@@ -138,48 +273,140 @@ const BASE=[
 ["social-lead","Social Learning & Community Leadership","adult","life","Live online","Free","Beginner",14,4,"🤝","Teamwork, communication and civic action."],
 ["agri-green","Sustainable Farming & Environment","adult","trade","Self-paced","Free","Beginner",20,5,"🌾","Soil, crops, climate and green living."],
 ["art-design","Drawing, Design & Creativity","adult","arts","Self-paced","Paid","All levels",22,6,"🎨","Visual communication and digital design."]];
+
+const COL={academic:"#1565c0,#0b2a6b",technology:"#0b2a6b,#00a1de",trade:"#b8700a,#0b2a6b",life:"#0b7a3b,#00a1de",health:"#0b7a3b,#0b5a55",business:"#0b5a55,#1565c0",science:"#1565c0,#0b7a3b",teacher:"#0b2a6b,#0b7a3b",arts:"#8a3fa0,#1565c0"};
+
 const ALL=()=>BASE.concat(J("rtlh_admin_courses",[]).map(c=>Array.isArray(c)?c:[c.id,c.title,c.audience||"adult",c.field||"academic",c.mode||"Self-paced",c.price||"Free",c.difficulty||"Beginner",c.lessons||10,c.weeks||4,c.icon||"📚",c.desc||""]));
-const P=new URLSearchParams(location.search);let S={a:"",f:"",m:"",p:"",d:"",q:"",so:"r",view:"g",n:12};
-const AG={secondary:"olevel",university:"bachelor"};S.a=AG[P.get("audience")]||P.get("audience")||"";S.f=P.get("field")||"";S.q=P.get("q")||"";S.m=P.get("mode")||"";S.p=P.get("price")||"";
-$("#fa").innerHTML+=LV.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join("");
+
 const fav=()=>J("rtlh_fav",[]),enr=()=>J("rtlh_enrolled",[]),user=()=>J("rtlhUser",null);
 function toast(t){const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",2200)}
-function list(){const a=S.a,k=S.q.toLowerCase(),F=fav();let r=ALL().filter(c=>(!a||c[2]===a||(a==="alevel"&&0))&&(!S.f||c[3]===S.f)&&(!S.m||c[4]===S.m)&&(!S.p||c[5]===S.p)&&(!S.d||c[6]===S.d||c[6]==="All levels")&&(!k||(c[1]+c[10]+c[3]+c[2]).toLowerCase().includes(k)));
-const so=S.so;r.sort((x,y)=>so==="a"?x[1].localeCompare(y[1]):so==="f"?(y[5]==="Free")-(x[5]==="Free"):so==="s"?x[8]-y[8]:so==="h"?F.includes(y[0])-F.includes(x[0]):0);return r}
-function render(){$$("#fa,#ff,#fm,#fp,#fd").forEach(s=>s.value=S[{fa:"a",ff:"f",fm:"m",fp:"p",fd:"d"}[s.id]]);$("#q").value=S.q;
-$("#tabs").innerHTML=[["","All"]].concat(LV).map(l=>`<button class="chip ${S.a===l[0]?"on":""}" data-a="${l[0]}">${l[1]}</button>`).join("");
-const r=list(),F=fav(),N=enr();$("#rc").textContent=r.length+" course"+(r.length===1?"":"s")+" found";
-const chips=[[S.a&&(LV.find(l=>l[0]===S.a)||[])[1],"a"],[S.f,"f"],[S.m,"m"],[S.p,"p"],[S.d,"d"],[S.q&&"“"+S.q+"”","q"]].filter(c=>c[0]);$("#act").innerHTML=chips.map(c=>`<span data-x="${c[1]}">${c[0]}</span>`).join("");
-$("#cg").className="cg"+(S.view==="l"?" list":"");
-$("#cg").innerHTML=r.slice(0,S.n).map(c=>{const id=c[0],en=N.includes(id),go=c[4]==="E-Class"||c[4]==="Live online"?"eclass-center.html":"self-paced.html",q="?id="+E(id)+"&course="+E(c[1]);
-return `<article class="card t3"><div class="art" style="background:linear-gradient(120deg,${COL[c[3]]||COL.academic})"><span class="ic">${c[9]}</span><span class="tg">${c[5]}</span><button class="hs" data-h="${id}" aria-label="Save">${F.includes(id)?"❤️":"🤍"}</button></div><div class="bd"><h3>${c[1]}</h3><p>${c[10]}</p><div class="meta"><span>${c[4]}</span><span>${c[6]}</span><span>${c[7]} lessons</span><span>${c[8]} wks</span></div><div class="ft"><span class="pr">${c[5]}</span><span style="display:flex;gap:6px;flex-wrap:wrap"><a class="btn o s" href="course-details.html${q}">Details</a>${en?`<a class="btn g s" href="${go+q}">Continue</a>`:`<a class="btn s" href="course-checkout.html${q}">${c[5]==="Free"?"Enroll free":"Enroll"}</a>`}</span></div></div></article>`}).join("")||'<div class="empty">😕 No courses match. <a href="#" id="clr" style="color:var(--blue);font-weight:700">Clear filters</a></div>';
-$("#more").style.display=r.length>S.n?"":"none"}
-/* events */
-const MAP={fa:"a",ff:"f",fm:"m",fp:"p",fd:"d"};$$("#fb select").forEach(s=>s.onchange=()=>{S[MAP[s.id]]=s.value;S.n=12;render()});
-$("#so").onchange=e=>{S.so=e.target.value;render()};$("#vg").onclick=()=>{S.view="g";$("#vg").classList.add("on");$("#vl").classList.remove("on");render()};$("#vl").onclick=()=>{S.view="l";$("#vl").classList.add("on");$("#vg").classList.remove("on");render()};
-$("#hs").onsubmit=e=>{e.preventDefault();S.q=$("#q").value.trim();S.n=12;render();$("#tabs").scrollIntoView({behavior:"smooth"})};
-$("#reset").onclick=()=>{S={...S,a:"",f:"",m:"",p:"",d:"",q:"",n:12};render()};$("#apply").onclick=()=>$("#fb").classList.remove("open");$("#fo").onclick=()=>$("#fb").classList.add("open");
-$("#more").onclick=()=>{S.n+=12;render()};
-$("#tabs").onclick=e=>{if(e.target.dataset.a!==undefined){S.a=e.target.dataset.a;S.n=12;render()}};
-$("#act").onclick=e=>{const x=e.target.dataset.x;if(x){S[x]="";render()}};
-$$(".quick a").forEach(a=>a.onclick=e=>{e.preventDefault();S.q=a.dataset.q;render()});
-document.addEventListener("click",e=>{const h=e.target.closest("[data-h]");if(h){const F=fav(),i=h.dataset.h,k=F.indexOf(i);k<0?F.push(i):F.splice(k,1);localStorage.rtlh_fav=JSON.stringify(F);toast(k<0?"Saved to favourites ❤️":"Removed from favourites");render();return}
-if(e.target.id==="clr"){e.preventDefault();$("#reset").click()}
-const a=e.target.closest("a[href]");if(a&&/(self-paced|learning-dashboard|eclass-center|course-checkout|my-certificates|course-admin|course-details)\.html/.test(a.getAttribute("href"))&&!user()){e.preventDefault();nx=a.href;$("#gm").textContent="Please log in first. You'll go straight to your page after.";$("#gate").classList.add("on")}});
-$("#bg").onclick=()=>$("#nav").classList.toggle("open");
-/* 3D tilt */
-document.addEventListener("mousemove",e=>{if(matchMedia("(prefers-reduced-motion:reduce)").matches||matchMedia("(hover:none)").matches)return;const c=e.target.closest(".t3");$$(".t3").forEach(x=>x!==c&&(x.style.transform=""));if(!c)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-6px)`});
-/* Translate: 12 most spoken languages + Kinyarwanda */
+
+/* Read Course ID from URL */
+const P=new URLSearchParams(location.search);
+const courseId=P.get("id")||"web-dev";
+const courseData=ALL().find(c=>c[0]===courseId)||BASE[12];
+
+function loadCourse(){
+  $("#c-crumb-title").textContent=courseData[1];
+  $("#c-title").textContent=courseData[1];
+  $("#c-desc").textContent=courseData[10];
+  $("#c-mode").textContent=courseData[4];
+  $("#c-aud").textContent=courseData[2].toUpperCase();
+  $("#c-diff").textContent=courseData[6];
+  $("#c-lessons").textContent=courseData[7];
+  $("#c-weeks").textContent=courseData[8];
+  $("#c-wks-side").textContent=courseData[8]+" Weeks";
+  $("#c-icon").textContent=courseData[9];
+  $("#c-price-badge").textContent=courseData[5];
+  
+  if(courseData[5]==="Free"){
+    $("#c-price").innerHTML='Free <small>$39.99</small>';
+  } else if(courseData[5]==="Scholarship") {
+    $("#c-price").innerHTML='Scholarship <small>100% Off</small>';
+  } else {
+    $("#c-price").innerHTML='RWF 25,000 <small>RWF 50,000</small>';
+  }
+
+  const gradient = COL[courseData[3]] || COL.academic;
+  $("#c-icon-bg").style.background = `linear-gradient(120deg, ${gradient})`;
+  $("#inst-avatar").textContent = courseData[1].charAt(0);
+
+  updateButtons();
+}
+
+function updateButtons(){
+  const isFav = fav().includes(courseId);
+  const isEnrolled = enr().includes(courseId);
+
+  $("#btn-fav").textContent = isFav ? "❤️ Saved in Favourites" : "🤍 Add to Favourites";
+  
+  const dest = courseData[4]==="E-Class"||courseData[4]==="Live online"?"eclass-center.html":"self-paced.html";
+  const urlParams = `?id=${E(courseId)}&course=${E(courseData[1])}`;
+
+  if(isEnrolled){
+    $("#btn-enroll").textContent = "Continue Course";
+    $("#btn-enroll").className = "btn g";
+    $("#btn-enroll").onclick = ()=> location.href = dest + urlParams;
+  } else {
+    $("#btn-enroll").textContent = courseData[5]==="Free" ? "Enroll for Free" : "Enroll Now";
+    $("#btn-enroll").className = "btn";
+    $("#btn-enroll").onclick = ()=> location.href = "course-checkout.html" + urlParams;
+  }
+
+  $("#btn-preview").href = dest + urlParams;
+}
+
+/* Favourites click */
+$("#btn-fav").onclick = ()=>{   const F = fav(), k = F.indexOf(courseId);   k < 0 ? F.push(courseId) : F.splice(k, 1);   localStorage.rtlh_fav = JSON.stringify(F);   toast(k < 0 ? "Saved to favourites ❤️" : "Removed from favourites");   updateButtons(); };  /* Accordion Interaction */ $$(".acc-head").forEach(h=>{
+  h.onclick = ()=> h.parentElement.classList.toggle("open");
+});
+
+/* 3D Card Hover Effect */
+document.addEventListener("mousemove",e=>{
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches||matchMedia("(hover:none)").matches)return;
+  const c=$("#action-card");
+  if(!c)return;
+  const r=c.getBoundingClientRect();
+  if(e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom){
+    const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform=`perspective(800px) rotateY(${x*12}deg) rotateX(${-y*12}deg) translateY(-4px)`;
+  } else {
+    c.style.transform="";
+  }
+});
+
+/* Multilingual Google Translate Toggle: 12 Most Spoken + Kinyarwanda */
 const LG=[["en","English"],["rw","Kinyarwanda"],["zh-CN","中文"],["hi","हिन्दी"],["es","Español"],["fr","Français"],["ar","العربية"],["bn","বাংলা"],["pt","Português"],["ru","Русский"],["ur","اردو"],["id","Indonesia"],["de","Deutsch"]];
-function gtInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:LG.map(l=>l[0]).join(","),autoDisplay:false},"gt");setTimeout(()=>setLang(localStorage.rtlhLang||"en"),900)}
-function setLang(c){const s=$(".goog-te-combo");$("#lang").value=c;if(!s)return;s.value=c==="en"?"":c;s.dispatchEvent(new Event("change"));localStorage.rtlhLang=c}
-$("#lang").innerHTML=LG.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join("");$("#lang").onchange=e=>setLang(e.target.value);
-/* Login gate (shared with learning-center.html) */
-let nx=null;function auth(){const u=user();$("#auth").innerHTML=u?`👤 ${u.name.split(" ")[0]} <a href="#" id="out" style="color:var(--yel)">Log out</a>`:'<a class="btn s" href="#" id="li">Log in</a>';$("#out")&&($("#out").onclick=e=>{e.preventDefault();localStorage.removeItem("rtlhUser");auth();render()});$("#li")&&($("#li").onclick=e=>{e.preventDefault();$("#gate").classList.add("on")})}
+
+function gtInit(){
+  new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:LG.map(l=>l[0]).join(","),autoDisplay:false},"gt");
+  setTimeout(()=>setLang(localStorage.rtlhLang||"en"),900);
+}
+
+function setLang(c){
+  const s=$(".goog-te-combo");
+  $("#lang").value=c;
+  if(!s)return;
+  s.value=c==="en"?"":c;
+  s.dispatchEvent(new Event("change"));
+  localStorage.rtlhLang=c;
+}
+
+$("#lang").innerHTML=LG.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join("");
+$("#lang").onchange=e=>setLang(e.target.value);
+
+/* Authentication Gate Logic */
+let nx=null;
+function auth(){
+  const u=user();
+  $("#auth").innerHTML=u?`👤 ${u.name.split(" ")[0]} <a href="#" id="out" style="color:var(--yel)">Log out</a>`:'<a class="btn s" href="#" id="li">Log in</a>';
+  $("#out")&&($("#out").onclick=e=>{e.preventDefault();localStorage.removeItem("rtlhUser");auth()});
+  $("#li")&&($("#li").onclick=e=>{e.preventDefault();$("#gate").classList.add("on")});
+}
+
 $("#gx").onclick=e=>{e.preventDefault();$("#gate").classList.remove("on")};
-$("#gg").onclick=()=>{const n=$("#gn").value.trim(),m=$("#ge").value.trim();if(!n||!/\S+@\S+\.\S+/.test(m))return alert("Enter your name and a valid email.");localStorage.rtlhUser=JSON.stringify({name:n,email:m});$("#gate").classList.remove("on");auth();if(nx)location.href=nx};
-(()=>{const t=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();let s=+localStorage.rtlhStreak||0;if(localStorage.rtlhLast!==t){s=localStorage.rtlhLast===y?s+1:1;localStorage.rtlhStreak=s;localStorage.rtlhLast=t}$("#streak").textContent="🔥 "+s})();
-auth();render();
+$("#gg").onclick=()=>{
+  const n=$("#gn").value.trim(),m=$("#ge").value.trim();
+  if(!n||!/\S+@\S+\.\S+/.test(m))return alert("Enter your name and a valid email.");
+  localStorage.rtlhUser=JSON.stringify({name:n,email:m});
+  $("#gate").classList.remove("on");
+  auth();
+  if(nx)location.href=nx;
+};
+
+/* Mobile Menu Burger */
+$("#bg").onclick=()=>$("#nav").classList.toggle("open");
+
+/* Streak tracking */
+(()=>{
+  const t=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();
+  let s=+localStorage.rtlhStreak||0;
+  if(localStorage.rtlhLast!==t){s=localStorage.rtlhLast===y?s+1:1;localStorage.rtlhStreak=s;localStorage.rtlhLast=t}
+  $("#streak").textContent="🔥 "+s;
+})();
+
+auth();
+loadCourse();
 </script>
 </body>
 </html>

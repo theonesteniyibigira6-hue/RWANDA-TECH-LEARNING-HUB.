@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b2a6b">
+<title>E-Class Center | Rwanda Tech Learning Hub</title>
+<meta name="description" content="Central live classroom gateway, course discovery, teacher collaboration, assignments, assessments, and Theo Learn Wise AI on Rwanda Tech Learning Hub.">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2a6b;--blue:#1565c0;--sky:#00a1de;--green:#0b7a3b;--yel:#fad201;--ink:#10223f;--mut:#5b6b85;--bg:#f3f7fc;--line:#dfe8f3;--r:18px}
+*{box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
+html{scroll-behavior:smooth}body{margin:0;font-family:Montserrat,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;overflow-x:hidden;top:0!important}
+a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}button{cursor:pointer}.w{width:min(1280px,94%);margin:auto}
+.flag{height:5px;background:linear-gradient(90deg,var(--sky) 50%,var(--yel) 50% 75%,var(--green) 75%)}
+
+/* Canvas 3D Particle */
+#bg-3d-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;pointer-events:none}
+
+/* Header & Nav */
+header{position:sticky;top:0;z-index:40;background:rgba(11,42,107,.97);color:#fff;box-shadow:0 6px 24px #0b2a6b33;backdrop-filter:blur(8px)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:72px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;line-height:1.1;font-size:.95rem}.brand small{display:block;font:400 1.1rem "Great Vibes",cursive;color:var(--yel)}
+.logo-img{width:46px;height:46px;border-radius:50%;border:2px solid var(--sky);object-fit:cover;background:#fff}
+.links{display:flex;align-items:center;gap:16px;font-size:.84rem;font-weight:600}.links>a:hover,.dd>a:hover{color:var(--yel)}.links a.cur{color:var(--yel)}
+.dd{position:relative;padding:22px 0}.dd>a:after{content:" ▾";font-size:.65rem}.m2{display:none;position:absolute;top:100%;left:-14px;min-width:230px;background:#fff;color:var(--ink);border-radius:14px;padding:8px;box-shadow:0 20px 40px #0b2a6b44;border-top:4px solid var(--yel)}
+.dd:hover .m2,.dd:focus-within .m2{display:block}.m2 a{display:block;padding:9px 12px;border-radius:99px;font-weight:600}.m2 a:hover{background:#eaf2fb;color:var(--blue)}
+.tools{display:flex;align-items:center;gap:8px;font-size:.8rem}
+#lang{background:#173a85;color:#fff;border:1px solid #ffffff44;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:600}
+.pill{background:#ffffff1a;border-radius:99px;padding:5px 10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:99px;padding:10px 18px;font-weight:700;font-size:.85rem;transition:.2s;background:var(--yel);color:var(--navy);box-shadow:0 5px 0 #b8900a,0 12px 20px #0003}
+.btn:hover{transform:translateY(-3px);box-shadow:0 8px 0 #b8900a,0 16px 24px #0003}.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #b8900a}
+.btn.g{background:var(--green);color:#fff;box-shadow:0 5px 0 #065227,0 12px 20px #0003}.btn.s{padding:7px 13px;font-size:.76rem;box-shadow:0 3px 0 #b8900a}
+.btn.outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.4);box-shadow:none}
+.btn.outline:hover{background:rgba(255,255,255,0.15)}
+.burger{display:none;background:0;border:1px solid #fff6;color:#fff;border-radius:10px;padding:7px 12px;font-size:1.2rem}
+
+/* Layout Architecture */
+.eclass-layout{display:grid;grid-template-columns:260px 1fr;gap:24px;padding:28px 0}
+.sidebar{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:0 12px 30px rgba(11,42,107,0.06);height:fit-content;position:sticky;top:90px}
+.sb-title{font-size:.75rem;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px 8px}
+.sb-menu{list-style:none;padding:0;margin:0}
+.sb-menu li a{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;font-size:.85rem;font-weight:700;color:var(--navy);transition:.2s}
+.sb-menu li a:hover, .sb-menu li a.active{background:#eaf2fb;color:var(--blue)}
+
+/* System Cards & 3D Effect */
+.sys-card{background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:0 12px 30px rgba(11,42,107,0.06);margin-bottom:24px;transform-style:preserve-3d;transition:transform .2s ease}
+.sec-title{font-size:1.25rem;font-weight:800;color:var(--navy);margin:0 0 16px;display:flex;align-items:center;justify-content:space-between}
+
+/* Smart Dashboard Header */
+.db-hero{background:linear-gradient(135deg,rgba(11,42,107,0.95),rgba(21,101,192,0.9)),url('rtlh-hero-bg.jpg') center/cover;color:#fff;border-radius:var(--r);padding:28px;box-shadow:0 20px 40px rgba(11,42,107,0.2);margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.u-info{display:flex;align-items:center;gap:16px}
+.u-avatar{width:68px;height:68px;border-radius:50%;background:var(--yel);color:var(--navy);font-size:1.8rem;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 4px rgba(255,255,255,0.3);overflow:hidden}
+.u-avatar img{width:100%;height:100%;object-fit:cover}
+
+/* Grid Views */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+.stat-box{background:#fff;border-radius:14px;padding:16px;border:1px solid var(--line);box-shadow:0 4px 12px #0001}
+.stat-box .num{font-size:1.8rem;font-weight:800;color:var(--navy)}
+.stat-box .lbl{font-size:.78rem;font-weight:700;color:var(--mut)}
+
+/* Filter Controls */
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;background:#f0f5fa;padding:10px;border-radius:12px;border:1px solid var(--line)}
+.filter-bar input, .filter-bar select{padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:.82rem;font-weight:600;color:var(--navy)}
+
+/* Class Card */
+.class-card{background:#fff;border-radius:16px;border:1px solid var(--line);overflow:hidden;box-shadow:0 8px 20px #0000000d;display:flex;flex-direction:column;transition:.2s}
+.class-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px #00000014}
+.class-thumb{height:120px;background:linear-gradient(135deg,var(--navy),var(--green));position:relative;display:grid;place-items:center;color:#fff;font-size:2.5rem}
+.class-tag{position:absolute;top:10px;left:10px;background:rgba(255,255,255,0.9);color:var(--navy);padding:3px 8px;border-radius:99px;font-size:.7rem;font-weight:800}
+.class-body{padding:16px;display:flex;flex-direction:column;flex:1}
+.class-title{font-size:1rem;font-weight:800;color:var(--navy);margin:0 0 6px}
+.class-meta{font-size:.78rem;color:var(--mut);margin-bottom:12px}
+
+/* Interactive Tabs */
+.tab-headers{display:flex;gap:8px;border-bottom:2px solid var(--line);margin-bottom:18px;overflow-x:auto;padding-bottom:4px}
+.tab-btn{background:0;border:0;padding:8px 16px;font-weight:700;font-size:.85rem;color:var(--mut);border-bottom:3px solid transparent;cursor:pointer}
+.tab-btn.active{color:var(--blue);border-color:var(--blue)}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* Theo AI Assistant Floating Drawer */
+.ai-fab{position:fixed;bottom:24px;right:24px;z-index:99;background:linear-gradient(135deg,var(--blue),var(--navy));color:#fff;border-radius:99px;padding:12px 20px;font-weight:800;font-size:.88rem;box-shadow:0 10px 25px rgba(21,101,192,0.4);display:flex;align-items:center;gap:8px;cursor:pointer}
+.ai-modal{position:fixed;bottom:85px;right:24px;width:min(380px,90vw);height:500px;background:#fff;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,0.3);z-index:100;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--line)}
+.ai-header{background:var(--navy);color:#fff;padding:14px 18px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.ai-chat{flex:1;padding:14px;overflow-y:auto;background:#f8fafc;display:flex;flex-direction:column;gap:10px}
+.msg{padding:10px 14px;border-radius:14px;font-size:.82rem;max-width:85%}
+.msg.ai{background:#eaf2fb;color:var(--navy);align-self:flex-start;border-bottom-left-radius:2px}
+.msg.user{background:var(--blue);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.ai-input-wrap{padding:10px;background:#fff;border-top:1px solid var(--line);display:flex;gap:8px}
+.ai-input-wrap input{flex:1;border:1px solid var(--line);border-radius:99px;padding:8px 14px;font-size:.82rem}
+
+/* Modal Overlay */
+.modal-bg{position:fixed;inset:0;background:rgba(11,42,107,0.6);backdrop-filter:blur(4px);z-index:200;display:none;place-items:center}
+.modal-card{background:#fff;border-radius:20px;padding:28px;width:min(550px,92%);box-shadow:0 25px 50px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto}
+
+footer{background:#071b45;color:#c3d3ea;padding:42px 0 18px;margin-top:40px}.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}footer h4{color:#fff;margin:0 0 10px}footer a{display:block;font-size:.85rem;margin:7px 0}footer a:hover{color:var(--yel)}footer .brand{display:flex;margin:0}.cp{border-top:1px solid #ffffff22;margin-top:26px;padding-top:15px;font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:99px;z-index:300;display:none;font-size:.85rem;box-shadow:0 8px 20px #0004}
+
+/* Hidden Google Translate element */
+#google_translate_element, .goog-te-banner-frame, .goog-te-balloon-frame { display: none !important; }
+body { top: 0px !important; }
+
+@media(max-width:920px){.eclass-layout{grid-template-columns:1fr}.sidebar{display:none}.burger{display:block}.links{display:none}}
+</style>
+</head>
+<body oncontextmenu="return false;">
+<div class="flag"></div>
+
+<!-- 3D Canvas Background -->
+<canvas id="bg-3d-canvas"></canvas>
+
+<!-- Header -->
+<header><div class="w nav">
+<a class="brand" href="learning-center.html"><img src="rtlh-logo.png" alt="RTLH Logo" class="logo-img"><span>Rwanda Tech Learning Hub<small>E-Class Center Gateway</small></span></a>
+<nav class="links" id="nav">
+<a href="learning-center.html">Home</a>
+<a href="eclass-center.html" class="cur">E-Class Gateway</a>
+<a href="course-catalog.html">Catalog</a>
+<a href="learning-dashboard.html">Dashboard</a>
+<a href="my-certificates.html">Certificates</a>
+</nav>
+<div class="tools">
+  <!-- 12-Language Multilingual Switcher -->
+  <select id="lang" class="notranslate" aria-label="Select Language">
+    <option value="en">🌐 English</option>
+    <option value="rw">🌐 Kinyarwanda</option>
+    <option value="fr">🌐 Français</option>
+    <option value="sw">🌐 Kiswahili</option>
+    <option value="es">🌐 Español</option>
+    <option value="zh-CN">🌐 中文</option>
+    <option value="de">🌐 Deutsch</option>
+    <option value="ar">🌐 العربية</option>
+    <option value="pt">🌐 Português</option>
+    <option value="ru">🌐 Русский</option>
+    <option value="hi">🌐 हिन्दी</option>
+    <option value="ja">🌐 日本語</option>
+  </select>
+  <button class="btn s outline" onclick="triggerLogout()">Logout</button>
+  <button class="burger" id="bg">☰</button>
+</div>
+</div></header>
+
+<!-- Core Gateway Container -->
+<div class="w eclass-layout">
+
+  <!-- Navigation Sidebar -->
+  <aside class="sidebar">
+    <div style="font-weight:800;font-size:1rem;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+      🏛 RTLH Gateway
+    </div>
+    <div class="sb-title">E-Class Navigation</div>
+    <ul class="sb-menu">
+      <li><a href="#sec-dashboard" class="active">📊 Smart Dashboard</a></li>
+      <li><a href="#sec-discover">🔍 Discover Classes</a></li>
+      <li><a href="#sec-myclasses">📚 My Enrolled Classes</a></li>
+      <li><a href="#sec-live">🎥 Live Virtual Classroom</a></li>
+      <li><a href="#sec-assessments">📝 Assessments & Quiz</a></li>
+      <li><a href="#sec-collaboration">💬 Communication & Peers</a></li>
+      <li><a href="#sec-analytics">📈 Progress Analytics</a></li>
+      <li><a href="#sec-resources">📁 Digital Resources</a></li>
+      <li><a href="#sec-certificates">🏆 Certificates & Badges</a></li>
+      <li><a href="#sec-accessibility">⚙ System & Accessibility</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main Functional Hub Area -->
+  <main>
+
+    <!-- SYSTEM 01: Smart Dashboard -->
+    <section id="sec-dashboard" class="db-hero 3d-card">
+      <div class="u-info">
+        <div class="u-avatar" id="user-avatar-display">NT</div>
+        <div>
+          <h1 style="margin:0;font-size:1.4rem">Welcome, NIYIBIGIRA Theoneste</h1>
+          <p style="margin:4px 0 0;font-size:.84rem;opacity:.9">ID: RTLH-2026-8812 · Role: Learner / Student</p>
+          <div style="display:flex;gap:10px;margin-top:10px;font-size:.78rem">
+            <span class="pill">🔥 Streak: 5 Days</span>
+            <span class="pill">⭐ Total XP: 1,420</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="e-class.html" class="btn">Enter Classroom 🚪</a>
+      </div>
+    </section>
+
+    <!-- Quick Stats Grid -->
+    <div class="grid-4" style="margin-bottom:24px">
+      <div class="stat-box 3d-card">
+        <div class="lbl">Enrolled Classes</div>
+        <div class="num">4</div>
+      </div>
+      <div class="stat-box 3d-card">
+        <div class="lbl">Upcoming Live</div>
+        <div class="num">1 Today</div>
+      </div>
+      <div class="stat-box 3d-card">
+        <div class="lbl">Due Assignments</div>
+        <div class="num">2 Pending</div>
+      </div>
+      <div class="stat-box 3d-card">
+        <div class="lbl">Average Grade</div>
+        <div class="num">92%</div>
+      </div>
+    </div>
+
+    <!-- SYSTEM 02 & 03: Discover & Explore Classes -->
+    <section id="sec-discover" class="sys-card 3d-card">
+      <div class="sec-title">
+        <span>🔍 Discover & Explore Classes</span>
+        <button class="btn s" onclick="openClassCodeModal()">Join with Code 🔑</button>
+      </div>
+
+      <!-- Filters & Search Bar -->
+      <div class="filter-bar">
+        <input type="text" id="search-class" placeholder="Search title, teacher, or subject..." style="flex:2" onkeyup="filterClasses()">
+        <select id="filter-level" onchange="filterClasses()">
+          <option value="">All Academic Levels</option>
+          <option value="Rwanda Curriculum">Rwanda Curriculum (REB)</option>
+          <option value="O-Level">O-Level</option>
+          <option value="A-Level">A-Level</option>
+          <option value="TTC">TTC (Teacher Training)</option>
+          <option value="TSS">TSS (Technical Secondary)</option>
+          <option value="University">University & Tech</option>
+        </select>
+        <select id="filter-type" onchange="filterClasses()">
+          <option value="">All Types</option>
+          <option value="Live">Live Virtual</option>
+          <option value="Self-Paced">Self-Paced</option>
+          <option value="Blended">Blended Learning</option>
+        </select>
+      </div>
+
+      <!-- Dynamic Class Grid -->
+      <div class="grid-3" id="class-grid">
+        <!-- Class Item 1 -->
+        <div class="class-card" data-title="Frontend Development & Interactive UI" data-level="University" data-type="Live">
+          <div class="class-thumb">💻<span class="class-tag">ICT & Tech</span></div>
+          <div class="class-body">
+            <h3 class="class-title">Frontend Development & Interactive UI</h3>
+            <div class="class-meta">Teacher: Mr. Eric Kalisa · Level: Tech/University</div>
+            <p style="font-size:.8rem;color:var(--mut);margin-bottom:12px">Master JavaScript ES6, dynamic HTML layouts, API integration, and Firebase.</p>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-weight:800;color:var(--green);font-size:.82rem">FREE</span>
+              <button class="btn s" onclick="showClassDetails('Frontend Development', 'Mr. Eric Kalisa', 'Comprehensive web development course focused on building modern user interfaces.')">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class Item 2 -->
+        <div class="class-card" data-title="ICT Fundamentals & Cloud Architecture" data-level="A-Level" data-type="Blended">
+          <div class="class-thumb" style="background:linear-gradient(135deg,#1565c0,#00a1de)">📡<span class="class-tag">Rwanda Curriculum</span></div>
+          <div class="class-body">
+            <h3 class="class-title">ICT Fundamentals & Cloud Architecture</h3>
+            <div class="class-meta">Teacher: TTC Muhanga Team · Level: A-Level / TSS</div>
+            <p style="font-size:.8rem;color:var(--mut);margin-bottom:12px">Network topologies, database synchronization, Firestore, and cloud hosting.</p>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-weight:800;color:var(--green);font-size:.82rem">REB Aligned</span>
+              <button class="btn s" onclick="showClassDetails('ICT Fundamentals', 'TTC Muhanga Team', 'Official ICT syllabus covering hardware, cloud databases, and computer networks.')">View Details</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Class Item 3 -->
+        <div class="class-card" data-title="Entrepreneurship & Startup Management" data-level="TSS" data-type="Self-Paced">
+          <div class="class-thumb" style="background:linear-gradient(135deg,#0b7a3b,#fad201)">🚀<span class="class-tag">Entrepreneurship</span></div>
+          <div class="class-body">
+            <h3 class="class-title">Entrepreneurship & Startup Management</h3>
+            <div class="class-meta">Teacher: RTLH Incubator · Level: All Levels</div>
+            <p style="font-size:.8rem;color:var(--mut);margin-bottom:12px">Turn digital tech skills into viable Rwandan business models and ventures.</p>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center">
+              <span style="font-weight:800;color:var(--green);font-size:.82rem">Certified</span>
+              <button class="btn s" onclick="showClassDetails('Entrepreneurship', 'RTLH Incubator', 'Practical business execution, pitch decks, and financial modeling for young innovators.')">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYSTEM 04 & 05: Live Virtual Classroom Gateway & Enrolled Classes -->
+    <section id="sec-live" class="sys-card 3d-card">
+      <div class="sec-title">
+        <span>🎥 Live Virtual Classroom Integration</span>
+        <span class="pill" style="background:#dc2626;color:#fff">LIVE SESSIONS</span>
+      </div>
+      <p style="font-size:.85rem;color:var(--mut)">Connect directly to authorized virtual conferencing nodes (Jitsi Meet, Google Meet, or Zoom integration).</p>
+      
+      <div style="background:#eaf2fb;border-left:4px solid var(--blue);padding:16px;border-radius:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-weight:800;color:var(--navy);font-size:.95rem">Upcoming Live: Advanced JavaScript Algorithms</div>
+          <div style="font-size:.8rem;color:var(--mut)">Instructor: Mr. Eric Kalisa · Today at 03:00 PM CAT</div>
+        </div>
+        <button class="btn g s" onclick="launchLiveRoom('https://meet.jit.si/RTLH-Classroom-2026')">Join Jitsi Session 📹</button>
+      </div>
+    </section>
+
+    <!-- SYSTEM 06, 07, 08, 09: Assignments, Quizzes & Exams Workspace -->
+    <section id="sec-assessments" class="sys-card 3d-card">
+      <div class="sec-title">📝 Academic Assessment Hub</div>
+      
+      <!-- Interactive Assessment Tabs -->
+      <div class="tab-headers">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-assignments')">Assignments (2)</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-quizzes')">Interactive Quizzes</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-exams')">Examinations</button>
+      </div>
+
+      <!-- Tab 1: Assignments -->
+      <div id="tab-assignments" class="tab-content active">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="border:1px solid var(--line);padding:14px;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:800;color:var(--navy);font-size:.9rem">Build dynamic HTML translation toggle UI</div>
+              <div style="font-size:.78rem;color:var(--mut)">Course: Frontend Dev · Due: Tomorrow, 11:59 PM</div>
+            </div>
+            <button class="btn s" onclick="openSubmitModal('Build dynamic HTML translation toggle UI')">Submit Assignment 📤</button>
+          </div>
+          <div style="border:1px solid var(--line);padding:14px;border-radius:12px;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:800;color:var(--navy);font-size:.9rem">Cloud Firestore Rules & Data Modeling</div>
+              <div style="font-size:.78rem;color:var(--mut)">Course: ICT Fundamentals · Due: Oct 5, 2026</div>
+            </div>
+            <button class="btn s" onclick="openSubmitModal('Cloud Firestore Rules & Data Modeling')">Submit Assignment 📤</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Quizzes -->
+      <div id="tab-quizzes" class="tab-content">
+        <p style="font-size:.85rem;color:var(--mut)">Interactive automated quizzes with instant results and explanations.</p>
+        <button class="btn s g" onclick="startQuickQuiz()">Take Module 3 Quiz ⏱</button>
+      </div>
+
+      <!-- Tab 3: Exams -->
+      <div id="tab-exams" class="tab-content">
+        <p style="font-size:.85rem;color:var(--mut)">Scheduled secure examinations with time limits and auto-submission.</p>
+        <div style="padding:12px;background:#fff3cd;border-radius:10px;font-size:.82rem;color:#856404">
+          ⚠ End-of-Term Assessment opens October 15, 2026.
+        </div>
+      </div>
+    </section>
+
+    <!-- SYSTEM 11, 12, 13: Classroom Communication & Attendance -->
+    <section id="sec-collaboration" class="sys-card 3d-card">
+      <div class="sec-title">💬 Communication & Peer Collaboration</div>
+      <div class="grid-3">
+        <div style="border:1px solid var(--line);padding:16px;border-radius:12px">
+          <h4 style="margin:0 0 8px;color:var(--navy)">Class Announcements</h4>
+          <p style="font-size:.8rem;color:var(--mut)">New learning materials have been added to the Digital E-Library.</p>
+        </div>
+        <div style="border:1px solid var(--line);padding:16px;border-radius:12px">
+          <h4 style="margin:0 0 8px;color:var(--navy)">Study Groups</h4>
+          <p style="font-size:.8rem;color:var(--mut)">Joined: Rwandan Web Innovators (5 members)</p>
+        </div>
+        <div style="border:1px solid var(--line);padding:16px;border-radius:12px">
+          <h4 style="margin:0 0 8px;color:var(--navy)">Attendance Record</h4>
+          <p style="font-size:.8rem;color:var(--mut)">Overall Rate: <strong>96% Present</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYSTEM 14, 16, 17: Analytics, Digital Resources & Certificates -->
+    <section id="sec-analytics" class="sys-card 3d-card">
+      <div class="sec-title">📈 Progress Analytics & Resources</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div>
+          <h4 style="margin:0 0 8px;color:var(--navy)">Learning Progress</h4>
+          <div style="font-size:.82rem;font-weight:700;margin-bottom:4px;display:flex;justify-content:space-between">
+            <span>Overall Course Completion</span><span>78%</span>
+          </div>
+          <div style="background:#e2e8f0;height:10px;border-radius:99px;overflow:hidden">
+            <div style="width:78%;height:100%;background:linear-gradient(90deg,var(--sky),var(--green))"></div>
+          </div>
+        </div>
+        <div>
+          <h4 style="margin:0 0 8px;color:var(--navy)">Digital Library Access</h4>
+          <a href="elibrary.html" class="btn s outline" style="color:var(--navy);border-color:var(--line)">Open RTLH E-Library 📚</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYSTEM 18 & 20: Multilingual & Firebase Connection Sync -->
+    <section id="sec-accessibility" class="sys-card 3d-card">
+      <div class="sec-title">⚙ System, Synchronization & Accessibility</div>
+      <p style="font-size:.82rem;color:var(--mut);margin:0 0 12px">
+        Shared Identity: Firebase Firestore / Auth synchronized with E-Teacher and RTLH main account system.
+      </p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn s outline" style="color:var(--navy);border-color:var(--line)" onclick="toast('Accessibility High-Contrast Mode Toggled')">High Contrast Mode 👁</button>
+        <button class="btn s outline" style="color:var(--navy);border-color:var(--line)" onclick="toast('Font Size Enlarged')">Text Scaling A+</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- SYSTEM 15: Theo Learn Wise AI Assistant Floating Widget -->
+<div class="ai-fab" onclick="toggleAIChat()">
+  🤖 Ask Theo AI
+</div>
+
+<div class="ai-modal" id="ai-chat-window">
+  <div class="ai-header">
+    <span>🤖 Theo Learn Wise AI</span>
+    <button style="background:0;border:0;color:#fff;font-size:1.2rem" onclick="toggleAIChat()">✕</button>
+  </div>
+  <div class="ai-chat" id="ai-chat-box">
+    <div class="msg ai">Hello Theoneste! I am Theo Learn Wise AI. How can I help you with your lessons or exercises today?</div>
+  </div>
+  <div class="ai-input-wrap">
+    <input type="text" id="ai-user-msg" placeholder="Ask a question or explain a concept..." onkeypress="if(event.key==='Enter') sendAIMessage()">
+    <button class="btn s" onclick="sendAIMessage()">Send</button>
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal-bg" id="class-code-modal">
+  <div class="modal-card">
+    <h3 style="margin:0 0 12px;color:var(--navy)">Join Class with Code</h3>
+    <p style="font-size:.84rem;color:var(--mut)">Enter the unique class code provided by your teacher in E-Teacher.</p>
+    <input type="text" placeholder="e.g. RTLH-CLASS-9921" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;margin-bottom:16px">
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn s outline" style="color:var(--navy);border-color:var(--line)" onclick="closeModal('class-code-modal')">Cancel</button>
+      <button class="btn s" onclick="submitClassCode()">Enroll Now</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="class-detail-modal">
+  <div class="modal-card">
+    <h3 id="modal-class-title" style="margin:0 0 6px;color:var(--navy)"></h3>
+    <div id="modal-class-teacher" style="font-weight:700;font-size:.82rem;color:var(--blue);margin-bottom:12px"></div>
+    <p id="modal-class-desc" style="font-size:.85rem;color:var(--mut)"></p>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:20px">
+      <button class="btn s outline" style="color:var(--navy);border-color:var(--line)" onclick="closeModal('class-detail-modal')">Close</button>
+      <a href="e-class.html" class="btn s">Open Classroom Workspace 🚪</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="submit-assignment-modal">
+  <div class="modal-card">
+    <h3 style="margin:0 0 8px;color:var(--navy)">Assignment Submission</h3>
+    <div id="submit-title" style="font-weight:700;font-size:.85rem;color:var(--mut);margin-bottom:12px"></div>
+    <textarea rows="4" placeholder="Write your submission response or link..." style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;margin-bottom:12px"></textarea>
+    <input type="file" style="margin-bottom:16px;font-size:.8rem">
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn s outline" style="color:var(--navy);border-color:var(--line)" onclick="closeModal('submit-assignment-modal')">Cancel</button>
+      <button class="btn s g" onclick="completeSubmission()">Submit Work ✓</button>
+    </div>
+  </div>
+</div>
+
+<footer><div class="w"><div class="fg"><div><a class="brand" href="learning-center.html"><img src="rtlh-logo.png" alt="RTLH Logo" class="logo-img"><span>Rwanda Tech Learning Hub<small>Empowering Rwanda through education</small></span></a><p style="max-width:320px;font-size:.84rem;margin-top:10px">Central E-Class ecosystem for live classrooms, assessments, and teacher collaboration.</p></div>
+<div><h4>E-Class Hub</h4><a href="eclass-center.html">E-Class Gateway</a><a href="e-class.html">Classroom Workspace</a><a href="course-catalog.html">Course Catalog</a></div>
+<div><h4>Systems</h4><a href="learning-dashboard.html">Dashboard</a><a href="my-certificates.html">Certificates</a><a href="elibrary.html">E-Library</a></div>
+<div><h4>RTLH</h4><a href="learning-center.html">Learning Center</a><a href="mailto:theonesteniyibigira6@gmail.com">Contact Support</a></div></div>
+<div class="cp"><span>© 2026 Rwanda Tech Learning Hub. All rights reserved.</span><span>Rwanda Tech Learning Hub 🇷🇼</span></div></div></footer>
+
+<div id="toast"></div>
+<div id="google_translate_element"></div>
+
+<script>
+/* Source Code & Inspection Security Controls */
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (e.keyCode === 123 || 
+     (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
+     (e.ctrlKey && e.keyCode === 85)) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+
+function toast(msg){
+  const e = $("#toast");
+  e.textContent = msg;
+  e.style.display = "block";
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => e.style.display = "none", 2500);
+}
+
+/* Load User Profile Avatar */
+window.onload = () => {
+  const savedAvatar = localStorage.getItem("rtlhUserAvatar");
+  if(savedAvatar){
+    $("#user-avatar-display").innerHTML = `<img src="${savedAvatar}" alt="User Avatar">`;
+  }
+};
+
+/* Logout Handler */
+function triggerLogout(){
+  if(confirm("Log out of E-Class Center Gateway?")){
+    toast("Logging out...");
+    setTimeout(() => { window.location.href = "learning-center.html"; }, 1000);
+  }
+}
+
+/* 12-Language Translation Engine */
+function applyLanguage(langCode) {
+  localStorage.setItem("rtlhLang", langCode);
+  const cookieVal = `/en/${langCode}`;
+  document.cookie = `googtrans=${cookieVal}; path=/; domain=${location.hostname}`;
+  document.cookie = `googtrans=${cookieVal}; path=/;`;
+
+  const gtCombo = document.querySelector(".goog-te-combo");
+  if (gtCombo) {
+    gtCombo.value = langCode;
+    gtCombo.dispatchEvent(new Event("change"));
+  } else {
+    toast("Language switched: " + langCode.toUpperCase());
+  }
+}
+
+$("#lang").onchange = (e) => applyLanguage(e.target.value);
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false
+  }, 'google_translate_element');
+  
+  const currentLang = localStorage.getItem("rtlhLang") || "en";
+  $("#lang").value = currentLang;
+  setTimeout(() => applyLanguage(currentLang), 800);
+}
+
+(function loadGT(){
+  const s = document.createElement("script");
+  s.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+  document.body.appendChild(s);
+})();
+
+/* Class Discovery Search & Filters */
+function filterClasses(){
+  const q = $("#search-class").value.toLowerCase();
+  const lvl = $("#filter-level").value;
+  const typ = $("#filter-type").value;    $$(".class-card").forEach(card => {
+    const title = card.getAttribute("data-title").toLowerCase();
+    const cLvl = card.getAttribute("data-level");
+    const cTyp = card.getAttribute("data-type");
+
+    const matchQ = !q || title.includes(q);
+    const matchLvl = !lvl || cLvl === lvl;
+    const matchTyp = !typ || cTyp === typ;
+
+    card.style.display = (matchQ && matchLvl && matchTyp) ? "flex" : "none";
+  });
+}
+
+/* Interactive Tabs */
+function switchTab(evt, tabId){
+  $$(".tab-btn").forEach(btn => btn.classList.remove("active"));   $$
+(".tab-content").forEach(c => c.classList.remove("active"));
+  evt.currentTarget.classList.add("active");
+  $("#" + tabId).classList.add("active");
+}
+
+/* Modals */
+function openClassCodeModal(){ $("#class-code-modal").style.display = "grid"; }
+function closeModal(id){ $("#" + id).style.display = "none"; }
+function submitClassCode(){
+  toast("Enrolling in classroom...");
+  setTimeout(() => {
+    closeModal("class-code-modal");
+    toast("Enrolled successfully! ✓");
+  }, 1000);
+}
+
+function showClassDetails(title, teacher, desc){
+  $("#modal-class-title").textContent = title;
+  $("#modal-class-teacher").textContent = "Instructor: " + teacher;
+  $("#modal-class-desc").textContent = desc;
+  $("#class-detail-modal").style.display = "grid";
+}
+
+function openSubmitModal(title){
+  $("#submit-title").textContent = title;
+  $("#submit-assignment-modal").style.display = "grid";
+}
+
+function completeSubmission(){
+  toast("Submitting assignment to teacher...");
+  setTimeout(() => {
+    closeModal("submit-assignment-modal");
+    toast("Assignment Submitted! ✓");
+  }, 1000);
+}
+
+function launchLiveRoom(url){
+  toast("Launching Live Classroom Session...");
+  setTimeout(() => { window.open(url, '_blank'); }, 800);
+}
+
+/* Theo Learn Wise AI Assistant Chat */
+function toggleAIChat(){
+  const win = $("#ai-chat-window");
+  win.style.display = (win.style.display === "flex") ? "none" : "flex";
+}
+
+function sendAIMessage(){
+  const input = $("#ai-user-msg");
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  const chatBox = $("#ai-chat-box");
+  chatBox.innerHTML += `<div class="msg user">${msg}</div>`;
+  input.value = "";
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  setTimeout(() => {
+    chatBox.innerHTML += `<div class="msg ai">I am processing your query regarding "<strong>${msg}</strong>". In your E-Class workspace, make sure to complete practice modules for best performance!</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }, 900);
+}
+
+/* 3D Moving Canvas Background */
+(function setup3DBackground(){
+  const canvas = document.getElementById("bg-3d-canvas");
+  const ctx = canvas.getContext("2d");
+  let width, height, particles = [];
+
+  function resize(){
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  for(let i = 0; i < 45; i++){
+    particles.push({
+      x: Math.random() * width, y: Math.random() * height,
+      z: Math.random() * 3 + 1, r: Math.random() * 3 + 1,
+      vx: (Math.random() - 0.5) * 0.7, vy: (Math.random() - 0.5) * 0.7
+    });
+  }
+
+  function render(){
+    ctx.clearRect(0, 0, width, height);
+    let grad = ctx.createLinearGradient(0, 0, width, height);
+    grad.addColorStop(0, "#f3f7fc");
+    grad.addColorStop(1, "#e2edf8");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "rgba(21, 101, 192, 0.22)";
+    ctx.strokeStyle = "rgba(11, 42, 107, 0.08)";
+
+    for(let i = 0; i < particles.length; i++){
+      let p = particles[i];
+      p.x += p.vx * p.z * 0.5;
+      p.y += p.vy * p.z * 0.5;
+      if(p.x < 0) p.x = width; if(p.x > width) p.x = 0;
+      if(p.y < 0) p.y = height; if(p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * p.z, 0, Math.PI * 2);
+      ctx.fill();
+
+      for(let j = i + 1; j < particles.length; j++){
+        let p2 = particles[j];
+        let dx = p.x - p2.x, dy = p.y - p2.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if(dist < 120){
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(render);
+  }
+  render();
+})();
+
+/* Hover 3D Card Mechanics */
+document.addEventListener("mousemove", e => {
+  $$(".3d-card").forEach(card => {
+    const r = card.getBoundingClientRect();
+    if(e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom){
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(1000px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-3px)`;
+    } else {
+      card.style.transform = "";
+    }
+  });
+});
+
+$("#bg").onclick = () => $("#nav").classList.toggle("open");
+</script>
+</body>
+</html>

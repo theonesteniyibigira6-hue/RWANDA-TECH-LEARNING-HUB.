@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Certificate – Rwanda Tech Learning Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2a6b;--green:#0b7a3b;--gold:#d9a521;--blue:#1565c0}
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f7;font-family:Montserrat,Arial,sans-serif;color:var(--navy);padding:16px}
+.bar{max-width:1000px;margin:0 auto 14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.bar button,.bar a{background:var(--navy);color:#fff;border:0;border-radius:8px;padding:12px 22px;font:600 15px Montserrat,sans-serif;cursor:pointer;text-decoration:none}
+.bar button.g{background:var(--green)}
+#lock{max-width:560px;margin:60px auto;background:#fff;border-radius:12px;padding:32px;text-align:center;display:none}
+#lock .t{height:12px;background:#e5e7eb;border-radius:8px;overflow:hidden;margin:16px 0}
+#lock .t i{display:block;height:100%;background:var(--green)}
+#lock a{color:var(--green);font-weight:700}
+#fit{margin:0 auto;overflow:hidden;display:none}
+#cert{width:1536px;height:1024px;position:relative;transform-origin:0 0;background:linear-gradient(135deg,#fff,#f3f7fb);overflow:hidden}
+#cert .a{position:absolute}
+.frame{inset:18px;border:3px solid var(--blue);border-radius:6px}
+.corner1{left:-120px;top:-120px;width:420px;height:260px;background:linear-gradient(120deg,var(--blue) 55%,var(--gold) 55% 62%,var(--green) 62%);transform:rotate(-24deg)}
+.corner2{right:-120px;top:-120px;width:420px;height:260px;background:linear-gradient(240deg,var(--green) 55%,var(--gold) 55% 62%,var(--blue) 62%);transform:rotate(24deg)}
+.foot{left:0;bottom:0;width:100%;height:70px;background:linear-gradient(90deg,var(--blue),#0b3d91 60%,var(--green))}
+.logo{left:208px;top:55px;width:232px;height:232px;border-radius:50%;border:10px solid var(--blue);background:radial-gradient(circle at 50% 40%,#fff6c9,#7fc4ee 55%,#2e8b4e);display:flex;align-items:center;justify-content:center;font:800 54px Montserrat;color:var(--blue);text-shadow:0 2px #fff}
+.title{left:380px;width:780px;top:50px;text-align:center}
+.title h1{margin:0;font:800 84px/1 Montserrat;color:var(--navy);letter-spacing:1px}
+.title h2{margin:4px 0 0;font:800 56px/1.1 Montserrat;color:var(--green);letter-spacing:3px}
+.title p{margin:10px 0 0;font:600 28px Montserrat;color:var(--navy);letter-spacing:3px}
+.reb{right:70px;top:80px;width:420px;font:600 20px/1.3 Montserrat;color:var(--navy)}
+.reb b{font:800 56px Montserrat;color:var(--blue);display:block}
+.banner{left:410px;top:255px;width:720px;height:130px;background:linear-gradient(#173a85,#0b2a6b);border:5px solid var(--gold);border-radius:30px;text-align:center;color:var(--gold)}
+.banner h3{margin:12px 0 0;font:800 66px/1 Montserrat;letter-spacing:2px}
+.banner span{color:#fff;font:600 32px Montserrat;letter-spacing:6px}
+.that{left:0;width:100%;top:398px;text-align:center;font:600 20px Montserrat;letter-spacing:6px}
+#cName{left:300px;width:940px;top:420px;text-align:center;font:400 96px/1.2 "Great Vibes",cursive;color:var(--navy);border-bottom:2px solid var(--gold);padding-bottom:6px}
+.mid{left:380px;width:780px;top:525px;text-align:center;font:500 22px/1.4 Montserrat}
+.mid .c{font:800 42px Montserrat;color:var(--green);margin:2px 0 10px}
+.mid b{font-weight:700}
+.meta{left:310px;width:880px;top:690px;display:flex;justify-content:space-between;font:500 17px Montserrat;text-align:center}
+.meta div{padding:0 14px;border-left:2px solid #d9dfe8;flex:1}.meta div:first-child{border:0}
+.meta b{display:block;font-weight:700;margin-bottom:6px;color:var(--navy)}
+.left{left:48px;top:268px;width:240px;font:600 17px/1.3 Montserrat;color:var(--blue)}
+.left p{margin:0 0 30px;padding-left:76px;position:relative}
+.left p:before{content:"";position:absolute;left:0;top:-10px;width:56px;height:56px;border-radius:50%;background:var(--blue)}
+.left p:nth-child(2n):before{background:var(--green)}
+.motto{left:60px;top:660px;font:400 40px/1.1 "Great Vibes",cursive;color:var(--navy);transform:rotate(-8deg)}
+.qr{right:48px;top:262px;width:255px;border:3px solid var(--gold);border-radius:18px;padding:16px;text-align:center;background:#fff;font:500 14px/1.3 Montserrat}
+.qr h4{margin:0 0 4px;font:800 24px Montserrat;color:var(--navy)}
+#qrbox{background:#fff;border:2px solid #cfd8e6;border-radius:12px;padding:10px;width:215px;margin:10px auto;display:flex;justify-content:center}
+#qrbox img,#qrbox canvas{width:190px!important;height:190px!important}
+.url{background:var(--navy);color:#fff;border-radius:20px;padding:6px;font-weight:700;font-size:15px}
+.sig{top:855px;width:340px;text-align:center;font:500 16px/1.35 Montserrat}
+.sig .l{border-top:2px solid var(--blue);padding-top:6px;margin-top:2px}
+.sig b{font-size:19px;color:var(--navy);display:block}
+.sig .s{font:400 46px "Great Vibes",cursive;color:#1a2a8a;height:54px}
+.seal{left:683px;top:810px;width:136px;height:136px;border-radius:50%;background:radial-gradient(#f9e08a,#c18a12);border:6px solid #a8760d;display:flex;align-items:center;justify-content:center;font:800 30px Montserrat;color:#4a3300}
+.foottxt{left:80px;bottom:18px;color:#fff;font:700 24px Montserrat}
+.foottxt small{display:block;font:500 13px Montserrat}
+.hills{right:30px;bottom:20px;color:#fff;font:400 38px "Great Vibes",cursive;transform:rotate(-8deg)}
+</style>
+</head>
+<body>
+
+<div id="lock">
+  <h2>Your certificate is almost ready</h2>
+  <p id="lockMsg"></p>
+  <div class="t"><i id="lockBar"></i></div>
+  <p><a href="./">Continue learning</a></p>
+</div>
+
+<div class="bar" id="bar" style="display:none">
+  <button class="g" onclick="dl('pdf')">Download PDF</button>
+  <button onclick="dl('png')">Download image (PNG)</button>
+  <a id="vlink" href="#" target="_blank">Open verification page</a>
+</div>
+
+<div id="fit">
+<div id="cert">
+  <div class="a corner1"></div><div class="a corner2"></div><div class="a frame"></div><div class="a foot"></div>
+  <div class="a logo">RTLH</div>
+  <div class="a title"><h1>RWANDA TECH</h1><h2>LEARNING HUB</h2><p>Learn &middot; Create &middot; Empower</p></div>
+  <div class="a reb"><b>REB</b>Official Learning Platform Recognized by REB in Rwanda</div>
+  <div class="a left"><p>Quality Education for All</p><p>Digital Skills &amp; Innovation</p><p>Lifelong Learning &amp; Career Growth</p><p>A Sustainable Future</p><p>Global Opportunities for Rwandans</p></div>
+  <div class="a motto">From Learning<br>to a Better<br>Tomorrow</div>
+  <div class="a banner"><h3>CERTIFICATE</h3><span>OF COMPLETION</span></div>
+  <div class="a that">THIS CERTIFIES THAT</div>
+  <div class="a" id="cName"></div>
+  <div class="a mid">has successfully completed the course
+    <div class="c" id="cCourse"></div>
+    offered by <b>Rwanda Tech Learning Hub (RTLH)</b><br>and has demonstrated the required knowledge, skills and competencies<br>in accordance with the RTLH learning standards.</div>
+  <div class="a meta">
+    <div><b>Completion Date</b><span id="cDate"></span></div>
+    <div><b>Duration</b><span id="cWeeks"></span></div>
+    <div><b>Total Lessons</b><span id="cLessons"></span></div>
+    <div><b>Final Score</b><span id="cScore"></span></div>
+    <div><b>Certificate ID</b><span id="cId"></span></div>
+    <div><b>Level</b><span id="cLevel"></span></div>
+  </div>
+  <div class="a qr"><h4>Scan to Verify</h4>This certificate is authentic and can be verified online.
+    <div id="qrbox"></div>
+    <div class="url">Verify online</div>
+    <p style="margin:10px 0 0">Certificate ID:<br><b id="cId2"></b></p></div>
+  <div class="a sig" style="left:330px"><div class="s">Niyibigira</div><div class="l"><b>NIYIBIGIRA Theoneste</b>Founder &amp; Director<br>Rwanda Tech Learning Hub (RTLH)</div></div>
+  <div class="a seal">RTLH</div>
+  <div class="a sig" style="left:880px"><div class="s">Mbarushimana</div><div class="l"><b>Dr. Nelson Mbarushimana</b>General Director<br>Rwanda Education Board (REB)</div></div>
+  <div class="a foottxt">Rwanda Tech Learning Hub<small>Empowering Rwanda Through Education, Technology and Innovation</small></div>
+  <div class="a hills">Rwanda<br>Land of a Thousand Hills</div>
+</div>
+</div>
+
+<script src="course-progress.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+var $ = function (id) { return document.getElementById(id); }, cert;
+function fit() {
+  var w = Math.min(window.innerWidth - 32, 1536), k = w / 1536;
+  $("cert").style.transform = "scale(" + k + ")";
+  $("fit").style.width = w + "px"; $("fit").style.height = 1024 * k + "px";
+}
+function init() {
+  var s = RTLH.state(), C = RTLH.COURSE;
+  if (!RTLH.eligible()) {
+    $("lock").style.display = "block";
+    var need = [];
+    if (!s.name) need.push("enter your name");
+    if (RTLH.done() < C.totalLessons) need.push("finish all " + C.totalLessons + " lessons (" + RTLH.done() + " done)");
+    if (s.score < C.passMark) need.push("pass the final quiz with " + C.passMark + "% or more");
+    $("lockMsg").textContent = "To unlock it, please " + need.join(", ") + ".";
+    $("lockBar").style.width = RTLH.percent() + "%";
+    return;
+  }
+  cert = RTLH.issue();
+  $("cName").textContent = cert.n; $("cCourse").textContent = cert.c;
+  $("cDate").textContent = RTLH.prettyDate(cert.d); $("cWeeks").textContent = cert.w + " Weeks";
+  $("cLessons").textContent = cert.t; $("cScore").textContent = cert.s + "%";
+  $("cId").textContent = cert.i; $("cId2").textContent = cert.i; $("cLevel").textContent = cert.l;
+  var url = RTLH.verifyUrl(cert);
+  new QRCode($("qrbox"), { text: url, width: 380, height: 380, correctLevel: QRCode.CorrectLevel.L });
+  $("vlink").href = url;
+  $("bar").style.display = "flex"; $("fit").style.display = "block"; fit();
+}
+function dl(type) {
+  var el = $("cert"), old = el.style.transform; el.style.transform = "none";
+  $("fit").style.height = "1024px"; $("fit").style.width = "1536px";
+  html2canvas(el, { scale: 2, useCORS: true }).then(function (cv) {
+    el.style.transform = old; fit();
+    var name = "RTLH-Certificate-" + cert.i;
+    if (type === "png") {
+      var a = document.createElement("a"); a.href = cv.toDataURL("image/png"); a.download = name + ".png"; a.click();
+    } else {
+      var pdf = new window.jspdf.jsPDF({ orientation: "landscape", unit: "px", format: [1536, 1024] });
+      pdf.addImage(cv.toDataURL("image/jpeg", 0.95), "JPEG", 0, 0, 1536, 1024); pdf.save(name + ".pdf");
+    }
+  });
+}
+window.addEventListener("resize", fit);
+document.fonts.ready.then(init);
+</script>
+</body>
+</html>

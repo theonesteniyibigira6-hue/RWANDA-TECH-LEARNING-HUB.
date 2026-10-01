@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="RTLH E-Class - Course Checkout & Enrollment Gateway">
+<meta name="theme-color" content="#0878d1">
+<title>Course Checkout | Rwanda Tech Learning Hub</title>
+
+<style>
+:root {
+    --blue: #0878d1;
+    --blue-dark: #07579a;
+    --blue-light: #eaf6ff;
+    --yellow: #f7c928;
+    --green: #20a464;
+    --red: #d62828;
+    --dark: #102033;
+    --muted: #64748b;
+    --white: #ffffff;
+    --bg: #f4f8fc;
+    --border: #dce7f1;
+    --shadow: 0 12px 35px rgba(12, 49, 82, 0.10);
+    --radius: 18px;
+}
+
+/* BASE RESET */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: Inter, Segoe UI, Arial, sans-serif;
+    font-size: 16px;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    position: relative;
+    user-select: none; /* Helps prevent easy text/code copying */
+}
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(16, 32, 51, 0.82);
+    z-index: -1;
+}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+a { text-decoration: none; color: inherit; }
+
+/* TOPBAR */
+.topbar {
+    height: 76px;
+    background: linear-gradient(110deg, #07579a, #0878d1, #1297e8);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+}
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.logo {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: linear-gradient(145deg, #0878d1 0 38%, #f7c928 38% 65%, #20a464 65%);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 900; font-size: 16px;
+    border: 2px solid rgba(255,255,255,0.7);
+}
+.brand-text h1 { font-size: 18px; line-height: 1.2; }
+.brand-text span { font-size: 11px; opacity: .85; }
+
+/* TRANSLATION SELECTOR */
+.lang-selector {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 10px;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+}
+.lang-selector option { color: var(--dark); background: white; }
+
+/* LAYOUT CONTAINER - MOBILE FIRST */
+.container {
+    width: min(1000px, 92%);
+    margin: 30px auto 60px;
+}
+.checkout-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+@media (min-width: 850px) {
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        align-items: start;
+    }
+}
+
+/* CARDS & SECTIONS */
+.card {
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+}
+.card h2 { font-size: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.card h3 { font-size: 17px; margin-bottom: 12px; }
+
+/* COURSE SUMMARY CARD */
+.course-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.badge-free { background: #e6f7ec; color: var(--green); }
+.badge-paid { background: #fff5e6; color: #e68a00; }
+.course-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.course-desc { color: var(--muted); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+
+.price-box {
+    background: var(--blue-light);
+    border: 1px solid #cfeaff;
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.price-box .amount { font-size: 26px; font-weight: 900; color: var(--blue-dark); }
+
+/* PAYMENT TABS & METHODS */
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.method-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    background: white;
+}
+.method-card:hover { border-color: var(--blue); }
+.method-card.active { border-color: var(--blue); background: var(--blue-light); }
+.method-card img { height: 28px; margin-bottom: 6px; object-fit: contain; }
+.method-card span { display: block; font-size: 13px; font-weight: 700; }
+
+/* FORM CONTROLS */
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.form-group input, .form-group select {
+    width: 100%;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    outline: none;
+    background: white;
+}
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(8, 120, 209, 0.15);
+}
+
+/* BUTTONS */
+.btn-primary {
+    width: 100%;
+    background: linear-gradient(110deg, #0878d1, #07579a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 800;
+    transition: 0.2s;
+    box-shadow: 0 8px 20px rgba(8, 120, 209, 0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(8, 120, 209, 0.4); }
+
+/* SUCCESS MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 35, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 3000;
+}
+.modal.show { display: flex; }
+.modal-box {
+    background: white;
+    width: min(480px, 100%);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+}
+.modal-icon {
+    width: 70px; height: 70px; border-radius: 50%;
+    background: #e6f7ec; color: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 18px;
+}
+.modal-box h3 { font-size: 22px; margin-bottom: 10px; }
+.modal-box p { color: var(--muted); font-size: 15px; margin-bottom: 24px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+    <div class="brand">
+        <div class="logo">RTLH</div>
+        <div class="brand-text">
+            <h1>Rwanda Tech Learning Hub</h1>
+            <span data-i18n="portal_subtitle">E-Class Checkout</span>
+        </div>
+    </div>
+    
+    <!-- 12 LANGUAGES + KINYARWANDA TOGGLE -->
+    <select class="lang-selector" id="langToggle" onchange="changeLanguage(this.value)">
+        <option value="en">English 🇬🇧</option>
+        <option value="rw" selected>Kinyarwanda 🇷🇼</option>
+        <option value="fr">Français 🇫🇷</option>
+        <option value="sw">Kiswahili 🇰🇪</option>
+        <option value="es">Español 🇪🇸</option>
+        <option value="de">Deutsch 🇩🇪</option>
+        <option value="zh">中文 🇨🇳</option>
+        <option value="ar">العربية 🇸🇦</option>
+        <option value="pt">Português 🇵🇹</option>
+        <option value="hi">हिन्दी 🇮🇳</option>
+        <option value="ru">Русский 🇷🇺</option>
+        <option value="ja">日本語 🇯🇵</option>
+    </select>
+</header>
+
+<div class="container">
+    <div class="checkout-grid">
+        
+        <!-- LEFT COLUMN: USER DETAILS & PAYMENT OPTIONS -->
+        <div class="card">
+            <h2 data-i18n="checkout_heading">📝 Checkout & Registration</h2>
+            
+            <form id="checkoutForm" onsubmit="handleCheckout(event)">
+                <div class="form-group">
+                    <label data-i18n="label_fullname">Full Name</label>
+                    <input type="text" id="custName" placeholder="NIYIBIGIRA Theoneste" required>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="label_email">Email Address</label>
+                    <input type="email" id="custEmail" placeholder="learner@example.com" required>
+                </div>
+                
+                <!-- TOGGLEABLE SECTION: PAID VS FREE -->
+                <div id="paymentSection">
+                    <h3 data-i18n="label_pay_method" style="margin-top:20px;">💳 Select Payment Method</h3>
+                    <div class="payment-methods">
+                        <div class="method-card active" id="momoMethod" onclick="selectPayment('momo')">
+                            <span style="font-size:20px;">📱</span>
+                            <span data-i18n="momo_pay">Mobile Money</span>
+                        </div>
+                        <div class="method-card" id="cardMethod" onclick="selectPayment('card')">
+                            <span style="font-size:20px;">💳</span>
+                            <span data-i18n="card_pay">Visa / Card</span>
+                        </div>
+                    </div>
+
+                    <!-- MOBILE MONEY FIELDS -->
+                    <div id="momoFields" class="form-group">
+                        <label data-i18n="label_phone">MTN / Airtel Phone Number</label>
+                        <input type="tel" id="custPhone" placeholder="078X XXX XXX / 073X XXX XXX">
+                    </div>
+
+                    <!-- CARD FIELDS -->
+                    <div id="cardFields" style="display:none;">
+                        <div class="form-group">
+                            <label data-i18n="label_card_num">Card Number</label>
+                            <input type="text" placeholder="4000 0000 0000 0000">
+                        </div>
+                        <div style="display:flex; gap:12px;">
+                            <div class="form-group" style="flex:1;">
+                                <label data-i18n="label_card_exp">Expiry</label>
+                                <input type="text" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label data-i18n="label_card_cvv">CVV</label>
+                                <input type="text" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="submitBtn" type="submit" data-i18n="btn_complete_enroll">Complete Enrollment</button>
+            </form>
+        </div>
+
+        <!-- RIGHT COLUMN: COURSE SUMMARY -->
+        <div class="card">
+            <h2 data-i18n="summary_heading">🛒 Order Summary</h2>
+            <span class="course-badge badge-paid" id="courseTypeBadge">PAID COURSE</span>
+            <div class="course-title" id="courseTitle">Web Development Masterclass</div>
+            <p class="course-desc" id="courseDesc">Comprehensive course covering HTML, CSS, JavaScript, Node.js, and deployment to build real-world web applications.</p>
+            
+            <div class="price-box">
+                <span style="font-size:14px; font-weight:700; color:var(--muted);" data-i18n="label_total">Total Price:</span>
+                <span class="amount" id="coursePrice">25,000 RWF</span>
+            </div>
+
+            <div style="font-size:13px; color:var(--muted); line-height:1.6;">
+                <p>✔ <span data-i18n="feat_lifetime">Full Lifetime Access</span></p>
+                <p>✔ <span data-i18n="feat_cert">Certificate of Completion</span></p>
+                <p>✔ <span data-i18n="feat_theo">24/7 Access to Theo AI Assistant</span></p>
+            </div>
+            
+            <!-- DEMO COURSE SWITCHER (FOR TESTING BOTH FREE & PAID FLOWS) -->
+            <div style="margin-top: 24px; padding-top:16px; border-top: 1px solid var(--border);">
+                <label style="font-size: 12px; font-weight:700; color: var(--muted);">[ Demo Mode: Switch Course Type ]</label>
+                <div style="display:flex; gap:8px; margin-top:8px;">
+                    <button style="font-size:12px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:white;" onclick="setDemoCourse('paid')">Paid (25,000 RWF)</button>
+                    <button style="font-size:12px; padding:6px 10px; border:1px solid var(--border); border-radius:6px; background:white;" onclick="setDemoCourse('free')">Free Enrollment</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal" id="successModal">
+    <div class="modal-box">
+        <div class="modal-icon">✓</div>
+        <h3 data-i18n="modal_success_title">Enrollment Successful!</h3>
+        <p data-i18n="modal_success_desc">You have successfully registered for the course. Access details have been dispatched to your email.</p>
+        <a class="btn-primary" href="e-class.html" style="display:inline-block; width:auto; padding:12px 28px;" data-i18n="btn_go_eclass">Go to E-Class Dashboard</a>
+    </div>
+</div>
+
+<script>
+/* 1. ANTI-INSPECTION / HIDE SOURCE CODE SECURITY PREVENTIONS */
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || 
+       (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+       (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+    }
+});
+
+/* 2. MULTI-LANGUAGE DICTIONARY (12 LANGUAGES INCLUDING KINYARWANDA) */
+const translations = {
+    rw: {
+        portal_subtitle: "Kwishyura & Kwiyandikisha",
+        checkout_heading: "📝 Kwiyandikisha & Kwishyura",
+        label_fullname: "Amazina Yombi",
+        label_email: "Imeri Yanyu",
+        label_pay_method: "💳 Hitamo Uburyo Bwo Kwishyura",
+        momo_pay: "Mobile Money",
+        card_pay: "Karatasi ya Banki",
+        label_phone: "Numero ya Telefone (MTN / Airtel)",
+        label_card_num: "Numero ya Karatayi",
+        label_card_exp: "Igihe Izashiriraho",
+        label_card_cvv: "CVV",
+        btn_complete_enroll: "Emeza Kwiyandikisha",
+        btn_free_enroll: "Kwiyandikisha Ku Buntu",
+        summary_heading: "🛒 Inshamake y'Ibyo Waguze",
+        label_total: "Igiteranyo:",
+        feat_lifetime: "Kugera ku masomo ubuziraherezo",
+        feat_cert: "Icy证书 cy'Ibyagezweho",
+        feat_theo: "Ufashwa na Theo AI masaha 24/7",
+        modal_success_title: "Kwiyandikisha Byagenze Neza!",
+        modal_success_desc: "Umiyandikishije mu isomo neza. Amakuru y'injira yoherejwe kuri imeri yanyu.",
+        btn_go_eclass: "Jya Muri E-Class Dashboard",
+        free_course_badge: "ISOMO RYA BUNTU",
+        paid_course_badge: "ISOMO RIRISHYURIRWA"
+    },
+    en: {
+        portal_subtitle: "E-Class Checkout",
+        checkout_heading: "📝 Checkout & Registration",
+        label_fullname: "Full Name",
+        label_email: "Email Address",
+        label_pay_method: "💳 Select Payment Method",
+        momo_pay: "Mobile Money",
+        card_pay: "Visa / Card",
+        label_phone: "MTN / Airtel Phone Number",
+        label_card_num: "Card Number",
+        label_card_exp: "Expiry",
+        label_card_cvv: "CVV",
+        btn_complete_enroll: "Complete Enrollment",
+        btn_free_enroll: "Enroll For Free",
+        summary_heading: "🛒 Order Summary",
+        label_total: "Total Price:",
+        feat_lifetime: "Full Lifetime Access",
+        feat_cert: "Certificate of Completion",
+        feat_theo: "24/7 Access to Theo AI Assistant",
+        modal_success_title: "Enrollment Successful!",
+        modal_success_desc: "You have successfully registered for the course. Access details have been dispatched to your email.",
+        btn_go_eclass: "Go to E-Class Dashboard",
+        free_course_badge: "FREE COURSE",
+        paid_course_badge: "PAID COURSE"
+    },
+    fr: {
+        portal_subtitle: "Paiement E-Class",
+        checkout_heading: "📝 Inscription & Paiement",
+        label_fullname: "Nom Complet",
+        label_email: "Adresse Email",
+        label_pay_method: "💳 Mode de Paiement",
+        momo_pay: "Mobile Money",
+        card_pay: "Carte Bancaire",
+        label_phone: "Numéro de Téléphone",
+        btn_complete_enroll: "Finaliser l'Inscription",
+        btn_free_enroll: "S'inscrire Gratuitement",
+        summary_heading: "🛒 Résumé de la Commande",
+        label_total: "Prix Total:",
+        modal_success_title: "Inscription Réussie!",
+        modal_success_desc: "Vous vous êtes inscrit avec succès au cours.",
+        btn_go_eclass: "Accéder au Tableau de Bord"
+    },
+    sw: {
+        portal_subtitle: "Malipo ya E-Class",
+        checkout_heading: "📝 Usajili na Malipo",
+        label_fullname: "Majina Buana",
+        label_email: "Barua Pepe",
+        label_pay_method: "💳 Chagua Njia ya Malipo",
+        momo_pay: "Pesa kwa Simu",
+        card_pay: "Kadi ya Benki",
+        label_phone: "Namba ya Simu",
+        btn_complete_enroll: "Kamilisha Usajili",
+        btn_free_enroll: "Jiunge Libre/Bure",
+        summary_heading: "🛒 Muhtasari wa Agizo",
+        label_total: "Jumla:",
+        modal_success_title: "Usajili Imefanikiwa!",
+        modal_success_desc: "Umefanikiwa kujisajili kwenye kozi hii.",
+        btn_go_eclass: "Nenda kwenye E-Class"
+    }
+};
+
+/* 3. DYNAMIC LANGUAGE TOGGLE FUNCTION */
+let currentLang = 'rw';
+function changeLanguage(lang) {
+    currentLang = lang;
+    const dict = translations[lang] || translations['en'];
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+            el.innerText = dict[key];
+        }
+    });
+    
+    // Update active submit button text based on course type
+    updateButtonText();
+}
+
+/* 4. DEMO STATE & PAYMENT SELECTION LOGIC */
+let activeCourse = {
+    isFree: false,
+    price: "25,000 RWF",
+    title: "Web Development Masterclass"
+};
+
+function selectPayment(type) {
+    document.getElementById('momoMethod').classList.toggle('active', type === 'momo');
+    document.getElementById('cardMethod').classList.toggle('active', type === 'card');
+    document.getElementById('momoFields').style.display = type === 'momo' ? 'block' : 'none';
+    document.getElementById('cardFields').style.display = type === 'card' ? 'block' : 'none';
+}
+
+function setDemoCourse(type) {
+    const dict = translations[currentLang] || translations['en'];
+    if (type === 'free') {
+        activeCourse.isFree = true;
+        document.getElementById('coursePrice').innerText = "FREE / BUNTU";
+        document.getElementById('courseTypeBadge').className = "course-badge badge-free";
+        document.getElementById('courseTypeBadge').innerText = dict.free_course_badge || "FREE COURSE";
+        document.getElementById('paymentSection').style.display = "none";
+    } else {
+        activeCourse.isFree = false;
+        document.getElementById('coursePrice').innerText = "25,000 RWF";
+        document.getElementById('courseTypeBadge').className = "course-badge badge-paid";
+        document.getElementById('courseTypeBadge').innerText = dict.paid_course_badge || "PAID COURSE";
+        document.getElementById('paymentSection').style.display = "block";
+    }
+    updateButtonText();
+}
+
+function updateButtonText() {
+    const dict = translations[currentLang] || translations['en'];
+    const btn = document.getElementById('submitBtn');
+    if (activeCourse.isFree) {
+        btn.innerText = dict.btn_free_enroll || "Enroll For Free";
+    } else {
+        btn.innerText = dict.btn_complete_enroll || "Complete Enrollment";
+    }
+}
+
+function handleCheckout(e) {
+    e.preventDefault();
+    document.getElementById('successModal').classList.add('show');
+}
+
+// Initial setup
+changeLanguage('rw');
+</script>
+</body>
+</html>
