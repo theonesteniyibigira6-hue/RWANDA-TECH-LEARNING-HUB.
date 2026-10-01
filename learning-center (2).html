@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b2a6b">
+<title>Learning Center | Rwanda Tech Learning Hub</title>
+<meta name="description" content="Learn, create and empower yourself: nursery to PhD, TVET, TTC and life skills with Rwanda Tech Learning Hub.">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0b2a6b;--blue:#1565c0;--sky:#00a1de;--green:#0b7a3b;--gold:#e0a919;--yel:#fad201;--ink:#10223f;--mut:#5b6b85;--bg:#f3f7fc;--line:#dfe8f3;--r:20px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Montserrat,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;top:0!important}
+a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cursor:pointer}.w{width:min(1180px,92%);margin:auto}
+.flag{height:5px;background:linear-gradient(90deg,var(--sky) 50%,var(--yel) 50% 75%,var(--green) 75%)}
+header{position:sticky;top:0;z-index:30;background:rgba(11,42,107,.97);color:#fff;box-shadow:0 6px 24px #0b2a6b33}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:74px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;line-height:1.1}.brand small{display:block;font:400 1.15rem "Great Vibes",cursive;color:var(--yel)}
+.logo{width:48px;height:48px;border-radius:50%;border:3px solid var(--sky);background:radial-gradient(circle at 50% 35%,#fff6c9,#7fc4ee 55%,#2e8b4e);display:grid;place-items:center;color:var(--navy);font-weight:800;font-size:.8rem}
+.links{display:flex;align-items:center;gap:20px;font-size:.86rem;font-weight:600}.links>a:hover,.dd>a:hover{color:var(--yel)}
+.dd{position:relative;padding:24px 0}.dd>a:after{content:" ▾";font-size:.65rem}.m2{display:none;position:absolute;top:100%;left:-14px;min-width:240px;background:#fff;color:var(--ink);border-radius:14px;padding:8px;box-shadow:0 20px 40px #0b2a6b44;border-top:4px solid var(--yel)}
+.dd:hover .m2,.dd:focus-within .m2{display:block}.m2 a{display:block;padding:9px 12px;border-radius:9px;font-weight:600}.m2 a:hover{background:#eaf2fb;color:var(--blue)}
+.tools{display:flex;align-items:center;gap:10px;font-size:.8rem}#lang{background:#173a85;color:#fff;border:1px solid #ffffff44;border-radius:8px;padding:6px}.pill{background:#ffffff1a;border-radius:99px;padding:5px 10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:99px;padding:12px 22px;font-weight:700;transition:.2s;background:var(--yel);color:var(--navy);box-shadow:0 5px 0 #b8900a,0 12px 20px #0003}
+.btn:hover{transform:translateY(-4px) rotateX(8deg);box-shadow:0 9px 0 #b8900a,0 18px 26px #0003}.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b8900a}
+.btn.g{background:var(--green);color:#fff;box-shadow:0 5px 0 #065227,0 12px 20px #0003}.btn.o{background:#fff;color:var(--navy);box-shadow:0 5px 0 #aab9d0,0 12px 20px #0002}
+.burger{display:none;background:0;border:1px solid #fff6;color:#fff;border-radius:10px;padding:8px 12px;font-size:1.2rem}
+.hero{position:relative;color:#fff;padding:80px 0 110px;overflow:hidden;background:var(--navy)}
+.bg{position:absolute;inset:0}.sl{position:absolute;inset:-4%;opacity:0;background-size:cover;background-position:center;animation:fd 30s infinite,kb 30s infinite}
+.sl:nth-child(2){animation-delay:6s}.sl:nth-child(3){animation-delay:12s}.sl:nth-child(4){animation-delay:18s}.sl:nth-child(5){animation-delay:24s}
+@keyframes fd{0%{opacity:0}4%,20%{opacity:1}26%,100%{opacity:0}}@keyframes kb{0%{transform:scale(1)}20%,100%{transform:scale(1.12) translateX(-2%)}}
+.bg:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,#0b2a6bf2 30%,#0b2a6bb0 65%,#0b7a3b66)}
+.hero .w{position:relative;z-index:2;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.eb{color:var(--yel);font-weight:800;letter-spacing:3px;font-size:.75rem;text-transform:uppercase}
+h1{font-size:clamp(2.4rem,5.4vw,4.6rem);line-height:1.02;margin:12px 0 16px;letter-spacing:-1.5px;font-weight:800}h1 em{font:400 1.15em "Great Vibes",cursive;color:var(--yel);letter-spacing:0}
+.hero p{color:#d6e4f7;max-width:600px}.acts{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
+.sb{display:flex;background:#fff;border-radius:16px;padding:7px;gap:8px;max-width:640px;box-shadow:0 15px 40px #0004}.sb input{flex:1;min-width:0;border:0;outline:0;padding:12px;color:var(--ink)}.sb button{border:0;background:var(--blue);color:#fff;border-radius:11px;padding:0 20px;font-weight:700}
+.panel{background:#ffffff1c;border:1px solid #ffffff40;border-radius:26px;padding:24px;backdrop-filter:blur(8px)}.panel h3{margin:0 0 14px}.mot{font:400 2rem/1 "Great Vibes",cursive;color:var(--yel);margin-top:14px}
+.st{display:grid;grid-template-columns:1fr 1fr;gap:10px}.st div{background:#ffffff18;border-radius:14px;padding:14px}.st b{display:block;font-size:1.5rem;color:var(--yel)}.st span{font-size:.75rem;color:#d6e4f7}
+.cap{position:absolute;z-index:3;right:4%;bottom:56px;font-size:.78rem;background:#0007;padding:5px 12px;border-radius:99px}
+.wave{position:absolute;bottom:-1px;left:0;width:100%;height:60px;z-index:2}
+section{padding:68px 0}.sh{margin-bottom:26px}.kick{color:var(--green);font-weight:800;font-size:.74rem;letter-spacing:2px;text-transform:uppercase}.sh h2{font-size:clamp(1.7rem,3vw,2.5rem);margin:6px 0;line-height:1.12;color:var(--navy)}.sh p{color:var(--mut);max-width:680px;margin:0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 16px;font-weight:700;font-size:.82rem;color:var(--navy);transition:.2s}.chip:hover{border-color:var(--blue)}.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid.f4{grid-template-columns:repeat(4,1fr)}
+.card{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 6px 22px #0b2a6b0d;transition:transform .15s,box-shadow .2s;transform-style:preserve-3d;position:relative;overflow:hidden}
+.card:before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;background:linear-gradient(90deg,var(--sky),var(--yel),var(--green))}
+.card:hover{box-shadow:0 22px 44px #0b2a6b26}.card .ic{font-size:1.9rem;transform:translateZ(28px);display:block}.card h3{margin:10px 0 5px;font-size:1.04rem;color:var(--navy);transform:translateZ(18px)}.card p{color:var(--mut);font-size:.85rem;margin:0 0 10px}.card b{color:var(--blue);font-size:.8rem}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tags span{background:#eaf2fb;border-radius:7px;padding:3px 8px;font-size:.7rem;color:#37506f}
+.dark{background:linear-gradient(120deg,#0b2a6b,#0b5a55 80%,#0b7a3b);color:#fff}.dark .kick{color:var(--yel)}.dark .sh h2{color:#fff}.dark .sh p{color:#c7d9ee}.dark .card{background:#ffffff12;border-color:#ffffff30}.dark .card h3{color:#fff}.dark .card p{color:#c7d9ee}.dark .card b{color:var(--yel)}.dark .chip{background:#ffffff14;color:#fff;border-color:#ffffff30}.dark .chip.on{background:var(--yel);color:var(--navy)}
+.fl{display:grid;grid-template-columns:260px 1fr;gap:22px}.fb{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;height:max-content;position:sticky;top:96px}.fb label{display:block;font-size:.76rem;font-weight:700;margin:12px 0 5px}.fb select,.fb input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px}
+.cg{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.pr{font-weight:800;color:var(--green)}.row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px}.row a{font-weight:700;font-size:.8rem;color:var(--blue)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}.steps .card:after{counter-increment:s;content:counter(s);position:absolute;right:16px;top:14px;font:800 2.2rem Montserrat;color:#e3ecf8}
+.cta{background:linear-gradient(110deg,var(--blue),var(--green));color:#fff;text-align:center;padding:56px 20px;border-radius:28px}.cta h2{margin:0 0 8px;font-size:2rem}.cta p{margin:0 auto 20px;max-width:620px;color:#e6f5f0}
+footer{background:#071b45;color:#c3d3ea;padding:46px 0 18px}.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}footer h4{color:#fff;margin:0 0 10px}footer a{display:block;font-size:.85rem;margin:7px 0}footer a:hover{color:var(--yel)}footer .brand{display:flex;margin:0}.cp{border-top:1px solid #ffffff22;margin-top:28px;padding-top:16px;font-size:.78rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+#gate{position:fixed;inset:0;background:#071b45d0;display:none;place-items:center;z-index:99}#gate.on{display:grid}.gb{background:#fff;border-radius:24px;padding:28px;width:min(400px,92%);border-top:6px solid var(--yel)}.gb h2{margin:0 0 4px;color:var(--navy)}.gb input{width:100%;margin:6px 0 12px;padding:12px;border:1px solid var(--line);border-radius:10px}.gb small{color:var(--mut)}
+#tb{position:fixed;right:18px;bottom:18px;z-index:60;border:0;border-radius:99px;background:linear-gradient(135deg,var(--blue),var(--green));color:#fff;padding:14px 20px;font-weight:800;box-shadow:0 6px 0 #0b2a6b55,0 14px 28px #0004}
+#theo{position:fixed;right:18px;bottom:80px;width:min(360px,92%);height:460px;background:#fff;border-radius:20px;box-shadow:0 20px 50px #0b2a6b44;display:none;flex-direction:column;z-index:60;overflow:hidden}#theo.on{display:flex}#theo header{position:static;background:var(--navy);padding:14px;font-weight:800;box-shadow:none}
+#tl{flex:1;overflow:auto;padding:12px;font-size:.86rem}.m{margin:0 0 9px;padding:9px 12px;border-radius:12px;max-width:88%}.m.b{background:#eaf2fb}.m.u{background:var(--blue);color:#fff;margin-left:auto}#theo form{display:flex;gap:6px;padding:10px;border-top:1px solid var(--line)}#theo input{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px}#theo .btn{padding:8px 14px;box-shadow:none}
+#gt,.goog-te-banner-frame,#goog-gt-tt{display:none!important}
+@media(max-width:960px){.links{display:none;position:absolute;top:74px;left:0;right:0;background:var(--navy);padding:14px 5%;flex-direction:column;align-items:flex-start;gap:6px}.links.open{display:flex}.dd{padding:6px 0}.m2{position:static;display:block;background:transparent;color:#fff;box-shadow:none;border:0;padding:0 0 0 10px}.m2 a:hover{background:#ffffff14;color:var(--yel)}.burger{display:block}.hero .w,.fl{grid-template-columns:1fr}.fb{position:static}.grid,.grid.f4,.steps{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid,.grid.f4,.steps,.cg{grid-template-columns:1fr}.sb{flex-wrap:wrap}.sb input{flex-basis:100%}.sb button{padding:12px;width:100%}.pill{display:none}}
+@media(prefers-reduced-motion:reduce){.sl{animation:none;opacity:.5}.card{transform:none!important}}
+</style>
+</head>
+<body>
+<div class="flag"></div>
+<header><div class="w nav">
+<a class="brand" href="index.html"><span class="logo">RTLH</span><span>Rwanda Tech Learning Hub<small>Learn · Create · Empower</small></span></a>
+<nav class="links" id="nav">
+<a href="index.html">Home</a>
+<div class="dd"><a href="#levels">Learn</a><div class="m2"><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced player</a><a href="eclass-center.html">E-Class (live)</a><a href="learning-dashboard.html">My learning</a></div></div>
+<div class="dd"><a href="#levels">Levels</a><div class="m2"><a href="#levels" data-g="nursery">Nursery &amp; Primary</a><a href="#levels" data-g="sec">Secondary (O &amp; A-Level)</a><a href="#levels" data-g="skill">TTC &amp; TVET</a><a href="#levels" data-g="uni">University to PhD</a></div></div>
+<div class="dd"><a href="#everyone">Community learning</a><div class="m2"><a href="course-catalog.html?field=life">Social learning</a><a href="course-catalog.html?field=health">Health</a><a href="course-catalog.html?field=science">Sciences</a><a href="#platforms">Explore more</a></div></div>
+<a href="#platforms">Platforms</a><a href="my-certificates.html">Certificates</a>
+</nav>
+<div class="tools"><select id="lang" class="notranslate" aria-label="Language"></select><span class="pill" id="streak"></span><span id="auth"></span><button class="burger" id="bg" aria-label="Menu">☰</button></div>
+</div></header>
+
+<section class="hero">
+<div class="bg">
+<div class="sl" style="background-image:url(images/coding-learners.jpg),linear-gradient(120deg,#0b2a6b,#1565c0)"></div>
+<div class="sl" style="background-image:url(images/group-learners.jpg),linear-gradient(120deg,#0b5a55,#0b7a3b)"></div>
+<div class="sl" style="background-image:url(images/online-learning.jpg),linear-gradient(120deg,#1565c0,#0b2a6b)"></div>
+<div class="sl" style="background-image:url(images/classroom.jpg),linear-gradient(120deg,#0b7a3b,#0b2a6b)"></div>
+<div class="sl" style="background-image:url(images/tvet-practical.jpg),linear-gradient(120deg,#0b2a6b,#e0a91999)"></div></div>
+<div class="w"><div>
+<div class="eb">Rwanda Tech Learning Hub • Official learning platform</div>
+<h1>Learn. Create.<br><em>Empower</em> your future.</h1>
+<p>From nursery to doctorate, TVET and teacher training, to health, science and everyday life skills. One hub for every Rwandan learner.</p>
+<div class="acts"><a class="btn" href="course-catalog.html">Explore all courses →</a><a class="btn o" href="learning-dashboard.html">My learning</a></div>
+<form class="sb" id="hs"><input id="hq" type="search" placeholder="What do you want to learn? e.g. web development, health…"><button>Find</button></form></div>
+<aside class="panel"><h3>One hub. Many pathways.</h3><div class="st"><div><b>9</b><span>Education levels</span></div><div><b>13</b><span>Languages</span></div><div><b>8</b><span>Learning areas</span></div><div><b>🎓</b><span>Verified certificates</span></div></div><div class="mot">From Learning to a Better Tomorrow</div></aside></div>
+<div class="cap" id="cap">👩‍💻 Coding learners</div>
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0 30C240 70 480 0 720 25S1200 60 1440 20V60H0Z" fill="#f3f7fc"/></svg>
+</section>
+
+<section id="levels"><div class="w"><div class="sh"><div class="kick">Every level, in order</div><h2>From nursery to doctorate</h2><p>Choose your stage. Each card opens the catalog filtered for you.</p></div><div class="tabs" id="lt"></div><div class="grid" id="lg"></div></div></section>
+
+<section class="dark" id="everyone"><div class="w"><div class="sh"><div class="kick">Not a student? You belong here</div><h2>Learning for everyone in the community</h2><p>Social learning, health, sciences and more. No school enrollment needed.</p></div><div class="grid f4" id="ag"></div></div></section>
+
+<section id="discover"><div class="w"><div class="sh"><div class="kick">Smart discovery</div><h2>Find your course</h2><p>Filter suggested courses, then open the full catalog for live listings.</p></div>
+<div class="fl"><aside class="fb"><b>Refine</b><label>Level</label><select id="fa"><option value="">All levels</option></select><label>Area</label><select id="ff"><option value="">All areas</option><option value="academic">Academic</option><option value="technology">Technology</option><option value="trade">TVET &amp; trades</option><option value="life">Social &amp; life</option><option value="health">Health</option><option value="business">Business</option><option value="science">Science</option><option value="teacher">Teaching</option></select><label>Access</label><select id="fp"><option value="">Any</option><option>Free</option><option>Paid</option><option>Scholarship</option></select><label>Keyword</label><input id="fk" type="search" placeholder="Search…"></aside>
+<div><p id="rc" style="color:var(--mut);margin:0 0 12px"></p><div class="cg" id="cg"></div></div></div></div></section>
+
+<section class="dark" id="platforms"><div class="w"><div class="sh"><div class="kick">Real platforms, real learning</div><h2>Learning platforms in Rwanda and beyond</h2><p>Trusted national and global platforms, grouped by domain. Links open the official sites.</p></div><div class="tabs" id="pt"></div><div class="grid" id="pg"></div></div></section>
+
+<section><div class="w"><div class="sh"><div class="kick">Your journey</div><h2>From first step to certificate</h2></div><div class="steps">
+<div class="card"><span class="ic">🔎</span><h3>Discover</h3><p>Pick a level, skill or goal.</p></div><div class="card"><span class="ic">📝</span><h3>Enroll</h3><p>Free, paid or sponsored.</p></div><div class="card"><span class="ic">📖</span><h3>Learn</h3><p>Self-paced or live E-Class.</p></div><div class="card"><span class="ic">🏅</span><h3>Get certified</h3><p>Download and verify online.</p></div></div>
+<div class="cta" style="margin-top:50px"><h2>Every learner has a place.</h2><p>Join Rwanda Tech Learning Hub and turn learning into opportunity.</p><a class="btn" href="course-catalog.html">Start learning →</a></div></div></section>
+
+<footer><div class="w"><div class="fg"><div><a class="brand" href="index.html"><span class="logo">RTLH</span><span>Rwanda Tech Learning Hub<small>Empowering Rwanda through education</small></span></a><p style="max-width:330px;font-size:.84rem">Learning without borders, for Rwanda and the world.</p></div>
+<div><h4>Learn</h4><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced</a><a href="eclass-center.html">E-Class center</a><a href="learning-dashboard.html">Dashboard</a></div>
+<div><h4>Achievements</h4><a href="my-certificates.html">My certificates</a><a href="course-details.html">Course details</a><a href="course-checkout.html">Enrollment</a></div>
+<div><h4>RTLH</h4><a href="index.html">Home</a><a href="course-admin.html">Course admin</a><a href="mailto:theonesteniyibigira6@gmail.com">Contact</a></div></div>
+<div class="cp"><span>© 2026 Rwanda Tech Learning Hub. Learn · Create · Empower.</span><span>Rwanda, Land of a Thousand Hills 🇷🇼</span></div></div></footer>
+
+<div id="gate"><div class="gb"><h2>Log in to start learning</h2><small id="gm">Create a free account or log in to continue.</small><input id="gn" placeholder="Full name"><input id="ge" type="email" placeholder="Email"><button class="btn g" id="gg" style="width:100%">Log in / Sign up</button><p><a href="#" id="gx" style="color:var(--mut)">Not now</a></p></div></div>
+<button id="tb">🤖 Theo AI</button><div id="theo"><header>Theo AI • your learning guide</header><div id="tl"></div><form id="tf"><input id="ti" placeholder="Ask Theo…"><button class="btn">Send</button></form></div>
+<div id="gt"></div><script src="https://translate.google.com/translate_a/element.js?cb=gtInit"></script>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],E=encodeURIComponent;
+/* DATA */
+const LV=[["nursery","🧸","Nursery (N1–N3)","Language, numbers, creative play and discovery.",["Literacy","Numbers","Play"],"nursery"],["primary","📚","Primary (P1–P6)","Kinyarwanda, English, maths, SET, social studies.",["P1–P3","P4–P6"],"nursery"],["olevel","📐","Secondary O-Level (S1–S3)","Core sciences, maths, languages, ICT.",["Sciences","ICT"],"sec"],["alevel","🧪","Secondary A-Level (S4–S6)","Combinations such as MPC, PCB, MEG, HEG, HEL.",["MPC","PCB","HEG"],"sec"],["ttc","🍎","TTC Teacher Training","Pedagogy, methods, assessment, inclusion.",["Pedagogy","Methods"],"skill"],["tvet","🛠️","TVET & Trades","Construction, electricity, automotive, hospitality, ICT.",["Practical","Certified"],"skill"],["bachelor","🏛️","Bachelor's (A0)","Undergraduate study, academic writing, electives.",["Degree","Study skills"],"uni"],["masters","📑","Master's","Research methods, thesis, specialisation.",["Research","Thesis"],"uni"],["phd","🎖️","PhD & Doctorate","Original research, publishing, grants, ethics.",["Publishing","Grants"],"uni"]];
+const AR=[["🤝","Social learning","Communication, leadership, study circles, civic action.","life"],["🩺","Health & wellbeing","Hygiene, nutrition, maternal and child health, first aid.","health"],["🔬","Sciences","Everyday science, environment, research basics.","science"],["🧭","Explore more","New fields, emerging tech and curiosity-led learning.","technology"],["💻","Digital life","Phones, computers, internet safety, AI literacy.","technology"],["💰","Money & business","Budgeting, saving, small business, entrepreneurship.","business"],["🎨","Arts & creativity","Drawing, music, design and creative media.","arts"],["🌾","Agriculture & green","Farming, sustainability, repair and reuse.","trade"]];
+const PL=[["REB e-Learning","https://elearning.reb.rw","Nursery to S6 courses by grade and subject, library and mobile app.","rw"],["Rwanda Polytechnic LMS","https://elearning.rp.ac.rw","Courses for TVET and polytechnic learners.","rw"],["University of Rwanda e-Learning","https://elearning.ur.ac.rw","Modules and lectures for UR students.","rw"],["Khan Academy","https://www.khanacademy.org","Free maths and science from early years up.","global"],["Coursera","https://www.coursera.org","University and industry courses, many free to audit.","global"],["edX","https://www.edx.org","University-level courses and MicroMasters.","global"],["MIT OpenCourseWare","https://ocw.mit.edu","Free MIT materials for science and engineering.","science"],["OpenWHO","https://openwho.org","Free WHO courses on public health.","health"],["freeCodeCamp","https://www.freecodecamp.org","Free coding curriculum and certifications.","tech"],["Alison","https://alison.com","Free skills and diploma courses.","social"]];
+const CO=[["Early Learning Foundations","nursery","academic","Free","🧸","Play-based literacy, numbers and discovery."],["Primary Maths & Literacy","primary","academic","Free","📘","Reading, writing and number sense."],["O-Level Core Subjects","olevel","academic","Free","📐","Maths, sciences, languages and ICT."],["A-Level Combinations","alevel","academic","Free","🧪","MPC, PCB, HEG lessons and past papers."],["Teaching Methods & Lesson Design","ttc","teacher","Scholarship","🍎","Learner-centred planning and assessment."],["Construction & Building Basics","tvet","trade","Paid","🛠️","Materials, drawing and site safety."],["Web Development Fundamentals","professional","technology","Free","💻","HTML, CSS, JavaScript and real projects."],["Research & Academic Writing","bachelor","science","Free","🔬","Questions, structure and referencing."],["Master's Research Methods","masters","science","Paid","📑","Design a study and write a thesis."],["PhD Publishing & Grants","phd","science","Paid","🎖️","Journals, proposals and ethics."],["Community Health Awareness","adult","health","Free","🩺","Hygiene, nutrition and family health."],["Personal Finance & Budgeting","adult","business","Free","💰","Budget, save and plan."],["Entrepreneurship Basics","professional","business","Paid","🚀","Test and grow a small business."],["Social Learning & Leadership","adult","life","Free","🤝","Teamwork and community action."]];
+/* RENDER */
+const card=(h,ic,t,p,tags,b,x="")=>`<a class="card t3" href="${h}" ${x}><span class="ic">${ic}</span><h3>${t}</h3><p>${p}</p>${tags?`<div class="tags">${tags.map(s=>`<span>${s}</span>`).join("")}</div>`:""}<b>${b}</b></a>`;
+function lv(g){$$("#lt .chip").forEach(c=>c.classList.toggle("on",c.dataset.g===g));$("#lg").innerHTML=LV.filter(l=>g==="all"||l[5]===g).map(l=>card("course-catalog.html?audience="+l[0],l[1],l[2],l[3],l[4],"Browse courses →")).join("")}
+$("#lt").innerHTML=[["all","All levels"],["nursery","Nursery & Primary"],["sec","Secondary"],["skill","TTC & TVET"],["uni","University → PhD"]].map(t=>`<button class="chip" data-g="${t[0]}">${t[1]}</button>`).join("");
+$("#lt").onclick=e=>e.target.dataset.g&&lv(e.target.dataset.g);lv("all");
+$("#ag").innerHTML=AR.map(a=>card("course-catalog.html?field="+a[3],a[0],a[1],a[2],0,"Explore →")).join("");
+$("#fa").innerHTML+=LV.map(l=>`<option value="${l[0]}">${l[2]}</option>`).join("")+'<option value="adult">Adult learner</option><option value="professional">Professional</option>';
+function fc(){const a=$("#fa").value,f=$("#ff").value,p=$("#fp").value,q=$("#fk").value.toLowerCase(),r=CO.filter(c=>(!a||c[1]===a)&&(!f||c[2]===f)&&(!p||c[3]===p)&&(!q||(c[0]+c[5]).toLowerCase().includes(q)));
+$("#rc").textContent=r.length+" suggested courses • full listings in the Course Catalog";$("#cg").innerHTML=r.map(c=>`<div class="card t3"><span class="ic">${c[4]}</span><h3>${c[0]}</h3><p>${c[5]}</p><div class="tags"><span>${c[3]}</span><span>${c[2]}</span></div><div class="row"><span class="pr">${c[3]}</span><span><a href="course-details.html?course=${E(c[0])}">Details</a> · <a href="course-checkout.html?course=${E(c[0])}">Enroll →</a></span></div></div>`).join("")||"<p>No match. Try the full catalog.</p>"}
+["fa","ff","fp"].forEach(i=>$("#"+i).onchange=fc);$("#fk").oninput=fc;fc();
+$("#hs").onsubmit=e=>{e.preventDefault();$("#fk").value=$("#hq").value;location.hash="discover";fc()};
+function pl(k){$$("#pt .chip").forEach(c=>c.classList.toggle("on",c.dataset.k===k));$("#pg").innerHTML=PL.filter(p=>k==="all"||p[3]===k||(k==="global"&&p[3]!=="rw")).map(p=>card(p[1],"🌐",p[0],p[2],0,"Visit platform ↗",'target="_blank" rel="noopener"')).join("")}
+$("#pt").innerHTML=[["all","All"],["rw","Rwanda"],["global","Global"],["health","Health"],["science","Sciences"],["tech","Technology"],["social","Social skills"]].map(c=>`<button class="chip" data-k="${c[0]}">${c[1]}</button>`).join("");$("#pt").onclick=e=>e.target.dataset.k&&pl(e.target.dataset.k);pl("all");
+$("#bg").onclick=()=>$("#nav").classList.toggle("open");
+/* hero caption */
+const CP=["👩‍💻 Coding learners","👥 Group learners","💻 Online learning","🏫 Classroom learning","🛠️ TVET practical"];let ci=0;setInterval(()=>{ci=(ci+1)%5;$("#cap").textContent=CP[ci]},6000);
+/* 3D tilt */
+document.addEventListener("mousemove",e=>{if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;const c=e.target.closest(".t3");$$(".t3").forEach(x=>x!==c&&(x.style.transform=""));if(!c)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(800px) rotateY(${x*12}deg) rotateX(${-y*12}deg) translateY(-6px)`});
+/* Translate: 12 most spoken languages + Kinyarwanda */
+const LG=[["en","English"],["rw","Kinyarwanda"],["zh-CN","中文"],["hi","हिन्दी"],["es","Español"],["fr","Français"],["ar","العربية"],["bn","বাংলা"],["pt","Português"],["ru","Русский"],["ur","اردو"],["id","Indonesia"],["de","Deutsch"]];
+function gtInit(){new google.translate.TranslateElement({pageLanguage:"en",includedLanguages:LG.map(l=>l[0]).join(","),autoDisplay:false},"gt");setTimeout(()=>setLang(localStorage.rtlhLang||"en"),900)}
+function setLang(c){const s=$(".goog-te-combo");$("#lang").value=c;if(!s)return;s.value=c==="en"?"":c;s.dispatchEvent(new Event("change"));localStorage.rtlhLang=c}
+$("#lang").innerHTML=LG.map(l=>`<option value="${l[0]}">${l[1]}</option>`).join("");$("#lang").onchange=e=>setLang(e.target.value);
+/* Login gate */
+const user=()=>{try{return JSON.parse(localStorage.rtlhUser)}catch(e){return null}},LOCK=/(self-paced|learning-dashboard|eclass-center|course-checkout|my-certificates|course-admin|course-details)\.html/;let nx=null;
+function auth(){const u=user();$("#auth").innerHTML=u?`👤 ${u.name.split(" ")[0]} <a href="#" id="out" style="color:var(--yel)">Log out</a>`:'<a class="btn" href="#" id="li" style="padding:8px 16px;box-shadow:none">Log in</a>';$("#out")&&($("#out").onclick=e=>{e.preventDefault();localStorage.removeItem("rtlhUser");auth()});$("#li")&&($("#li").onclick=e=>{e.preventDefault();$("#gate").classList.add("on")})}
+document.addEventListener("click",e=>{const a=e.target.closest("a[href]");if(!a)return;if(a.dataset.g)setTimeout(()=>lv(a.dataset.g),50);if(LOCK.test(a.getAttribute("href"))&&!user()){e.preventDefault();nx=a.href;$("#gm").textContent="Please log in first. You'll go straight to your page after.";$("#gate").classList.add("on")}});
+$("#gx").onclick=e=>{e.preventDefault();$("#gate").classList.remove("on")};
+$("#gg").onclick=()=>{const n=$("#gn").value.trim(),m=$("#ge").value.trim();if(!n||!/\S+@\S+\.\S+/.test(m))return alert("Enter your name and a valid email.");localStorage.rtlhUser=JSON.stringify({name:n,email:m});$("#gate").classList.remove("on");auth();if(nx)location.href=nx};
+/* Streak */
+(()=>{const t=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();let s=+localStorage.rtlhStreak||0;if(localStorage.rtlhLast!==t){s=localStorage.rtlhLast===y?s+1:1;localStorage.rtlhStreak=s;localStorage.rtlhLast=t}$("#streak").textContent="🔥 "+s})();
+/* Theo AI: put your Theo AI API URL below (must reply {reply:"..."}); empty = built-in helper */
+const THEO_ENDPOINT="";const say=(t,w)=>{$("#tl").insertAdjacentHTML("beforeend",`<div class="m ${w}">${t}</div>`);$("#tl").scrollTop=1e9};
+say("Hello! I'm Theo. Ask about courses, levels (nursery to PhD), platforms or certificates.","b");$("#tb").onclick=()=>$("#theo").classList.toggle("on");
+$("#tf").onsubmit=async e=>{e.preventDefault();const q=$("#ti").value.trim();if(!q)return;$("#ti").value="";say(q.replace(/</g,"&lt;"),"u");
+if(THEO_ENDPOINT){try{const r=await fetch(THEO_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:q})});return say((await r.json()).reply,"b")}catch(x){}}
+const w=q.toLowerCase().split(/\W+/).filter(x=>x.length>2),c=CO.filter(c=>w.some(k=>(c[0]+c[5]+c[2]+c[1]).toLowerCase().includes(k))).slice(0,3),p=PL.filter(p=>w.some(k=>(p[0]+p[2]+p[3]).toLowerCase().includes(k))).slice(0,2);
+let a=c.length?"Try: "+c.map(x=>`<a href="course-details.html?course=${E(x[0])}"><b>${x[0]}</b></a>`).join(", ")+". ":"";a+=p.length?"Also see "+p.map(x=>`<a target="_blank" href="${x[1]}">${x[0]}</a>`).join(", ")+".":"";say(a||'No match found. Browse the <a href="course-catalog.html">full catalog</a>.',"b")};
+auth();
+</script>
+</body>
+</html>
