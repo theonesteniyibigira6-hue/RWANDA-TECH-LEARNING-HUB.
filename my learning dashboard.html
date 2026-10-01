@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="description" content="Rwanda Tech Learning Hub (RTLH) - Personal Intelligent Learning Dashboard">
+  <meta name="theme-color" content="#0D1B2A">
+  <title>My Learning Dashboard | Rwanda Tech Learning Hub</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Dashboard Styles -->
+  <link rel="stylesheet" href="assets/css/my-learning-dashboard.css">
+
+  <!-- Firebase Web SDK (v9/v10 Compat Mode for Existing RTLH Infrastructure) -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <!-- MOBILE SIDEBAR DRAWER OVERLAY -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- MAIN WRAPPER -->
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-badge">RTLH</div>
+          <div class="brand-info">
+            <span class="brand-title">Rwanda Tech Hub</span>
+            <span class="brand-subtitle" data-i18n="portal_subtitle">E-Class Dashboard</span>
+          </div>
+        </a>
+        <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close navigation drawer">✕</button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#overview" class="nav-item active" data-nav="overview">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text" data-i18n="nav_overview">Overview</span>
+        </a>
+        <a href="#my-courses" class="nav-item" data-nav="courses">
+          <span class="nav-icon">📚</span>
+          <span class="nav-text" data-i18n="nav_courses">My Courses</span>
+        </a>
+        <a href="#eclass-feed" class="nav-item" data-nav="eclass">
+          <span class="nav-icon">🏫</span>
+          <span class="nav-text" data-i18n="nav_eclass">E-Class Hub</span>
+        </a>
+        <a href="#assessments" class="nav-item" data-nav="assessments">
+          <span class="nav-icon">📝</span>
+          <span class="nav-text" data-i18n="nav_assessments">Assignments</span>
+        </a>
+        <a href="#certificates" class="nav-item" data-nav="certificates">
+          <span class="nav-icon">🏆</span>
+          <span class="nav-text" data-i18n="nav_certificates">Certificates</span>
+        </a>
+        <a href="e-library.html" class="nav-item">
+          <span class="nav-icon">📖</span>
+          <span class="nav-text" data-i18n="nav_library">E-Library</span>
+        </a>
+        <a href="community.html" class="nav-item">
+          <span class="nav-icon">👥</span>
+          <span class="nav-text" data-i18n="nav_community">Community</span>
+        </a>
+        <a href="account.html" class="nav-item">
+          <span class="nav-icon">⚙️️</span>
+          <span class="nav-text" data-i18n="nav_settings">Account Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-mini-card">
+          <img id="userAvatarMini" src="https://ui-avatars.com/api/?name=Learner&background=00A1DE&color=fff" alt="User Avatar" class="user-avatar">
+          <div class="user-mini-info">
+            <span id="userNameMini" class="user-mini-name">Loading...</span>
+            <span id="userRoleMini" class="user-mini-role">Learner</span>
+          </div>
+        </div>
+        <button id="signOutBtn" class="signout-btn" data-i18n="btn_signout">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="main-content">
+
+      <!-- TOP APP BAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open sidebar menu">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="globalCourseSearch" placeholder="Search my courses, lessons..." data-i18n-ph="ph_search">
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <!-- Multi-language Switcher -->
+          <div class="lang-picker-wrapper">
+            <span class="lang-icon">🌐</span>
+            <select id="languageSelector" class="lang-select" aria-label="Select Language">
+              <option value="en">English (US)</option>
+              <option value="rw">Kinyarwanda</option>
+              <option value="fr">Français</option>
+              <option value="sw">Kiswahili</option>
+              <option value="es">Español</option>
+              <option value="pt">Português</option>
+              <option value="ar">العربية (Arabic)</option>
+              <option value="hi">हिन्दी (Hindi)</option>
+              <option value="zh">中文 (Chinese)</option>
+              <option value="de">Deutsch</option>
+              <option value="it">Italiano</option>
+              <option value="ja">日本語 (Japanese)</option>
+              <option value="tr">Türkçe</option>
+            </select>
+          </div>
+
+          <!-- Notification Bell -->
+          <div class="notif-dropdown-container">
+            <button class="notif-btn" id="notifToggle" aria-label="Notifications">
+              🔔
+              <span class="notif-badge" id="notifBadgeCount" style="display:none;">0</span>
+            </button>
+            <div class="notif-menu" id="notifMenu">
+              <div class="notif-header">
+                <span data-i18n="notif_title">Notifications</span>
+                <button id="markAllReadBtn" class="text-link-btn" data-i18n="notif_mark_read">Mark all as read</button>
+              </div>
+              <div class="notif-list" id="notifListContainer">
+                <div class="notif-empty" data-i18n="notif_empty">No new notifications</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- DASHBOARD BODY CONTAINER -->
+      <div class="dashboard-body">
+
+        <!-- WELCOME BANNER SECTION -->
+        <section class="welcome-banner" id="overview">
+          <div class="welcome-text">
+            <span class="learner-id-badge" id="rtlhLearnerId">ID: RTLH-2026-PENDING</span>
+            <h1 class="welcome-title"><span data-i18n="welcome_back">Welcome back</span>, <span id="userNameHeader">Learner</span>! 👋</h1>
+            <p class="welcome-subtitle" data-i18n="welcome_sub">Your learning journey continues. Keep growing your knowledge, skills, and future in Rwanda and beyond.</p>
+          </div>
+          <div class="welcome-actions">
+            <a href="learning-center.html" class="btn btn-primary" data-i18n="btn_explore_catalog">Explore Catalog</a>
+            <a href="self-paced.html" class="btn btn-secondary" data-i18n="btn_resume_study">Resume Last Study</a>
+          </div>
+        </section>
+
+        <!-- STATS OVERVIEW CARDS -->
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon icon-blue">📚</div>
+            <div class="stat-details">
+              <span class="stat-value" id="statEnrolledCount">0</span>
+              <span class="stat-label" data-i18n="stat_enrolled">Enrolled Courses</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-yellow">⏳</div>
+            <div class="stat-details">
+              <span class="stat-value" id="statInProgressCount">0</span>
+              <span class="stat-label" data-i18n="stat_in_progress">In Progress</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-green">✅</div>
+            <div class="stat-details">
+              <span class="stat-value" id="statCompletedCount">0</span>
+              <span class="stat-label" data-i18n="stat_completed">Completed</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-gold">🏆</div>
+            <div class="stat-details">
+              <span class="stat-value" id="statCertificatesCount">0</span>
+              <span class="stat-label" data-i18n="stat_certificates">Certificates</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon icon-fire">🔥</div>
+            <div class="stat-details">
+              <span class="stat-value" id="statStreakDays">0 Days</span>
+              <span class="stat-label" data-i18n="stat_streak">Study Streak</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- SMART CONTINUE LEARNING HERO HERO -->
+        <section class="continue-learning-card" id="continueLearningHero">
+          <div class="continue-content">
+            <div class="continue-badge" data-i18n="badge_recent">MOST RECENT ACTIVITY</div>
+            <h2 id="recentCourseTitle" class="continue-course-title">Loading your last accessed lesson...</h2>
+            <p id="recentLessonTitle" class="continue-lesson-title">Please wait while we retrieve your progress</p>
+            <div class="continue-progress-wrapper">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="recentProgressBar" style="width: 0%;"></div>
+              </div>
+              <div class="progress-meta">
+                <span id="recentProgressPct">0% Complete</span>
+                <span id="recentEstTime">0 mins remaining</span>
+              </div>
+            </div>
+          </div>
+          <div class="continue-action">
+            <a id="continueLearningBtn" href="self-paced.html" class="btn btn-green btn-lg" data-i18n="btn_continue">Continue Lesson ➔</a>
+          </div>
+        </section>
+
+        <!-- MAIN DASHBOARD CONTENT GRID (2 COLUMNS) -->
+        <div class="dashboard-grid">
+
+          <!-- LEFT COLUMN (COURSES, ASSESSMENTS, CERTIFICATES) -->
+          <div class="grid-left-col">
+
+            <!-- MY COURSES SECTION -->
+            <section class="dashboard-section" id="my-courses">
+              <div class="section-header">
+                <div>
+                  <h2 class="section-title" data-i18n="title_my_courses">My Learning Library</h2>
+                  <p class="section-desc" data-i18n="desc_my_courses">Track and manage all your registered courses</p>
+                </div>
+                <a href="learning-center.html" class="text-link-btn" data-i18n="link_find_more">+ Find More Courses</a>
+              </div>
+
+              <!-- COURSE FILTERS -->
+              <div class="course-filter-bar">
+                <button class="filter-chip active" data-filter="all" data-i18n="filter_all">All</button>
+                <button class="filter-chip" data-filter="in-progress" data-i18n="filter_in_progress">In Progress</button>
+                <button class="filter-chip" data-filter="completed" data-i18n="filter_completed">Completed</button>
+                <button class="filter-chip" data-filter="free" data-i18n="filter_free">Free</button>
+                <button class="filter-chip" data-filter="paid" data-i18n="filter_paid">Paid</button>
+              </div>
+
+              <!-- COURSE CARDS CONTAINER -->
+              <div class="courses-card-grid" id="coursesGridContainer">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+              </div>
+            </section>
+
+            <!-- ASSIGNMENTS & ASSESSMENTS SECTION -->
+            <section class="dashboard-section" id="assessments">
+              <div class="section-header">
+                <h2 class="section-title" data-i18n="title_assessments">Assignments & Quizzes</h2>
+                <span class="badge badge-info" id="pendingAssessmentCount">0 Pending</span>
+              </div>
+              <div class="assessment-list" id="assessmentListContainer">
+                <div class="empty-state-card">
+                  <p data-i18n="empty_assessments">No pending assignments or active quizzes found.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- CERTIFICATES & ACHIEVEMENTS SECTION -->
+            <section class="dashboard-section" id="certificates">
+              <div class="section-header">
+                <h2 class="section-title" data-i18n="title_certificates">Earned Certificates</h2>
+                <a href="learning-center.html" class="text-link-btn" data-i18n="link_earn_more">Earn More</a>
+              </div>
+              <div class="certificates-grid" id="certificatesGridContainer">
+                <div class="empty-state-card">
+                  <p data-i18n="empty_certificates">Complete a course to unlock your server-verified certificate of achievement.</p>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- RIGHT COLUMN (CALENDAR, E-CLASS, GOALS, AI RECOMMENDATIONS) -->
+          <div class="grid-right-col">
+
+            <!-- WEEKLY STUDY GOAL CARD -->
+            <div class="widget-card">
+              <h3 class="widget-title" data-i18n="title_study_goal">Weekly Learning Target</h3>
+              <div class="goal-progress-box">
+                <div class="goal-numbers">
+                  <span class="goal-current" id="goalCurrentHours">0.0</span> / <span class="goal-target" id="goalTargetHours">5.0</span> <small>Hours</small>
+                </div>
+                <div class="progress-bar-bg">
+                  <div class="progress-bar-fill fill-green" id="goalProgressBar" style="width:0%;"></div>
+                </div>
+              </div>
+              <p class="widget-subtext" data-i18n="sub_study_goal">Set target in account settings to maintain study momentum.</p>
+            </div>
+
+            <!-- E-CLASS & LIVE CLASSES WIDGET -->
+            <div class="widget-card" id="eclass-feed">
+              <div class="widget-header">
+                <h3 class="widget-title" data-i18n="title_eclass_live">E-Class Live Hub</h3>
+                <a href="eclass-center.html" class="text-link-btn" data-i18n="link_open_eclass">Open Class</a>
+              </div>
+              <div id="eclassLiveList">
+                <div class="eclass-mini-card">
+                  <div class="eclass-status-dot dot-active"></div>
+                  <div class="eclass-mini-info">
+                    <strong>ICT & Digital Skills Class</strong>
+                    <span>Instructor: RTLH Mentor Team</span>
+                  </div>
+                  <a href="e-class.html" class="btn btn-sm btn-outline" data-i18n="btn_join">Join Room</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- RECOMMENDED COURSES -->
+            <div class="widget-card">
+              <h3 class="widget-title" data-i18n="title_recommended">Recommended For You</h3>
+              <div class="recommendation-list" id="recommendationsContainer">
+                <a href="course-details.html?id=ai-fundamentals" class="recommendation-item">
+                  <span class="rec-icon">🤖</span>
+                  <div class="rec-details">
+                    <strong>AI & Prompt Engineering</strong>
+                    <span>Domain: Technology • Free</span>
+                  </div>
+                </a>
+                <a href="course-details.html?id=entrepreneurship-rw" class="recommendation-item">
+                  <span class="rec-icon">💡</span>
+                  <div class="rec-details">
+                    <strong>Entrepreneurship & Innovation</strong>
+                    <span>Domain: Business • Free</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- FLOATING THEO LEARN WISE AI COMPANION BUTTON & DRAWER -->
+  <button class="ai-fab-btn" id="aiFabBtn" aria-label="Open AI Learning Assistant">
+    <span class="ai-fab-icon">🤖</span>
+    <span class="ai-fab-label">Theo AI</span>
+  </button>
+
+  <aside class="ai-drawer" id="aiDrawer">
+    <div class="ai-drawer-header">
+      <div class="ai-drawer-title">
+        <span class="ai-avatar">🤖</span>
+        <div>
+          <h3>Theo Learn Wise AI</h3>
+          <span class="ai-status">Learning Companion</span>
+        </div>
+      </div>
+      <button class="close-drawer-btn" id="closeAiDrawerBtn">✕</button>
+    </div>
+    <div class="ai-chat-body" id="aiChatBody">
+      <div class="ai-msg ai-msg-bot">
+        Hello! I am Theo, your RTLH learning companion. Ask me to explain a lesson, summarize your study plan, or suggest study strategies!
+      </div>
+    </div>
+    <div class="ai-chat-footer">
+      <input type="text" id="aiInputPrompt" placeholder="Ask Theo about your course..." data-i18n-ph="ph_ai_input">
+      <button id="aiSendBtn" class="btn btn-primary">Send</button>
+    </div>
+  </aside>
+
+  <!-- BOTTOM NAVIGATION BAR (FOR SMALL MOBILE SCREENS) -->
+  <nav class="bottom-nav">
+    <a href="#overview" class="bottom-nav-item active">
+      <span>📊</span>
+      <small data-i18n="nav_overview">Home</small>
+    </a>
+    <a href="#my-courses" class="bottom-nav-item">
+      <span>📚</span>
+      <small data-i18n="nav_courses">Courses</small>
+    </a>
+    <a href="#eclass-feed" class="bottom-nav-item">
+      <span>🏫</span>
+      <small data-i18n="nav_eclass">Classes</small>
+    </a>
+    <a href="e-library.html" class="bottom-nav-item">
+      <span>📖</span>
+      <small data-i18n="nav_library">Library</small>
+    </a>
+  </nav>
+
+  <!-- Core Dashboard Application Logic -->
+  <script src="assets/js/dashboard-i18n.js"></script>
+  <script src="assets/js/my-learning-dashboard.js"></script>
+</body>
+</html>
