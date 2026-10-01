@@ -1,0 +1,46 @@
+{
+  "short_name": "RTLH",
+  "name": "Rwanda Tech Learning Hub",
+  "description": "Interactive learning platform offering online tech courses, resources, and digital library access.",
+  "icons": [
+    {
+      "src": "assets/images/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/images/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "#F7FAFC",
+  "theme_color": "#00A3E0",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": [
+    "education",
+    "lifestyle"
+  ],
+  "shortcuts": [
+    {
+      "name": "Courses",
+      "short_name": "Courses",
+      "description": "View all available learning modules",
+      "url": "/course.html",
+      "icons": [{ "src": "assets/images/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "E-Library",
+      "short_name": "E-Library",
+      "description": "Access the digital library collection",
+      "url": "/elibrary.html",
+      "icons": [{ "src": "assets/images/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
