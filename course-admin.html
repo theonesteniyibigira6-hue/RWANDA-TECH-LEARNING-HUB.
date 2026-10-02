@@ -107,13 +107,20 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase
 import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {getFirestore,collection,getDocs,getDoc,doc,setDoc,deleteDoc,addDoc,query,limit,serverTimestamp,getCountFromServer} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ===== PASTE YOUR FIREBASE WEB CONFIG (Console > Project settings > Your apps). It is public by design. ===== */
-const CFG={apiKey:"PASTE_API_KEY",authDomain:"PASTE.firebaseapp.com",projectId:"PASTE_PROJECT_ID",appId:"PASTE_APP_ID"};
+/* ===== PASTE YOUR FIREBASE WEB CONFIG BELOW ===== */
+const CFG = {
+  apiKey: "YOUR_FIREBASE_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_FIREBASE_APP_ID"
+};
 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const toast=t=>{const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2800)};
-const configured=!CFG.apiKey.startsWith("PASTE");
+const configured=!CFG.apiKey.startsWith("YOUR_FIREBASE");
 let auth,db,user,courses=[],domains=[],editing=null;
 
 /* ---- i18n (same codes as the site: rtlhLang) ---- */
@@ -164,8 +171,7 @@ async function draw(){
  const q=$("#q").value.toLowerCase(),f=$("#sf").value;
  $("#clist").innerHTML=courses.filter(c=>(!f||c.status===f)&&(c.title+c.id).toLowerCase().includes(q)).map(card).join("")||"<p>No courses found.</p>";
  $("#dlist").innerHTML=domains.map(d=>`<div class="card" style="display:flex;justify-content:space-between;align-items:center"><b>${esc(d.name)}</b><button class="btn s r" data-a="deld" data-id="${esc(d.id)}">Delete</button></div>`).join("")||"<p>No custom domains yet.</p>"}
-let dt;$("#q").oninput=()=>{clearTimeout(dt);dt=setTimeout(draw,250)};$("#sf").onchange=draw;
-$$("nav button").forEach(b=>b.onclick=()=>{$$("nav button").forEach(x=>x.classList.toggle("on",x===b));["dash","courses","domains"].forEach(v=>$("#v-"+v).hidden=v!==b.dataset.v)});
+let dt;$("#q").oninput=()=>{clearTimeout(dt);dt=setTimeout(draw,250)};$("#sf").onchange=draw; $$("nav button").forEach(b=>b.onclick=()=>{$$("nav button").forEach(x=>x.classList.toggle("on",x===b));["dash","courses","domains"].forEach(v=>$("#v-"+v).hidden=v!==b.dataset.v)});
 
 /* ---- course form ---- */
 const FIELDS=[["title","Course title","text"],["id","Course ID / URL slug (a-z, 0-9, -)","text"],["desc","Short description","textarea"],
