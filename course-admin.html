@@ -13,22 +13,31 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}[hidden]{display
 .btn{border:0;border-radius:99px;padding:11px 20px;font-weight:700;background:var(--yel);color:var(--navy);box-shadow:0 4px 0 #b8900a;transition:.15s;min-height:44px}
 .btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b8900a}.btn.g{background:var(--green);color:#fff;box-shadow:0 4px 0 #065227}
 .btn.o{background:#fff;color:var(--navy);box-shadow:0 4px 0 #aab9d0}.btn.r{background:#c62828;color:#fff;box-shadow:0 4px 0 #8e1b1b}.btn.s{padding:7px 13px;min-height:36px;font-size:.78rem}
-/* gate */
-#gate{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at 50% 30%,#12398f,#07173d 70%);color:#fff;text-align:center;padding:20px}
-#gate p{color:#9fb4d8;font-size:.8rem;margin-top:8px}
-#phx{background:0;border:0;padding:0;width:min(78vw,340px);perspective:900px;filter:drop-shadow(0 0 24px #00a1de55)}
-#phx svg{width:100%;animation:drift 14s ease-in-out infinite}
-.wl,.wr{transform-box:fill-box;animation:flap 3.2s ease-in-out infinite}.wl{transform-origin:100% 60%}.wr{transform-origin:0 60%;animation-direction:reverse}
-@keyframes flap{50%{transform:rotate(-9deg) scaleY(.92)}}
-@keyframes drift{0%,100%{transform:translateY(0) rotateY(-24deg) rotateZ(-2deg)}50%{transform:translateY(-14px) rotateY(24deg) rotateZ(2deg)}}
-/* modal */
+
+/* High-Speed Flying Bird Gate */
+#gate{min-height:100vh;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 30%,#12398f,#07173d 70%);color:#fff;display:flex;align-items:center;justify-content:center}
+#phx{background:0;border:0;padding:0;width:min(60vw,260px);perspective:900px;filter:drop-shadow(0 0 24px #00a1de88);position:absolute;animation:flySpeed 3.5s cubic-bezier(0.45, 0, 0.55, 1) infinite}
+#phx svg{width:100%}
+.wl,.wr{transform-box:fill-box;animation:fastFlap 0.35s ease-in-out infinite alternate}.wl{transform-origin:100% 60%}.wr{transform-origin:0 60%;animation-direction:alternate-reverse}
+
+@keyframes fastFlap{0%{transform:rotate(15deg) scaleY(1.1)}100%{transform:rotate(-35deg) scaleY(0.7)}}
+@keyframes flySpeed{
+  0%{transform:translate3d(-90vw, 30vh, 0) scale(0.6) rotate(12deg);}
+  25%{transform:translate3d(-20vw, -25vh, 0) scale(1.1) rotate(-8deg);}
+  50%{transform:translate3d(50vw, 15vh, 0) scale(0.8) rotate(15deg);}
+  75%{transform:translate3d(20vw, -30vh, 0) scale(1.2) rotate(-12deg);}
+  100%{transform:translate3d(90vw, 25vh, 0) scale(0.5) rotate(10deg);}
+}
+
+/* Modal */
 .mod{position:fixed;inset:0;background:#07173dcc;display:grid;place-items:center;padding:14px;z-index:50;overflow:auto}
 .box{background:#fff;color:var(--ink);border-radius:22px;padding:22px;width:min(560px,100%);max-height:94vh;overflow:auto;box-shadow:0 30px 70px #0006;text-align:left}
 .box h2{margin:0 0 4px;color:var(--navy)}label{display:block;font-size:.76rem;font-weight:700;margin:10px 0 4px;color:var(--mut)}
 input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#f9fbfe;font-size:16px;color:var(--ink)}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--sky)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .err{color:#c62828;font-size:.8rem;min-height:1.1em;margin-top:6px}.lnk{background:0;border:0;color:var(--blue);font-weight:600;font-size:.8rem;padding:6px 0}
-/* app */
+
+/* Application UI */
 header{position:sticky;top:0;z-index:30;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
 .brand{font-weight:800;font-size:.9rem;line-height:1.1}.brand small{display:block;font:400 1.1rem "Great Vibes",cursive;color:var(--yel)}
 .tools{display:flex;gap:8px;align-items:center}.tools select{width:auto;background:#173a85;color:#fff;border-color:#ffffff44;padding:6px;font-size:.8rem}
@@ -49,22 +58,21 @@ main{max-width:1100px;margin:auto;padding:16px 14px 80px}
 </style>
 </head>
 <body>
-<!-- Hidden entry: the phoenix. UI only, real security = Firebase Auth + Firestore rules -->
+
 <div id="gate">
-  <div>
-    <button id="phx" aria-label="Open administrator sign-in">
-      <svg viewBox="0 0 300 220" aria-hidden="true">
-        <defs><linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2233"/><stop offset=".6" stop-color="#05070c"/><stop offset="1" stop-color="#0b3a2a"/></linearGradient>
-        <linearGradient id="ed" x1="0" x2="1"><stop offset="0" stop-color="#00a1de"/><stop offset=".5" stop-color="#20a060"/><stop offset="1" stop-color="#fad201"/></linearGradient></defs>
-        <g class="wl"><path d="M148 100C110 60 50 40 6 52c26 6 40 20 48 34-20-2-36 4-50 16 30-2 50 6 62 22-14 2-26 10-34 24 40-6 76-2 116-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/></g>
-        <g class="wr"><path d="M152 100C190 60 250 40 294 52c-26 6-40 20-48 34 20-2 36 4 50 16-30-2-50 6-62 22 14 2 26 10 34 24-40-6-76-2-116-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/></g>
-        <path d="M150 62c10 0 16 8 16 18 0 8-3 12-6 18 6 18 10 44 4 84-6 14-10 22-14 30-4-8-8-16-14-30-6-40-2-66 4-84-3-6-6-10-6-18 0-10 6-18 16-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/>
-        <path d="M150 62l-4-14 4 6 4-6zM142 70l10 4-2-6" fill="#fad201"/><circle cx="154" cy="78" r="2" fill="#fad201"/>
-        <path d="M144 204c-8 10-16 12-24 14 10 0 16-2 30-8 14 6 20 8 30 8-8-2-16-4-24-14z" fill="#0b7a3b" opacity=".9"/>
-      </svg>
-    </button>
-    <p data-t="guard">Guardian of RTLH</p>
-  </div>
+  <button id="phx" aria-label="Open administrator sign-in">
+    <svg viewBox="0 0 300 220" aria-hidden="true">
+      <defs>
+        <linearGradient id="fg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2233"/><stop offset=".6" stop-color="#05070c"/><stop offset="1" stop-color="#0b3a2a"/></linearGradient>
+        <linearGradient id="ed" x1="0" x2="1"><stop offset="0" stop-color="#00a1de"/><stop offset=".5" stop-color="#20a060"/><stop offset="1" stop-color="#fad201"/></linearGradient>
+      </defs>
+      <g class="wl"><path d="M148 100C110 60 50 40 6 52c26 6 40 20 48 34-20-2-36 4-50 16 30-2 50 6 62 22-14 2-26 10-34 24 40-6 76-2 116-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/></g>
+      <g class="wr"><path d="M152 100C190 60 250 40 294 52c-26 6-40 20-48 34 20-2 36 4 50 16-30-2 50 6-62 22 14 2 26 10 34 24-40-6-76-2-116-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/></g>
+      <path d="M150 62c10 0 16 8 16 18 0 8-3 12-6 18 6 18 10 44 4 84-6 14-10 22-14 30-4-8-8-16-14-30-6-40-2-66 4-84-3-6-6-10-6-18 0-10 6-18 16-18z" fill="url(#fg)" stroke="url(#ed)" stroke-width="1.4"/>
+      <path d="M150 62l-4-14 4 6 4-6zM142 70l10 4-2-6" fill="#fad201"/><circle cx="154" cy="78" r="2" fill="#fad201"/>
+      <path d="M144 204c-8 10-16 12-24 14 10 0 16-2 30-8 14 6 20 8 30 8-8-2-16-4-24-14z" fill="#0b7a3b" opacity=".9"/>
+    </svg>
+  </button>
 </div>
 
 <div class="mod" id="login" hidden>
@@ -80,7 +88,7 @@ main{max-width:1100px;margin:auto;padding:16px 14px 80px}
   </div>
 </div>
 
-<div class="mod" id="denied" hidden><div class="box" style="text-align:center"><h2>🚫 Access denied</h2><p class="err" style="font-size:.9rem">This account is not an authorized RTLH administrator. Firestore rejected the admin check.</p><button class="btn" id="dout">Sign out</button></div></div>
+<div class="mod" id="denied" hidden><div class="box" style="text-align:center"><h2>🚫 Access denied</h2><p class="err" style="font-size:.9rem">This account is not an authorized RTLH administrator.</p><button class="btn" id="dout">Sign out</button></div></div>
 
 <div id="app" hidden>
   <div class="flag"></div>
@@ -105,64 +113,68 @@ main{max-width:1100px;margin:auto;padding:16px 14px 80px}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signInWithPopup,GoogleAuthProvider,sendPasswordResetEmail,signOut} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,collection,getDocs,getDoc,doc,setDoc,deleteDoc,addDoc,query,limit,serverTimestamp,getCountFromServer} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,collection,getDocs,doc,setDoc,deleteDoc,addDoc,query,limit,serverTimestamp,getCountFromServer} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* ===== PASTE YOUR FIREBASE WEB CONFIG BELOW ===== */
+/* Active Production Config */
 const CFG = {
   apiKey: "AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",
-    authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
-    projectId: "rwanda-tech-learning-hub",
-    storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
-    messagingSenderId: "785118659917",
-    appId: "1:785118659917:web:7ada98356d213a3fad2304""
+  authDomain: "rwanda-tech-learning-hub.firebaseapp.com",
+  projectId: "rwanda-tech-learning-hub",
+  storageBucket: "rwanda-tech-learning-hub.firebasestorage.app",
+  messagingSenderId: "785118659917",
+  appId: "1:785118659917:web:7ada98356d213a3fad2304"
 };
 
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const toast=t=>{const e=$("#toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2800)};
-const configured=!CFG.apiKey.startsWith("YOUR_FIREBASE");
+
 let auth,db,user,courses=[],domains=[],editing=null;
 
-/* ---- i18n (same codes as the site: rtlhLang) ---- */
 const TR={
 en:{guard:"Guardian of RTLH",signin:"Administrator sign-in",authOnly:"Authorized RTLH administrators only.",admin:"Course Admin",out:"Sign out",dash:"Dashboard",courses:"Courses",domains:"Domains",newc:"+ Create course",newd:"+ Create domain",recent:"Recently edited"},
 rw:{guard:"Umurinzi wa RTLH",signin:"Kwinjira kw'umuyobozi",authOnly:"Abayobozi bemewe ba RTLH gusa.",admin:"Ubuyobozi bw'Amasomo",out:"Sohoka",dash:"Incamake",courses:"Amasomo",domains:"Ibyiciro",newc:"+ Ongeraho isomo",newd:"+ Ongeraho icyiciro",recent:"Ibyahinduwe vuba"},
 fr:{guard:"Gardien de RTLH",signin:"Connexion administrateur",authOnly:"Réservé aux administrateurs RTLH autorisés.",admin:"Admin des cours",out:"Déconnexion",dash:"Tableau de bord",courses:"Cours",domains:"Domaines",newc:"+ Créer un cours",newd:"+ Créer un domaine",recent:"Modifiés récemment"},
 sw:{guard:"Mlinzi wa RTLH",signin:"Kuingia kwa msimamizi",authOnly:"Wasimamizi walioidhinishwa wa RTLH pekee.",admin:"Usimamizi wa Kozi",out:"Toka",dash:"Dashibodi",courses:"Kozi",domains:"Nyanja",newc:"+ Unda kozi",newd:"+ Unda nyanja",recent:"Zilizohaririwa hivi karibuni"}};
+
 function setLang(c){if(!TR[c])c="en";localStorage.rtlhLang=c;$("#lang").value=c;$$("[data-t]").forEach(e=>e.textContent=(TR[c][e.dataset.t]||TR.en[e.dataset.t]))}
 $("#lang").onchange=e=>setLang(e.target.value);setLang(localStorage.rtlhLang||"en");
 
-/* ---- phoenix -> login ---- */
+/* Bird interaction -> Login */
 $("#phx").onclick=()=>{$("#login").hidden=false;$("#em").focus()};$("#lc").onclick=()=>$("#login").hidden=true;
 const AE={"auth/invalid-credential":"Wrong email or password.","auth/too-many-requests":"Too many attempts. Try later.","auth/popup-closed-by-user":"Sign-in cancelled.","auth/network-request-failed":"Network problem."};
-const lerr=e=>$("#le").textContent=configured?(AE[e.code]||"Sign-in failed."):"Add your Firebase config in course-admin.html first.";
-if(configured){auth=getAuth(initializeApp(CFG));db=getFirestore();
- $("#si").onclick=async()=>{$("#le").textContent="";$("#si").disabled=true;try{await signInWithEmailAndPassword(auth,$("#em").value.trim(),$("#pw").value)}catch(e){lerr(e)}$("#si").disabled=false};
- $("#g").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){lerr(e)}};
- $("#fp").onclick=async()=>{const m=$("#em").value.trim();if(!m)return $("#le").textContent="Enter your email first.";try{await sendPasswordResetEmail(auth,m)}catch(e){}$("#le").textContent="If the account exists, a reset email was sent."};
- const out=()=>signOut(auth);$("#out").onclick=out;$("#dout").onclick=out;
- onAuthStateChanged(auth,async u=>{
+const lerr=e=>$("#le").textContent=(AE[e.code]||"Sign-in failed.");
+
+auth=getAuth(initializeApp(CFG));
+db=getFirestore();
+
+$("#si").onclick=async()=>{$("#le").textContent="";$("#si").disabled=true;try{await signInWithEmailAndPassword(auth,$("#em").value.trim(),$("#pw").value)}catch(e){lerr(e)}$("#si").disabled=false};
+$("#g").onclick=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){lerr(e)}};
+$("#fp").onclick=async()=>{const m=$("#em").value.trim();if(!m)return $("#le").textContent="Enter your email first.";try{await sendPasswordResetEmail(auth,m)}catch(e){}$("#le").textContent="If the account exists, a reset email was sent."};
+const out=()=>signOut(auth);$("#out").onclick=out;$("#dout").onclick=out;
+
+onAuthStateChanged(auth,async u=>{
   user=u;$("#app").hidden=$("#denied").hidden=true;
   if(!u){$("#gate").hidden=false;return}
-  /* Real check: only a rules-approved admin can read auditLogs. UI is NOT the security layer. */
   try{await getDocs(query(collection(db,"auditLogs"),limit(1)))}catch(e){$("#login").hidden=true;$("#denied").hidden=false;return}
-  $("#login").hidden=$("#gate").hidden=true;$("#app").hidden=false;await boot()});
-}else{$("#si").onclick=$("#g").onclick=()=>lerr({})}
+  $("#login").hidden=$("#gate").hidden=true;$("#app").hidden=false;await boot();
+});
 
-/* ---- data ---- */
 const log=(a,id)=>addDoc(collection(db,"auditLogs"),{action:a,courseId:id||null,by:user.uid,email:user.email,at:serverTimestamp()}).catch(()=>{});
-const mirror=()=>{/* same-browser preview for the existing catalog, which reads rtlh_admin_courses */
+const mirror=()=>{
  localStorage.rtlh_admin_courses=JSON.stringify(courses.filter(c=>c.status==="published").map(c=>({id:c.id,title:c.title,audience:c.audience,field:c.field,mode:c.mode,price:c.price,difficulty:c.difficulty,lessons:+c.lessons||10,weeks:+c.weeks||4,icon:c.icon,desc:c.desc})))};
+
 async function load(){
  $("#clist").innerHTML=$("#recent").innerHTML='<div class="skel"></div>'.repeat(3);
  try{courses=(await getDocs(query(collection(db,"courses"),limit(300)))).docs.map(d=>({...d.data(),id:d.id}));
   domains=(await getDocs(collection(db,"courseDomains"))).docs.map(d=>({...d.data(),id:d.id}))}catch(e){toast("Load failed: "+(e.code||e.message))}
  courses.sort((a,b)=>(b.updatedAt?.seconds||0)-(a.updatedAt?.seconds||0));mirror()}
+
 async function boot(){await load();draw()}
 
-/* ---- render ---- */
 const card=c=>`<div class="card cr"><div><span class="tag ${esc(c.status)}">${esc(c.status)}</span> <span class="tag">${esc(c.field)}</span> <span class="tag">${esc(c.price)}</span></div><h3>${esc(c.icon)} ${esc(c.title)}</h3><small>${esc(c.id)} · ${esc(c.audience)} · ${esc(c.lessons)} lessons</small>
 <div class="acts"><button class="btn s o" data-a="edit" data-id="${esc(c.id)}">Edit</button><button class="btn s g" data-a="pub" data-id="${esc(c.id)}">${c.status==="published"?"Unpublish":"Publish"}</button><button class="btn s o" data-a="dup" data-id="${esc(c.id)}">Duplicate</button><button class="btn s o" data-a="arc" data-id="${esc(c.id)}">${c.status==="archived"?"Restore":"Archive"}</button><button class="btn s r" data-a="del" data-id="${esc(c.id)}">Delete</button></div></div>`;
+
 async function draw(){
  const n=s=>courses.filter(c=>c.status===s).length;let en="–";
  try{en=(await getCountFromServer(collection(db,"enrollments"))).data().count}catch(e){}
@@ -171,22 +183,25 @@ async function draw(){
  const q=$("#q").value.toLowerCase(),f=$("#sf").value;
  $("#clist").innerHTML=courses.filter(c=>(!f||c.status===f)&&(c.title+c.id).toLowerCase().includes(q)).map(card).join("")||"<p>No courses found.</p>";
  $("#dlist").innerHTML=domains.map(d=>`<div class="card" style="display:flex;justify-content:space-between;align-items:center"><b>${esc(d.name)}</b><button class="btn s r" data-a="deld" data-id="${esc(d.id)}">Delete</button></div>`).join("")||"<p>No custom domains yet.</p>"}
+
 let dt;$("#q").oninput=()=>{clearTimeout(dt);dt=setTimeout(draw,250)};$("#sf").onchange=draw; $$("nav button").forEach(b=>b.onclick=()=>{$$("nav button").forEach(x=>x.classList.toggle("on",x===b));["dash","courses","domains"].forEach(v=>$("#v-"+v).hidden=v!==b.dataset.v)});
 
-/* ---- course form ---- */
 const FIELDS=[["title","Course title","text"],["id","Course ID / URL slug (a-z, 0-9, -)","text"],["desc","Short description","textarea"],
 ["audience","Level","select",["nursery","primary","o-level","a-level","tvet","ttc","adult","university"]],["field","Domain","select",()=>["academic","technology","trade","life","health","business","science","teacher","arts",...domains.map(d=>d.slug)]],
 ["mode","Mode","select",["Self-paced","E-Class","Live"]],["price","Access","select",["Free","Paid"]],["amount","Price amount (RWF, if paid)","number"],["difficulty","Difficulty","select",["Beginner","Intermediate","Advanced","All levels"]],
 ["lessons","Lessons","number"],["weeks","Weeks","number"],["icon","Icon (emoji)","text"],["status","Status","select",["draft","published","archived"]]];
+
 const slug=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+
 function openForm(c){
  editing=c?c.id:null;const v=c||JSON.parse(localStorage.rtlhDraft||"null")||{audience:"adult",field:"technology",mode:"Self-paced",price:"Free",difficulty:"Beginner",lessons:10,weeks:4,icon:"📚",status:"draft"};
  $("#ct").textContent=c?"Edit course":"New course";
  $("#cf").innerHTML=FIELDS.map(([k,l,t,o])=>{const val=esc(v[k]??"");const op=typeof o==="function"?o():o;
   return `<label for="f_${k}">${l}</label>`+(t==="textarea"?`<textarea id="f_${k}" rows="3">${val}</textarea>`:t==="select"?`<select id="f_${k}">${op.map(x=>`<option ${x===v[k]?"selected":""}>${esc(x)}</option>`).join("")}</select>`:`<input id="f_${k}" type="${t}" value="${val}" ${k==="id"&&c?"readonly":""}>`)}).join("");
  $("#f_title").oninput=()=>{if(!editing&&!$("#f_id").dataset.m)$("#f_id").value=slug($("#f_title").value)};$("#f_id").oninput=()=>$("#f_id").dataset.m=1;
- $("#cf").oninput=()=>{if(!editing)localStorage.rtlhDraft=JSON.stringify(read())}; /* autosave draft */
+ $("#cf").oninput=()=>{if(!editing)localStorage.rtlhDraft=JSON.stringify(read())};
  $("#ce").textContent="";$("#cm").hidden=false}
+
 const read=()=>Object.fromEntries(FIELDS.map(([k])=>[k,$("#f_"+k).value.trim()]));
 $("#cx").onclick=()=>$("#cm").hidden=true;
 $("#cs").onclick=async()=>{
@@ -200,7 +215,6 @@ $("#cs").onclick=async()=>{
 $("#nc").onclick=$("#qc").onclick=()=>openForm();
 $("#qd").onclick=()=>{$$("nav button")[2].click();$("#dn").focus()};
 
-/* ---- actions ---- */
 const setStatus=async(c,s)=>{await setDoc(doc(db,"courses",c.id),{status:s,isPublished:s==="published",visibility:s==="published"?"public":"private",updatedAt:serverTimestamp(),...(s==="published"?{publishedAt:serverTimestamp()}:{})},{merge:true});await log(s,c.id)};
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a,id=b.dataset.id,c=courses.find(x=>x.id===id);
  try{
