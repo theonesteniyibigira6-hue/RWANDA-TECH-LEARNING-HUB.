@@ -924,8 +924,258 @@ body{overflow-x:hidden}
 </div>
 
 <!-- JOIN CLASS MODAL -->
-<div class="modal" id="joinModal"><div class="modal-box"><div class="modal-head"><h3>Join Class</h3><button onclick="closeModal('joinModal')">✕</button></div><div class="modal-body"><p id="joinClassInfo">Loading class details...</p><button class="primary-btn" id="confirmJoinBtn" style="width:100%;margin-top:14px;">Confirm Join</button></div></div></div>
+<script type="module">
+    javascript
+window.joinClass = async function (id) {
+  if (!currentUser) {
+    localStorage.setItem("rtlh_pending_class", id);
+    return;
+  }
 
+  const c = allClasses.find(x => x.id === id);
+
+  if (!c) {
+    return toast("This class is not currently discoverable.");
+  }
+
+  // ------------------------------------------------------------
+  // 1. VERIFY THAT THE CLASS IS OPEN
+  // ------------------------------------------------------------
+  const status = String(c.status || "").toLowerCase();
+
+  const isPublished =
+    c.published === true ||
+    c.isPublished === true ||
+    c.isPublic === true ||
+    c.visibility === "public" ||
+    status === "published" ||
+    status === "open";
+
+  if (!isPublished) {
+    return toast("This class is not currently open for joining.");
+  }
+
+  // ------------------------------------------------------------
+  // 2. VERIFY TEACHER ID
+  // ------------------------------------------------------------
+  if (!c.teacherId || typeof c.teacherId !== "string") {
+    console.error("Invalid class teacherId:", c);
+    return toast(
+      "This class has no valid teacher ID. Please ask the teacher to edit and republish the class."
+    );
+  }
+
+  const uid = currentUser.uid;
+
+  const enrollmentId = `${uid}_${id}`;
+
+  const enrollmentRef = doc(
+    db,
+    "enrollments",
+    enrollmentId
+  );
+
+  const studentRef = doc(
+    db,
+    "classes",
+    id,
+    "students",
+    uid
+  );
+
+  try {
+
+    // ----------------------------------------------------------
+    // 3. CHECK THE CLASS ROSTER, NOT THE ENROLLMENT DOCUMENT
+    //
+    // This is important:
+    // Your Firestore rules allow a learner to read their own
+    // roster document even when the document does not yet exist.
+    //
+    // Do NOT call getDoc(enrollmentRef) here.
+    // ----------------------------------------------------------
+
+    const existingRoster = await getDoc(studentRef);
+
+    if (existingRoster.exists()) {
+
+      enrolledClasses = [
+        ...new Set([
+          ...(enrolledClasses || []),
+          id
+        ])
+      ];
+
+      currentLearner = {
+        ...(currentLearner || {}),
+        enrolled: enrolledClasses
+      };
+
+      toast("You are already enrolled in this class.");
+
+      await enterClass(id);
+
+      return;
+    }
+
+    // ----------------------------------------------------------
+    // 4. PREPARE ENROLLMENT DATA
+    // ----------------------------------------------------------
+
+    const learnerName =
+      currentLearner?.fullName ||
+      currentUser.displayName ||
+      "Learner";
+
+    const learnerEmail =
+      currentUser.email || "";
+
+    const enrollmentData = {
+      classId: id,
+
+      studentId: uid,
+
+      learnerId: uid,
+
+      studentName: learnerName,
+
+      studentEmail: learnerEmail,
+
+      teacherId: c.teacherId,
+
+      status: "active",
+
+      enrollmentStatus: "active",
+
+      paymentStatus:
+        Number(c.price || 0) > 0
+          ? "pending"
+          : "free",
+
+      progress: 0,
+
+      joinedAt: serverTimestamp(),
+
+      createdAt: serverTimestamp()
+    };
+
+    // ----------------------------------------------------------
+    // 5. PREPARE ROSTER DATA
+    // ----------------------------------------------------------
+
+    const rosterData = {
+
+      studentId: uid,
+
+      learnerId: uid,
+
+      studentName: learnerName,
+
+      studentEmail: learnerEmail,
+
+      classId: id,
+
+      teacherId: c.teacherId,
+
+      status: "active",
+
+      progress: 0,
+
+      joinedAt: serverTimestamp()
+    };
+
+    // ----------------------------------------------------------
+    // 6. ATOMIC WRITE
+    //
+    // We create BOTH canonical enrollment records together.
+    //
+    // We deliberately DO NOT update users/{uid}.
+    // ----------------------------------------------------------
+
+    const batch = writeBatch(db);
+
+    batch.set(
+      enrollmentRef,
+      enrollmentData
+    );
+
+    batch.set(
+      studentRef,
+      rosterData
+    );
+
+    await batch.commit();
+
+    // ----------------------------------------------------------
+    // 7. UPDATE LOCAL STATE
+    // ----------------------------------------------------------
+
+    enrolledClasses = [
+      ...new Set([
+        ...(enrolledClasses || []),
+        id
+      ])
+    ];
+
+    currentLearner = {
+      ...(currentLearner || {}),
+      enrolled: enrolledClasses
+    };
+
+    // Make sure the class exists locally.
+    if (!allClasses.some(x => x.id === id)) {
+      allClasses.push(c);
+    }
+
+    closeModal("joinModal");
+
+    toast("🎉 Free class joined successfully.");
+
+    // ----------------------------------------------------------
+    // 8. ENTER THE CLASS
+    // ----------------------------------------------------------
+
+    await enterClass(id);
+
+  } catch (err) {
+
+    console.error(
+      "RTLH E-Class enrollment failed:",
+      {
+        code: err?.code,
+        message: err?.message,
+
+        uid: uid,
+
+        classId: id,
+
+        teacherId: c?.teacherId,
+
+        enrollmentPath:
+          `enrollments/${enrollmentId}`,
+
+        rosterPath:
+          `classes/${id}/students/${uid}`
+      }
+    );
+
+    if (err?.code === "permission-denied") {
+
+      return toast(
+        "Firestore rejected the enrollment. Check your learner role and the published class settings."
+      );
+
+    }
+
+    toast(
+      "Unable to join this class: " +
+      (err?.message || "Please try again.")
+    );
+  }
+};
+</script>
+
+     
 <!-- THEO AI FLOATING BUTTON -->
 <div class="theo-ai-float"><button class="theo-bubble" onclick="toggleAI()"><span class="avatar">🧠</span> Ask Theo AI</button></div>
 <div class="ai-modal" id="aiModal"><div class="ai-modal-content"><div class="ai-header"><span><strong>🧠 Theo AI</strong> - Your Learning Assistant</span><button onclick="toggleAI()">✕</button></div><iframe src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e?embedMode=iframe&autofocus=0&background=1&shadow=1" style="width:100%;height:560px;border:none;" allowtransparency="true" allow="geolocation;microphone;camera;fullscreen"></iframe></div></div>
