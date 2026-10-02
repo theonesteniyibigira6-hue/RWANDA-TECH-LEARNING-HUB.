@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06233f">
+<meta name="description" content="Rwanda Tech Learning Hub Projects & Innovation Center — discover, build, collaborate and showcase technology and community projects.">
+<title>Projects & Innovation | Rwanda Tech Learning Hub</title>
+
+<!-- Performance: fonts are optional; the page remains fully usable without them. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="dns-prefetch" href="//images.unsplash.com">
+
+<style>
+:root{
+  --navy:#06233f;--blue:#007ea9;--cyan:#08b5df;--green:#087f5b;
+  --green2:#12a56f;--yellow:#f5c542;--gold:#e7aa18;--ink:#102235;
+  --muted:#617487;--soft:#f3f8fb;--white:#fff;--line:#dce8ef;
+  --shadow:0 18px 50px rgba(5,38,65,.10);--radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#f7fbfd;line-height:1.6}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1180px,92%);margin:auto}
+.topbar{background:var(--navy);color:#dcecf7;font-size:.78rem}
+.topbar .wrap{min-height:36px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.lang{background:#0b3151;color:#fff;border:1px solid #2d5877;border-radius:999px;padding:6px 10px;outline:0}
+.brandbar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid #e6eef3}
+.nav{min-height:76px;display:flex;align-items:center;gap:18px;position:relative}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:var(--navy);line-height:1.05;margin-right:auto}
+.brand small{display:block;font-size:.68rem;color:#6a7f91;font-weight:700;margin-top:5px}
+.logo{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;color:#fff;font-weight:1000;letter-spacing:-1px;background:linear-gradient(145deg,var(--blue),var(--green2) 60%,var(--yellow));box-shadow:0 9px 22px rgba(0,126,169,.22)}
+.links{display:flex;align-items:center;gap:18px;font-size:.86rem;font-weight:800;color:#314b60}
+.links a:hover{color:var(--blue)}
+.nav-cta,.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:13px;padding:11px 16px;font-weight:900;cursor:pointer;transition:.2s transform,.2s box-shadow,.2s background}
+.nav-cta{background:var(--green);color:#fff}
+.nav-cta:hover,.btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,80,110,.15)}
+.menu{display:none;border:0;background:transparent;font-size:1.7rem;color:var(--navy);cursor:pointer}
+
+.hero{position:relative;overflow:hidden;color:#fff;background:#041a2e;min-height:590px;display:flex;align-items:center}
+.hero-media{position:absolute;inset:0;background:
+ linear-gradient(100deg,rgba(3,24,42,.93),rgba(3,33,54,.76) 48%,rgba(4,39,48,.42)),
+ url("https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1800&q=76") center/cover no-repeat;
+ transform:scale(1.02);animation:heroFloat 16s ease-in-out infinite alternate}
+.hero-media:after{content:"";position:absolute;inset:-20%;background:
+ radial-gradient(circle at 75% 20%,rgba(8,181,223,.22),transparent 27%),
+ radial-gradient(circle at 25% 85%,rgba(18,165,111,.20),transparent 30%);
+ mix-blend-mode:screen}
+@keyframes heroFloat{to{transform:scale(1.07) translate3d(-1%,1%,0)}}
+.hero .wrap{position:relative;z-index:2}
+.hero-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:50px;align-items:center;padding:78px 0}
+.eyebrow,.kicker{color:var(--yellow);text-transform:uppercase;letter-spacing:.13em;font-size:.72rem;font-weight:1000}
+.hero h1{font-size:clamp(2.5rem,6vw,5.2rem);line-height:.98;letter-spacing:-.055em;margin:12px 0 22px;max-width:800px}
+.hero h1 span{background:linear-gradient(90deg,#fff,#83e5f6,#a8efcf);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:1.06rem;color:#d7e9f3;max-width:720px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin:25px 0}
+.primary{background:var(--green2);color:#fff}.yellow{background:var(--yellow);color:#182a36}.ghost{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.25);color:#fff}
+.hero-card{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);backdrop-filter:blur(14px);border-radius:28px;padding:24px;box-shadow:0 25px 70px #0005}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.stat{padding:15px;border-radius:16px;background:rgba(255,255,255,.09)}
+.stat b{font-size:1.5rem;display:block;color:#fff}.stat span{font-size:.75rem;color:#c9e0eb}
+
+.section{padding:72px 0}
+.section.alt{background:var(--soft)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:25px;margin-bottom:28px}
+.section-head h2{margin:5px 0 7px;font-size:clamp(1.75rem,3.5vw,2.8rem);line-height:1.05;letter-spacing:-.035em}
+.section-head p{margin:0;color:var(--muted);max-width:680px}
+.searchbar{display:flex;gap:10px;margin:25px 0 15px}
+.searchbar input{flex:1;min-width:0;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:#fff;outline:0}
+.searchbar input:focus{border-color:var(--cyan);box-shadow:0 0 0 4px rgba(8,181,223,.10)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap}
+.filter{border:1px solid var(--line);background:#fff;color:#365064;border-radius:999px;padding:8px 13px;font-size:.78rem;font-weight:850;cursor:pointer}
+.filter.active,.filter:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:.25s transform,.25s box-shadow}
+.card:hover{transform:translateY(-6px);box-shadow:0 25px 60px rgba(5,38,65,.15)}
+.project-img{height:205px;position:relative;overflow:hidden;background:#dbeaf1}
+.project-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover .project-img img{transform:scale(1.06)}
+.badges{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:7px}
+.badge{background:rgba(4,24,42,.78);color:#fff;padding:5px 9px;border-radius:999px;font-size:.67rem;font-weight:900;backdrop-filter:blur(6px)}
+.badge.green{background:rgba(8,127,91,.9)}
+.card-body{padding:19px}
+.card h3{margin:0 0 8px;font-size:1.15rem;line-height:1.2}
+.card p{margin:0;color:var(--muted);font-size:.87rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:13px 0}
+.tag{font-size:.68rem;font-weight:850;background:#edf6fa;color:#286079;border-radius:8px;padding:4px 7px}
+.people{display:flex;align-items:center;margin:13px 0 15px}
+.people img{width:32px;height:32px;border-radius:50%;object-fit:cover;border:2px solid #fff;margin-left:-6px;box-shadow:0 2px 8px #0002}
+.people img:first-child{margin-left:0}
+.people span{margin-left:9px;color:#607487;font-size:.73rem;font-weight:750}
+.card-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid #edf2f5;padding-top:13px;font-size:.75rem;font-weight:900}
+.card-foot a{color:var(--blue)}
+
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.category{padding:22px;border:1px solid var(--line);border-radius:19px;background:#fff;min-height:150px;transition:.2s}
+.category:hover{border-color:#8bd7e8;transform:translateY(-4px)}
+.category .icon{font-size:1.8rem}.category h3{font-size:1rem;margin:10px 0 4px}.category p{font-size:.75rem;color:var(--muted);margin:0}
+
+.challenge{background:linear-gradient(120deg,#06233f,#087f5b);color:#fff;border-radius:28px;padding:32px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;overflow:hidden;position:relative}
+.challenge:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;top:-100px;background:rgba(245,197,66,.18)}
+.challenge h2{margin:0;font-size:clamp(1.6rem,3vw,2.5rem)}.challenge p{color:#d7e9e2;max-width:720px}
+
+.ideas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.idea{padding:20px;background:#fff;border:1px solid var(--line);border-radius:18px}
+.idea b{display:block;margin-bottom:5px}.idea span{font-size:.78rem;color:var(--muted)}
+
+.workflow{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.step{position:relative;text-align:center;padding:15px 7px}
+.step:not(:last-child):after{content:"→";position:absolute;right:-7px;top:25px;color:#9cb1bf}
+.step .num{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;margin:auto;background:linear-gradient(145deg,var(--blue),var(--green));color:#fff;font-weight:1000}
+.step b{display:block;margin-top:8px;font-size:.75rem}.step span{display:block;color:var(--muted);font-size:.67rem}
+
+.submit{background:#fff;border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:var(--shadow)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.form-grid .full{grid-column:1/-1}
+label{font-size:.75rem;font-weight:900;color:#3e5668}
+input,select,textarea{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:#fff;color:var(--ink);outline:0}
+textarea{min-height:110px;resize:vertical}
+
+.footer{background:#041a2e;color:#c6d7e1;padding:50px 0 22px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px}
+.footer h4{color:#fff;margin:0 0 10px}.footer a{display:block;color:#b5cbd7;font-size:.8rem;margin:7px 0}.footer a:hover{color:var(--yellow)}
+.copy{border-top:1px solid #ffffff18;margin-top:30px;padding-top:16px;font-size:.72rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+.modal{display:none;position:fixed;inset:0;background:#03111fbb;z-index:500;padding:18px;place-items:center}
+.modal.show{display:grid}.modal-card{width:min(680px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;padding:25px;box-shadow:0 30px 100px #0007}.modal-card h2{margin-top:0}
+.close{float:right;border:0;background:#edf4f7;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:1.2rem}
+.empty{grid-column:1/-1;text-align:center;padding:35px;background:#fff;border:1px dashed #bfd2dd;border-radius:20px;color:var(--muted)}
+
+.reveal{opacity:0;transform:translateY(16px);transition:.6s ease}.reveal.visible{opacity:1;transform:none}
+@media(max-width:1000px){.links{display:none}.menu{display:block}.links.open{display:flex;position:absolute;left:0;right:0;top:76px;padding:18px;background:#fff;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;box-shadow:0 15px 30px #0001}.grid{grid-template-columns:repeat(2,1fr)}.categories{grid-template-columns:repeat(2,1fr)}.workflow{grid-template-columns:repeat(3,1fr)}.step:nth-child(3):after{display:none}.foot-grid{grid-template-columns:2fr 1fr 1fr}}
+@media(max-width:720px){.topbar .wrap{justify-content:center}.topbar .top-copy{display:none}.nav-cta{display:none}.hero{min-height:auto}.hero-grid{grid-template-columns:1fr;padding:65px 0}.hero-card{max-width:520px}.section{padding:54px 0}.section-head{display:block}.grid,.ideas{grid-template-columns:1fr}.categories{grid-template-columns:1fr 1fr}.challenge{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.foot-grid{grid-template-columns:1fr 1fr}.foot-grid>div:first-child{grid-column:1/-1}}
+@media(max-width:470px){.brand small{display:none}.categories{grid-template-columns:1fr}.workflow{grid-template-columns:1fr 1fr}.step:not(:last-child):after{display:none}.searchbar{flex-direction:column}.hero h1{font-size:2.65rem}.hero-actions .btn{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+
+<body>
+<div class="topbar">
+  <div class="wrap">
+    <span class="top-copy">🇷🇼 Rwanda Tech Learning Hub • Learning without borders</span>
+    <label>🌐 <select id="languageSelect" class="lang" aria-label="Language">
+      <option value="en">English</option><option value="rw">Kinyarwanda</option>
+      <option value="fr">Français</option><option value="sw">Kiswahili</option>
+      <option value="es">Español</option><option value="pt">Português</option>
+      <option value="de">Deutsch</option><option value="ar">العربية</option>
+      <option value="zh">中文</option><option value="hi">हिन्दी</option>
+      <option value="ja">日本語</option><option value="ko">한국어</option>
+      <option value="it">Italiano</option>
+    </select></label>
+  </div>
+</div>
+
+<header class="brandbar">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><span class="logo">RTLH</span><span>Rwanda Tech Learning Hub<small>Learn • Discover • Practice • Achieve</small></span></a>
+    <nav class="links" id="navLinks">
+      <a href="index.html" data-i18n="home">Home</a>
+      <a href="course-catalog.html" data-i18n="courses">Courses</a>
+      <a href="eclass-center.html" data-i18n="eclass">E-Class</a>
+      <a href="learning-dashboard.html" data-i18n="learning">My learning</a>
+      <a href="projects.html" data-i18n="projects">Projects</a>
+      <a href="my-certificates.html" data-i18n="certificates">Certificates</a>
+    </nav>
+    <a class="nav-cta" href="#submit" data-i18n="submitProject">Submit project</a>
+    <button class="menu" id="menuBtn" aria-label="Toggle navigation">☰</button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-media" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-i18n="eyebrow">Projects • Innovation • Collaboration</div>
+      <h1><span data-i18n="heroTitle">Turn knowledge into real-world solutions.</span></h1>
+      <p data-i18n="heroText">Explore learner, teacher, community and technology projects. Build practical solutions, collaborate with others, document your work and showcase what you can create.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#explore" data-i18n="exploreProjects">Explore projects →</a>
+        <a class="btn yellow" href="#submit" data-i18n="startProject">Start a project</a>
+        <a class="btn ghost" href="#challenges" data-i18n="challenges">View challenges</a>
+      </div>
+    </div>
+    <aside class="hero-card">
+      <div class="kicker">RTLH Project Center</div>
+      <h2 data-i18n="heroCardTitle">Learn → Build → Collaborate → Showcase</h2>
+      <p data-i18n="heroCardText">A practical bridge between RTLH courses, E-Class learning, portfolios, certificates and community innovation.</p>
+      <div class="stats">
+        <div class="stat"><b>12+</b><span data-i18n="statCategories">project categories</span></div>
+        <div class="stat"><b>6</b><span data-i18n="statStages">project stages</span></div>
+        <div class="stat"><b>∞</b><span data-i18n="statIdeas">ideas to build</span></div>
+        <div class="stat"><b>13</b><span data-i18n="statLanguages">interface languages</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="explore">
+<div class="wrap">
+  <div class="section-head">
+    <div><div class="kicker" data-i18n="discoverKicker">Discover & build</div><h2 data-i18n="discoverTitle">Explore the project ecosystem</h2><p data-i18n="discoverText">Search by project name, technology, category or development stage.</p></div>
+    <a class="btn" style="background:#edf7f9;color:#087f5b" href="#submit" data-i18n="submitProject">Submit project</a>
+  </div>
+  <div class="searchbar">
+    <input id="searchInput" type="search" placeholder="Search projects, technologies, skills..." data-i18n-placeholder="searchPlaceholder">
+    <button class="btn primary" id="clearSearch" data-i18n="clear">Clear</button>
+  </div>
+  <div class="filter-row" id="filters" aria-label="Project filters"></div>
+  <div class="grid" id="projectGrid" style="margin-top:20px"></div>
+</div>
+</section>
+
+<section class="section alt">
+<div class="wrap">
+  <div class="section-head"><div><div class="kicker" data-i18n="categoryKicker">Explore by field</div><h2 data-i18n="categoryTitle">Project categories</h2><p data-i18n="categoryText">Find projects connected to the skills and problems you want to explore.</p></div></div>
+  <div class="categories">
+    <a class="category" href="#explore" data-category="Technology"><div class="icon">💻</div><h3>Technology & Computing</h3><p>Web, mobile, software, APIs and open source.</p></a>
+    <a class="category" href="#explore" data-category="AI"><div class="icon">🤖</div><h3>Artificial Intelligence</h3><p>AI assistants, ML, vision and education tools.</p></a>
+    <a class="category" href="#explore" data-category="Data"><div class="icon">📊</div><h3>Data Science</h3><p>Analytics, dashboards, visualization and models.</p></a>
+    <a class="category" href="#explore" data-category="Cybersecurity"><div class="icon">🔐</div><h3>Cybersecurity</h3><p>Digital safety, authentication and security learning.</p></a>
+    <a class="category" href="#explore" data-category="Environment"><div class="icon">🌱</div><h3>Environment & Sustainability</h3><p>Waste, climate, agriculture and green innovation.</p></a>
+    <a class="category" href="#explore" data-category="Education"><div class="icon">🎓</div><h3>Education</h3><p>E-learning, lesson tools, libraries and teaching aids.</p></a>
+    <a class="category" href="#explore" data-category="Creative"><div class="icon">🎨</div><h3>Creative Technology</h3><p>Music, design, animation and multimedia.</p></a>
+    <a class="category" href="#explore" data-category="Business"><div class="icon">🚀</div><h3>Business & Entrepreneurship</h3><p>Startups, e-commerce, productivity and services.</p></a>
+  </div>
+</div>
+</section>
+
+<section class="section" id="challenges">
+<div class="wrap">
+  <div class="challenge">
+    <div><div class="kicker">RTLH Innovation Challenges</div><h2 data-i18n="challengeTitle">Build solutions around real problems.</h2><p data-i18n="challengeText">Join practical challenges in AI, education, environment, web development, data and community innovation. Document your solution and add the finished work to your portfolio.</p></div>
+    <a class="btn yellow" href="#submit" data-i18n="joinChallenge">Join a challenge →</a>
+  </div>
+</div>
+</section>
+
+<section class="section alt">
+<div class="wrap">
+  <div class="section-head"><div><div class="kicker" data-i18n="ideasKicker">Need inspiration?</div><h2 data-i18n="ideasTitle">Project ideas to start building</h2><p data-i18n="ideasText">Use these as starting points, then adapt them to your own learning goals or community needs.</p></div></div>
+  <div class="ideas">
+    <div class="idea"><b>🤖 AI Study Assistant</b><span>Build a learner support assistant that explains concepts and creates practice questions.</span></div>
+    <div class="idea"><b>🌱 Smart Waste Tracker</b><span>Track waste collection, sorting and recycling activities in a school or community.</span></div>
+    <div class="idea"><b>💻 School Website Builder</b><span>Create a responsive school information and learning portal with modern web technologies.</span></div>
+    <div class="idea"><b>📊 Student Progress Dashboard</b><span>Visualize attendance, learning activity, course progress and achievements.</span></div>
+    <div class="idea"><b>🌾 Smart Agriculture Tool</b><span>Combine data, weather information and farmer-friendly guidance in one application.</span></div>
+    <div class="idea"><b>📚 Digital Open Library</b><span>Organize legal open-access educational resources by subject, level and language.</span></div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+<div class="wrap">
+  <div class="section-head"><div><div class="kicker" data-i18n="workflowKicker">From learning to impact</div><h2 data-i18n="workflowTitle">The RTLH project journey</h2></div></div>
+  <div class="workflow">
+    <div class="step"><div class="num">1</div><b>Discover</b><span>Find a problem</span></div>
+    <div class="step"><div class="num">2</div><b>Plan</b><span>Define objectives</span></div>
+    <div class="step"><div class="num">3</div><b>Build</b><span>Create & test</span></div>
+    <div class="step"><div class="num">4</div><b>Collaborate</b><span>Work as a team</span></div>
+    <div class="step"><div class="num">5</div><b>Showcase</b><span>Document results</span></div>
+    <div class="step"><div class="num">6</div><b>Achieve</b><span>Portfolio & certificate</span></div>
+  </div>
+</div>
+</section>
+
+<section class="section alt" id="submit">
+<div class="wrap">
+  <div class="section-head"><div><div class="kicker">Create something useful</div><h2 data-i18n="submitTitle">Submit or start a project</h2><p data-i18n="submitText">This front-end form is ready to connect to Firebase. It collects the core information needed for project publishing, collaboration and review.</p></div></div>
+  <div class="submit">
+    <form id="projectForm">
+      <div class="form-grid">
+        <label>Project title<input required name="title" placeholder="e.g. Smart Waste Tracker"></label>
+        <label>Category<select required name="category"><option>Technology</option><option>AI</option><option>Data</option><option>Cybersecurity</option><option>Environment</option><option>Education</option><option>Creative</option><option>Business</option></select></label>
+        <label>Creator / team<input name="creator" placeholder="Your name or team name"></label>
+        <label>Difficulty<select name="difficulty"><option>Beginner</option><option>Intermediate</option><option>Advanced</option><option>Expert</option></select></label>
+        <label class="full">Project description<textarea required name="description" placeholder="What problem does the project solve? What are you building?"></textarea></label>
+        <label>Technologies<input name="technology" placeholder="HTML, JavaScript, Firebase, Python..."></label>
+        <label>Demo / repository URL<input type="url" name="url" placeholder="https://..."></label>
+        <div class="full"><button class="btn primary" type="submit" data-i18n="sendProject">Submit project →</button></div>
+      </div>
+    </form>
+  </div>
+</div>
+</section>
+</main>
+
+<footer class="footer">
+<div class="wrap">
+  <div class="foot-grid">
+    <div><a class="brand" href="index.html" style="color:#fff"><span class="logo">RTLH</span><span>Rwanda Tech Learning Hub<small>Learning without borders</small></span></a><p style="max-width:360px;font-size:.82rem">An inclusive learning ecosystem connecting academic education, practical skills, technology, projects and lifelong development.</p></div>
+    <div><h4>Learn</h4><a href="course-catalog.html">Course catalog</a><a href="self-paced.html">Self-paced learning</a><a href="eclass-center.html">E-Class center</a><a href="learning-dashboard.html">Learning dashboard</a></div>
+    <div><h4>Create</h4><a href="projects.html">Projects</a><a href="#submit">Submit project</a><a href="#challenges">Challenges</a><a href="community.html">Community</a></div>
+    <div><h4>Achievements</h4><a href="my-certificates.html">My certificates</a><a href="course-details.html">Course details</a><a href="learning-dashboard.html">Portfolio</a></div>
+  </div>
+  <div class="copy"><span>© 2026 Rwanda Tech Learning Hub • Learn • Create • Empower.</span><span>Made for Rwanda and the world 🇷🇼</span></div>
+</div>
+</footer>
+
+<div class="modal" id="projectModal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close" id="closeModal" aria-label="Close">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ---------------- RTLH PROJECT DATA ----------------
+   Replace demo entries with Firebase documents later.
+   Image URLs use Unsplash's optimized CDN and lazy loading.
+----------------------------------------------------- */
+const projects=[
+ {id:1,title:"THEO LEARN WISE AI",category:"AI",status:"In Development",level:"Advanced",desc:"An AI-powered learning assistant concept designed to support learners with explanations, project guidance, critical thinking and study support.",tech:["AI","Education","Web"],creator:"RTLH AI Team",people:["https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=80&q=70","https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=72"},
+ {id:2,title:"Smart Waste to Learning",category:"Environment",status:"Completed",level:"Intermediate",desc:"A practical environmental education project showing how recovered materials can become teaching and learning resources.",tech:["Environment","Education","Community"],creator:"Student Innovation Team",people:["https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=80&q=70","https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=900&q=72"},
+ {id:3,title:"RTLH Digital Learning Dashboard",category:"Technology",status:"In Development",level:"Advanced",desc:"A learner dashboard connecting courses, progress, assignments, projects, certificates and learning activity.",tech:["HTML","CSS","JavaScript","Firebase"],creator:"RTLH Development",people:["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=70","https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=72"},
+ {id:4,title:"Community Digital Skills Hub",category:"Education",status:"Planning",level:"Beginner",desc:"A community-focused learning project for digital literacy, internet safety, productivity and practical technology skills.",tech:["ICT","Community","Digital Skills"],creator:"Community Learning Team",people:["https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=900&q=72"},
+ {id:5,title:"Student Progress Analytics",category:"Data",status:"Testing",level:"Advanced",desc:"A data project for visualizing learning progress, participation, completion and achievement trends.",tech:["Data","Dashboards","Analytics"],creator:"Data Learning Team",people:["https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=70","https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=72"},
+ {id:6,title:"Smart Agriculture Learning Tool",category:"Environment",status:"Planning",level:"Intermediate",desc:"A learning-oriented agriculture technology concept combining practical knowledge, data and community problem-solving.",tech:["Agriculture","Data","Mobile"],creator:"Green Tech Learners",people:["https://images.unsplash.com/photo-1507002022373-0b1e6ce5b7b0?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=72"},
+ {id:7,title:"Open Learning Library",category:"Education",status:"In Development",level:"Intermediate",desc:"A searchable library concept for organizing legal open-access learning resources by subject, level and language.",tech:["Web","Library","Search"],creator:"RTLH Resource Team",people:["https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=900&q=72"},
+ {id:8,title:"Quick Reportify",category:"Technology",status:"Completed",level:"Intermediate",desc:"A digital reporting workflow concept for collecting, organizing and submitting structured community information.",tech:["Web","Forms","Reports"],creator:"N. Theoneste & M. Pacifique",people:["https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&q=70","https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=900&q=72"},
+ {id:9,title:"Cyber Safety Learning Lab",category:"Cybersecurity",status:"Planning",level:"Intermediate",desc:"An educational project for teaching password safety, phishing awareness, privacy and responsible digital behavior.",tech:["Cybersecurity","Education","Web"],creator:"Cyber Learning Team",people:["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=70"],image:"https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=72"}
+];
+
+const filterLabels=["All","Technology","AI","Data","Cybersecurity","Environment","Education","Creative","Business"];
+let activeFilter="All";
+
+function renderProjects(){
+ const q=document.getElementById("searchInput").value.trim().toLowerCase();
+ const found=projects.filter(p=>(activeFilter==="All"||p.category===activeFilter)&&
+   (!q||(p.title+" "+p.desc+" "+p.category+" "+p.tech.join(" ")).toLowerCase().includes(q)));
+ const grid=document.getElementById("projectGrid");
+ grid.innerHTML=found.length?found.map(p=>`
+ <article class="card reveal">
+   <div class="project-img">
+     <img src="${p.image}" alt="${escapeHTML(p.title)} project" loading="lazy" decoding="async" width="900" height="600">
+     <div class="badges"><span class="badge">${escapeHTML(p.category)}</span><span class="badge green">${escapeHTML(p.status)}</span></div>
+   </div>
+   <div class="card-body">
+     <h3>${escapeHTML(p.title)}</h3><p>${escapeHTML(p.desc)}</p>
+     <div class="tags">${p.tech.map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join("")}</div>
+     <div class="people">${p.people.map((x,i)=>`<img src="${x}" alt="Project contributor ${i+1}" loading="lazy" decoding="async" width="32" height="32">`).join("")}<span>${escapeHTML(p.creator)}</span></div>
+     <div class="card-foot"><span>${escapeHTML(p.level)}</span><a href="#" onclick="openProject(${p.id});return false;" data-i18n="viewProject">View project →</a></div>
+   </div>
+ </article>`).join(""):`<div class="empty">No projects match your search or filter. Try another category or submit a new project.</div>`;
+ observeReveals();
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+
+document.getElementById("filters").innerHTML=filterLabels.map(x=>`<button class="filter ${x==="All"?"active":""}" data-filter="${x}">${x}</button>`).join("");
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{
+ activeFilter=btn.dataset.filter;
+ document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b===btn));
+ renderProjects();
+}));
+document.querySelectorAll(".category").forEach(a=>a.addEventListener("click",()=>{
+ activeFilter=a.dataset.category;
+ document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter===activeFilter));
+ setTimeout(renderProjects,50);
+}));
+document.getElementById("searchInput").addEventListener("input",renderProjects);
+document.getElementById("clearSearch").addEventListener("click",()=>{document.getElementById("searchInput").value="";activeFilter="All";document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.filter==="All"));renderProjects();});
+
+function openProject(id){
+ const p=projects.find(x=>x.id===id);if(!p)return;
+ document.getElementById("modalContent").innerHTML=`
+ <div class="kicker">${escapeHTML(p.category)} • ${escapeHTML(p.status)}</div>
+ <h2>${escapeHTML(p.title)}</h2><p>${escapeHTML(p.desc)}</p>
+ <p><strong>Creator:</strong> ${escapeHTML(p.creator)}</p>
+ <p><strong>Level:</strong> ${escapeHTML(p.level)}</p>
+ <div class="tags">${p.tech.map(t=>`<span class="tag">${escapeHTML(t)}</span>`).join("")}</div>
+ <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:20px">
+   <a class="btn primary" href="#submit" onclick="closeProject()" data-i18n="joinProject">Join / collaborate</a>
+   <a class="btn" style="background:#edf6fa;color:#087ea9" href="learning-dashboard.html" data-i18n="addPortfolio">Add to portfolio</a>
+ </div>`;
+ document.getElementById("projectModal").classList.add("show");
+ document.getElementById("projectModal").setAttribute("aria-hidden","false");
+}
+function closeProject(){document.getElementById("projectModal").classList.remove("show");}
+document.getElementById("closeModal").onclick=closeProject;
+document.getElementById("projectModal").addEventListener("click",e=>{if(e.target.id==="projectModal")closeProject()});
+
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("navLinks").classList.toggle("open"));
+document.querySelectorAll("#navLinks a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navLinks").classList.remove("open")));
+
+document.getElementById("projectForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const data=Object.fromEntries(new FormData(e.target));
+ localStorage.setItem("rtlhProjectDraft",JSON.stringify({...data,savedAt:new Date().toISOString()}));
+ alert("Project saved as a local draft. Connect this form to Firebase to publish it to the RTLH project database.");
+});
+
+/* Lightweight reveal observer */
+let revealObserver;
+function observeReveals(){
+ if(!("IntersectionObserver" in window)){document.querySelectorAll(".reveal").forEach(x=>x.classList.add("visible"));return}
+ if(!revealObserver) revealObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");revealObserver.unobserve(e.target)}}),{rootMargin:"0px 0px -50px"});
+ document.querySelectorAll(".reveal:not(.visible)").forEach(x=>revealObserver.observe(x));
+}
+renderProjects();
+
+/* ---------------- SMART LANGUAGE TOGGLE ----------------
+   Local UI dictionary = fast/no blocking translation script.
+   Kinyarwanda is included explicitly. Add more keys as your
+   Firebase/content translation layer grows.
+---------------------------------------------------------- */
+const T={
+en:{home:"Home",courses:"Courses",eclass:"E-Class",learning:"My learning",projects:"Projects",certificates:"Certificates",submitProject:"Submit project",eyebrow:"Projects • Innovation • Collaboration",heroTitle:"Turn knowledge into real-world solutions.",heroText:"Explore learner, teacher, community and technology projects. Build practical solutions, collaborate with others, document your work and showcase what you can create.",exploreProjects:"Explore projects →",startProject:"Start a project",challenges:"View challenges",heroCardTitle:"Learn → Build → Collaborate → Showcase",heroCardText:"A practical bridge between RTLH courses, E-Class learning, portfolios, certificates and community innovation.",statCategories:"project categories",statStages:"project stages",statIdeas:"ideas to build",statLanguages:"interface languages",discoverKicker:"Discover & build",discoverTitle:"Explore the project ecosystem",discoverText:"Search by project name, technology, category or development stage.",clear:"Clear",categoryKicker:"Explore by field",categoryTitle:"Project categories",categoryText:"Find projects connected to the skills and problems you want to explore.",challengeTitle:"Build solutions around real problems.",challengeText:"Join practical challenges in AI, education, environment, web development, data and community innovation.",joinChallenge:"Join a challenge →",ideasKicker:"Need inspiration?",ideasTitle:"Project ideas to start building",ideasText:"Use these as starting points, then adapt them to your own learning goals or community needs.",workflowKicker:"From learning to impact",workflowTitle:"The RTLH project journey",submitTitle:"Submit or start a project",submitText:"This front-end form is ready to connect to Firebase. It collects the core information needed for project publishing, collaboration and review.",sendProject:"Submit project →",viewProject:"View project →",joinProject:"Join / collaborate",addPortfolio:"Add to portfolio",searchPlaceholder:"Search projects, technologies, skills..."},
+rw:{home:"Ahabanza",courses:"Amasomo",eclass:"E-Class",learning:"Kwiga kwanjye",projects:"Imishinga",certificates:"Impamyabumenyi",submitProject:"Tanga umushinga",eyebrow:"Imishinga • Udushya • Ubufatanye",heroTitle:"Hindura ubumenyi mo ibisubizo bifatika.",heroText:"Shakisha imishinga y’abanyeshuri, abarimu, abaturage n’ikoranabuhanga. Wubake ibisubizo, mukorere hamwe kandi werekane ibyo ushoboye gukora.",exploreProjects:"Shakisha imishinga →",startProject:"Tangira umushinga",challenges:"Reba amarushanwa",heroCardTitle:"Iga → Wubake → Mukorane → Werekane",heroCardText:"Ikiraro gihuza amasomo ya RTLH, E-Class, portfolio, impamyabumenyi n’udushya tw’abaturage.",statCategories:"ibyiciro by’imishinga",statStages:"ibyiciro by’iterambere",statIdeas:"ibitekerezo byo kubaka",statLanguages:"indimi za interface",discoverKicker:"Shakisha kandi wubake",discoverTitle:"Shakisha urusobe rw’imishinga",discoverText:"Shakisha ukoresheje izina, ikoranabuhanga, icyiciro cyangwa aho umushinga ugeze.",clear:"Siba",categoryKicker:"Shakisha ukurikije urwego",categoryTitle:"Ibyiciro by’imishinga",categoryText:"Shakisha imishinga ijyanye n’ubumenyi n’ibibazo ushaka gukemura.",challengeTitle:"Wubake ibisubizo by’ibibazo nyakuri.",challengeText:"Jya mu mishinga ijyanye na AI, uburezi, ibidukikije, web, data n’iterambere ry’abaturage.",joinChallenge:"Jya mu irushanwa →",ideasKicker:"Ukeneye igitekerezo?",ideasTitle:"Ibitekerezo by’imishinga watangiriraho",ideasText:"Koresha ibi bitekerezo nk’intangiriro, ubihindure bijyanye n’intego zawe cyangwa ibibazo by’umuryango.",workflowKicker:"Kuva ku kwiga kugera ku musaruro",workflowTitle:"Urugendo rw’umushinga muri RTLH",submitTitle:"Tanga cyangwa utangire umushinga",submitText:"Iyi fomu yiteguye guhuzwa na Firebase. Ikusanya amakuru y’ibanze akenewe mu gutangaza, gufatanya no gusuzuma umushinga.",sendProject:"Ohereza umushinga →",viewProject:"Reba umushinga →",joinProject:"Jya mu mushinga / mukorane",addPortfolio:"Shyira muri portfolio",searchPlaceholder:"Shakisha imishinga, ikoranabuhanga, ubumenyi..."},
+fr:{home:"Accueil",courses:"Cours",eclass:"E-Class",learning:"Mon apprentissage",projects:"Projets",certificates:"Certificats",submitProject:"Soumettre un projet",exploreProjects:"Explorer les projets →",startProject:"Démarrer un projet",challenges:"Voir les défis",clear:"Effacer",viewProject:"Voir le projet →"},
+sw:{home:"Mwanzo",courses:"Kozi",eclass:"E-Class",learning:"Mafunzo yangu",projects:"Miradi",certificates:"Vyeti",submitProject:"Wasilisha mradi",exploreProjects:"Chunguza miradi →",startProject:"Anzisha mradi",challenges:"Tazama changamoto",clear:"Futa",viewProject:"Tazama mradi →"},
+es:{home:"Inicio",courses:"Cursos",eclass:"E-Class",learning:"Mi aprendizaje",projects:"Proyectos",certificates:"Certificados",submitProject:"Enviar proyecto",exploreProjects:"Explorar proyectos →",startProject:"Iniciar proyecto",challenges:"Ver desafíos",clear:"Limpiar",viewProject:"Ver proyecto →"},
+pt:{home:"Início",courses:"Cursos",eclass:"E-Class",learning:"Meu aprendizado",projects:"Projetos",certificates:"Certificados",submitProject:"Enviar projeto",exploreProjects:"Explorar projetos →",startProject:"Iniciar projeto",challenges:"Ver desafios",clear:"Limpar",viewProject:"Ver projeto →"},
+de:{home:"Startseite",courses:"Kurse",eclass:"E-Class",learning:"Mein Lernen",projects:"Projekte",certificates:"Zertifikate",submitProject:"Projekt einreichen",exploreProjects:"Projekte entdecken →",startProject:"Projekt starten",challenges:"Herausforderungen",clear:"Löschen",viewProject:"Projekt ansehen →"},
+ar:{home:"الرئيسية",courses:"الدورات",eclass:"الفصل الإلكتروني",learning:"تعلمي",projects:"المشاريع",certificates:"الشهادات",submitProject:"إرسال مشروع",exploreProjects:"استكشاف المشاريع →",startProject:"بدء مشروع",challenges:"عرض التحديات",clear:"مسح",viewProject:"عرض المشروع →"},
+zh:{home:"首页",courses:"课程",eclass:"电子课堂",learning:"我的学习",projects:"项目",certificates:"证书",submitProject:"提交项目",exploreProjects:"探索项目 →",startProject:"开始项目",challenges:"查看挑战",clear:"清除",viewProject:"查看项目 →"},
+hi:{home:"होम",courses:"पाठ्यक्रम",eclass:"ई-क्लास",learning:"मेरी पढ़ाई",projects:"प्रोजेक्ट",certificates:"प्रमाणपत्र",submitProject:"प्रोजेक्ट जमा करें",exploreProjects:"प्रोजेक्ट देखें →",startProject:"प्रोजेक्ट शुरू करें",challenges:"चुनौतियाँ देखें",clear:"साफ़ करें",viewProject:"प्रोजेक्ट देखें →"},
+ja:{home:"ホーム",courses:"コース",eclass:"Eクラス",learning:"学習",projects:"プロジェクト",certificates:"証明書",submitProject:"プロジェクトを提出",exploreProjects:"プロジェクトを見る →",startProject:"プロジェクトを開始",challenges:"チャレンジを見る",clear:"クリア",viewProject:"プロジェクトを見る →"},
+ko:{home:"홈",courses:"강좌",eclass:"E-클래스",learning:"내 학습",projects:"프로젝트",certificates:"수료증",submitProject:"프로젝트 제출",exploreProjects:"프로젝트 탐색 →",startProject:"프로젝트 시작",challenges:"도전 보기",clear:"지우기",viewProject:"프로젝트 보기 →"},
+it:{home:"Home",courses:"Corsi",eclass:"E-Class",learning:"Il mio apprendimento",projects:"Progetti",certificates:"Certificati",submitProject:"Invia progetto",exploreProjects:"Esplora progetti →",startProject:"Avvia un progetto",challenges:"Vedi le sfide",clear:"Cancella",viewProject:"Vedi progetto →"}
+};
+function applyLanguage(lang){
+ const dict=T[lang]||T.en;
+ document.documentElement.lang=lang==="rw"?"rw":lang;
+ if(lang==="ar")document.documentElement.dir="rtl";else document.documentElement.dir="ltr";
+ document.querySelectorAll("[data-i18n]").forEach(el=>{const k=el.dataset.i18n;if(dict[k])el.textContent=dict[k]});
+ document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{const k=el.dataset.i18nPlaceholder;if(dict[k])el.placeholder=dict[k]});
+ localStorage.setItem("rtlhLanguage",lang);
+}
+const savedLang=localStorage.getItem("rtlhLanguage")||"en";
+document.getElementById("languageSelect").value=savedLang;
+document.getElementById("languageSelect").addEventListener("change",e=>applyLanguage(e.target.value));
+applyLanguage(savedLang);
+</script>
+</body>
+</html>
