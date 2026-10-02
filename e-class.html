@@ -924,7 +924,8 @@ body{overflow-x:hidden}
 </div>
 
 <!-- JOIN CLASS MODAL -->
-window.joinClass = async function (id) {
+<script>
+    window.joinClass = async function (id) {
   if (!currentUser) {
     localStorage.setItem("rtlh_pending_class", id);
     return;
