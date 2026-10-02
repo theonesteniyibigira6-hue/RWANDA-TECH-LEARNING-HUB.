@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RTLH Admin Control Centre</title>
+<meta name="theme-color" content="#071a2b"><meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="rtlh-logo.png">
+<style>
+:root{--navy:#071a2b;--blue:#1685e5;--yellow:#f6c928;--green:#1ea765;--red:#d93b4b;--bg:#f4f7fb;--card:#fff;--text:#132235;--muted:#66758a;--line:#dfe7f0;--shadow:0 14px 40px rgba(7,26,43,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}
+.top-flag{height:6px;background:linear-gradient(90deg,#1685e5 0 55%,#f6c928 55% 78%,#1ea765 78%)}
+.layout{min-height:100vh;display:grid;grid-template-columns:280px 1fr}
+.sidebar{position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#061827,#0b263b 70%,#071a2b);color:#fff;padding:20px 14px;overflow:auto;z-index:30}
+.brand{display:flex;align-items:center;gap:12px;padding:7px 8px 20px;border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:12px}
+.logo{width:46px;height:46px;border-radius:14px;object-fit:cover;background:#fff}.brand strong{display:block;font-size:14px}.brand small{color:#a9bdce}
+.nav-group{margin:15px 5px 7px;color:#7891a5;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800}
+.navbtn{width:100%;border:0;background:transparent;color:#dce8f1;text-align:left;padding:10px 12px;border-radius:12px;display:flex;gap:10px;margin:3px 0;transition:.2s}
+.navbtn:hover{background:rgba(255,255,255,.08)}.navbtn.active{background:linear-gradient(90deg,rgba(22,133,229,.35),rgba(30,167,101,.12));box-shadow:inset 3px 0 #f6c928}
+.main{min-width:0}.header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:13px 24px}
+.header-left{display:flex;align-items:center;gap:12px}.header h1{font-size:19px;margin:0}.header p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.menu-mobile{display:none;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px}
+.userbox{display:flex;align-items:center;gap:10px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#1685e5,#1ea765);color:#fff;font-weight:800}
+.admin-badge{font-size:9px;font-weight:900;padding:5px 8px;border-radius:99px;background:#071a2b;color:#f6c928;white-space:nowrap}
+.content{padding:25px;max-width:1700px;margin:auto}
+.hero{background:linear-gradient(135deg,#09243a,#0d4665 62%,#11784f);color:#fff;border-radius:24px;padding:28px;box-shadow:var(--shadow)}.hero h2{margin:10px 0 7px;font-size:28px}.hero p{color:#d6e7f2;margin:0}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--text);border-radius:11px;padding:10px 14px;font-weight:700;transition:.2s}.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.btn.yellow{background:var(--yellow);border-color:var(--yellow)}.btn.danger{color:var(--red);border-color:#f0c4c9}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}.stat b{display:block;font-size:26px;margin:6px 0}.stat span{color:var(--muted);font-size:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:19px}.section{margin-top:20px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:12px;flex-wrap:wrap}.section-head h2{margin:0}
+.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:top}.table th{background:#f7f9fc}
+.table select{padding:6px;border-radius:8px;border:1px solid #ccd7e3}
+.searchbar{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}.searchbar input{flex:1;min-width:180px;max-width:480px}
+.searchbar input,.searchbar select,.field input,.field select,.field textarea{width:100%;border:1px solid #ccd7e3;background:#fff;border-radius:11px;padding:11px 12px;outline:none}.searchbar select{width:180px}
+.field{margin-bottom:13px}.field label{display:block;font-size:12px;font-weight:800;margin-bottom:6px}.field textarea{min-height:110px;resize:vertical}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.view{display:none}.view.active{display:block}.pill{display:inline-flex;padding:5px 9px;border-radius:99px;background:#edf5ff;color:#0b65b2;font-size:11px;font-weight:800}
+.drawer{position:fixed;inset:0;background:rgba(2,12,22,.55);z-index:100;display:none;justify-content:flex-end}.drawer.open{display:flex}.drawer-panel{width:min(760px,100%);height:100%;background:#fff;padding:22px;overflow:auto}
+.toast{position:fixed;right:20px;bottom:20px;z-index:200;background:var(--navy);color:#fff;padding:13px 17px;border-radius:12px;max-width:430px}
+.notice{padding:12px 14px;border-radius:12px;background:#eef7ff;border:1px solid #cfe7fb;color:#235475;font-size:13px}.alert{padding:12px 14px;border-radius:12px;margin-bottom:14px;background:#fff2f3;color:#a32936;border:1px solid #f3cbd0}
+.footer{padding:30px;text-align:center;color:var(--muted);font-size:12px}
+.login{min-height:100vh;display:grid;place-items:center;padding:25px;background:#050b14}
+.login-card{width:min(400px,100%);background:none;padding:10px;box-shadow:none}
+.login-brand{text-align:center}.login-brand h1{font-size:24px;margin:12px 0 4px}.login-brand p{color:var(--muted);margin:0 0 20px}
+.secret-emblem{width:72px;height:72px;margin:auto;border-radius:22px;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#1b1b1b,#000 70%);color:#fff;font-weight:900;letter-spacing:1px}
+.actor-gateway{margin:14px 0 16px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#050505,#111827);color:#fff}
+.gateway-title{font-size:10px;letter-spacing:2px;font-weight:900;color:#f6c928}.gateway-sub{font-size:11px;color:#aeb9c7;margin:6px 0 12px}
+.guardian-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.guardian{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);color:#fff;border-radius:14px;padding:10px;display:flex;align-items:center;gap:9px;text-align:left}
+.guardian:hover{background:rgba(255,255,255,.1)}.guardian-art{font-size:28px}.guardian small{display:block;color:#aeb9c7;margin-top:3px;font-size:9px}.guardian b{font-size:10px}
+.or-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:#8a98aa;font-size:12px}.or-divider:before,.or-divider:after{content:"";height:1px;background:#dfe7f0;flex:1}
+.google-admin-btn{width:100%;min-height:50px;border:1px solid #cfd8e3;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:12px;font-weight:800}
+.login .field input{background:rgba(5,11,20,.88);border:1px solid rgba(0,161,222,.6);color:#e8f4ff;text-align:center}
+.login .field input::placeholder{color:#7fa6c9}.login .field input:focus{border-color:#f6c928}
+.login .guardian-row{margin-bottom:14px}.login .guardian{background:rgba(5,11,20,.85);border:1px solid rgba(255,255,255,.2);justify-content:center;font-size:20px}.login .guardian b{font-size:10px;letter-spacing:1px}
+.login .google-admin-btn{background:rgba(5,11,20,.88);color:#e8f4ff;border:1px solid rgba(255,255,255,.25);margin-top:12px}
+.login #loginBtn{margin-top:2px}
+.hov{animation:rtlhHover 6s ease-in-out infinite}.hov:nth-child(2){animation-delay:-1.2s}.hov:nth-child(3){animation-delay:-2.4s}.hov:nth-child(4){animation-delay:-3.6s}.hov:nth-child(5){animation-delay:-4.8s}
+.hov:hover,.hov:focus-within{animation-play-state:paused}
+@keyframes rtlhHover{0%,100%{transform:translate(0,0)}25%{transform:translate(5px,-6px)}50%{transform:translate(0,-9px)}75%{transform:translate(-5px,-4px)}}
+@media(prefers-reduced-motion:reduce){.hov{animation:none}}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){.layout{display:block}.sidebar{position:fixed;left:-290px;transition:.25s;width:280px}.sidebar.open{left:0}.menu-mobile{display:block}.content{padding:15px}.form-grid{grid-template-columns:1fr}.header{padding:11px 15px}}
+@media(max-width:520px){.stats{grid-template-columns:1fr}.guardian-row{grid-template-columns:1fr}.userbox .email,.admin-badge{display:none}}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login">
+  <div class="login-card">
+    <div class="login-brand"></div>
+    <div id="loginAlert" class="alert hidden"></div>
+    <form id="loginForm">
+      <div class="guardian-row hov">
+        <button type="button" class="guardian" id="phoenixGate">🖤 <b>BLACK PHOENIX</b></button>
+        <button type="button" class="guardian" id="squirrelGate">🐿️ <b>RUNNING SQUIRREL</b></button>
+      </div>
+      <div class="field hov"><input id="adminEmail" type="email" value="theonesteniyibigira6@gmail.com" readonly aria-label="Administrator email"></div>
+      <div class="field hov"><input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Firebase Authentication password" aria-label="Password"></div>
+      <button class="btn primary hov" style="width:100%;padding:13px" id="loginBtn">Sign in securely</button>
+      <button type="button" class="google-admin-btn hov" id="googleAdminBtn"><b style="color:#4285f4;font-size:20px">G</b><span>Continue with Google</span></button>
+    </form>
+  </div>
+</div>
+
+<div id="adminApp" class="hidden">
+<div class="top-flag"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><img class="logo" src="rtlh-logo.png" alt="RTLH" onerror="this.style.display='none'"><div><strong>RTLH ADMIN</strong><small>Control Centre</small></div></div>
+  <button class="navbtn active" data-view="dashboard">🏠 Dashboard</button>
+  <div class="nav-group" id="endGroup">Account</div>
+  <button class="navbtn" id="logoutBtn">🚪 Sign out</button>
+</aside>
+<main class="main">
+<header class="header"><div class="header-left"><button class="menu-mobile" id="menuMobile">☰</button><div><h1 id="pageTitle">Admin Dashboard</h1><p id="pageSubtitle">Daily RTLH platform control and activity</p></div></div><div class="userbox"><div class="avatar" id="adminAvatar">NT</div><div class="email" id="signedEmail">Administrator</div><span class="admin-badge" id="adminBadge">SUPER ADMIN · AUTHORIZED</span></div></header>
+<div class="content">
+<section class="view active" id="view-dashboard">
+  <div class="hero"><span class="pill" style="background:rgba(255,255,255,.14);color:#fff">SUPER ADMIN CONTROL CENTRE</span><h2>Welcome to RTLH Administration</h2><p>Library, courses, learning, opportunities, mentorship, partners, sponsors, moderation, users and daily activity in one place.</p>
+  <div class="toolbar"><button class="btn yellow" data-go="daily">📅 Daily Report</button><button class="btn" data-go="courses">🎓 Courses</button><button class="btn" data-go="books">📚 E-Library</button><button class="btn" data-go="opps">💼 Opportunities</button><button class="btn" data-go="announcements">📢 Announcement</button></div></div>
+  <div class="stats" id="dashStats"></div>
+  <div class="card"><h3 style="margin-top:0">Connection</h3><div class="notice" id="dashInfo">Checking…</div></div>
+</section>
+<footer class="footer">RWANDA TECH LEARNING HUB · ADMIN CONTROL CENTRE · Secure administration</footer>
+</div></main></div></div>
+
+<div class="drawer" id="recordDrawer"><div class="drawer-panel"><div class="section-head"><div><h2 id="drawerTitle">Record</h2><p class="muted" id="drawerSubtitle"></p></div><button class="btn" id="closeDrawer">✕</button></div><div id="drawerBody"></div></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut,GoogleAuthProvider,signInWithPopup}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,getDoc,doc,query,limit}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+const cfg=window.RTLH_FIREBASE_CONFIG||{apiKey:"AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",authDomain:"rwanda-tech-learning-hub.firebaseapp.com",projectId:"rwanda-tech-learning-hub",storageBucket:"rwanda-tech-learning-hub.firebasestorage.app",messagingSenderId:"785118659917",appId:"1:785118659917:web:7ada98356d213a3fad2304"};
+const EM=["theonesteniyibigira6@gmail.com","theonesteniyibigira4@gmail.com"];
+const $=id=>document.getElementById(id),allowed=e=>EM.includes(String(e||"").trim().toLowerCase());
+const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app);
+const err=m=>{$("loginAlert").textContent=m;$("loginAlert").classList.remove("hidden")};
+const msg=e=>{const c=e?.code||"";if(c.includes("invalid-credential")||c.includes("wrong-password"))return"The administrator email or password is incorrect.";if(c.includes("user-not-found"))return"This email is not registered in Firebase Authentication.";if(c.includes("too-many"))return"Too many attempts. Please wait and try again.";if(c.includes("popup-blocked"))return"The Google pop-up was blocked. Allow pop-ups for this site.";if(c.includes("popup-closed"))return"Google sign-in was cancelled.";return e?.message||"Sign-in failed."};
+function reset(){$("loginBtn").disabled=false;$("loginBtn").textContent="Sign in securely"}
+
+async function gate(user){
+ if(!allowed(user.email)){await signOut(auth);throw new Error("⛔ ACCESS DENIED: this account is not one of the two authorised RTLH administrators.")}
+ const s=await getDoc(doc(db,"users",user.uid));
+ if(!s.exists()){await signOut(auth);throw new Error("⛔ Administrator profile missing. In Firestore create users/"+user.uid+" with role: \"admin\".")}
+ const p=s.data(),r=String(p.role||p.accountRole||"").toLowerCase();
+ if(!(["admin","superadmin","platformadmin"].includes(r)||p.admin===true||p.isAdmin===true)){await signOut(auth);throw new Error("⛔ This email is allowed, but users/"+user.uid+" is not marked as an administrator (role must be admin or superadmin).")}
+ $("signedEmail").textContent=user.email;$("adminAvatar").textContent=user.email.toLowerCase()===EM[0]?"🖤":"🐿️";
+ $("loginScreen").classList.add("hidden");$("adminApp").classList.remove("hidden");dash();
+}
+onAuthStateChanged(auth,async u=>{
+ if(!u){$("loginScreen").classList.remove("hidden");$("adminApp").classList.add("hidden");reset();return}
+ try{await gate(u)}catch(e){err(e.message);reset()}
+});
+$("loginForm").addEventListener("submit",async e=>{e.preventDefault();$("loginAlert").classList.add("hidden");
+ const em=$("adminEmail").value.trim().toLowerCase();if(!allowed(em))return err("⛔ ACCESS DENIED: only the two authorised administrator emails can enter.");
+ $("loginBtn").disabled=true;$("loginBtn").textContent="Verifying administrator…";
+ try{await signInWithEmailAndPassword(auth,em,$("adminPassword").value)}catch(x){err(msg(x));reset()}});
+$("googleAdminBtn").onclick=async()=>{$("loginAlert").classList.add("hidden");const em=$("adminEmail").value.trim().toLowerCase();
+ try{const p=new GoogleAuthProvider();p.setCustomParameters({login_hint:em,prompt:"select_account"});await signInWithPopup(auth,p)}catch(x){err(msg(x))}};
+$("phoenixGate").onclick=()=>{$("adminEmail").value=EM[0]};
+$("squirrelGate").onclick=()=>{$("adminEmail").value=EM[1]};
+$("logoutBtn").onclick=()=>signOut(auth);
+$("menuMobile").onclick=()=>$("sidebar").classList.toggle("open");
+$("closeDrawer").onclick=()=>$("recordDrawer").classList.remove("open");
+
+/* dashboard */
+function openDash(){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$("view-dashboard").classList.add("active");document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.view==="dashboard"));$("pageTitle").textContent="Admin Dashboard";$("pageSubtitle").textContent="Daily RTLH platform control and activity";$("sidebar").classList.remove("open");dash()}
+document.querySelector('[data-view="dashboard"]').onclick=openDash;
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>document.querySelector('[data-x="'+b.dataset.go+'"]')?.click());
+async function dash(){
+ const L=[["users","👥","Users"],["courses","🎓","Courses"],["books","📚","Books"],["opportunities","💼","Opportunities"],["classes","🏫","E-Classes"],["teachers","👨‍🏫","Teachers"],["enrollments","📝","Enrollments"],["certificates","🏆","Certificates"],["payments","💳","Payments"],["comments","💬","Comments"],["mentorApplications","🧑‍🏫","Mentor applications"],["partners","🤝","Partners"],["sponsors","🌟","Sponsors"],["announcements","📢","Announcements"]];
+ let bad=0;
+ const c=await Promise.all(L.map(async x=>{try{return(await getDocs(query(collection(db,x[0]),limit(5000)))).size}catch{bad++;return"—"}}));
+ $("dashStats").innerHTML=L.map((x,i)=>`<div class="stat"><span>${x[1]} ${x[2]}</span><b>${c[i]}</b></div>`).join("");
+ $("dashInfo").textContent=bad?bad+" collection(s) could not be read. Check your Firestore rules for the administrator accounts.":"Firebase Authentication and Cloud Firestore are connected as "+auth.currentUser?.email+".";
+}
+</script>
+
+<script>
+/* RTLH Admin opening window: slow code streams, music notes, running squirrels,
+   flying black phoenix and an auto-typed name. Visual only; it never touches Firebase or login logic.
+   Add to admin.html just before </body>:  <script src="admin-intro.js"><\/script> */
+(function () {
+  const L = document.getElementById("loginScreen");
+  if (!L) return;
+  const NAME = "NIYIBIGIRA Theoneste";
+  const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const R = (a, b) => a + Math.random() * (b - a);
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+
+  const st = document.createElement("style");
+  st.textContent =
+    ".speed-track{display:none!important}" +
+    "#introCanvas{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}" +
+    ".login-card{position:relative;z-index:2}" +
+    "#typedName{font:800 15px/1.4 ui-monospace,Consolas,'Courier New',monospace;letter-spacing:1.5px;color:#e8f4ff;min-height:24px;margin:-8px 0 16px;text-align:center}" +
+    "#typedName .pr{color:#1ea765}" +
+    "#typedName .caret{display:inline-block;width:8px;height:16px;background:#1685e5;margin-left:3px;vertical-align:-2px;animation:rtlhBlink 1s steps(1) infinite}" +
+    "@keyframes rtlhBlink{50%{opacity:0}}";
+  document.head.appendChild(st);
+
+  /* ---------- auto-typed name ---------- */
+  const brand = L.querySelector(".login-brand");
+  if (brand) {
+    const box = document.createElement("div");
+    box.id = "typedName";
+    box.innerHTML = '<span class="pr">&gt; </span><span id="typedText"></span><span class="caret"></span>';
+    brand.appendChild(box);
+    const out = box.querySelector("#typedText");
+    let i = 0, dir = 1;
+    const tick = () => {
+      i += dir;
+      out.textContent = NAME.slice(0, i);
+      if (i >= NAME.length) { dir = -1; return setTimeout(tick, 2400); }
+      if (i <= 0) { dir = 1; return setTimeout(tick, 600); }
+      setTimeout(tick, dir > 0 ? 115 : 55);
+    };
+    if (still) out.textContent = NAME; else tick();
+  }
+
+  /* ---------- canvas ---------- */
+  const cv = document.createElement("canvas");
+  cv.id = "introCanvas";
+  cv.setAttribute("aria-hidden", "true");
+  L.insertBefore(cv, L.firstChild);
+  const ctx = cv.getContext("2d");
+  let W = 0, H = 0;
+  function size() {
+    const d = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * d; cv.height = H * d;
+    ctx.setTransform(d, 0, 0, d, 0, 0);
+  }
+  size();
+
+  const SN = ["const hub = await getDocs(courses)", "if (user.role === 'admin') { grant() }", "0x7F3A9C21  0xDE41B0A7", "SELECT * FROM learners;",
+    '{"uid":"a91f3c","role":"admin"}', "01010010 01010100 01001100 01001000", "for (i = 0; i < n; i++) learn(i)", "npm run build && firebase deploy",
+    "U2FsdGVkX19rd2FuZGE=", "git commit -m 'rtlh'", "fetch('/classes').then(r => r.json())", "<div class=\"hub\"></div>",
+    "def teach(x): return x * 2", "SHA256:9b1c04e7d2a8", "async function enroll() {}", "ttl=64 time=12ms", "-1.9441, 30.0619", "0xFF 0x00 0xA3 0x5C",
+    "#!/bin/bash", "ERR_NULL_PTR 0x0000", "while (true) { listen() }", "kigali://node/07"];
+  const COL = ["80,200,255", "120,255,170", "246,201,40", "190,170,255"];
+  const NOTES = ["♪", "♫", "♬", "♩", "♭", "♯", "🎶"];
+
+  const nCode = W < 600 ? 14 : 26;
+  const codes = Array.from({ length: nCode }, (_, k) => {
+    const m = k % 3, s = pick([-1, 1]);
+    const o = { t: pick(SN), x: R(0, W), y: R(20, H), col: COL[k % COL.length], a: R(0.28, 0.55), f: Math.round(R(11, 14)) + "px ui-monospace,Consolas,monospace", w: 200 };
+    if (m === 0) { o.vx = s * R(18, 38); o.vy = R(-3, 3); }
+    else if (m === 1) { o.vx = R(-3, 3); o.vy = s * R(14, 28); }
+    else { o.vx = s * R(14, 28); o.vy = pick([-1, 1]) * R(10, 20); }
+    ctx.font = o.f; o.w = ctx.measureText(o.t).width;
+    return o;
+  });
+  const notes = Array.from({ length: W < 600 ? 6 : 11 }, () => ({
+    s: pick(NOTES), x: R(0, W), y0: R(60, H - 60), vx: pick([-1, 1]) * R(35, 60), ph: R(0, 6.28), amp: R(18, 45), z: Math.round(R(22, 34)), a: R(0.35, 0.7)
+  }));
+  const squirrels = Array.from({ length: 3 }, (_, k) => ({ x: R(0, W), vx: (k % 2 ? 1 : -1) * R(70, 95), row: k, ph: R(0, 6.28) }));
+  const birds = Array.from({ length: 2 }, (_, k) => ({ x: R(0, W), vx: (k % 2 ? -1 : 1) * R(95, 120), y0: H * (0.2 + k * 0.22), ph: R(0, 6.28) }));
+
+  const INFO = ["RTLH Admin Control Centre", "Secure platform command gateway", "MYSTERIOUS ADMIN GATEWAY", "Two authorised administrator accounts",
+    "theonesteniyibigira6@gmail.com · Super Admin", "theonesteniyibigira4@gmail.com · Super Admin", "Firebase Authentication password", "Firebase authorization is the real security boundary"];
+  const infos = INFO.map((t, i) => {
+    const z = W < 600 ? 14 : i < 3 ? 22 : 16;
+    ctx.font = "700 " + z + "px ui-monospace,Consolas,monospace";
+    return { t, z, w: ctx.measureText(t).width, x: R(0, W), y: H * (i + 1) / (INFO.length + 1), vx: (i % 2 ? -1 : 1) * R(22, 34), ph: R(0, 6.28), col: i < 3 ? "246,201,40" : "232,244,255" };
+  });
+  const wrap = (o, w) => { if (o.x > W + w) o.x = -w; else if (o.x < -w) o.x = W + w; };
+  const emoji = (ch, x, y, z, vx, sy) => {
+    ctx.save(); ctx.translate(x, y); if (vx > 0) ctx.scale(-1, sy || 1); else if (sy) ctx.scale(1, sy);
+    ctx.font = z + "px 'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif";
+    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(ch, 0, 0); ctx.restore();
+  };
+  const birdY = (b, t) => b.y0 + Math.sin(t * 0.8 + b.ph) * H * 0.07;
+
+  function frame(t, dt) {
+    ctx.clearRect(0, 0, W, H);
+    for (const c of codes) {
+      c.x += c.vx * dt; c.y += c.vy * dt; wrap(c, c.w);
+      if (c.y > H + 20) c.y = -10; else if (c.y < -20) c.y = H + 10;
+      ctx.globalAlpha = c.a; ctx.fillStyle = "rgb(" + c.col + ")"; ctx.font = c.f; ctx.fillText(c.t, c.x, c.y);
+    }
+    for (const n of notes) {
+      n.x += n.vx * dt; wrap(n, 40);
+      ctx.globalAlpha = n.a; ctx.fillStyle = "#f6c928";
+      ctx.font = n.z + "px 'Segoe UI Symbol','Apple Symbols',serif";
+      ctx.fillText(n.s, n.x, n.y0 + Math.sin(t * 0.9 + n.ph) * n.amp);
+    }
+    for (const n of infos) {
+      n.x += n.vx * dt; wrap(n, n.w);
+      ctx.globalAlpha = 0.9; ctx.fillStyle = "rgb(" + n.col + ")";
+      ctx.font = "700 " + n.z + "px ui-monospace,Consolas,monospace";
+      ctx.fillText(n.t, n.x, n.y + Math.sin(t * 1.1 + n.ph) * 8);
+    }
+    for (const q of squirrels) {
+      q.x += q.vx * dt; wrap(q, 50);
+      ctx.globalAlpha = 0.95;
+      emoji("🐿️", q.x, H - 46 - q.row * 20 - Math.abs(Math.sin(t * 5 + q.ph)) * 12, 40, q.vx);
+    }
+    for (const b of birds) {
+      b.x += b.vx * dt; wrap(b, 60);
+      for (let k = 6; k >= 1; k--) {
+        ctx.globalAlpha = 0.22 / k * 2; ctx.fillStyle = "#f6c928";
+        ctx.beginPath(); ctx.arc(b.x - Math.sign(b.vx) * k * 14, birdY(b, t - k * 0.12), 4 - k * 0.4, 0, 6.28); ctx.fill();
+      }
+      ctx.save(); ctx.globalAlpha = 0.95;
+      if ("filter" in ctx) ctx.filter = "brightness(0) drop-shadow(0 0 6px #f6c928)";
+      emoji("🦅", b.x, birdY(b, t), 48, b.vx, 1 + Math.sin(t * 7 + b.ph) * 0.12);
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  let last = performance.now(), T = 0;
+  function loop(now) {
+    const dt = Math.min((now - last) / 1000, 0.05); last = now;
+    if (!L.classList.contains("hidden")) { T += dt; frame(T, dt); }
+    requestAnimationFrame(loop);
+  }
+  addEventListener("resize", () => { size(); if (still) frame(0, 0); });
+  if (still) frame(0, 0); else requestAnimationFrame(loop);
+})();
+
+</script>
+<script type="module">
+/* RTLH Admin Control Centre add-on. One line in admin.html, just before </body>:
+   <script type="module" src="admin-extra.js"><\/script>
+   Adds managers for library, courses, lessons, opportunities, mentors, teachers, classes, partners,
+   sponsors, moderation, users and alerts, a Daily Report, and an admin activity log.
+   Every signed-in admin gets identical rights; Firestore/Storage rules are the real security boundary. */
+import{getApp,getApps,initializeApp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import{getAuth}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import{getFirestore,collection,getDocs,doc,setDoc,addDoc,updateDoc,deleteDoc,query,limit,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import{getStorage,ref,uploadBytes,getDownloadURL}from"https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+const CFG=window.RTLH_FIREBASE_CONFIG||{apiKey:"AIzaSyAeye0nqa2XqDKzXObVhGN9D_2EkoReNws",authDomain:"rwanda-tech-learning-hub.firebaseapp.com",projectId:"rwanda-tech-learning-hub",storageBucket:"rwanda-tech-learning-hub.firebasestorage.app",messagingSenderId:"785118659917",appId:"1:785118659917:web:7ada98356d213a3fad2304"};
+const app=getApps().length?getApp():initializeApp(CFG),auth=getAuth(app),db=getFirestore(app),sto=getStorage(app);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const dv=v=>{if(!v)return 0;const d=v.toDate?v.toDate():new Date(v);return d.getTime()||0};
+const fmt=v=>{const t=dv(v);return t?new Date(t).toLocaleString():"—"};
+const toast=(m,bad)=>{const t=$("#toast");t.textContent=m;t.style.background=bad?"#a32936":"#071a2b";t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),3500)};
+
+/* same intro animation file, loaded automatically */
+/* intro animation is inlined above */
+/* every admin shows the same role label */
+$$(".guardian small").forEach(e=>e.textContent="Super Admin");
+{const b=$("#adminBadge");if(b)new MutationObserver(()=>{if(!/^SUPER ADMIN/.test(b.textContent))b.textContent="SUPER ADMIN · AUTHORIZED"}).observe(b,{childList:true,characterData:true,subtree:true})}
+
+const CATS=["Science","Technology","Education","ICT","Mathematics","Languages","Agriculture","Business","Economics","History","Geography","Health","Engineering","Environment","Music","Arts","Teacher Education","Research"];
+const LV=["nursery","primary","olevel","alevel","ttc","tvet","professional","adult","bachelor","masters","phd"];
+const AR=["academic","technology","trade","life","health","business","science","teacher","arts"];
+const ROLES=["superadmin","admin","content_admin","course_admin","library_admin","opportunity_admin","moderator","teacher","mentor","partner","sponsor","student"];
+const OT=["Scholarship","Internship","Job","Competition","Fellowship","Volunteering","Grant","Training","Conference","Exchange program"];
+const PT=["School","University","NGO","Company","Government","Education organization","Technology organization"];
+const oppBadge=r=>{const t=r.deadline?new Date(r.deadline).getTime():0;if(!t)return"";const d=(t-Date.now())/864e5;return d<0?"EXPIRED":d<=7?"CLOSING SOON":"ACTIVE"};
+
+const S=[
+{id:"books",ico:"📚",t:"E-Library Manager",d:"Books, covers and PDFs. Files go to Firebase Storage; only details go to Firestore.",c:"books",cols:["title","author","category","access"],flow:["draft","published","archived"],f:[["title","Title","t"],["author","Author","t"],["isbn","ISBN","t"],["publisher","Publisher","t"],["year","Publication year","n"],["language","Language","t"],["category","Category","s",CATS],["domain","Domain","t"],["level","Level","s",LV],["access","Access","s",["Free","Premium"]],["tags","Tags (comma separated)","g"],["description","Description","a"],["pdfUrl","Book PDF","f"],["coverUrl","Cover image","f"],["featured","Featured","b"],["recommended","Recommended","b"],["downloadable","Downloadable","b"]]},
+{id:"courses",ico:"🎓",t:"Course Manager",d:"Draft, review, approve, publish and archive courses. Field names match your course catalog.",c:"courses",idf:"id",cols:["title","audience","field","mode","price"],flow:["draft","review","approved","published","archived"],f:[["id","Course ID (short, no spaces)","t"],["title","Title","t"],["audience","Level","s",LV],["field","Area","s",AR],["mode","Mode","s",["Self-paced","E-Class","Live online","Blended"]],["price","Access","s",["Free","Paid","Scholarship"]],["difficulty","Difficulty","s",["Beginner","Intermediate","Advanced","All levels"]],["lessons","Lessons","n"],["weeks","Weeks","n"],["icon","Icon (emoji)","t"],["instructor","Instructor","t"],["desc","Description","a"],["thumbnail","Thumbnail","f"]]},
+{id:"lessons",ico:"📖",t:"Lessons & Modules",d:"Module and lesson content for each course (video, PDF, audio or text).",c:"lessons",cols:["courseId","module","title","type"],flow:["draft","published"],f:[["courseId","Course ID","t"],["module","Module","t"],["title","Lesson title","t"],["type","Type","s",["Video","PDF","Audio","Text"]],["url","File (video, PDF or audio)","f"],["order","Order","n"],["content","Text content","a"]]},
+{id:"opps",ico:"💼",t:"Opportunities Manager",d:"Scholarships, internships, jobs and more. Closing and expired flags come from the deadline.",c:"opportunities",badge:oppBadge,cols:["title","organization","type","deadline"],flow:["submitted","under_review","approved","published","expired"],f:[["title","Title","t"],["organization","Organization","t"],["type","Type","s",OT],["description","Description","a"],["eligibility","Eligibility","a"],["country","Country","t"],["location","Location","t"],["deadline","Deadline","d"],["startDate","Start date","d"],["endDate","End date","d"],["applyUrl","Application URL","t"],["contact","Contact","t"],["educationLevel","Education level","s",LV],["skills","Required skills","g"],["funding","Funding","t"],["featured","Featured","b"]]},
+{id:"mentors",ico:"🧑‍🏫",t:"Mentor Applications",d:"Review and approve mentors.",c:"mentorApplications",cols:["name","expertise","country","email"],flow:["pending","under_review","approved","rejected","suspended"],f:[["name","Name","t"],["email","Email","t"],["country","Country","t"],["expertise","Expertise","t"],["education","Education","t"],["experience","Experience","a"],["languages","Languages","g"],["areas","Areas of mentorship","g"],["availability","Availability","t"],["bio","Biography","a"],["cv","CV","f"],["photo","Profile photo","f"]]},
+{id:"teachers",ico:"👨‍🏫",t:"Teacher Verification",d:"Approve or suspend E-Teacher accounts.",c:"teachers",noNew:1,cols:["name","email","country"],flow:["pending","approved","suspended"],f:[]},
+{id:"classes",ico:"🏫",t:"E-Class Monitor",d:"Publish, close, archive or suspend E-Classes.",c:"classes",noNew:1,cols:["title","teacherName","level"],flow:["draft","published","closed","archived","suspended"],f:[]},
+{id:"partners",ico:"🤝",t:"Partners Manager",d:"Schools, universities, NGOs and companies.",c:"partners",cols:["name","type","country"],flow:["pending","active","ended"],f:[["name","Organization","t"],["type","Partnership type","s",PT],["description","Description","a"],["website","Website","t"],["country","Country","t"],["contact","Contact","t"],["startDate","Start date","d"],["logo","Logo","f"]]},
+{id:"sponsors",ico:"🌟",t:"Sponsors Manager",d:"Sponsor profiles and agreements.",c:"sponsors",cols:["name","sponsorshipType","campaign","value"],flow:["pending","active","ended"],f:[["name","Sponsor","t"],["sponsorshipType","Sponsorship type","t"],["campaign","Campaign","t"],["value","Amount / value","t"],["startDate","Start date","d"],["endDate","End date","d"],["visibility","Visibility","s",["Public","Private"]],["logo","Logo","f"]]},
+{id:"comments",ico:"💬",t:"Moderation",d:"Review comments. Hidden and spam comments should be ignored by your public pages.",c:"comments",noNew:1,cols:["userName","message","text","createdAt"],flow:["pending","approved","reported","hidden","spam","deleted"],f:[]},
+{id:"users",ico:"👥",t:"Users & Roles",d:"Change roles and suspend accounts. Keep the two administrators on role admin or superadmin.",c:"users",noNew:1,sf:"accountStatus",cols:["email","displayName","name","role"],flow:["active","suspended"],ins:[{k:"role",o:ROLES}],f:[]},
+{id:"alerts",ico:"🔔",t:"Admin Alerts",d:"Critical, important and information alerts.",c:"adminNotifications",cols:["severity","title","message","createdAt"],flow:["unread","read"],f:[["severity","Severity","s",["critical","important","info"]],["title","Title","t"],["message","Message","a"],["link","Link","t"]]},
+{id:"announcements",ico:"📢",t:"Announcements",d:"Public announcements for the website and learners.",c:"announcements",cols:["title","audience","priority","createdAt"],flow:["draft","published","archived"],f:[["title","Title","t"],["message","Message","a"],["audience","Audience","s",["public","learners","teachers"]],["priority","Priority","s",["normal","important","urgent"]],["expiresAt","Expiry date","d"]]},
+{id:"enrollments",ico:"📝",t:"Enrollments",d:"Learner enrollments in courses and classes.",c:"enrollments",noNew:1,cols:["userEmail","courseId","classId","createdAt"],flow:["active","completed","cancelled"],f:[]},
+{id:"certificates",ico:"🏆",t:"Certificates",d:"Issued certificates.",c:"certificates",noNew:1,cols:["userName","courseTitle","createdAt"],flow:["issued","revoked"],f:[]},
+{id:"payments",ico:"💳",t:"Payments",d:"Payments and failed payments.",c:"payments",noNew:1,cols:["userEmail","amount","currency","createdAt"],flow:["pending","completed","failed","refunded"],f:[]}
+];
+const sfOf=s=>s.sf||"status";
+
+/* ---------- activity log (adminActivity) ---------- */
+async function act(action,type,id,description,metadata){try{const u=auth.currentUser;await addDoc(collection(db,"adminActivity"),{adminId:u?.uid||null,adminEmail:u?.email||null,action,targetType:type,targetId:id||"",description,metadata:metadata||{},timestamp:serverTimestamp(),createdAt:serverTimestamp()})}catch(e){console.warn("activity log",e)}}
+async function up(file,folder){const r=ref(sto,folder+"/"+Date.now()+"-"+file.name.replace(/[^\w.-]/g,"_"));await uploadBytes(r,file);return getDownloadURL(r)}
+
+/* ---------- generic manager ---------- */
+function cell(v){if(v==null||v==="")return"—";if(Array.isArray(v))return esc(v.join(", "));if(typeof v==="boolean")return v?"✔":"✘";if(v.toDate)return fmt(v);return esc(String(v).slice(0,140))}
+function sel(s,x,k,o){const v=x[k]||"";return`<select data-k="${k}" data-id="${esc(x.id)}">${o.includes(v)?"":'<option value="">—</option>'}${o.map(a=>`<option${a===v?" selected":""}>${esc(a)}</option>`).join("")}</select>`}
+function draw(s){
+ const root=$("#x-"+s.id),q=root.querySelector(".xq").value.toLowerCase(),fs=root.querySelector(".xs").value,sf=sfOf(s);
+ const r=(s.rows||[]).filter(x=>(!q||JSON.stringify(x).toLowerCase().includes(q))&&(!fs||String(x[sf]||"").toLowerCase()===fs));
+ const ins=[{k:sf,o:s.flow}].concat(s.ins||[]);
+ root.querySelector(".xt").innerHTML=r.length?`<table class="table"><thead><tr>${s.cols.map(c=>`<th>${esc(c)}</th>`).join("")}${s.badge?"<th>Flag</th>":""}${ins.map(i=>`<th>${esc(i.k)}</th>`).join("")}<th>Actions</th></tr></thead><tbody>${r.map(x=>`<tr>${s.cols.map(c=>`<td>${cell(x[c])}</td>`).join("")}${s.badge?`<td><span class="pill">${s.badge(x)||"—"}</span></td>`:""}${ins.map(i=>`<td>${sel(s,x,i.k,i.o)}</td>`).join("")}<td>${s.f.length?`<button class="btn" data-a="edit" data-id="${esc(x.id)}">Edit</button> `:""}<button class="btn danger" data-a="del" data-id="${esc(x.id)}">Delete</button></td></tr>`).join("")}</tbody></table>`:'<p class="muted" style="padding:20px;text-align:center">No records found.</p>';
+ root.querySelector(".xc").textContent=r.length+" of "+(s.rows||[]).length;
+}
+async function load(s){const box=$("#x-"+s.id+" .xt");box.textContent="Loading…";try{const g=await getDocs(query(collection(db,s.c),limit(500)));s.rows=g.docs.map(d=>({id:d.id,...d.data()}));draw(s)}catch(e){box.innerHTML=`<div class="alert">Could not read <b>${esc(s.c)}</b>: ${esc(e.message)}<br>Check Firestore rules for the administrator accounts.</div>`}}
+function field(f,v){const[k,l,t,o]=f,id="xf-"+k;let h;
+ if(t==="a")h=`<textarea id="${id}">${esc(v||"")}</textarea>`;
+ else if(t==="s")h=`<select id="${id}"><option value=""></option>${o.map(x=>`<option${x===v?" selected":""}>${esc(x)}</option>`).join("")}</select>`;
+ else if(t==="b")h=`<select id="${id}"><option value="false">No</option><option value="true"${v===true?" selected":""}>Yes</option></select>`;
+ else if(t==="f")h=`<input id="${id}" type="file">${v?`<small class="muted">Current file: <a href="${esc(v)}" target="_blank" rel="noopener">open</a></small>`:""}`;
+ else h=`<input id="${id}" type="${t==="n"?"number":t==="d"?"date":"text"}" value="${esc(t==="g"&&Array.isArray(v)?v.join(", "):v??"")}">`;
+ return`<div class="field"><label>${esc(l)}</label>${h}</div>`}
+async function val(s,f,row){const[k,,t]=f,e=$("#xf-"+k),v=e.value;
+ if(t==="n")return v===""?null:Number(v);if(t==="b")return v==="true";
+ if(t==="g")return v.split(",").map(x=>x.trim()).filter(Boolean);
+ if(t==="f")return e.files[0]?await up(e.files[0],s.c):(row?.[k]||"");
+ return v.trim()}
+function form(s,row){
+ $("#drawerTitle").textContent=(row?"Edit ":"New ")+s.t;$("#drawerSubtitle").textContent=s.c;
+ $("#drawerBody").innerHTML=`<div class="form-grid">${s.f.map(f=>field(f,row?.[f[0]])).join("")}</div><button class="btn primary" id="xSave">Save</button>`;
+ $("#recordDrawer").classList.add("open");
+ $("#xSave").onclick=async()=>{const b=$("#xSave");b.disabled=true;b.textContent="Saving…";
+  try{const d={};for(const f of s.f)d[f[0]]=await val(s,f,row);
+   d.updatedAt=serverTimestamp();d.updatedBy=auth.currentUser.email;
+   const sf=sfOf(s);let id=row?.id;
+   if(row)await updateDoc(doc(db,s.c,id),d);
+   else{d.createdAt=serverTimestamp();d.createdBy=auth.currentUser.uid;d[sf]=s.flow[0];
+    const cid=s.idf&&String(d[s.idf]||"").trim().replace(/[^\w-]/g,"");
+    if(cid){id=cid;await setDoc(doc(db,s.c,id),d)}else id=(await addDoc(collection(db,s.c),d)).id}
+   await act(s.id.toUpperCase()+(row?"_UPDATED":"_CREATED"),s.c,id,(row?"Updated ":"Created ")+s.t+": "+(d.title||d.name||id));
+   toast("Saved.");$("#recordDrawer").classList.remove("open");load(s)}
+  catch(e){toast("Save failed: "+e.message,true);b.disabled=false;b.textContent="Save"}}}
+function wire(s){const root=$("#x-"+s.id);
+ const nb=root.querySelector(".xn");if(nb)nb.onclick=()=>form(s,null);root.querySelector(".xr").onclick=()=>load(s);
+ root.querySelector(".xq").oninput=()=>draw(s);root.querySelector(".xs").onchange=()=>draw(s);
+ root.addEventListener("click",async e=>{const b=e.target.closest("[data-a]");if(!b)return;const row=s.rows.find(x=>x.id===b.dataset.id);
+  if(b.dataset.a==="edit")form(s,row);
+  if(b.dataset.a==="del"&&confirm("Delete "+s.c+"/"+row.id+"?")){try{await deleteDoc(doc(db,s.c,row.id));await act(s.id.toUpperCase()+"_DELETED",s.c,row.id,"Deleted "+(row.title||row.name||row.id));toast("Deleted.");load(s)}catch(err){toast("Delete failed: "+err.message,true)}}});
+ root.addEventListener("change",async e=>{const el=e.target.closest("select[data-k]");if(!el)return;const k=el.dataset.k,id=el.dataset.id;
+  if(k==="role"&&!confirm("Change this user's role to "+el.value+"?")){load(s);return}
+  try{const d={[k]:el.value,updatedAt:serverTimestamp()};if(el.value==="published")d.publishedAt=serverTimestamp();await updateDoc(doc(db,s.c,id),d);await act(s.id.toUpperCase()+"_"+k.toUpperCase()+"_CHANGED",s.c,id,k+" set to "+el.value);toast("Updated.");load(s)}catch(err){toast("Update failed: "+err.message,true);load(s)}})}
+
+/* ---------- daily report ---------- */
+const DAILY=[["users","👥 New users"],["courses","🎓 Courses"],["books","📚 Books"],["opportunities","💼 Opportunities"],["enrollments","📝 Enrollments"],["certificates","🏆 Certificates"],["comments","💬 Comments"],["reports","🚩 Reports"],["payments","💳 Payments"],["mentorApplications","🧑‍🏫 Mentor applications"],["partnerApplications","🤝 Partner applications"],["adminActivity","🛡️ Admin actions"]];
+const ATT=[["mentorApplications","pending","Mentor applications waiting","mentors"],["teachers","pending","Teachers waiting for verification","teachers"],["courses","review","Courses waiting for review","courses"],["opportunities","submitted","Opportunities waiting for review","opps"],["comments","reported","Reported comments","comments"],["partnerApplications","pending","Partner applications waiting","partners"],["payments","failed","Failed payments",null]];
+async function daily(){
+ const box=$("#x-daily .xt"),t0=new Date().setHours(0,0,0,0),all={};box.textContent="Loading…";
+ await Promise.all([...new Set(DAILY.concat(ATT).map(x=>x[0]))].map(async n=>{try{all[n]=(await getDocs(query(collection(db,n),limit(2000)))).docs.map(d=>d.data())}catch{all[n]=null}}));
+ $("#x-daily .xd").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+ const st=r=>String(r.status||"").toLowerCase();
+ box.innerHTML=`<div class="stats">${DAILY.map(([n,l])=>{const r=all[n];const today=r?r.filter(x=>dv(x.createdAt||x.timestamp||x.submittedAt)>=t0).length:null;return`<div class="stat"><span>${l}</span><b>${today==null?"—":"+"+today}</b><span>${r?r.length+" total":"no access"}</span></div>`}).join("")}</div>
+ <div class="card"><h3>Needs attention</h3>${ATT.map(([n,k,l,go])=>{const c=all[n]?all[n].filter(r=>st(r)===k).length:0;return c?`<div class="notice" style="margin-bottom:8px">${esc(l)}: <b>${c}</b> ${go?`<button class="btn" data-go="${go}">Open</button>`:""}</div>`:""}).join("")||'<p class="muted">Nothing waiting right now.</p>'}</div>`;
+ box.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+}
+
+/* ---------- mount ---------- */
+const meta={daily:["📅","Daily Report","What happened on RTLH today"]};S.forEach(s=>meta[s.id]=[s.ico,s.t,s.d]);
+function show(id){
+ $$(".view").forEach(v=>v.classList.remove("active"));$("#x-"+id).classList.add("active");
+ $$(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.x===id));
+ $("#pageTitle").textContent=meta[id][1];$("#pageSubtitle").textContent=meta[id][2];$("#sidebar").classList.remove("open");scrollTo({top:0});
+ id==="daily"?daily():load(S.find(s=>s.id===id))}
+function mount(){
+ const content=$(".content"),foot=content.querySelector(".footer"),sb=$("#sidebar");
+ const mk=(id,inner)=>{const e=document.createElement("section");e.className="view";e.id="x-"+id;e.innerHTML=inner;content.insertBefore(e,foot);return e};
+ mk("daily",`<div class="hero"><span class="pill" style="background:rgba(255,255,255,.14);color:#fff">DAILY REPORT</span><h2>What happened on RTLH today?</h2><p class="xd"></p><div class="toolbar"><button class="btn yellow" id="xdr">↻ Refresh</button></div></div><div class="section xt"></div>`);
+ $("#xdr").onclick=daily;
+ S.forEach(s=>{mk(s.id,`<div class="section-head"><div><h2>${s.ico} ${esc(s.t)}</h2><p class="muted">${esc(s.d)}</p></div><div class="toolbar" style="margin:0">${s.noNew?"":'<button class="btn primary xn">+ Add</button>'}<button class="btn xr">↻ Refresh</button></div></div><div class="card"><div class="searchbar"><input class="xq" placeholder="Search…"><select class="xs" style="width:180px"><option value="">All statuses</option>${s.flow.map(f=>`<option>${f}</option>`).join("")}</select><span class="muted xc" style="align-self:center"></span></div><div class="xt table-wrap"></div></div>`);
+  wire(s)});
+ const g=document.createElement("div");g.className="nav-group";g.textContent="RTLH Control Centre";
+ let a=sb.querySelector(".navbtn");a.after(g);a=g;
+ [["daily","📅","Daily Report"],...S.map(s=>[s.id,s.ico,s.t])].forEach(([id,i,t])=>{const b=document.createElement("button");b.className="navbtn";b.dataset.x=id;b.textContent=i+" "+t;b.onclick=()=>show(id);a.after(b);a=b});
+ sb.addEventListener("click",e=>{if(e.target.closest("[data-view]"))$$("[data-x]").forEach(b=>b.classList.remove("active"))});
+}
+const A=$("#adminApp"),go=()=>{if(A&&!A.classList.contains("hidden")&&!window.__rtlhExtra){window.__rtlhExtra=1;mount()}};
+if(A){new MutationObserver(go).observe(A,{attributes:true,attributeFilter:["class"]});go()}
+
+</script>
+</body>
+</html>
