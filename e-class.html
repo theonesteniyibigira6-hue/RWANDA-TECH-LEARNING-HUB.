@@ -924,258 +924,8 @@ body{overflow-x:hidden}
 </div>
 
 <!-- JOIN CLASS MODAL -->
-<script type="module">
-    javascript
-window.joinClass = async function (id) {
-  if (!currentUser) {
-    localStorage.setItem("rtlh_pending_class", id);
-    return;
-  }
+<div class="modal" id="joinModal"><div class="modal-box"><div class="modal-head"><h3>Join Class</h3><button onclick="closeModal('joinModal')">✕</button></div><div class="modal-body"><p id="joinClassInfo">Loading class details...</p><button class="primary-btn" id="confirmJoinBtn" style="width:100%;margin-top:14px;">Confirm Join</button></div></div></div>
 
-  const c = allClasses.find(x => x.id === id);
-
-  if (!c) {
-    return toast("This class is not currently discoverable.");
-  }
-
-  // ------------------------------------------------------------
-  // 1. VERIFY THAT THE CLASS IS OPEN
-  // ------------------------------------------------------------
-  const status = String(c.status || "").toLowerCase();
-
-  const isPublished =
-    c.published === true ||
-    c.isPublished === true ||
-    c.isPublic === true ||
-    c.visibility === "public" ||
-    status === "published" ||
-    status === "open";
-
-  if (!isPublished) {
-    return toast("This class is not currently open for joining.");
-  }
-
-  // ------------------------------------------------------------
-  // 2. VERIFY TEACHER ID
-  // ------------------------------------------------------------
-  if (!c.teacherId || typeof c.teacherId !== "string") {
-    console.error("Invalid class teacherId:", c);
-    return toast(
-      "This class has no valid teacher ID. Please ask the teacher to edit and republish the class."
-    );
-  }
-
-  const uid = currentUser.uid;
-
-  const enrollmentId = `${uid}_${id}`;
-
-  const enrollmentRef = doc(
-    db,
-    "enrollments",
-    enrollmentId
-  );
-
-  const studentRef = doc(
-    db,
-    "classes",
-    id,
-    "students",
-    uid
-  );
-
-  try {
-
-    // ----------------------------------------------------------
-    // 3. CHECK THE CLASS ROSTER, NOT THE ENROLLMENT DOCUMENT
-    //
-    // This is important:
-    // Your Firestore rules allow a learner to read their own
-    // roster document even when the document does not yet exist.
-    //
-    // Do NOT call getDoc(enrollmentRef) here.
-    // ----------------------------------------------------------
-
-    const existingRoster = await getDoc(studentRef);
-
-    if (existingRoster.exists()) {
-
-      enrolledClasses = [
-        ...new Set([
-          ...(enrolledClasses || []),
-          id
-        ])
-      ];
-
-      currentLearner = {
-        ...(currentLearner || {}),
-        enrolled: enrolledClasses
-      };
-
-      toast("You are already enrolled in this class.");
-
-      await enterClass(id);
-
-      return;
-    }
-
-    // ----------------------------------------------------------
-    // 4. PREPARE ENROLLMENT DATA
-    // ----------------------------------------------------------
-
-    const learnerName =
-      currentLearner?.fullName ||
-      currentUser.displayName ||
-      "Learner";
-
-    const learnerEmail =
-      currentUser.email || "";
-
-    const enrollmentData = {
-      classId: id,
-
-      studentId: uid,
-
-      learnerId: uid,
-
-      studentName: learnerName,
-
-      studentEmail: learnerEmail,
-
-      teacherId: c.teacherId,
-
-      status: "active",
-
-      enrollmentStatus: "active",
-
-      paymentStatus:
-        Number(c.price || 0) > 0
-          ? "pending"
-          : "free",
-
-      progress: 0,
-
-      joinedAt: serverTimestamp(),
-
-      createdAt: serverTimestamp()
-    };
-
-    // ----------------------------------------------------------
-    // 5. PREPARE ROSTER DATA
-    // ----------------------------------------------------------
-
-    const rosterData = {
-
-      studentId: uid,
-
-      learnerId: uid,
-
-      studentName: learnerName,
-
-      studentEmail: learnerEmail,
-
-      classId: id,
-
-      teacherId: c.teacherId,
-
-      status: "active",
-
-      progress: 0,
-
-      joinedAt: serverTimestamp()
-    };
-
-    // ----------------------------------------------------------
-    // 6. ATOMIC WRITE
-    //
-    // We create BOTH canonical enrollment records together.
-    //
-    // We deliberately DO NOT update users/{uid}.
-    // ----------------------------------------------------------
-
-    const batch = writeBatch(db);
-
-    batch.set(
-      enrollmentRef,
-      enrollmentData
-    );
-
-    batch.set(
-      studentRef,
-      rosterData
-    );
-
-    await batch.commit();
-
-    // ----------------------------------------------------------
-    // 7. UPDATE LOCAL STATE
-    // ----------------------------------------------------------
-
-    enrolledClasses = [
-      ...new Set([
-        ...(enrolledClasses || []),
-        id
-      ])
-    ];
-
-    currentLearner = {
-      ...(currentLearner || {}),
-      enrolled: enrolledClasses
-    };
-
-    // Make sure the class exists locally.
-    if (!allClasses.some(x => x.id === id)) {
-      allClasses.push(c);
-    }
-
-    closeModal("joinModal");
-
-    toast("🎉 Free class joined successfully.");
-
-    // ----------------------------------------------------------
-    // 8. ENTER THE CLASS
-    // ----------------------------------------------------------
-
-    await enterClass(id);
-
-  } catch (err) {
-
-    console.error(
-      "RTLH E-Class enrollment failed:",
-      {
-        code: err?.code,
-        message: err?.message,
-
-        uid: uid,
-
-        classId: id,
-
-        teacherId: c?.teacherId,
-
-        enrollmentPath:
-          `enrollments/${enrollmentId}`,
-
-        rosterPath:
-          `classes/${id}/students/${uid}`
-      }
-    );
-
-    if (err?.code === "permission-denied") {
-
-      return toast(
-        "Firestore rejected the enrollment. Check your learner role and the published class settings."
-      );
-
-    }
-
-    toast(
-      "Unable to join this class: " +
-      (err?.message || "Please try again.")
-    );
-  }
-};
-</script>
-
-     
 <!-- THEO AI FLOATING BUTTON -->
 <div class="theo-ai-float"><button class="theo-bubble" onclick="toggleAI()"><span class="avatar">🧠</span> Ask Theo AI</button></div>
 <div class="ai-modal" id="aiModal"><div class="ai-modal-content"><div class="ai-header"><span><strong>🧠 Theo AI</strong> - Your Learning Assistant</span><button onclick="toggleAI()">✕</button></div><iframe src="https://agent.jotform.com/019e5d473d3a7b3389d34ebcf58152d4cd4e?embedMode=iframe&autofocus=0&background=1&shadow=1" style="width:100%;height:560px;border:none;" allowtransparency="true" allow="geolocation;microphone;camera;fullscreen"></iframe></div></div>
@@ -1394,20 +1144,39 @@ async function loadLearner(){
 
 async function fetchClasses(){
   try{
-    // IMPORTANT: Firestore rules are not filters. Query the public field directly.
-    const publicQuery=query(collection(db,"classes"),where("visibility","==","public"));
-    const snap=await getDocs(publicQuery);
-    allClasses=snap.docs
-      .map(d=>({id:d.id,...d.data()}))
-      .filter(c=>{
-        const status=String(c.status||"active").toLowerCase();
-        return (c.visibility==="public" || c.isPublic===true || ["published","active","open"].includes(status)) && !["draft","archived","closed","private"].includes(status);
-      });
+    // Firestore rules are not filters. Each query below matches a field
+    // explicitly allowed by the published-class rules, then we merge them.
+    const queries = [
+      query(collection(db,"classes"), where("visibility","==","public")),
+      query(collection(db,"classes"), where("isPublic","==",true)),
+      query(collection(db,"classes"), where("status","==","published")),
+      query(collection(db,"classes"), where("status","==","open"))
+    ];
+
+    const snapshots = await Promise.all(queries.map(q => getDocs(q)));
+    const merged = new Map();
+
+    snapshots.forEach(snap => {
+      snap.docs.forEach(d => merged.set(d.id,{id:d.id,...d.data()}));
+    });
+
+    allClasses = [...merged.values()].filter(c => {
+      const status = String(c.status || "").toLowerCase();
+      return (
+        c.visibility === "public" ||
+        c.isPublic === true ||
+        c.published === true ||
+        c.isPublished === true ||
+        status === "published" ||
+        status === "open"
+      ) && !["draft","archived","closed","private"].includes(status);
+    });
+
   }catch(err){
     console.error("Firestore public class query unavailable:",err);
     allClasses=[];
     const grid=document.getElementById("discoverGrid");
-    if(grid) grid.innerHTML=`<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><p>Classes could not be loaded securely. Confirm that the updated Firestore rules are published.</p></div>`;
+    if(grid) grid.innerHTML=`<div class="card empty" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><p>Classes could not be loaded securely. Confirm that the updated Firestore rules are published and that published classes use visibility="public", isPublic=true, status="published", or status="open".</p></div>`;
   }
   return allClasses;
 }
@@ -1474,62 +1243,142 @@ window.viewClass=async id=>{
 };
 
 window.joinClass=async id=>{
-  if(!currentUser){localStorage.setItem("rtlh_pending_class",id);return;}
+  if(!currentUser){
+    localStorage.setItem("rtlh_pending_class",id);
+    return;
+  }
+
   try{
-    // Re-read the authoritative E-Teacher class document; do not trust cached card data.
+    // Re-read the authoritative class document. Never rely only on cached card data.
     const classRef=doc(db,"classes",id);
     const classSnap=await getDoc(classRef);
-    if(!classSnap.exists()) return toast("This class no longer exists.");
-    const c={id,...classSnap.data()};
-    const status=String(c.status||"active").toLowerCase();
-    const isPublished=(c.visibility==="public" || c.isPublic===true || ["published","active","open"].includes(status));
-    if(!isPublished || ["draft","archived","closed","private"].includes(status))
-      return toast("This class is not published or open for joining.");
-    if(typeof c.teacherId!=="string" || !c.teacherId.trim())
-      return toast("The teacher has not configured this class correctly. Please contact the teacher.");
 
-    const price=Number(c.price||0);
-    if(price>0){
-      return toast("This is a paid class. Complete checkout before enrollment; payment is not processed on this page.");
+    if(!classSnap.exists()){
+      return toast("This class no longer exists.");
+    }
+
+    const c={id,...classSnap.data()};
+    const status=String(c.status||"").toLowerCase();
+
+    const isPublished =
+      c.visibility === "public" ||
+      c.isPublic === true ||
+      c.published === true ||
+      c.isPublished === true ||
+      status === "published" ||
+      status === "open";
+
+    if(!isPublished || ["draft","archived","closed","private"].includes(status)){
+      return toast("This class is not published or open for joining.");
+    }
+
+    if(typeof c.teacherId !== "string" || !c.teacherId.trim()){
+      console.error("Invalid class teacherId",c);
+      return toast("The teacher has not configured this class correctly. Please ask the teacher to edit and republish it.");
     }
 
     const uid=currentUser.uid;
     const enrollmentId=`${uid}_${id}`;
     const enrollmentRef=doc(db,"enrollments",enrollmentId);
     const studentRef=doc(db,"classes",id,"students",uid);
-    const existing=await getDoc(enrollmentRef);
-    const batch=writeBatch(db);
+
+    // IMPORTANT:
+    // Do NOT read /enrollments/{id} before creating it.
+    // The current Firestore rules allow a learner to read their own
+    // roster document, but a brand-new enrollment document may not
+    // be readable before it exists.
+    const existingRoster=await getDoc(studentRef);
+
+    if(existingRoster.exists()){
+      enrolledClasses=[...new Set([...(enrolledClasses||[]),id])];
+      currentLearner={...(currentLearner||{}),enrolled:enrolledClasses};
+      closeModal("joinModal");
+      toast("You are already enrolled in this class.");
+      await enterClass(id);
+      return;
+    }
+
+    const profileRole=String(currentLearner?.role||"").toLowerCase();
+    const learnerAccount =
+      profileRole === "learner" ||
+      profileRole === "student" ||
+      currentLearner?.accountType === "e-class" ||
+      currentLearner?.isLearner === true;
+
+    if(!learnerAccount){
+      console.warn("Current Firebase user is not recognized as a learner by the RTLH Firestore rules.",currentLearner);
+      return toast("Your RTLH account is not registered as a learner. Open your profile and make sure your account role is learner/student or accountType is e-class.");
+    }
+
+    const price=Number(c.price||0);
+    if(price>0){
+      return toast("This is a paid class. Complete checkout before enrollment; payment is not processed on this page.");
+    }
+
     const name=currentLearner?.fullName||currentUser.displayName||"Learner";
+    const email=currentUser.email||"";
     const now=serverTimestamp();
-    if(!existing.exists()) batch.set(enrollmentRef,{
-      classId:id, studentId:uid, learnerId:uid,
-      studentName:name, studentEmail:currentUser.email||"",
-      teacherId:c.teacherId, status:"active", enrollmentStatus:"active",
-      paymentStatus:"free", progress:0, joinedAt:now, createdAt:now
-    });
-    batch.set(studentRef,{
-      studentId:uid, learnerId:uid, studentName:name,
-      studentEmail:currentUser.email||"", classId:id,
-      teacherId:c.teacherId, status:"active", progress:0, joinedAt:now
-    },{merge:true});
-    // Deliberately do not update users/{uid} here: enrollment and roster are the
-    // canonical join records and this avoids an unrelated profile-rule denial.
+
+    const enrollmentData={
+      classId:id,
+      studentId:uid,
+      learnerId:uid,
+      studentName:name,
+      studentEmail:email,
+      teacherId:c.teacherId,
+      status:"active",
+      enrollmentStatus:"active",
+      paymentStatus:"free",
+      progress:0,
+      joinedAt:now,
+      createdAt:now
+    };
+
+    const rosterData={
+      studentId:uid,
+      learnerId:uid,
+      studentName:name,
+      studentEmail:email,
+      classId:id,
+      teacherId:c.teacherId,
+      status:"active",
+      progress:0,
+      joinedAt:now
+    };
+
+    // Atomic write: enrollment + class roster are created together.
+    // We intentionally do NOT update users/{uid} here because that is
+    // an unnecessary extra permission dependency.
+    const batch=writeBatch(db);
+    batch.set(enrollmentRef,enrollmentData);
+    batch.set(studentRef,rosterData);
     await batch.commit();
-    enrolledClasses=[...new Set([...enrolledClasses,id])];
+
+    enrolledClasses=[...new Set([...(enrolledClasses||[]),id])];
     currentLearner={...(currentLearner||{}),enrolled:enrolledClasses};
+
     if(!allClasses.some(x=>x.id===id)) allClasses.push(c);
+
     closeModal("joinModal");
     toast("🎉 Free class joined successfully.");
     await enterClass(id);
+
   }catch(err){
     console.error("RTLH class enrollment failed:",{
-      code:err?.code, message:err?.message, uid:currentUser?.uid,
-      classId:id, enrollmentPath:`enrollments/${currentUser?.uid}_${id}`,
+      code:err?.code,
+      message:err?.message,
+      uid:currentUser?.uid,
+      classId:id,
+      teacherId:allClasses.find(x=>x.id===id)?.teacherId,
+      enrollmentPath:`enrollments/${currentUser?.uid}_${id}`,
       rosterPath:`classes/${id}/students/${currentUser?.uid}`
     });
-    toast(err?.code==="permission-denied"
-      ? "Firestore rejected enrollment or roster access. Verify the class teacherId and published-class rules."
-      : "Unable to join this class: "+(err?.message||"Please try again."));
+
+    if(err?.code === "permission-denied"){
+      return toast("Firestore rejected enrollment or roster access. Verify the learner role, class teacherId, and published-class rules.");
+    }
+
+    toast("Unable to join this class: "+(err?.message||"Please try again."));
   }
 };
 
