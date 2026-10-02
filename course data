@@ -1,0 +1,37 @@
+/* RTLH shared course list. Add new courses to BASE, one row each:
+[id, title, level, area, mode, access, difficulty, lessons, weeks, icon, description]
+level: nursery primary olevel alevel ttc tvet professional adult bachelor masters phd
+area:  academic technology trade life health business science teacher arts
+access: Free | Paid | Scholarship */
+const BASE=[
+["early-learning","Early Learning Foundations","nursery","academic","Self-paced","Free","Beginner",20,4,"🧸","Play-based literacy, numbers and discovery."],
+["kinyarwanda-p","Kinyarwanda & English for Primary","primary","academic","Self-paced","Free","Beginner",30,6,"📘","Reading, writing and speaking in two languages."],
+["primary-maths","Primary Mathematics P1–P6","primary","academic","Self-paced","Free","Beginner",36,8,"➕","Number sense, shapes, measures and problem-solving."],
+["olevel-core","O-Level Core Subjects (S1–S3)","olevel","academic","E-Class","Free","Intermediate",40,10,"📐","Maths, sciences, languages and ICT."],
+["olevel-ict","ICT for Secondary Learners","olevel","technology","Self-paced","Free","Beginner",24,6,"🖥️","Computer skills, internet safety and productivity tools."],
+["alevel-mpc","A-Level MPC Combination","alevel","academic","E-Class","Free","Advanced",48,12,"🧪","Maths, Physics and Computer Science lessons and past papers."],
+["alevel-pcb","A-Level PCB Combination","alevel","science","E-Class","Free","Advanced",48,12,"🧬","Physics, Chemistry and Biology revision and practicals."],
+["ttc-methods","Teaching Methods & Lesson Design","ttc","teacher","E-Class","Scholarship","Intermediate",28,8,"🍎","Learner-centred planning, assessment and inclusion."],
+["ttc-digital","Digital Teaching Skills","ttc","teacher","Blended","Free","Beginner",22,5,"📱","Tools for teaching with technology."],
+["tvet-construction","Construction & Building Basics","tvet","trade","E-Class","Paid","Beginner",32,8,"🛠️","Materials, drawing and site safety."],
+["tvet-electric","Electrical Installation Basics","tvet","trade","Blended","Paid","Beginner",30,8,"⚡","Wiring, safety standards and fault finding."],
+["tvet-hospitality","Hospitality & Customer Service","tvet","business","Self-paced","Free","Beginner",20,5,"🍽️","Service skills for hotels and restaurants."],
+["web-dev","Web Development Fundamentals","professional","technology","Self-paced","Free","Beginner",42,8,"💻","HTML, CSS, JavaScript and real projects. Certificate included."],
+["python","Python Programming for Beginners","professional","technology","Self-paced","Free","Beginner",38,8,"🐍","Write programs, solve problems and automate tasks."],
+["ai-literacy","AI Literacy & Responsible Use","adult","technology","Self-paced","Free","Beginner",16,3,"🤖","Understand AI tools and use them safely."],
+["research-writing","Research & Academic Writing","bachelor","science","Blended","Free","Intermediate",26,6,"🔬","Questions, structure, referencing and ethics."],
+["bachelor-study","University Study Skills (A0)","bachelor","academic","Self-paced","Free","Beginner",18,4,"🏛️","Note-taking, time management and independent learning."],
+["masters-methods","Master's Research Methods","masters","science","Blended","Paid","Advanced",30,10,"📑","Design a study, analyse data and write a thesis."],
+["phd-publish","PhD Publishing & Grant Writing","phd","science","E-Class","Paid","Advanced",24,8,"🎖️","Journal articles, proposals and supervision."],
+["health-literacy","Community Health Awareness","adult","health","Self-paced","Free","Beginner",18,4,"🩺","Hygiene, nutrition, maternal and child health."],
+["mental-wellbeing","Mental Wellbeing & Resilience","adult","health","Live online","Free","Beginner",12,4,"💚","Stress, support and healthy habits."],
+["finance","Personal Finance & Budgeting","adult","business","Self-paced","Free","Beginner",16,3,"💰","Budget, save and plan with confidence."],
+["entrepreneur","Entrepreneurship & Small Business","professional","business","Blended","Paid","Intermediate",28,8,"🚀","Test an idea, know your customers, plan costs."],
+["social-lead","Social Learning & Community Leadership","adult","life","Live online","Free","Beginner",14,4,"🤝","Teamwork, communication and civic action."],
+["agri-green","Sustainable Farming & Environment","adult","trade","Self-paced","Free","Beginner",20,5,"🌾","Soil, crops, climate and green living."],
+["art-design","Drawing, Design & Creativity","adult","arts","Self-paced","Paid","All levels",22,6,"🎨","Visual communication and digital design."]];
+
+const COL={academic:"#1565c0,#0b2a6b",technology:"#0b2a6b,#00a1de",trade:"#b8700a,#0b2a6b",life:"#0b7a3b,#00a1de",health:"#0b7a3b,#0b5a55",business:"#0b5a55,#1565c0",science:"#1565c0,#0b7a3b",teacher:"#0b2a6b,#0b7a3b",arts:"#8a3fa0,#1565c0"};
+
+const ALL=()=>{let x=[];try{x=JSON.parse(localStorage.getItem("rtlh_admin_courses"))||[]}catch(e){}
+return BASE.concat(x.map(c=>Array.isArray(c)?c:[c.id,c.title,c.audience||"adult",c.field||"academic",c.mode||"Self-paced",c.price||"Free",c.difficulty||"Beginner",c.lessons||10,c.weeks||4,c.icon||"\ud83d\udcda",c.desc||""]))};
