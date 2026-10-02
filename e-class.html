@@ -1151,7 +1151,7 @@ async function fetchClasses(){
       .map(d=>({id:d.id,...d.data()}))
       .filter(c=>{
         const status=String(c.status||"active").toLowerCase();
-        return c.isPublic===true && !["draft","archived","closed","private"].includes(status);
+        return (c.visibility==="public" || c.isPublic===true || ["published","active","open"].includes(status)) && !["draft","archived","closed","private"].includes(status);
       });
   }catch(err){
     console.error("Firestore public class query unavailable:",err);
@@ -1225,77 +1225,60 @@ window.viewClass=async id=>{
 
 window.joinClass=async id=>{
   if(!currentUser){localStorage.setItem("rtlh_pending_class",id);return;}
-  const c=allClasses.find(x=>x.id===id);
-  if(!c) return toast("This class is not currently discoverable.");
-  const status=String(c.status||"active").toLowerCase();
-  if(c.visibility!=="public" || c.isPublic!==true || ["draft","archived","closed","private"].includes(status)){
-    return toast("This class is not open for joining.");
-  }
-
-  const enrollmentId=`${currentUser.uid}_${id}`;
-  const enrollmentRef=doc(db,"enrollments",enrollmentId);
-  const studentRef=doc(db,"classes",id,"students",currentUser.uid);
-  const userRef=doc(db,"users",currentUser.uid);
-  const enrollment={
-    classId:id,
-    studentId:currentUser.uid,
-    learnerId:currentUser.uid,
-    studentName:currentLearner?.fullName||currentUser.displayName||"Learner",
-    studentEmail:currentUser.email||"",
-    teacherId:c.teacherId||"",
-    status:"active",
-    enrollmentStatus:"active",
-    paymentStatus:Number(c.price||0)>0?"pending":"free",
-    progress:0,
-    joinedAt:serverTimestamp(),
-    createdAt:serverTimestamp()
-  };
-
   try{
-    // Keep enrollment, class roster, and learner profile writes atomic.
-    // If any one is rejected, Firestore rejects the whole batch; the detailed
-    // error is logged so the exact denied path can be identified.
-    const existingEnrollment=await getDoc(enrollmentRef);
+    // Re-read the authoritative E-Teacher class document; do not trust cached card data.
+    const classRef=doc(db,"classes",id);
+    const classSnap=await getDoc(classRef);
+    if(!classSnap.exists()) return toast("This class no longer exists.");
+    const c={id,...classSnap.data()};
+    const status=String(c.status||"active").toLowerCase();
+    const isPublished=(c.visibility==="public" || c.isPublic===true || ["published","active","open"].includes(status));
+    if(!isPublished || ["draft","archived","closed","private"].includes(status))
+      return toast("This class is not published or open for joining.");
+    if(typeof c.teacherId!=="string" || !c.teacherId.trim())
+      return toast("The teacher has not configured this class correctly. Please contact the teacher.");
+
+    const price=Number(c.price||0);
+    if(price>0){
+      return toast("This is a paid class. Complete checkout before enrollment; payment is not processed on this page.");
+    }
+
+    const uid=currentUser.uid;
+    const enrollmentId=`${uid}_${id}`;
+    const enrollmentRef=doc(db,"enrollments",enrollmentId);
+    const studentRef=doc(db,"classes",id,"students",uid);
+    const existing=await getDoc(enrollmentRef);
     const batch=writeBatch(db);
-
-    if(!existingEnrollment.exists()) batch.set(enrollmentRef,enrollment);
-
+    const name=currentLearner?.fullName||currentUser.displayName||"Learner";
+    const now=serverTimestamp();
+    if(!existing.exists()) batch.set(enrollmentRef,{
+      classId:id, studentId:uid, learnerId:uid,
+      studentName:name, studentEmail:currentUser.email||"",
+      teacherId:c.teacherId, status:"active", enrollmentStatus:"active",
+      paymentStatus:"free", progress:0, joinedAt:now, createdAt:now
+    });
     batch.set(studentRef,{
-      studentId:currentUser.uid,
-      learnerId:currentUser.uid,
-      studentName:enrollment.studentName,
-      studentEmail:enrollment.studentEmail,
-      classId:id,
-      teacherId:enrollment.teacherId,
-      status:"active",
-      progress:0,
-      joinedAt:serverTimestamp()
+      studentId:uid, learnerId:uid, studentName:name,
+      studentEmail:currentUser.email||"", classId:id,
+      teacherId:c.teacherId, status:"active", progress:0, joinedAt:now
     },{merge:true});
-
-    batch.set(userRef,{
-      enrolled:arrayUnion(id),
-      updatedAt:serverTimestamp()
-    },{merge:true});
-
+    // Deliberately do not update users/{uid} here: enrollment and roster are the
+    // canonical join records and this avoids an unrelated profile-rule denial.
     await batch.commit();
-
     enrolledClasses=[...new Set([...enrolledClasses,id])];
     currentLearner={...(currentLearner||{}),enrolled:enrolledClasses};
+    if(!allClasses.some(x=>x.id===id)) allClasses.push(c);
     closeModal("joinModal");
-    toast("🎉 Class joined successfully.");
+    toast("🎉 Free class joined successfully.");
     await enterClass(id);
   }catch(err){
-    console.error("Join class failed — inspect Firebase error code and the three write paths:",{
-      code:err?.code,
-      message:err?.message,
-      uid:currentUser?.uid,
-      classId:id,
-      enrollmentPath:`enrollments/${currentUser?.uid}_${id}`,
-      rosterPath:`classes/${id}/students/${currentUser?.uid}`,
-      userPath:`users/${currentUser?.uid}`
+    console.error("RTLH class enrollment failed:",{
+      code:err?.code, message:err?.message, uid:currentUser?.uid,
+      classId:id, enrollmentPath:`enrollments/${currentUser?.uid}_${id}`,
+      rosterPath:`classes/${id}/students/${currentUser?.uid}`
     });
     toast(err?.code==="permission-denied"
-      ? "Join was rejected by Firestore rules. Check learner role and permissions for enrollment, class roster, and users/{uid}."
+      ? "Firestore rejected enrollment or roster access. Verify the class teacherId and published-class rules."
       : "Unable to join this class: "+(err?.message||"Please try again."));
   }
 };
